@@ -32,7 +32,7 @@ router.post("/grupos/novo", (req, res) => {
         })
     }
     if (erros.length > 0) {
-        res.render("admin/addgrupos", {
+        res.render("group/addgrupos", {
             erros: erros
         })
     } else {
@@ -43,9 +43,12 @@ router.post("/grupos/novo", (req, res) => {
             data: req.body.data
         }
         new Grupo(novoGrupo).save().then(() => {
+            req.flash("success_msg", "Grupo criado com sucesso!")
+            res.redirect("/group/grupos")
             console.log("Grupo criado com sucesso!")
         }).catch((err) => {
-            console.log("Erro ao salvar Grupo!")
+            req.flash("error_msg", "Ops, Houve um erro ao salvar o grupo, tente novamente!")
+            res.redirect("/group/grupos")
         })
     }
 })
