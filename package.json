@@ -1,0 +1,37 @@
+{
+  "name": "warehousemapp",
+  "version": "1.0.0",
+  "description": "App Gestão para Gestão de Almoxarifado",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "bootstrap": "^4.5.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^4.0.4",
+    "handlebars": "^4.7.6",
+    "jquery": "^3.5.1",
+    "moment": "^2.26.0",
+    "mongoose": "^5.9.19",
+    "multer": "^1.4.2",
+    "popper": "^1.0.1"
+  },
+  "devDependencies": {
+    "node-sass": "^4.14.1",
+    "nodemon": "^2.0.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sass-min": "node-sass --watch public/css/style.scss public/css/style.min.css --output-style compressed",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/App-Almoxarifado/warehousemapp.git"
+  },
+  "author": "Daniel Soares de Albuquerque",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/App-Almoxarifado/warehousemapp/issues"
+  },
+  "homepage": "https://github.com/App-Almoxarifado/warehousemapp#readme"
+}

@@ -1,0 +1,49 @@
+<div class="addgrupos container mt-2">
+    <h3>Editar Grupo:</h3>
+    {{#each erros}}
+    <div class="alert alert-danger">{{texto}}</div>
+    {{else}}
+
+    {{/each}}
+<div class="card">
+        <div class="card-body">
+            <form method='post' enctype="multipart/form-data" action="/upload">
+                <div class="form-row">
+                    <div class="form-group col-md-6" id="qrcode2" onchange="qrcodeFormat()">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="text-center">
+                            <img src="{{datagrupo.imagem}}" style="width: 150px;" class="avatar img-circle img-thumbnail"
+                                alt="">
+                            <input type="file" accept="image/*" name="file" id="file"
+                                class="custom-file-input btn-file text-center center-block file-upload">
+                            <input type='submit' class='btn btn-primary' value='Upload de Imagem'>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <form action="/admin/grupos/edit/{{datagrupo.id}}" method="POST">
+                <div class="form-group col-md-12">
+                    <div class="form-row">
+                        <input type="hidden" class="form-control" id="id" name="id" placeholder="Id">
+                        <input type="hidden" class="form-control" id="qrcode" name="qrcode"
+                            placeholder="QrCode do Grupo">
+                        <input type="hidden" class="form-control mt-2" name="imagem" id="imagem">
+                        <input type="hidden" class="form-control" name="imagem" id="imagem">
+                        <label for="descricao">Descrição:</label>
+                        <input type="text" class="form-control" id="descricao" name="descricao"
+                            placeholder="Descrição do Grupo" value="{{datagrupo.descricao}}" onkeyup="qrcodeFormat()">
+                    </div>
+                </div>
+                <input type="hidden" class="form-control" id="data" name="data" placeholder="Data"
+                    value="{{#formatDate data}}{{/formatDate}}">
+                <div class="form-group col-md-12">
+                    <div class="form-row">
+                        <button type="submit" class="btn btn-success"><i class="fas fa-share"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="mt-2"></div>

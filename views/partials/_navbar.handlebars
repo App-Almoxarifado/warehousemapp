@@ -1,0 +1,69 @@
+
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark " style="background-color: #0075be;">
+  <a class="navbar-brand" href="/">
+    <!--<h3>WarehouseApp</h3>-->
+   <img src="/img/logo6.png" width="200" alt="">
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
+    <ul class="navbar-nav ">
+      <li class="nav-item active">
+        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          Sites / Obras
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="/tabela">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/dashboard">Dashboards</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/grupos">Sobre o app</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Downloads</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          Cadastros
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="/admin/">Tabela de Dados</a>
+          <a class="dropdown-item" href="/admin/grupos">Grupos</a>
+          <a class="dropdown-item" href="/admin/subgrupos">Subgrupos</a>
+          <a class="dropdown-item" href="/admin/produtos">Sites</a>
+          <a class="dropdown-item" href="/admin/produtos">Local Sites</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link"
+          href="https://docs.google.com/spreadsheets/d/17Q7GIZXYj3kiN2hLK049JL8flWn_JuvZAx3Zu8UWnvs/edit#gid=0"
+          target="_blank" role="button">Desenvolvedor</a>
+      </li>
+      {{#if user}}
+<li class="nav-item">
+        <a class="nav-link" href="/usuarios/logout">Sair</a>
+      </li>
+      {{else}}
+      <li class="nav-item">
+        <a class="nav-link" href="/usuarios/login">Login</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/usuarios/registro">Registro</a>
+      </li>
+      {{/if}}
+    </ul>
+</div>
+</nav>
+  
