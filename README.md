@@ -13,3 +13,12 @@ Abrir o Visual Studio Code - Ir até file/Open Folder.../ e selecionar a pasta d
 Ainda no Visual Studio Code navegue em terminal/new terminal ou Ctrl+Shift+'
 Com o Terminal aberto digite node -v - isso mostrará a versão do node instalada em sua máquina
 e ainda com o Terminal aberto digite npm -v - isso mostrará a versão do npm instalada em sua máquina
+
+Etapa 02
+Instalar e configurar as dependências:
+Express - npm install --save express - Framework Método MVC
+handlebars - npm install --save express-handlebars - View Engine
+bodyParser - npm install --save body-parser
+multer - npm install --save multer - Upload de arquivos
+moment - npm install --save moment - Formatar data e hora
+No decorrer do desenvolvimento iremos instalar outras dependências

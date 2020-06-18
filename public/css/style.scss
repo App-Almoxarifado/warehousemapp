@@ -40,3 +40,29 @@ $border-radius-sm: .5rem !default;
     left: 50%;
     //transform: translate(-50%, -50%);
 }
+
+.userlogin {
+    padding-top: 150px;
+    padding-bottom: 150px;
+    width: 400px;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    color: lighten($color: #ffffff, $amount: 0);
+    //transform: translate(-50%, -50%);
+}
+
+.user {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    width: 400px;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    color: lighten($color: #ffffff, $amount: 0);
+}
+
+input {
+    color: lighten($color: #ffffff, $amount: 0);
+    opacity: 0.9;
+}

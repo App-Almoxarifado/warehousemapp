@@ -1,0 +1,68 @@
+<style>
+    body {
+        background-image: url("/img/ferramentas01.jpg");
+        top: 50%;
+        left: 50%;
+    }
+</style>
+<div class="user container">
+    <h3>Crie sua Conta:</h3>
+    {{#each erros}}
+    <div class="alert alert-danger">{{texto}}</div>
+    {{else}}
+
+    {{/each}}
+    <form method='post' enctype="multipart/form-data" action="/upload">
+        <div class="form-row">
+            <div style="display: none;" class="form-group col-md-6" id="qrcode2" onchange="qrcodeFormat()">
+            </div>
+            <div class="form-group col-md-12">
+                <div class="text-center">
+                    <img src="/img/avatar.png" style="width: 150px;" class="avatar img-circle img-thumbnail" alt="">
+                    <input type="file" accept="image/*" name="file" id="file"
+                        class="custom-file-input btn-file text-center center-block file-upload">
+                    <input type='submit' class='btn btn-primary' value='Upload de Imagem'>
+                </div>
+            </div>
+        </div>
+    </form>
+    <form action="" method="POST">
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <input type="hidden" class="form-control" id="id" name="id" placeholder="Id">
+                <input type="hidden" class="form-control" id="qrcode" name="qrcode" placeholder="QrCode do Grupo">
+                <input type="hidden" class="form-control mt-2" name="imagem" id="imagem">
+                <input type="hidden" class="form-control" name="imagem" id="imagem">
+                <label for="nome">Nome:</label>
+                <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite seu nome:" required
+                    onkeyup="qrcodeFormatUser()">
+            </div>
+            <div class="form-group col-md-12">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Digite o seu email"
+                    required>
+            </div>
+            <div class="form-group col-md-12">
+                <label for="senha">Senha:</label>
+                <input type="password" class="form-control" id="senha" name="senha" placeholder="Digite a sua senha:"
+                    required>
+            </div>
+            <div class="form-group col-md-12">
+                <label for="descricao">Repita a sua senha:</label>
+                <input type="password" class="form-control" id="senha2" name="senha2" placeholder="Repita a sua senha:"
+                    required>
+            </div>
+
+        </div>
+        <input type="hidden" class="form-control" id="data" name="data" placeholder="Data"
+            value="{{#formatDate data}}{{/formatDate}}">
+        <div class="form-row">
+            <div class="form-group col-md-12 text-center">
+                <button type="submit" class="btn btn-primary">Criar Conta <i class="fas fa-share"></i></button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div class="mt-2"></div>

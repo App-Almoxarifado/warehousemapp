@@ -26,7 +26,7 @@ function qrcodeFormat() {
     desired = desired.toLowerCase(); // Transforma Tudo em minúscula
     //RETIRA OS CARACTERES ESPECIAIS PARA GERAR O QR CODE
     document.getElementById("qrcode").value = desired;
-}
+}qrcodeFormat()
 
 //FUNÇÃO PARA AUTOMATIZAR O CÓDIGO QRCODE usuario
 function qrcodeFormatUser() {

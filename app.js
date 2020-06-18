@@ -6,9 +6,12 @@ const session = require('express-session')
 const flash = require('connect-flash')
 const multer = require("multer")
 const moment = require('moment')
+const path = require("path")
 const app = express()
 const group = require('./routes/group')
-const path = require("path")
+const usuarios = require("./routes/usuario")
+const passport = require("passport")
+require("./config/auth")(passport)
 
 
 //Configurações
@@ -19,6 +22,9 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }))
+
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.use(flash())
 
@@ -62,7 +68,7 @@ mongoose.Promise = global.Promise;
 mongoose.set("useNewUrlParser", true)
 mongoose.set("useCreateIndex", true)
 mongoose.set("useUnifiedTopology", true)
-mongoose.connect("mongodb+srv://bdappalmoxarifado:ddapj060814@cluster0-eczkw.mongodb.net/warehouseapp?retryWrites=true&w=majority").then(() => {
+mongoose.connect("mongodb+srv://bdappalmoxarifado:ddapj060814@cluster0-p1olg.mongodb.net/warehouseapp?retryWrites=true&w=majority").then(() => {
     console.log("conectado ao mongo")
 }).catch((err) => {
     console.log("Erro ao se conectar" + err)
@@ -95,6 +101,7 @@ app.post("/upload", upload.single("file"), (_req, _res) => {
 
 
 app.use('/group', group)
+app.use("/usuarios", usuarios)
 
 //Server
 const PORT = process.env.PORT || 3000
