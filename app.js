@@ -9,9 +9,7 @@ const moment = require('moment')
 const path = require("path")
 const app = express()
 const group = require('./routes/group')
-const usuarios = require("./routes/usuario")
-const passport = require("passport")
-require("./config/auth")(passport)
+
 
 
 //Configurações
@@ -23,8 +21,6 @@ app.use(session({
     saveUninitialized: true
 }))
 
-app.use(passport.initialize())
-app.use(passport.session())
 
 app.use(flash())
 
@@ -101,7 +97,7 @@ app.post("/upload", upload.single("file"), (_req, _res) => {
 
 
 app.use('/group', group)
-app.use("/usuarios", usuarios)
+
 
 //Server
 const PORT = process.env.PORT || 3000
