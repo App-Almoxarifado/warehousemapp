@@ -13,6 +13,7 @@ router.get("/registro", (req, res) => {
 });
 
 router.post("/registro", (req, res) => {
+    let endImg = "https://warehousecentralapp.herokuapp.com/uploads/"
     var erros = [];
 
     if (!req.body.nome || typeof req.body.nome == undefined || req.body.nome == null) {
@@ -40,9 +41,13 @@ router.post("/registro", (req, res) => {
                 res.redirect("/usuarios/registro");
             } else {
                 var novoUsuario = new Usuario({
+                    qrcode: req.body.qrcode,
+                    imagem: endImg + req.body.imagem.slice(0, -1),
                     nome: req.body.nome,
                     email: req.body.email,
-                    senha: req.body.senha
+                    eadmin: req.body.eadmin,
+                    senha: req.body.senha,
+                    data: req.body.data
                 });
 
                 bcrypt.genSalt(10, (err, salt) => {

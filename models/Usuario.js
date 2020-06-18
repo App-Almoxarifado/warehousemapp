@@ -2,13 +2,21 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const Usuario = new Schema({
+    qrcode: {
+        type: String,
+        require: true
+    },
+    imagem: {
+        type: String,
+        require: true
+    },
     nome: {
         type: String,
-        required: true
+        require: true
     },
     email: {
         type: String,
-        required: true
+        require: true
     },
     eAdmin: {
         type: Number,
@@ -16,7 +24,12 @@ const Usuario = new Schema({
     },
     senha: {
         type: String,
-        required: true
+        require: true
+    },
+    date: {
+        type: Date,
+        default: Date.now()
     }
+
 })
 mongoose.model("usuarios", Usuario)

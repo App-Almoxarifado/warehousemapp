@@ -1,12 +1,39 @@
-<h4>Login: </h4>
-<div class="card">
-    <div class="card-body">
-        <form action="/usuarios/login" method="post">
-            <label for="email">Email: </label>
-            <input type="email" class="form-control" name="email" required>
-            <label for="senha">Senha: </label>
-            <input type="password" class="form-control" name="senha" required><br>
-            <button class="btn btn-success" type="submit">Entrar</button>
-        </form>
-    </div>
+<style>
+    body {
+background-image: url("/img/ferramentas01.jpg");
+	top: 50%;
+	left: 50%;    
+}
+
+</style>
+<div class="userlogin container mt-5" >
+    <h3>Login:</h3>
+    {{#each erros}}
+    <div class="alert alert-danger">{{texto}}</div>
+    {{else}}
+
+    {{/each}}
+    
+            <form class="mt-5" action="/usuarios/login" method="POST">
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="descricao">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email"
+                            placeholder="Digite o seu email" required>
+                    </div>
+                    <div class="form-group col-md-12 ">
+                        <label for="descricao">Senha:</label>
+                        <input type="password" class="form-control" id="senha" name="senha"
+                            placeholder="Digite a sua senha:" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                <div class="form-group col-md-12 text-center">                
+                        <button type="submit" class="btn btn-primary">Entrar <i class="fas fa-share"></i></button>
+                    </div>
+                </div>
+            </form>
 </div>
+
+
+<div class="mt-5"></div>
