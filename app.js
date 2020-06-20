@@ -7,6 +7,7 @@ const flash = require('connect-flash')
 const multer = require("multer")
 const moment = require('moment')
 const cors = require("cors")
+var cookieParser = require('cookie-parser')
 const path = require("path")
 const app = express()
 
@@ -20,6 +21,7 @@ require("./config/auth")(passport)
 
 //Configurações
 app.use(cors())
+app.use(cookieParser())
 //Sessões
 app.use(session({
     secret: "warehousemapp",
@@ -41,7 +43,7 @@ app.use((req, res, next) => {
 })
 
 // Body Parser
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 //Handlebars

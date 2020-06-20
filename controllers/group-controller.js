@@ -1,6 +1,8 @@
 const mongoose = require("mongoose")
 require("../models/Grupo")
 const Grupo = mongoose.model("grupos")
+require("../models/Subgrupo")
+const Subgrupo = mongoose.model("subgrupos")
 const repository = require('../repositories/group-repository')
 
 
@@ -135,10 +137,10 @@ exports.getDelete = async(req, res) => {
     }
 }
 
-
+//Saibamais Grupos
 exports.getView = async (req, res) => {  
     try {
-    var grupo = await Grupo.findOne({ _id: req.params.id}).lean()
+    const grupo = await Grupo.findOne({ _id: req.params.id}).lean()
     res.render("group/saibamaisgrupos", {grupo: grupo})
     } catch (err) {
         req.flash ("error_msg", "Ops, Erro ao Conectar com o Banco de Dados!")

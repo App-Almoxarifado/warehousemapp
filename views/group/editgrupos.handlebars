@@ -9,7 +9,7 @@
         <div class="card-body">
             <form method='post' enctype="multipart/form-data" action="/upload">
                 <div class="form-row">
-                    <div class="form-group col-md-6" id="qrcode2" onchange="qrcodeFormat()">
+                    <div class="form-group col-md-6" id="qrcode2" onkeyup="qrcodeFormat()">
                     </div>
                     <div class="form-group col-md-6">
                         <div class="text-center">
@@ -26,8 +26,8 @@
                 <div class="form-group col-md-12">
                     <div class="form-row">
                         <input type="text" class="form-control" id="id" name="id" placeholder="Id" value="{{grupo._id}}">
-                        <input type="text" class="form-control" id="qrcode" name="qrcode"
-                            placeholder="QrCode do Grupo">
+                        <input type="text" class="form-control" id="qrcode" name="qrcode" onkeyup="qrcodeFormat()"
+                            placeholder="QrCode do Grupo"  value="{{grupo.qrcode}}">
                         <input type="text" class="form-control mt-2" name="imagem" id="imagem">
                         <label for="descricao">Descrição:</label>
                         <input type="text" class="form-control" id="descricao" name="descricao"
