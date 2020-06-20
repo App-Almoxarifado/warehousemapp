@@ -13,7 +13,7 @@
                     </div>
                     <div class="form-group col-md-6">
                         <div class="text-center">
-                            <img src="{{datasubgrupo.imagem}}" style="width: 150px;" class="avatar img-circle img-thumbnail"
+                            <img src="{{subgrupo.imagem}}" style="width: 150px;" class="avatar img-circle img-thumbnail"
                                 alt="">
                             <input type="file" accept="image/*" name="file" id="file"
                                 class="custom-file-input btn-file text-center center-block file-upload">
@@ -22,7 +22,7 @@
                     </div>
                 </div>
             </form>
-            <form action="/admin/subgrupos/edit/{{datasubgrupo.id}}" method="POST">
+            <form action="/admin/subgrupos/edit/{{subgrupo.id}}" method="POST">
                                 <div class="form-row">
                 <div class="form-group col-md-12">
                         <input type="hidden" class="form-control" id="id" name="id" placeholder="Id">
@@ -32,13 +32,13 @@
                         <input type="hidden" class="form-control" name="imagem" id="imagem">
                         <label for="descricao">Descrição:</label>
                         <input type="text" class="form-control" id="descricao" name="descricao"
-                            placeholder="Descrição do Grupo" value="{{datasubgrupo.descricao}}" onkeyup="qrcodeFormat()">
+                            placeholder="Descrição do Grupo" value="{{subgrupo.descricao}}" onkeyup="qrcodeFormat()">
                     </div>
                     <div class="form-group col-md-12">
                         <label for="grupo">Grupo:</label>
                         <select class="custom-select" id="grupo" name="grupo" value="{{subgrupo.grupo}}">
                             <option selected disabled value="">Selecione...</option>
-                            {{#each datagrupo}}
+                            {{#each grupo}}
                                <option {{#if_eq ../datasubgrupo.grupo descricao}}selected{{/if_eq}}>{{descricao}}</option>
                             {{else}}
                             <option value="0">Nenhum Grupo registrado</option>

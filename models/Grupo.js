@@ -14,8 +14,8 @@ const Grupo = new Schema({
         type: String,
         required: true
     },
-    date: {
-        type: Date,
+    data: {
+        type: String,
         default: Date.now()
     }
 

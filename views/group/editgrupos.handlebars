@@ -25,16 +25,16 @@
             <form action="/group/grupos/edit/" method="POST">
                 <div class="form-group col-md-12">
                     <div class="form-row">
-                        <input type="text" class="form-control" id="id" name="id" placeholder="Id" value="{{grupo._id}}">
-                        <input type="text" class="form-control" id="qrcode" name="qrcode" onkeyup="qrcodeFormat()"
+                        <input type="hidden" class="form-control" id="id" name="id" placeholder="Id" value="{{grupo._id}}">
+                        <input type="hidden" class="form-control" id="qrcode" name="qrcode" onkeyup="qrcodeFormat()"
                             placeholder="QrCode do Grupo"  value="{{grupo.qrcode}}">
-                        <input type="text" class="form-control mt-2" name="imagem" id="imagem" value="{{grupo.imagem}}">
+                        <input type="hidden" class="form-control mt-2" name="imagem" id="imagem" value="{{grupo.imagem}}">
                         <label for="descricao">Descrição:</label>
                         <input type="text" class="form-control" id="descricao" name="descricao"
                             placeholder="Descrição do Grupo" value="{{grupo.descricao}}" onkeyup="qrcodeFormat()">
                     </div>
                 </div>
-                <input type="text" class="form-control" id="data" name="data" placeholder="Data"
+                <input type="hidden" class="form-control" id="data" name="data" placeholder="Data"
                     value="{{#formatDate data}}{{/formatDate}}">
                 <div class="form-group col-md-12">
                     <div class="form-row">
