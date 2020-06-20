@@ -6,6 +6,7 @@ const session = require('express-session')
 const flash = require('connect-flash')
 const multer = require("multer")
 const moment = require('moment')
+const cors = require("cors")
 const path = require("path")
 const app = express()
 const group = require('./routes/group')
@@ -16,7 +17,7 @@ require("./config/auth")(passport)
 
 
 //Configurações
-
+app.use(cors())
 //Sessões
 app.use(session({
     secret: "warehousemapp",
