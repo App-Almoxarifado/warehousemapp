@@ -41,7 +41,7 @@ exports.getCreate = async (req, res) => {
 }
 
 exports.postCreate = async (req, res) => {
-    let endImg = "http://localhost:3000/uploads/"
+    let endImg = "https://warehousemapp.herokuapp.com/uploads/"
     var erros = []
     if (!req.body.descricao || typeof req.body.descricao == undefined || req.body.descricao == null) {
         erros.push({
@@ -61,7 +61,7 @@ exports.postCreate = async (req, res) => {
         try {      
         const grupos = new Grupo({
             qrcode: req.body.qrcode,
-            imagem: endImg + req.body.imagem.slice(0, -1),
+            imagem: endImg + req.body.imagem,//.slice(0, -1),
             descricao: req.body.descricao,
             data: req.body.data
         })
@@ -90,7 +90,7 @@ exports.getUpdate = async (req, res) => {
 
 exports.postUpdate = async (req, res) => {
     var grupo = await Grupo.findOne({ _id: req.body.id})
-    let endImg = "http://localhost:3000/uploads/"
+    let endImg = "https://warehousemapp.herokuapp.com/uploads/"
     var erros = []
     if (!req.body.descricao || typeof req.body.descricao == undefined || req.body.descricao == null) {
         erros.push({
@@ -110,7 +110,7 @@ exports.postUpdate = async (req, res) => {
         try {      
 
             grupo.qrcode = req.body.qrcode
-            grupo.imagem = endImg + req.body.imagem.slice(0, -1)
+            grupo.imagem = endImg + req.body.imagem//.slice(0, -1)
             grupo.descricao = req.body.descricao
             grupo.data = req.body.data
         

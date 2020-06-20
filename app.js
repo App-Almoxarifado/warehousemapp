@@ -44,7 +44,7 @@ app.use((req, res, next) => {
 
 // Body Parser
 app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+app.use(bodyParser.json({limit: '5mb'}))
 
 //Handlebars
 app.engine('handlebars', handlebars({
