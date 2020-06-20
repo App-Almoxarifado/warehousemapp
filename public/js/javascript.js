@@ -30,8 +30,8 @@ function qrcodeFormat() {
 
 //FUNÇÃO PARA AUTOMATIZAR O CÓDIGO QRCODE usuario
 function qrcodeFormatUser() {
-    let v1 = document.getElementById('nome').value
-    let desired = v1.normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+    var v1 = document.getElementById('nome').value
+    var desired = v1.normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
         .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
         .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
         .replace(/(^-+|-+$)/, ''); // Remove hífens extras do final ou do inicio da string
@@ -41,7 +41,7 @@ function qrcodeFormatUser() {
 }
 
 //GERA QRCODE
-let qrCode = new QRCode(document.getElementById("qrcode2"), {
+var qrCode = new QRCode(document.getElementById("qrcode2"), {
     text: qrcode,
     width: 150,
     height: 150,
@@ -52,7 +52,7 @@ let qrCode = new QRCode(document.getElementById("qrcode2"), {
 })
 
 function makeCode() {
-    let elText = document.getElementById("qrcode");
+    var elText = document.getElementById("qrcode");
 
     if (elText.value === "") {
         //alert("Input a text");
@@ -63,7 +63,7 @@ function makeCode() {
     qrCode.makeCode(elText.value);
 }
 
-makeCode();
+makeCode()
 document.getElementById("qrcode").onkeyup = function(e) {
     makeCode();
     //console.log(makeCode);

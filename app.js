@@ -9,7 +9,9 @@ const moment = require('moment')
 const cors = require("cors")
 const path = require("path")
 const app = express()
-const group = require('./routes/group')
+
+//const group = require('./routes/group')
+const groupRoute = require('./routes/group-route')
 const usuarios = require("./routes/usuario")
 const passport = require("passport")
 require("./config/auth")(passport)
@@ -101,7 +103,8 @@ app.post("/upload", upload.single("file"), (_req, _res) => {
 });
 
 
-app.use('/group', group)
+//app.use('/group', group)
+app.use('/group', groupRoute)
 app.use('/usuarios', usuarios)
 
 

@@ -4,8 +4,14 @@ const mongoose = require("mongoose")
 require("../models/Grupo")
 const Grupo = mongoose.model("grupos")
 
-router.get('/', (req, res) => {
+
+router.get('/', async (req, res) => {
+    try {
     res.render("group/index")
+} catch (err) {
+    req.flash("error_msg", "Ops, Houve um erro interno!")
+    res.redirect("/")
+}
 })
 
 //VIZUALIZANDO GRUPOS
@@ -91,13 +97,14 @@ router.post("/grupos/novo", async (req, res) => {
             erros: erros
         })
     } else {
+        try {
+       
         const grupos = new Grupo({
             qrcode: req.body.qrcode,
             imagem: endImg + req.body.imagem.slice(0, -1),
             descricao: req.body.descricao,
             data: req.body.data
         })
-        try {
             await grupos.save()
             req.flash("success_msg", "Grupo criado com sucesso!")
             res.redirect("/group/grupos")

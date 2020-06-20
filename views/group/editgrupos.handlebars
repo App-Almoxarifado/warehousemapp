@@ -13,7 +13,7 @@
                     </div>
                     <div class="form-group col-md-6">
                         <div class="text-center">
-                            <img src="{{datagrupo.imagem}}" style="width: 150px;" class="avatar img-circle img-thumbnail"
+                            <img src="{{grupo.imagem}}" style="width: 150px;" class="avatar img-circle img-thumbnail"
                                 alt="">
                             <input type="file" accept="image/*" name="file" id="file"
                                 class="custom-file-input btn-file text-center center-block file-upload">
@@ -22,20 +22,19 @@
                     </div>
                 </div>
             </form>
-            <form action="/admin/grupos/edit/{{datagrupo.id}}" method="POST">
+            <form action="/group/grupos/edit/" method="POST">
                 <div class="form-group col-md-12">
                     <div class="form-row">
-                        <input type="hidden" class="form-control" id="id" name="id" placeholder="Id">
-                        <input type="hidden" class="form-control" id="qrcode" name="qrcode"
+                        <input type="text" class="form-control" id="id" name="id" placeholder="Id" value="{{grupo._id}}">
+                        <input type="text" class="form-control" id="qrcode" name="qrcode"
                             placeholder="QrCode do Grupo">
-                        <input type="hidden" class="form-control mt-2" name="imagem" id="imagem">
-                        <input type="hidden" class="form-control" name="imagem" id="imagem">
+                        <input type="text" class="form-control mt-2" name="imagem" id="imagem">
                         <label for="descricao">Descrição:</label>
                         <input type="text" class="form-control" id="descricao" name="descricao"
-                            placeholder="Descrição do Grupo" value="{{datagrupo.descricao}}" onkeyup="qrcodeFormat()">
+                            placeholder="Descrição do Grupo" value="{{grupo.descricao}}" onkeyup="qrcodeFormat()">
                     </div>
                 </div>
-                <input type="hidden" class="form-control" id="data" name="data" placeholder="Data"
+                <input type="text" class="form-control" id="data" name="data" placeholder="Data"
                     value="{{#formatDate data}}{{/formatDate}}">
                 <div class="form-group col-md-12">
                     <div class="form-row">

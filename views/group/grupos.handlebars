@@ -21,18 +21,18 @@
             </tr>
           </thead>
           <tbody>
-            {{#each datagrupo}}
+            {{#each grupos}}
             <tr>
-              <th scope="row">{{id}}</th>
+              <th scope="row">{{_id}}</th>
               <td>{{descricao}}</td>
               <td>{{qrcode}}</td>
               <td>{{data}}</td>
               <td>
-                <a href="/admin/grupos/saibamais/{{id}}" class="btn btn-dark mt-2"><i
+                <a href="/group/grupos/saibamais/{{_id}}" class="btn btn-dark mt-2"><i
                     class="fas fa-align-right"></i></a>
-                <a href="/admin/grupos/edit/{{id}}"><button class="btn btn-primary mt-2"><i
+                <a href="/group/grupos/edit/{{_id}}"><button class="btn btn-primary mt-2"><i
                       class="fas fa-pen"></i></button></a>
-                <a href="/admin/grupos/deletar/{{id}}"><button class="deletar btn btn-danger mt-2"><i
+                <a href="/group/grupos/deletar/{{_id}}"><button class="deletar btn btn-danger mt-2"><i
                       class="fas fa-trash-alt"></i></button></a>
                 </form>
               </td>
@@ -60,13 +60,13 @@
 
   <!--VIZULIZAÇÃO EM LISTA-->
   <div id="card" class="card mt-2" style='display: block;'>
-    {{#each datagrupo}}
+    {{#each grupos}}
     <div class="card mt-3">
       <div id="card2" class="card-body">
         <h4>{{descricao}}</h4>
-        <a href="/admin/grupos/saibamais/{{id}}" class="btn btn-dark mt-2"><i class="fas fa-align-right"></i></a>
-        <a href="/admin/grupos/edit/{{id}}"><button class="btn btn-primary mt-2"><i class="fas fa-pen"></i></button></a>
-        <a href="/admin/grupos/deletar/{{id}}"><button class="deletar btn btn-danger mt-2"><i
+        <a href="/group/grupos/saibamais/{{_id}}" class="btn btn-dark mt-2"><i class="fas fa-align-right"></i></a>
+        <a href="/group/grupos/edit/{{_id}}"><button class="btn btn-primary mt-2"><i class="fas fa-pen"></i></button></a>
+        <a href="/group/grupos/deletar/{{_id}}"><button class="deletar btn btn-danger mt-2"><i
               class="fas fa-trash-alt"></i></button></a>
       </div>
     </div>

@@ -20,8 +20,8 @@ $border-radius-sm: .5rem !default;
 }
 
 .addgrupos {
-    padding-top: 120px;
-    padding-bottom: 120px;
+    padding-top: 100px;
+    padding-bottom: 220px;
     /* Place content 60px from the top */
     width: 500px;
     height: 100%;
@@ -42,8 +42,8 @@ $border-radius-sm: .5rem !default;
 }
 
 .userlogin {
-    padding-top: 150px;
-    padding-bottom: 150px;
+    padding-top: 100px;
+    padding-bottom: 250px;
     width: 400px;
     height: 100%;
     top: 50%;
@@ -53,8 +53,8 @@ $border-radius-sm: .5rem !default;
 }
 
 .user {
-    padding-top: 0px;
-    padding-bottom: 0px;
+    padding-top: 100px;
+    padding-bottom: 220px;
     width: 400px;
     height: 100%;
     top: 50%;
@@ -68,12 +68,4 @@ input {
 }
 
 
-@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
-body{font-family: 'Poppins', sans-serif;
-     background: #fafafa}
-p{font-family: 'Poppins', sans-serif;
-  font-size: 1.1em;
-	font-weight: 300;
-	line-height: 1.7em;
-	color: #999;
-}
+
