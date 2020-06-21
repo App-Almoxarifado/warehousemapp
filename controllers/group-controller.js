@@ -61,7 +61,7 @@ exports.postCreate = async (req, res) => {
         try {      
         const grupos = new Grupo({
             qrcode: req.body.qrcode,
-            imagem: endImg + req.body.imagem,//.slice(0, -1),
+            imagem: endImg + req.body.imagem.slice(0, -1),
             descricao: req.body.descricao,
             data: req.body.data
         })
@@ -142,6 +142,142 @@ exports.getView = async (req, res) => {
     try {
     const grupo = await Grupo.findOne({ _id: req.params.id}).lean()
     res.render("group/saibamaisgrupos", {grupo: grupo})
+    } catch (err) {
+        req.flash ("error_msg", "Ops, Erro ao Conectar com o Banco de Dados!")
+        res.redirect("/group")
+    }
+}
+
+
+//Listando Subgrupos
+exports.getListSub = async (req, res) => {
+    try {
+        // no repositoryvar grupos = await repository.get();
+        var subgrupos = await Subgrupo.find({}).populate("grupo")
+        res.render("group/subgrupos", {subgrupos:subgrupos.map(subgrupos => subgrupos.toJSON())})
+    } catch (err) {
+        req.flash("error_msg", "Ops, Houve um erro interno!")
+        res.redirect("/group/subgrupos")
+    }
+}
+
+//Criando um Subgrupo
+exports.getCreateSub = async (req, res) => {
+    try {
+        var grupos = await Grupo.find({})
+        res.render("group/addsubgrupos", {grupos:grupos.map(grupos => grupos.toJSON())})
+    } catch (err) {
+        req.flash("error_msg", "Ops, Houve um erro interno!")
+        res.redirect("/group/subgrupos")
+    }
+}
+
+exports.postCreateSub = async (req, res) => {
+    let endImg = "https://warehousemapp.herokuapp.com/uploads/"
+    var erros = []
+    if (!req.body.descricao || typeof req.body.descricao == undefined || req.body.descricao == null) {
+        erros.push({
+            texto: "Descricão Inválida"
+        })
+    }
+    if (req.body.descricao.length < 2) {
+        erros.push({
+            texto: "Descrição do Subgrupo Muito Pequeno!"
+        })
+    }
+    if (erros.length > 0) {
+        res.render("group/addsubgrupos", {
+            erros: erros
+        })
+    } else {
+        try {      
+        const subgrupos = new Subgrupo({
+            qrcode: req.body.qrcode,
+            imagem: endImg + req.body.imagem.slice(0, -1),
+            grupo: req.body.grupo,
+            descricao: req.body.descricao,
+            data: req.body.data
+        })
+            await subgrupos.save()
+            req.flash("success_msg", "Subgrupo criado com sucesso!")
+            res.redirect("/group/subgrupos")
+            console.log("Subgrupo criado com sucesso!")
+        } catch (err) {
+            req.flash("error_msg", "Ops, Houve um erro ao salvar o Subgrupo, tente novamente!")
+            res.redirect("/group/subgrupos")
+        }
+    }
+}
+
+//Editando um Subgrupo
+exports.getUpdateSub = async (req, res) => {
+    var subgrupo = await Subgrupo.findOne({ _id: req.params.id}).lean()
+    try {
+        var grupos = await Grupo.find({}).lean()
+        res.render("group/editsubgrupos", {grupos: grupos, subgrupo: subgrupo})
+    } catch (_err) {
+        req.flash ("error_msg", "Ops, Houve um erro interno!")
+        res.redirect("/group")
+    }
+}
+
+
+exports.postUpdateSub = async (req, res) => {
+    var subgrupo = await Subgrupo.findOne({ _id: req.body.id})
+    let endImg = "https://warehousemapp.herokuapp.com/uploads/"
+    var erros = []
+    if (!req.body.descricao || typeof req.body.descricao == undefined || req.body.descricao == null) {
+        erros.push({
+            texto: "Descricão Inválida"
+        })
+    }
+    if (req.body.descricao.length < 2) {
+        erros.push({
+            texto: "Descrição do Subgrupo Muito Pequeno!"
+        })
+    }
+    if (erros.length > 0) {
+        res.render("group/editsubgrupos", {
+            erros: erros
+        })
+    } else {
+        try {      
+
+            subgrupo.qrcode = req.body.qrcode
+            subgrupo.imagem = endImg + req.body.imagem//.slice(0, -1)
+            subgrupo.grupo = req.body.grupo
+            subgrupo.descricao = req.body.descricao
+            subgrupo.data = req.body.data
+        
+            await subgrupo.save()
+            req.flash("success_msg", "Subgrupo editado com Sucesso!")
+            res.redirect("/group/subgrupos")
+            console.log("Subgrupo editado com sucesso!")
+        } catch (err) {
+            req.flash("error_msg", "Houve um erro interno ao editar o Subgrupo, tente Novamente!" + err)
+            res.redirect("/group/subgrupos")
+        }
+    }
+}
+
+//Deletando um Subgrupo
+exports.getDeleteSub = async(req, res) => {
+    await Subgrupo.remove({_id: req.params.id})
+    try {
+        req.flash("success_msg", "Subgrupo deletado com Sucesso!")
+        res.redirect("/group/subgrupos")
+    } catch (err) {
+        req.flash("error_msg", "Houve um erro interno!")
+        res.redirect("/group/subgrupos")
+    }
+}
+
+//Saibamais Grupos
+exports.getViewSub = async (req, res) => {  
+    var subgrupo = await Subgrupo.findOne({ _id: req.params.id}).lean()
+    var grupos = await Grupo.find({})
+    try {
+    res.render("group/saibamaissubgrupos",{subgrupo: subgrupo, grupos: grupos.map(grupos => grupos.toJSON())})
     } catch (err) {
         req.flash ("error_msg", "Ops, Erro ao Conectar com o Banco de Dados!")
         res.redirect("/group")

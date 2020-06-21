@@ -3,21 +3,25 @@ const Schema = mongoose.Schema;
 
 //CRIANDO O DOCUMENTO - ANÁLOGIA A TABELA NO BANCO DE DADOS
 const Subgrupo = new Schema({
-   nome: {
+   qrcode: {
       type: String,
-      required: true
+      required: false
    },
-   slug: {
+   imagem: {
       type: String,
-      required: true
+      required: false
    },
    grupo: {
       type: Schema.Types.ObjectId,
       ref: "grupos",
       required: true
    },
-   date: {
-      type: Date,
+   descricao: {
+      type: String,
+      required: true
+   },
+   data: {
+      type: String,
       default: Date.now()
    }
 })

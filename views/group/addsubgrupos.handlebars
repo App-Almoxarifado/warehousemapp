@@ -22,7 +22,7 @@
                     </div>
                 </div>
             </form>
-            <form action="/admin/subgrupos/novo" method="POST">
+            <form action="/group/subgrupos/novo" method="POST">
                 <div class="form-row">
                     <div class="form-group col-md-12">
                         <input type="hidden" class="form-control" id="id" name="id" placeholder="Id">
@@ -38,8 +38,8 @@
                         <label for="grupo">Grupo:</label>
                         <select class="custom-select" id="grupo" name="grupo">
                             <option selected disabled value="">Selecione...</option>
-                            {{#each grupo}}
-                            <option>{{descricao}}</option>
+                            {{#each grupos}}
+                            <option value="{{_id}}">{{descricao}}</option>
                             {{else}}
                             <option value="0">Nenhum Grupo registrado</option>
                             {{/each}}

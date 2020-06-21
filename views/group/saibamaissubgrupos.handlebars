@@ -8,11 +8,12 @@
         <div class="card-body">
           <h3 class="card-title">{{subgrupo.descricao}}</h3>
           <div class="form-admin col-md-6" id="qrcode2" onchange="qrcodeFormat()"></div>
-         <h5 class="card-title mt-2">Grupo: {{subgrupo.grupo}}</h5>
+                      <input type="hidden" class="form-control" id="qrcode" name="qrcode" placeholder="QrCode do Grupo"
+              value="{{subgrupo.qrcode}}">
+         <h5 class="card-title mt-2">Grupo: {{grupo.descricao}}</h5>
+         
           <p class="card-text mt-2">QrCode: {{subgrupo.qrcode}}</p>
-          <p class="card-text"><small class="text-muted">Data de Criação: {{subgrupo.data}}</small></p>
-            <input type="hidden" class="form-control" id="qrcode" name="qrcode" placeholder="QrCode do Grupo"
-              value="{{subgrupo.qrcode}}">         
+          <p class="card-text"><small class="text-muted">Data de Criação: {{subgrupo.data}}</small></p>         
         </div>
       </div>
     </div>

@@ -22,14 +22,13 @@
                     </div>
                 </div>
             </form>
-            <form action="/admin/subgrupos/edit/{{subgrupo.id}}" method="POST">
+            <form action="/group/subgrupos/edit/" method="POST">
                                 <div class="form-row">
                 <div class="form-group col-md-12">
-                        <input type="hidden" class="form-control" id="id" name="id" placeholder="Id">
+                        <input type="hidden" class="form-control" id="id" name="id" placeholder="Id" value="{{subgrupo._id}}">
                         <input type="hidden" class="form-control" id="qrcode" name="qrcode"
-                            placeholder="QrCode do Grupo">
-                        <input type="hidden" class="form-control mt-2" name="imagem" id="imagem">
-                        <input type="hidden" class="form-control" name="imagem" id="imagem">
+                            placeholder="QrCode do Grupo" value="{{subgrupo.qrcode}}">
+                        <input type="hidden" class="form-control mt-2" name="imagem" id="imagem" value="{{subgrupo.imagem}}">
                         <label for="descricao">Descrição:</label>
                         <input type="text" class="form-control" id="descricao" name="descricao"
                             placeholder="Descrição do Grupo" value="{{subgrupo.descricao}}" onkeyup="qrcodeFormat()">
@@ -38,8 +37,8 @@
                         <label for="grupo">Grupo:</label>
                         <select class="custom-select" id="grupo" name="grupo" value="{{subgrupo.grupo}}">
                             <option selected disabled value="">Selecione...</option>
-                            {{#each grupo}}
-                               <option {{#if_eq ../datasubgrupo.grupo descricao}}selected{{/if_eq}}>{{descricao}}</option>
+                            {{#each grupos}}
+                               <option {{#if_eq ../subgrupo.grupo _id}}selected{{/if_eq}} value="{{_id}}">{{descricao}}</option>
                             {{else}}
                             <option value="0">Nenhum Grupo registrado</option>
                             {{/each}}
