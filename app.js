@@ -13,6 +13,7 @@ const app = express()
 
 //const group = require('./routes/group')
 const groupRoute = require('./routes/group-route')
+const productRoute = require('./routes/product-route')
 const usuarios = require("./routes/usuario")
 const passport = require("passport")
 require("./config/auth")(passport)
@@ -59,7 +60,7 @@ app.engine('handlebars', handlebars({
 var hbs = handlebars.create({});
 // verificar se valores são iguais
 hbs.handlebars.registerHelper('if_eq', function(a, b, opts) {
-    if (a.toString() == b.toString()) {
+    if (a && b && a.toString() == b.toString()) {
         return opts.fn(this);
     } else {
         return opts.inverse(this);
@@ -107,6 +108,7 @@ app.post("/upload", upload.single("file"), (_req, _res) => {
 
 //app.use('/group', group)
 app.use('/group', groupRoute)
+app.use('/product', productRoute)
 app.use('/usuarios', usuarios)
 
 

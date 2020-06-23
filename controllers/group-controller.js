@@ -3,7 +3,7 @@ require("../models/Grupo")
 const Grupo = mongoose.model("grupos")
 require("../models/Subgrupo")
 const Subgrupo = mongoose.model("subgrupos")
-const repository = require('../repositories/group-repository')
+//const repository = require('../repositories/group-repository')
 
 
 //index Grupos
@@ -273,11 +273,10 @@ exports.getDeleteSub = async(req, res) => {
 }
 
 //Saibamais Grupos
-exports.getViewSub = async (req, res) => {  
-    var subgrupo = await Subgrupo.findOne({ _id: req.params.id}).lean()
-    var grupos = await Grupo.find({})
+exports.getViewSub = async (req, res) => {     
+    var subgrupo = await Subgrupo.findOne({ _id: req.params.id}).lean() 
     try {
-    res.render("group/saibamaissubgrupos",{subgrupo: subgrupo, grupos: grupos.map(grupos => grupos.toJSON())})
+    res.render("group/saibamaissubgrupos",{subgrupo: subgrupo})
     } catch (err) {
         req.flash ("error_msg", "Ops, Erro ao Conectar com o Banco de Dados!")
         res.redirect("/group")

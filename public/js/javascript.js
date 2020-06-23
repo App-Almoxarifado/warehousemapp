@@ -26,6 +26,7 @@ function qrcodeFormat() {
     desired = desired.toLowerCase(); // Transforma Tudo em minúscula
     //RETIRA OS CARACTERES ESPECIAIS PARA GERAR O QR CODE
     document.getElementById("qrcode").value = desired;
+    makeCode();
 }
 
 //FUNÇÃO PARA AUTOMATIZAR O CÓDIGO QRCODE usuario
@@ -38,35 +39,28 @@ function qrcodeFormatUser() {
     desired = desired.toLowerCase(); // Transforma Tudo em minúscula
     //RETIRA OS CARACTERES ESPECIAIS PARA GERAR O QR CODE
     document.getElementById("qrcode").value = desired;
+    console.log("aqui")
+    makeCode();
 }
 
 //GERA QRCODE
-var qrCode = new QRCode(document.getElementById("qrcode2"), {
-    text: qrcode,
-    width: 150,
-    height: 150,
-    colorDark: "black",
-    colorLight: "white",
-    correctLevel: QRCode.CorrectLevel.L
+var qrCode;
 
-})
+if(document.getElementById("qrcode")){
+    qrCode = new QRCode(document.getElementById("qrcode2"), {
+            text: "0",
+            width: 150,
+            height: 150,
+            colorDark: "black",
+            colorLight: "white",
+            correctLevel: QRCode.CorrectLevel.L
+    });
+}
 
 function makeCode() {
     var elText = document.getElementById("qrcode");
 
-    if (elText.value === "") {
-        //alert("Input a text");
-        //elText.focus();
-        return;
-    }
-
-    qrCode.makeCode(elText.value);
-}
-
-makeCode()
-document.getElementById("qrcode").onkeyup = function(e) {
-    makeCode();
-    //console.log(makeCode);
+    if(qrCode && elText) qrCode.makeCode(elText.value);
 }
 
 //CARREGANDO IMAGEM
