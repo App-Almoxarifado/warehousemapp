@@ -272,7 +272,7 @@ exports.getDeleteSub = async(req, res) => {
     }
 }
 
-//Saibamais Grupos
+//Saibamais Subgrupos
 exports.getViewSub = async (req, res) => {     
     var subgrupo = await Subgrupo.findOne({ _id: req.params.id}).lean() 
     try {

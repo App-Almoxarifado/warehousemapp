@@ -75,3 +75,55 @@ exports.postCreate = async (req, res) => {
     }
 }
 
+//Editando um Produto
+exports.getUpdate = async (req, res) => {
+    var product = await Product.findOne({ _id: req.params.id}).lean()
+    try {
+        var grupos = await Grupo.find({}).lean()
+        var subgrupos = await Subgrupo.find({}).lean()
+        res.render("group/editproducts", {grupos: grupos, subgrupos: subgrupos, subgrupo: subgrupo})
+    } catch (_err) {
+        req.flash ("error_msg", "Ops, Houve um erro interno!")
+        res.redirect("/product/products")
+    }
+}
+
+
+exports.postUpdate = async (req, res) => {
+    var product = await Product.findOne({ _id: req.body.id})
+    let endImg = "https://warehousemapp.herokuapp.com/uploads/"
+    var erros = []
+    if (!req.body.descricao || typeof req.body.descricao == undefined || req.body.descricao == null) {
+        erros.push({
+            texto: "Descricão Inválida"
+        })
+    }
+    if (req.body.descricao.length < 2) {
+        erros.push({
+            texto: "Descrição do Subgrupo Muito Pequeno!"
+        })
+    }
+    if (erros.length > 0) {
+        res.render("/product/products", {
+            erros: erros
+        })
+    } else {
+        try {      
+
+            subgrupo.qrcode = req.body.qrcode
+            subgrupo.imagem = endImg + req.body.imagem//.slice(0, -1)
+            subgrupo.grupo = req.body.grupo
+            subgrupo.subgrupo = req.body.subgrupo
+            subgrupo.descricao = req.body.descricao
+            subgrupo.data = req.body.data
+        
+            await product.save()
+            req.flash("success_msg", "Produto editado com Sucesso!")
+            res.redirect("/product/products")
+            console.log("Produto editado com sucesso!")
+        } catch (err) {
+            req.flash("error_msg", "Houve um erro interno ao editar o Produto, tente Novamente!" + err)
+            res.redirect("/product/products")
+        }
+    }
+}
