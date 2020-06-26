@@ -1,0 +1,23 @@
+<div class="groups container mt-2">
+  <div class="card mb-3">
+    <div class="row no-gutters">
+      <div class="col-md-6">
+        <img src="{{group.image}}" class="card-img" alt="...">
+      </div>
+      <div class="col-md-6">
+        <div class="card-body">
+          <h3 class="card-title">{{group.description}}</h3>
+        <form action="">
+                    <div class="form-group col-md-6" id="qrcode2" onchange="qrcodeFormat()">
+<input type="hidden" class="form-control" id="qrcode" name="qrcode" placeholder="QrCode do group" value="{{group.qrcode}}"> 
+</div>
+</form>
+
+          <p class="card-text mt-2">QrCode: {{group.qrcode}}</p>
+          <p class="card-text"><small class="text-muted">date de Criação: {{group.date}}</small></p>
+        
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

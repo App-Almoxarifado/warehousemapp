@@ -1,4 +1,4 @@
-<div class="addsubgrupos container mt-2">
+<div class="addsubgroups container mt-2">
     <h3>Editar Produto:</h3>
     {{#each erros}}
     <div class="alert alert-danger">{{texto}}</div>
@@ -25,19 +25,19 @@
             <form action="/product/products/edit" method="POST">
                 <div class="form-row">
                     <div class="form-group col-md-12">
-                        <input type="text" class="form-control" id="id" name="id" placeholder="Id" value="{{product._id}}">
-                        <input type="text" class="form-control" id="qrcode" name="qrcode"
-                            placeholder="QrCode do Grupo" value="{{product.qrcode}}">
-                        <input type="text" class="form-control mt-2" name="image" id="image" value="{{product.image}}">
-                        <label for="grupo">Grupo:</label>
-                        <select  class="custom-select" id="grupo" name="grupo" value="{{product.grupo}}">
+                        <input type="hidden" class="form-control mt-2" id="id" name="id" placeholder="Id" value="{{product._id}}">
+                        <input type="hidden" class="form-control mt-2" id="qrcode" name="qrcode"
+                            placeholder="QrCode do group" value="{{product.qrcode}}">
+                        <input type="hidden" class="form-control mt-2" name="image" id="image" value="{{product.image}}">
+                        <label for="group">group:</label>
+                        <select  class="custom-select" id="group" name="group" value="{{product.group}}">
                             <option selected disabled value="">Selecione...</option >
-                            {{#each grupos}}
-                            <option {{#if_eq ../product.grupo _id}}selected{{/if_eq}} value="{{_id}}">{{description}}</option>
+                            {{#each groups}}
+                            <option {{#if_eq ../product.group _id}}selected{{/if_eq}} value="{{_id}}">{{description}}</option>
                                     {{description}}
                                 </option>
                             {{else}}
-                            <option value="0">Nenhum Grupo registrado</option>
+                            <option value="0">Nenhum group registrado</option>
                             {{/each}}
                         </select>
                     </div>
@@ -45,13 +45,13 @@
 
                 <div class="form-row">
                     <div class="form-group col-md-12">
-                        <label for="subgrupo">Subgrupo:</label>
-                        <select class="custom-select" id="subgrupo" name="subgrupo" value="{{product.subgrupo}}">
+                        <label for="subgroup">Subgroup:</label>
+                        <select class="custom-select" id="subgroup" name="subgroup" value="{{product.subgroup}}">
                             <option selected disabled value="">Selecione...</option>
-                            {{#each subgrupos}}
-                                <option {{#if_eq ../product.subgrupo _id}}selected{{/if_eq}} value="{{_id}}">{{description}}</option>
+                            {{#each subgroups}}
+                                <option {{#if_eq ../product.subgroup _id}}selected{{/if_eq}} value="{{_id}}">{{description}}</option>
                             {{else}}
-                            <option value="0">Nenhum Subgrupo registrado</option>
+                            <option value="0">Nenhum Subgroup registrado</option>
                             {{/each}}
                         </select>
                     </div>
@@ -62,7 +62,7 @@
                     <div class="form-group col-md-12">
                         <label for="description">Descrição:</label>
                         <input type="text" class="form-control" id="description" name="description"
-                            placeholder="Descrição do Grupo" value="{{product.description}}" onkeyup="qrcodeFormat()">
+                            placeholder="Descrição do group" value="{{product.description}}" onkeyup="qrcodeFormat()">
                     </div>
                 </div>
 

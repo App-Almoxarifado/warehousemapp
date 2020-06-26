@@ -3,24 +3,24 @@ const router = express.Router()
 const controller = require('../controllers/group-controller')
 const { eAdmin } = require("../helpers/eAdmin")
 
-//Grupos
+//groups
 router.get("/", controller.getIndex)
-router.get("/grupos", controller.getList)
-router.get("/grupos/add",eAdmin, controller.getCreate) 
-router.post("/grupos/novo",eAdmin, controller.postCreate)
-router.get('/grupos/edit/:id',eAdmin, controller.getUpdate)
-router.post("/grupos/edit",eAdmin, controller.postUpdate) 
-router.get("/grupos/deletar/:id",eAdmin, controller.getDelete) 
-router.get("/grupos/saibamais/:id", controller.getView) 
+router.get("/groups", controller.getList)
+router.get("/groups/add",eAdmin, controller.getCreate) 
+router.post("/groups/novo",eAdmin, controller.postCreate)
+router.get('/groups/edit/:id',eAdmin, controller.getUpdate)
+router.post("/groups/edit",eAdmin, controller.postUpdate) 
+router.get("/groups/deletar/:id",eAdmin, controller.getDelete) 
+router.get("/groups/saibamais/:id", controller.getView) 
 
-//Subgrupos
-router.get("/subgrupos", controller.getListSub)
-router.get("/subgrupos/add",eAdmin, controller.getCreateSub) 
-router.post("/subgrupos/novo",eAdmin, controller.postCreateSub)
-router.get('/subgrupos/edit/:id',eAdmin, controller.getUpdateSub)
-router.post("/subgrupos/edit",eAdmin, controller.postUpdateSub) 
-router.get("/subgrupos/deletar/:id",eAdmin, controller.getDeleteSub) 
-router.get("/subgrupos/saibamais/:id", controller.getViewSub) 
+//Subgroups
+router.get("/subgroups", controller.getListSub)
+router.get("/subgroups/add",eAdmin, controller.getCreateSub) 
+router.post("/subgroups/novo",eAdmin, controller.postCreateSub)
+router.get('/subgroups/edit/:id',eAdmin, controller.getUpdateSub)
+router.post("/subgroups/edit",eAdmin, controller.postUpdateSub) 
+router.get("/subgroups/deletar/:id",eAdmin, controller.getDeleteSub) 
+router.get("/subgroups/saibamais/:id", controller.getViewSub) 
 
 
 module.exports = router

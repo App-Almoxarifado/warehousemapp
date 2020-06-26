@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema;
 
-const Grupo = new Schema({
+const Group = new Schema({
     qrcode: {
         type: String,
         required: false
@@ -21,4 +21,4 @@ const Grupo = new Schema({
 
 })
 
-mongoose.model("grupos", Grupo)
+mongoose.model("groups", Group)

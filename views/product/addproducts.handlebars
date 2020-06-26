@@ -1,4 +1,4 @@
-<div class="addsubgrupos container mt-2">
+<div class="addsubgroups container mt-2">
     <h3>Novo Produto:</h3>
     {{#each erros}}
     <div class="alert alert-danger">{{texto}}</div>
@@ -27,25 +27,25 @@
                     <div class="form-group col-md-12">
                         <input type="hidden" class="form-control" id="id" name="id" placeholder="Id">
                         <input type="hidden" class="form-control" id="qrcode" name="qrcode"
-                            placeholder="QrCode do Grupo">
+                            placeholder="QrCode do group">
                         <input type="hidden" class="form-control mt-2" name="image" id="image">
                         <input type="hidden" class="form-control" name="image" id="image">
 
-                        <label for="grupo">Grupo:</label>
+                        <label for="group">group:</label>
                         <select 
-                            class="custom-select" id="grupo" name="grupo" 
-                            onchange="location.assign('?gId='+document.getElementById('grupo').value)"
+                            class="custom-select" id="group" name="group" 
+                            onchange="location.assign('?gId='+document.getElementById('group').value)"
                         >
                             <option selected disabled value="">Selecione...</option>
-                            {{#each grupos}}
+                            {{#each groups}}
                                 <option 
-                                    {{#if_eq ../idGrupo _id}}selected{{/if_eq}} 
+                                    {{#if_eq ../idGroup _id}}selected{{/if_eq}} 
                                     value="{{_id}}"
                                 >
                                     {{description}}
                                 </option>
                             {{else}}
-                            <option value="0">Nenhum Grupo registrado</option>
+                            <option value="0">Nenhum group registrado</option>
                             {{/each}}
                         </select>
                     </div>
@@ -53,13 +53,13 @@
 
                 <div class="form-row">
                     <div class="form-group col-md-12">
-                        <label for="subgrupo">Subgrupo:</label>
-                        <select class="custom-select" id="subgrupo" name="subgrupo">
+                        <label for="subgroup">Subgroup:</label>
+                        <select class="custom-select" id="subgroup" name="subgroup">
                             <option selected disabled value="">Selecione...</option>
-                            {{#each subgrupos}}
+                            {{#each subgroups}}
                                 <option value="{{_id}}">{{description}}</option>
                             {{else}}
-                            <option value="0">Nenhum Subgrupo registrado</option>
+                            <option value="0">Nenhum Subgroup registrado</option>
                             {{/each}}
                         </select>
                     </div>
@@ -70,7 +70,7 @@
                     <div class="form-group col-md-12">
                         <label for="description">Descrição:</label>
                         <input type="text" class="form-control" id="description" name="description"
-                            placeholder="Descrição do Grupo" onkeyup="qrcodeFormat()">
+                            placeholder="Descrição do group" onkeyup="qrcodeFormat()">
                     </div>
                 </div>
 

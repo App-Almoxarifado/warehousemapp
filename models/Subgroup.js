@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 const Schema = mongoose.Schema;
 
 //CRIANDO O DOCUMENTO - ANÁLOGIA A TABELA NO BANCO DE DADOS
-const Subgrupo = new Schema({
+const Subgroup = new Schema({
    qrcode: {
       type: String,
       required: false
@@ -11,9 +11,9 @@ const Subgrupo = new Schema({
       type: String,
       required: false
    },
-   grupo: {
+   group: {
       type: Schema.Types.ObjectId,
-      ref: "grupos",
+      ref: "groups",
       required: true
    },
    description: {
@@ -26,4 +26,4 @@ const Subgrupo = new Schema({
    }
 })
 
-mongoose.model("subgrupos", Subgrupo)
+mongoose.model("subgroups", Subgroup)

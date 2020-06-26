@@ -1,5 +1,5 @@
-<div class="addsubgrupos container mt-2">
-    <h3>Editar Subgrupo:</h3>
+<div class="addsubgroups container mt-2">
+    <h3>Editar Subgroup:</h3>
     {{#each erros}}
     <div class="alert alert-danger">{{texto}}</div>
     {{else}}
@@ -13,7 +13,7 @@
                     </div>
                     <div class="form-group col-md-6">
                         <div class="text-center">
-                            <img src="{{subgrupo.image}}" style="width: 150px;" class="avatar img-circle img-thumbnail"
+                            <img src="{{subgroup.image}}" style="width: 150px;" class="avatar img-circle img-thumbnail"
                                 alt="">
                             <input type="file" accept="image/*" name="file" id="file"
                                 class="custom-file-input btn-file text-center center-block file-upload">
@@ -22,25 +22,25 @@
                     </div>
                 </div>
             </form>
-            <form action="/group/subgrupos/edit/" method="POST">
+            <form action="/group/subgroups/edit/" method="POST">
                                 <div class="form-row">
                 <div class="form-group col-md-12">
-                        <input type="hidden" class="form-control" id="id" name="id" placeholder="Id" value="{{subgrupo._id}}">
+                        <input type="hidden" class="form-control" id="id" name="id" placeholder="Id" value="{{subgroup._id}}">
                         <input type="hidden" class="form-control" id="qrcode" name="qrcode"
-                            placeholder="QrCode do Grupo" value="{{subgrupo.qrcode}}">
-                        <input type="hidden" class="form-control mt-2" name="image" id="image" value="{{subgrupo.image}}">
+                            placeholder="QrCode do group" value="{{subgroup.qrcode}}">
+                        <input type="hidden" class="form-control mt-2" name="image" id="image" value="{{subgroup.image}}">
                         <label for="description">Descrição:</label>
                         <input type="text" class="form-control" id="description" name="description"
-                            placeholder="Descrição do Grupo" value="{{subgrupo.description}}" onkeyup="qrcodeFormat()">
+                            placeholder="Descrição do group" value="{{subgroup.description}}" onkeyup="qrcodeFormat()">
                     </div>
                     <div class="form-group col-md-12">
-                        <label for="grupo">Grupo:</label>
-                        <select class="custom-select" id="grupo" name="grupo" value="{{subgrupo.grupo}}">
+                        <label for="group">group:</label>
+                        <select class="custom-select" id="group" name="group" value="{{subgroup.group}}">
                             <option selected disabled value="">Selecione...</option>
-                            {{#each grupos}}
-                               <option {{#if_eq ../subgrupo.grupo _id}}selected{{/if_eq}} value="{{_id}}">{{description}}</option>
+                            {{#each groups}}
+                               <option {{#if_eq ../subgroup.group _id}}selected{{/if_eq}} value="{{_id}}">{{description}}</option>
                             {{else}}
-                            <option value="0">Nenhum Grupo registrado</option>
+                            <option value="0">Nenhum Subgrupo registrado</option>
                             {{/each}}
                         </select>
                     </div>

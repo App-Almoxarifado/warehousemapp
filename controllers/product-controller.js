@@ -1,16 +1,16 @@
 const mongoose = require("mongoose")
 require("../models/Product")
 const Product = mongoose.model("products")
-require("../models/Grupo")
-const Grupo = mongoose.model("grupos")
-require("../models/Subgrupo")
-const Subgrupo = mongoose.model("subgrupos")
+require("../models/Group")
+const Group = mongoose.model("groups")
+require("../models/Subgroup")
+const Subgroup = mongoose.model("subgroups")
 
 //Listando products
 exports.getList = async (req, res) => {
     try {
         // no repository var products = await repository.get();
-        var products = await Product.find().populate("grupo").populate("subgrupo")
+        var products = await Product.find().populate("group").populate("subgroup")
         res.render("product/products", {
             products:products.map(products => products.toJSON())
         })
@@ -23,13 +23,13 @@ exports.getList = async (req, res) => {
 //Criando um Product
 exports.getCreate = async (req, res) => {
     try {
-        var grupos = await Grupo.find({})
+        var groups = await Group.find({})
         const { gId } = req.query;
-        var subgrupos = await Subgrupo.find(gId ? { grupo: gId } : {});
+        var subgroups = await Subgroup.find(gId ? { group: gId } : {});
         return res.render("product/addproducts", { 
-            grupos:grupos.map(grupos => grupos.toJSON()),
-            subgrupos:subgrupos.map(subgrupos => subgrupos.toJSON()),
-            idGrupo: gId
+            groups:groups.map(groups => groups.toJSON()),
+            subgroups:subgroups.map(subgroups => subgroups.toJSON()),
+            idGroup: gId
         })
     } catch (err) {
         req.flash("error_msg", "Ops, Houve um erro interno!")
@@ -59,8 +59,8 @@ exports.postCreate = async (req, res) => {
         const products = new Product({
             qrcode: req.body.qrcode,
             image: endImg + req.body.image.slice(0, -1),
-            grupo: req.body.grupo,
-            subgrupo: req.body.subgrupo,
+            group: req.body.group,
+            subgroup: req.body.subgroup,
             description: req.body.description,
             date: req.body.date
         })
@@ -79,9 +79,9 @@ exports.postCreate = async (req, res) => {
 exports.getUpdate = async (req, res) => {
     var product = await Product.findOne({ _id: req.params.id}).lean()
     try {
-        var grupos = await Grupo.find({}).lean()
-        var subgrupos = await Subgrupo.find({}).lean()
-        res.render("product/editproducts",{grupos: grupos, subgrupos: subgrupos, product: product})
+        var groups = await Group.find({}).lean()
+        var subgroups = await Subgroup.find({}).lean()
+        res.render("product/editproducts",{groups: groups, subgroups: subgroups, product: product})
     } catch (_err) {
         req.flash ("error_msg", "Ops, Houve um erro interno!")
         res.redirect("/product/products")
@@ -100,7 +100,7 @@ exports.postUpdate = async (req, res) => {
     }
     if (req.body.description.length < 2) {
         erros.push({
-            texto: "Descrição do Subgrupo Muito Pequeno!"
+            texto: "Descrição do subgroup Muito Pequeno!"
         })
     }
     if (erros.length > 0) {
@@ -112,8 +112,8 @@ exports.postUpdate = async (req, res) => {
 
             product.qrcode = req.body.qrcode
             product.image = endImg + req.body.image//.slice(0, -1)
-            product.grupo = req.body.grupo
-            product.subgrupo = req.body.subgrupo
+            product.group = req.body.group
+            product.subgroup = req.body.subgroup
             product.description = req.body.description
             product.date = req.body.date
         

@@ -1,5 +1,4 @@
-<div class="addsubgrupos container mt-2">
-    <h3>Novo Subgrupo:</h3>
+<div class="addgroups container mt-2">
     {{#each erros}}
     <div class="alert alert-danger">{{texto}}</div>
     {{else}}
@@ -22,27 +21,16 @@
                     </div>
                 </div>
             </form>
-            <form action="/group/subgrupos/novo" method="POST">
-                <div class="form-row">
-                    <div class="form-group col-md-12">
+            <form action="/group/groups/novo" method="POST">
+            <div class="form-row">
+                <div class="form-group col-md-12">                   
                         <input type="hidden" class="form-control" id="id" name="id" placeholder="Id">
                         <input type="hidden" class="form-control" id="qrcode" name="qrcode"
-                            placeholder="QrCode do Grupo">
+                            placeholder="QrCode do group">
                         <input type="hidden" class="form-control mt-2" name="image" id="image">
                         <label for="description">Descrição:</label>
                         <input type="text" class="form-control" id="description" name="description"
-                            placeholder="Descrição do Grupo" onkeyup="qrcodeFormat()">
-                    </div>
-                    <div class="form-group col-md-12">
-                        <label for="grupo">Grupo:</label>
-                        <select class="custom-select" id="grupo" name="grupo">
-                            <option selected disabled value="">Selecione...</option>
-                            {{#each grupos}}
-                            <option value="{{_id}}">{{description}}</option>
-                            {{else}}
-                            <option value="0">Nenhum Grupo registrado</option>
-                            {{/each}}
-                        </select>
+                            placeholder="Descrição do group" onkeyup="qrcodeFormat()">
                     </div>
                 </div>
                 <input type="hidden" class="form-control" id="date" name="date" placeholder="date"

@@ -1,6 +1,6 @@
 <div class="container mt-2">
-  <h2>Subgrupos</h2>
-  <a href="/group/subgrupos/add"><button class="btn btn-success">Novo Subgrupo <i class="fas fa-share"></i></button></a>
+  <h2>Subgroups</h2>
+  <a href="/group/subgroups/add"><button class="btn btn-success">Novo Subgroup <i class="fas fa-share"></i></button></a>
 
   <hr>
     <button type="button" class="btn btn-primary" onclick="mostrarlista()">Lista <i class="fas fa-th-list"></i></button>
@@ -14,7 +14,7 @@
           <thead class="thead-dark">
             <tr>
               <th scope="col">Id</th>
-              <th scope="col">Grupo</th>
+              <th scope="col">group</th>
               <th scope="col">description</th>
               <th scope="col">qrcode</th>
               <th scope="col">Criação</th>
@@ -22,25 +22,25 @@
             </tr>
           </thead>
           <tbody>
-            {{#each subgrupos}}
+            {{#each subgroups}}
             <tr>
               <th scope="row">{{_id}}</th>
-              <td>{{grupo.description}}</td>
+              <td>{{group.description}}</td>
               <td>{{description}}</td>
               <td>{{qrcode}}</td>
               <td>{{date}}</td>
               <td>
-                <a href="/group/subgrupos/saibamais/{{_id}}" class="btn btn-dark mt-2"><i
+                <a href="/group/subgroups/saibamais/{{_id}}" class="btn btn-dark mt-2"><i
                     class="fas fa-align-right"></i></a>
-                <a href="/group/subgrupos/edit/{{_id}}"><button class="btn btn-primary mt-2"><i
+                <a href="/group/subgroups/edit/{{_id}}"><button class="btn btn-primary mt-2"><i
                       class="fas fa-pen"></i></button></a>
-                <a href="/group/subgrupos/deletar/{{_id}}"><button class="deletar btn btn-danger mt-2"><i
+                <a href="/group/subgroups/deletar/{{_id}}"><button class="deletar btn btn-danger mt-2"><i
                       class="fas fa-trash-alt"></i></button></a>
                 </form>
               </td>
             </tr>
             {{else}}
-            <h4 class="mt-2">Nenhum Subgrupo Registrado!</h4>
+            <h4 class="mt-2">Nenhum Subgroup Registrado!</h4>
             {{/each}}
           </tbody>
           <nav class="mt-2" aria-label="Navegação de página exemplo">
@@ -62,19 +62,19 @@
 
   <!--VIZULIZAÇÃO EM LISTA-->
   <div id="card" class="card mt-2" style='display: block;'>
-    {{#each subgrupos}}
+    {{#each subgroups}}
     <div class="card mt-3">
       <div id="card2" class="card-body">
         <h4>{{description}}</h4>
-        <h6>Grupo: {{grupo.description}}</h6>
-        <a href="/group/subgrupos/saibamais/{{_id}}" class="btn btn-dark mt-2"><i class="fas fa-align-right"></i></a>
-        <a href="/group/subgrupos/edit/{{_id}}"><button class="btn btn-primary mt-2"><i class="fas fa-pen"></i></button></a>
-        <a href="/group/subgrupos/deletar/{{_id}}"><button class="deletar btn btn-danger mt-2"><i
+        <h6>group: {{group.description}}</h6>
+        <a href="/group/subgroups/saibamais/{{_id}}" class="btn btn-dark mt-2"><i class="fas fa-align-right"></i></a>
+        <a href="/group/subgroups/edit/{{_id}}"><button class="btn btn-primary mt-2"><i class="fas fa-pen"></i></button></a>
+        <a href="/group/subgroups/deletar/{{_id}}"><button class="deletar btn btn-danger mt-2"><i
               class="fas fa-trash-alt"></i></button></a>
       </div>
     </div>
     {{else}}
-    <h4 class="mt-2 mb-2">Nenhum Grupo Registrado!</h4>
+    <h4 class="mt-2 mb-2">Nenhum Subgrupo Registrado!</h4>
     {{/each}}
         <nav class="px-md-2 mt-2"  aria-label="Navegação de página exemplo">
       <ul class="pagination" >

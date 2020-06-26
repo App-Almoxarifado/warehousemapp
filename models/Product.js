@@ -11,14 +11,14 @@ const Product = new Schema({
       type: String,
       required: false
    },
-   grupo: {
+   group: {
       type: Schema.Types.ObjectId,
-      ref: "grupos",
+      ref: "groups",
       required: true
    },
-   subgrupo: {
+   subgroup: {
     type: Schema.Types.ObjectId,
-    ref: "subgrupos",
+    ref: "subgroups",
     required: true
   },
    description: {

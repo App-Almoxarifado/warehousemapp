@@ -1,42 +1,42 @@
 const mongoose = require("mongoose")
-require("../models/Grupo")
-const Grupo = mongoose.model("grupos")
-require("../models/Subgrupo")
-const Subgrupo = mongoose.model("subgrupos")
+require("../models/Group")
+const Group = mongoose.model("groups")
+require("../models/Subgroup")
+const Subgroup = mongoose.model("subgroups")
 //const repository = require('../repositories/group-repository')
 
 
-//index Grupos
+//index groups
 exports.getIndex = async (req, res) => {
-    var grupos = await Grupo.find({})
+    var groups = await Group.find({})
     try {
     res.render("group/index")
 } catch (err) {
     req.flash("error_msg", "Ops, Houve um erro interno!")
-    res.redirect("/group/grupos", {grupos:grupos.map(grupos => grupos.toJSON())})
+    res.redirect("/group/groups", {groups:groups.map(groups => groups.toJSON())})
 }
 }
 
 
-//Listando Grupos
+//Listando groups
 exports.getList = async (req, res) => {
     try {
-        // no repositoryvar grupos = await repository.get();
-        var grupos = await Grupo.find({})
-        res.render("group/grupos", {grupos:grupos.map(grupos => grupos.toJSON())})
+        // no repositoryvar groups = await repository.get();
+        var groups = await Group.find({})
+        res.render("group/groups", {groups:groups.map(groups => groups.toJSON())})
     } catch (err) {
         req.flash("error_msg", "Ops, Houve um erro interno!")
-        res.redirect("/group/grupos")
+        res.redirect("/group/groups")
     }
 }
 
-//Criando um Grupo
+//Criando um group
 exports.getCreate = async (req, res) => {
     try {
-        res.render("group/addgrupos")
+        res.render("group/addgroups")
     } catch (err) {
         req.flash("error_msg", "Ops, Houve um erro interno!")
-        res.redirect("/group/grupos")
+        res.redirect("/group/groups")
     }
 }
 
@@ -50,37 +50,37 @@ exports.postCreate = async (req, res) => {
     }
     if (req.body.description.length < 2) {
         erros.push({
-            texto: "Descrição do Grupo Muito Pequeno!"
+            texto: "Descrição do group Muito Pequeno!"
         })
     }
     if (erros.length > 0) {
-        res.render("group/addgrupos", {
+        res.render("group/addgroups", {
             erros: erros
         })
     } else {
         try {      
-        const grupos = new Grupo({
+        const groups = new Group({
             qrcode: req.body.qrcode,
             image: endImg + req.body.image.slice(0, -1),
             description: req.body.description,
             date: req.body.date
         })
-            await grupos.save()
-            req.flash("success_msg", "Grupo criado com sucesso!")
-            res.redirect("/group/grupos")
-            console.log("Grupo criado com sucesso!")
+            await groups.save()
+            req.flash("success_msg", "group criado com sucesso!")
+            res.redirect("/group/groups")
+            console.log("group criado com sucesso!")
         } catch (err) {
-            req.flash("error_msg", "Ops, Houve um erro ao salvar o grupo, tente novamente!")
-            res.redirect("/group/grupos")
+            req.flash("error_msg", "Ops, Houve um erro ao salvar o group, tente novamente!")
+            res.redirect("/group/groups")
         }
     }
 }
 
-//Editando um Grupo
+//Editando um group
 exports.getUpdate = async (req, res) => {
-    var grupo = await Grupo.findOne({ _id: req.params.id}).lean()
+    var group = await Group.findOne({ _id: req.params.id}).lean()
     try {
-        res.render("group/editgrupos", { grupo: grupo})
+        res.render("group/editgroups", { group: group})
     } catch (_err) {
         req.flash ("error_msg", "Ops, Erro ao Conectar com o GoogleSheets!")
         res.redirect("/group")
@@ -89,7 +89,7 @@ exports.getUpdate = async (req, res) => {
 
 
 exports.postUpdate = async (req, res) => {
-    var grupo = await Grupo.findOne({ _id: req.body.id})
+    var group = await Group.findOne({ _id: req.body.id})
     let endImg = "https://warehousemapp.herokuapp.com/uploads/"
     var erros = []
     if (!req.body.description || typeof req.body.description == undefined || req.body.description == null) {
@@ -99,49 +99,49 @@ exports.postUpdate = async (req, res) => {
     }
     if (req.body.description.length < 2) {
         erros.push({
-            texto: "Descrição do Grupo Muito Pequeno!"
+            texto: "Descrição do group Muito Pequeno!"
         })
     }
     if (erros.length > 0) {
-        res.render("group/editgrupos", {
+        res.render("group/editgroups", {
             erros: erros
         })
     } else {
         try {      
 
-            grupo.qrcode = req.body.qrcode
-            grupo.image = endImg + req.body.image//.slice(0, -1)
-            grupo.description = req.body.description
-            grupo.date = req.body.date
+            group.qrcode = req.body.qrcode
+            group.image = endImg + req.body.image//.slice(0, -1)
+            group.description = req.body.description
+            group.date = req.body.date
         
-            await grupo.save()
-            req.flash("success_msg", "Grupo editado com Sucesso!")
-            res.redirect("/group/grupos")
-            console.log("Grupo editado com sucesso!")
+            await group.save()
+            req.flash("success_msg", "group editado com Sucesso!")
+            res.redirect("/group/groups")
+            console.log("group editado com sucesso!")
         } catch (err) {
-            req.flash("error_msg", "Houve um erro interno ao editar o Grupo, tente Novamente!" + err)
-            res.redirect("/group/grupos")
+            req.flash("error_msg", "Houve um erro interno ao editar o group, tente Novamente!" + err)
+            res.redirect("/group/groups")
         }
     }
 }
 
-//Deletando um grupo
+//Deletando um group
 exports.getDelete = async(req, res) => {
-    await Grupo.remove({_id: req.params.id})
+    await Group.remove({_id: req.params.id})
     try {
-        req.flash("success_msg", "Grupo deletado com Sucesso!")
-        res.redirect("/group/grupos")
+        req.flash("success_msg", "group deletado com Sucesso!")
+        res.redirect("/group/groups")
     } catch (err) {
         req.flash("error_msg", "Houve um erro interno!")
-        res.redirect("/group/grupos")
+        res.redirect("/group/groups")
     }
 }
 
-//Saibamais Grupos
+//Saibamais groups
 exports.getView = async (req, res) => {  
     try {
-    const grupo = await Grupo.findOne({ _id: req.params.id}).lean()
-    res.render("group/saibamaisgrupos", {grupo: grupo})
+    const group = await Group.findOne({ _id: req.params.id}).lean()
+    res.render("group/saibamaisgroups", {group: group})
     } catch (err) {
         req.flash ("error_msg", "Ops, Erro ao Conectar com o Banco de Dados!")
         res.redirect("/group")
@@ -149,26 +149,26 @@ exports.getView = async (req, res) => {
 }
 
 
-//Listando Subgrupos
+//Listando subgroups
 exports.getListSub = async (req, res) => {
     try {
-        // no repositoryvar grupos = await repository.get();
-        var subgrupos = await Subgrupo.find({}).populate("grupo")
-        res.render("group/subgrupos", {subgrupos:subgrupos.map(subgrupos => subgrupos.toJSON())})
+        // no repositoryvar groups = await repository.get();
+        var subgroups = await Subgroup.find({}).populate("group")
+        res.render("group/subgroups", {subgroups:subgroups.map(subgroups => subgroups.toJSON())})
     } catch (err) {
         req.flash("error_msg", "Ops, Houve um erro interno!")
-        res.redirect("/group/subgrupos")
+        res.redirect("/group/subgroups")
     }
 }
 
-//Criando um Subgrupo
+//Criando um subgroup
 exports.getCreateSub = async (req, res) => {
     try {
-        var grupos = await Grupo.find({})
-        res.render("group/addsubgrupos", {grupos:grupos.map(grupos => grupos.toJSON())})
+        var groups = await Group.find({})
+        res.render("group/addsubgroups", {groups:groups.map(groups => groups.toJSON())})
     } catch (err) {
         req.flash("error_msg", "Ops, Houve um erro interno!")
-        res.redirect("/group/subgrupos")
+        res.redirect("/group/subgroups")
     }
 }
 
@@ -182,39 +182,39 @@ exports.postCreateSub = async (req, res) => {
     }
     if (req.body.description.length < 2) {
         erros.push({
-            texto: "Descrição do Subgrupo Muito Pequeno!"
+            texto: "Descrição do subgroup Muito Pequeno!"
         })
     }
     if (erros.length > 0) {
-        res.render("group/addsubgrupos", {
+        res.render("group/addsubgroups", {
             erros: erros
         })
     } else {
         try {      
-        const subgrupos = new Subgrupo({
+        const subgroups = new Subgroup({
             qrcode: req.body.qrcode,
             image: endImg + req.body.image.slice(0, -1),
-            grupo: req.body.grupo,
+            group: req.body.group,
             description: req.body.description,
             date: req.body.date
         })
-            await subgrupos.save()
-            req.flash("success_msg", "Subgrupo criado com sucesso!")
-            res.redirect("/group/subgrupos")
-            console.log("Subgrupo criado com sucesso!")
+            await subgroups.save()
+            req.flash("success_msg", "subgroup criado com sucesso!")
+            res.redirect("/group/subgroups")
+            console.log("subgroup criado com sucesso!")
         } catch (err) {
-            req.flash("error_msg", "Ops, Houve um erro ao salvar o Subgrupo, tente novamente!")
-            res.redirect("/group/subgrupos")
+            req.flash("error_msg", "Ops, Houve um erro ao salvar o subgroup, tente novamente!")
+            res.redirect("/group/subgroups")
         }
     }
 }
 
-//Editando um Subgrupo
+//Editando um subgroup
 exports.getUpdateSub = async (req, res) => {
-    var subgrupo = await Subgrupo.findOne({ _id: req.params.id}).lean()
+    var subgroup = await Subgroup.findOne({ _id: req.params.id}).lean()
     try {
-        var grupos = await Grupo.find({}).lean()
-        res.render("group/editsubgrupos", {grupos: grupos, subgrupo: subgrupo})
+        var groups = await Group.find({}).lean()
+        res.render("group/editsubgroups", {groups: groups, subgroup: subgroup})
     } catch (_err) {
         req.flash ("error_msg", "Ops, Houve um erro interno!")
         res.redirect("/group")
@@ -223,7 +223,7 @@ exports.getUpdateSub = async (req, res) => {
 
 
 exports.postUpdateSub = async (req, res) => {
-    var subgrupo = await Subgrupo.findOne({ _id: req.body.id})
+    var subgroup = await Subgroup.findOne({ _id: req.body.id})
     let endImg = "https://warehousemapp.herokuapp.com/uploads/"
     var erros = []
     if (!req.body.description || typeof req.body.description == undefined || req.body.description == null) {
@@ -233,50 +233,50 @@ exports.postUpdateSub = async (req, res) => {
     }
     if (req.body.description.length < 2) {
         erros.push({
-            texto: "Descrição do Subgrupo Muito Pequeno!"
+            texto: "Descrição do subgroup Muito Pequeno!"
         })
     }
     if (erros.length > 0) {
-        res.render("group/editsubgrupos", {
+        res.render("group/editsubgroups", {
             erros: erros
         })
     } else {
         try {      
 
-            subgrupo.qrcode = req.body.qrcode
-            subgrupo.image = endImg + req.body.image//.slice(0, -1)
-            subgrupo.grupo = req.body.grupo
-            subgrupo.description = req.body.description
-            subgrupo.date = req.body.date
+            subgroup.qrcode = req.body.qrcode
+            subgroup.image = endImg + req.body.image//.slice(0, -1)
+            subgroup.group = req.body.group
+            subgroup.description = req.body.description
+            subgroup.date = req.body.date
         
-            await subgrupo.save()
-            req.flash("success_msg", "Subgrupo editado com Sucesso!")
-            res.redirect("/group/subgrupos")
-            console.log("Subgrupo editado com sucesso!")
+            await subgroup.save()
+            req.flash("success_msg", "subgroup editado com Sucesso!")
+            res.redirect("/group/subgroups")
+            console.log("subgroup editado com sucesso!")
         } catch (err) {
-            req.flash("error_msg", "Houve um erro interno ao editar o Subgrupo, tente Novamente!" + err)
-            res.redirect("/group/subgrupos")
+            req.flash("error_msg", "Houve um erro interno ao editar o subgroup, tente Novamente!" + err)
+            res.redirect("/group/subgroups")
         }
     }
 }
 
-//Deletando um Subgrupo
+//Deletando um subgroup
 exports.getDeleteSub = async(req, res) => {
-    await Subgrupo.remove({_id: req.params.id})
+    await Subgroup.remove({_id: req.params.id})
     try {
-        req.flash("success_msg", "Subgrupo deletado com Sucesso!")
-        res.redirect("/group/subgrupos")
+        req.flash("success_msg", "subgroup deletado com Sucesso!")
+        res.redirect("/group/subgroups")
     } catch (err) {
         req.flash("error_msg", "Houve um erro interno!")
-        res.redirect("/group/subgrupos")
+        res.redirect("/group/subgroups")
     }
 }
 
-//Saibamais Subgrupos
+//Saibamais subgroups
 exports.getViewSub = async (req, res) => {     
-    var subgrupo = await Subgrupo.findOne({ _id: req.params.id}).lean() 
+    var subgroup = await Subgroup.findOne({ _id: req.params.id}).lean() 
     try {
-    res.render("group/saibamaissubgrupos",{subgrupo: subgrupo})
+    res.render("group/saibamaissubgroups",{subgroup: subgroup})
     } catch (err) {
         req.flash ("error_msg", "Ops, Erro ao Conectar com o Banco de Dados!")
         res.redirect("/group")
