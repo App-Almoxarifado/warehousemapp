@@ -6,15 +6,15 @@ const Grupo = new Schema({
         type: String,
         required: false
     },
-    imagem: {
+    image: {
         type: String,
         required: false
     },
-    descricao: {
+    description: {
         type: String,
         required: true
     },
-    data: {
+    date: {
         type: String,
         default: Date.now()
     }

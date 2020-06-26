@@ -1,5 +1,5 @@
 <div class="addsubgrupos container mt-2">
-    <h3>Novo Produto:</h3>
+    <h3>Editar Produto:</h3>
     {{#each erros}}
     <div class="alert alert-danger">{{texto}}</div>
     {{else}}
@@ -13,7 +13,7 @@
                     </div>
                     <div class="form-group col-md-6">
                         <div class="text-center">
-                            <img src="/img/logo8.png" style="width: 150px;" class="avatar img-circle img-thumbnail"
+                            <img src="{{product.image}}" style="width: 150px;" class="avatar img-circle img-thumbnail"
                                 alt="">
                             <input type="file" accept="image/*" name="file" id="file"
                                 class="custom-file-input btn-file text-center center-block file-upload">
@@ -22,26 +22,18 @@
                     </div>
                 </div>
             </form>
-            <form action="/product/products/new" method="POST">
+            <form action="/product/products/edit" method="POST">
                 <div class="form-row">
                     <div class="form-group col-md-12">
-                        <input type="hidden" class="form-control" id="id" name="id" placeholder="Id">
-                        <input type="hidden" class="form-control" id="qrcode" name="qrcode"
-                            placeholder="QrCode do Grupo">
-                        <input type="hidden" class="form-control mt-2" name="image" id="image">
-                        <input type="hidden" class="form-control" name="image" id="image">
-
+                        <input type="text" class="form-control" id="id" name="id" placeholder="Id" value="{{product._id}}">
+                        <input type="text" class="form-control" id="qrcode" name="qrcode"
+                            placeholder="QrCode do Grupo" value="{{product.qrcode}}">
+                        <input type="text" class="form-control mt-2" name="image" id="image" value="{{product.image}}">
                         <label for="grupo">Grupo:</label>
-                        <select 
-                            class="custom-select" id="grupo" name="grupo" 
-                            onchange="location.assign('?gId='+document.getElementById('grupo').value)"
-                        >
-                            <option selected disabled value="">Selecione...</option>
+                        <select  class="custom-select" id="grupo" name="grupo" value="{{product.grupo}}">
+                            <option selected disabled value="">Selecione...</option >
                             {{#each grupos}}
-                                <option 
-                                    {{#if_eq ../idGrupo _id}}selected{{/if_eq}} 
-                                    value="{{_id}}"
-                                >
+                            <option {{#if_eq ../product.grupo _id}}selected{{/if_eq}} value="{{_id}}">{{description}}</option>
                                     {{description}}
                                 </option>
                             {{else}}
@@ -54,10 +46,10 @@
                 <div class="form-row">
                     <div class="form-group col-md-12">
                         <label for="subgrupo">Subgrupo:</label>
-                        <select class="custom-select" id="subgrupo" name="subgrupo">
+                        <select class="custom-select" id="subgrupo" name="subgrupo" value="{{product.subgrupo}}">
                             <option selected disabled value="">Selecione...</option>
                             {{#each subgrupos}}
-                                <option value="{{_id}}">{{description}}</option>
+                                <option {{#if_eq ../product.subgrupo _id}}selected{{/if_eq}} value="{{_id}}">{{description}}</option>
                             {{else}}
                             <option value="0">Nenhum Subgrupo registrado</option>
                             {{/each}}
@@ -70,7 +62,7 @@
                     <div class="form-group col-md-12">
                         <label for="description">Descrição:</label>
                         <input type="text" class="form-control" id="description" name="description"
-                            placeholder="Descrição do Grupo" onkeyup="qrcodeFormat()">
+                            placeholder="Descrição do Grupo" value="{{product.description}}" onkeyup="qrcodeFormat()">
                     </div>
                 </div>
 

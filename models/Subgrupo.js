@@ -7,7 +7,7 @@ const Subgrupo = new Schema({
       type: String,
       required: false
    },
-   imagem: {
+   image: {
       type: String,
       required: false
    },
@@ -16,11 +16,11 @@ const Subgrupo = new Schema({
       ref: "grupos",
       required: true
    },
-   descricao: {
+   description: {
       type: String,
       required: true
    },
-   data: {
+   date: {
       type: String,
       default: Date.now()
    }

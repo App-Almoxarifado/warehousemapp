@@ -17,7 +17,7 @@
                                 alt="">
                             <input type="file" accept="image/*" name="file" id="file"
                                 class="custom-file-input btn-file text-center center-block file-upload">
-                            <input type='submit' class='btn btn-primary' value='Upload de Imagem'>
+                            <input type='submit' class='btn btn-primary' value='Upload de image'>
                         </div>
                     </div>
                 </div>
@@ -28,10 +28,10 @@
                         <input type="hidden" class="form-control" id="id" name="id" placeholder="Id">
                         <input type="hidden" class="form-control" id="qrcode" name="qrcode"
                             placeholder="QrCode do Grupo">
-                        <input type="hidden" class="form-control mt-2" name="imagem" id="imagem">
-                        <input type="hidden" class="form-control" name="imagem" id="imagem">
-                        <label for="descricao">Descrição:</label>
-                        <input type="text" class="form-control" id="descricao" name="descricao"
+                        <input type="hidden" class="form-control mt-2" name="image" id="image">
+                        <input type="hidden" class="form-control" name="image" id="image">
+                        <label for="description">Descrição:</label>
+                        <input type="text" class="form-control" id="description" name="description"
                             placeholder="Descrição do Grupo" onkeyup="qrcodeFormat()">
                     </div>
                     <div class="form-group col-md-12">
@@ -39,15 +39,15 @@
                         <select class="custom-select" id="grupo" name="grupo">
                             <option selected disabled value="">Selecione...</option>
                             {{#each grupos}}
-                            <option value="{{_id}}">{{descricao}}</option>
+                            <option value="{{_id}}">{{description}}</option>
                             {{else}}
                             <option value="0">Nenhum Grupo registrado</option>
                             {{/each}}
                         </select>
                     </div>
                 </div>
-                <input type="hidden" class="form-control" id="data" name="data" placeholder="Data"
-                    value="{{#formatDate data}}{{/formatDate}}">
+                <input type="hidden" class="form-control" id="date" name="date" placeholder="date"
+                    value="{{#formatDate date}}{{/formatDate}}">
                 <div class="form-group col-md-12">
                     <div class="form-row">
                         <button type="submit" class="btn btn-success"><i class="fas fa-share"></i></button>

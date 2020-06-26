@@ -1,8 +1,8 @@
 if (process.env.NODE_ENV == "production") {
     module.exports = {
-        mongoURI: "mongodb+srv://weskermatrix:wesley3001@cluster0-cgemx.mongodb.net/test?retryWrites=true&w=majority"
+        mongoURI: "mongodb+srv://bdappalmoxarifado:ddapj060814@cluster0-p1olg.mongodb.net/warehouseapp?retryWrites=true&w=majority"
     }
 } else {
-    module.exports = { mongoURI: "mongodb://localhost/blogapp" }
+    module.exports = { mongoURI: "mongodb://localhost/warehouseapp" }
 
 }

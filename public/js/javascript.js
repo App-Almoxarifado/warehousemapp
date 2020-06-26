@@ -18,7 +18,7 @@
 
 //FUNÇÃO PARA AUTOMATIZAR O CÓDIGO QRCODE
 function qrcodeFormat() {
-    let v1 = document.getElementById('descricao').value
+    let v1 = document.getElementById('description').value
     let desired = v1.normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
         .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
         .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
@@ -80,7 +80,7 @@ $(document).ready(function() {
                 var url = (e.target.result);
                 console.log(url);
                 var nameimg = document.getElementById("file").files[0].name
-                document.getElementById('imagem').value = (nameimg)
+                document.getElementById('image').value = (nameimg)
 
             }
 

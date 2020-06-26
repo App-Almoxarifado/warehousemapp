@@ -43,12 +43,12 @@ exports.getCreate = async (req, res) => {
 exports.postCreate = async (req, res) => {
     let endImg = "https://warehousemapp.herokuapp.com/uploads/"
     var erros = []
-    if (!req.body.descricao || typeof req.body.descricao == undefined || req.body.descricao == null) {
+    if (!req.body.description || typeof req.body.description == undefined || req.body.description == null) {
         erros.push({
             texto: "Descricão Inválida"
         })
     }
-    if (req.body.descricao.length < 2) {
+    if (req.body.description.length < 2) {
         erros.push({
             texto: "Descrição do Grupo Muito Pequeno!"
         })
@@ -61,9 +61,9 @@ exports.postCreate = async (req, res) => {
         try {      
         const grupos = new Grupo({
             qrcode: req.body.qrcode,
-            imagem: endImg + req.body.imagem.slice(0, -1),
-            descricao: req.body.descricao,
-            data: req.body.data
+            image: endImg + req.body.image.slice(0, -1),
+            description: req.body.description,
+            date: req.body.date
         })
             await grupos.save()
             req.flash("success_msg", "Grupo criado com sucesso!")
@@ -92,12 +92,12 @@ exports.postUpdate = async (req, res) => {
     var grupo = await Grupo.findOne({ _id: req.body.id})
     let endImg = "https://warehousemapp.herokuapp.com/uploads/"
     var erros = []
-    if (!req.body.descricao || typeof req.body.descricao == undefined || req.body.descricao == null) {
+    if (!req.body.description || typeof req.body.description == undefined || req.body.description == null) {
         erros.push({
             texto: "Descricão Inválida"
         })
     }
-    if (req.body.descricao.length < 2) {
+    if (req.body.description.length < 2) {
         erros.push({
             texto: "Descrição do Grupo Muito Pequeno!"
         })
@@ -110,9 +110,9 @@ exports.postUpdate = async (req, res) => {
         try {      
 
             grupo.qrcode = req.body.qrcode
-            grupo.imagem = endImg + req.body.imagem//.slice(0, -1)
-            grupo.descricao = req.body.descricao
-            grupo.data = req.body.data
+            grupo.image = endImg + req.body.image//.slice(0, -1)
+            grupo.description = req.body.description
+            grupo.date = req.body.date
         
             await grupo.save()
             req.flash("success_msg", "Grupo editado com Sucesso!")
@@ -175,12 +175,12 @@ exports.getCreateSub = async (req, res) => {
 exports.postCreateSub = async (req, res) => {
     let endImg = "https://warehousemapp.herokuapp.com/uploads/"
     var erros = []
-    if (!req.body.descricao || typeof req.body.descricao == undefined || req.body.descricao == null) {
+    if (!req.body.description || typeof req.body.description == undefined || req.body.description == null) {
         erros.push({
             texto: "Descricão Inválida"
         })
     }
-    if (req.body.descricao.length < 2) {
+    if (req.body.description.length < 2) {
         erros.push({
             texto: "Descrição do Subgrupo Muito Pequeno!"
         })
@@ -193,10 +193,10 @@ exports.postCreateSub = async (req, res) => {
         try {      
         const subgrupos = new Subgrupo({
             qrcode: req.body.qrcode,
-            imagem: endImg + req.body.imagem.slice(0, -1),
+            image: endImg + req.body.image.slice(0, -1),
             grupo: req.body.grupo,
-            descricao: req.body.descricao,
-            data: req.body.data
+            description: req.body.description,
+            date: req.body.date
         })
             await subgrupos.save()
             req.flash("success_msg", "Subgrupo criado com sucesso!")
@@ -226,12 +226,12 @@ exports.postUpdateSub = async (req, res) => {
     var subgrupo = await Subgrupo.findOne({ _id: req.body.id})
     let endImg = "https://warehousemapp.herokuapp.com/uploads/"
     var erros = []
-    if (!req.body.descricao || typeof req.body.descricao == undefined || req.body.descricao == null) {
+    if (!req.body.description || typeof req.body.description == undefined || req.body.description == null) {
         erros.push({
             texto: "Descricão Inválida"
         })
     }
-    if (req.body.descricao.length < 2) {
+    if (req.body.description.length < 2) {
         erros.push({
             texto: "Descrição do Subgrupo Muito Pequeno!"
         })
@@ -244,10 +244,10 @@ exports.postUpdateSub = async (req, res) => {
         try {      
 
             subgrupo.qrcode = req.body.qrcode
-            subgrupo.imagem = endImg + req.body.imagem//.slice(0, -1)
+            subgrupo.image = endImg + req.body.image//.slice(0, -1)
             subgrupo.grupo = req.body.grupo
-            subgrupo.descricao = req.body.descricao
-            subgrupo.data = req.body.data
+            subgrupo.description = req.body.description
+            subgrupo.date = req.body.date
         
             await subgrupo.save()
             req.flash("success_msg", "Subgrupo editado com Sucesso!")

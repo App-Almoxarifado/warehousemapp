@@ -17,6 +17,7 @@ const productRoute = require('./routes/product-route')
 const usuarios = require("./routes/usuario")
 const passport = require("passport")
 require("./config/auth")(passport)
+const db = require("./config/db")
 
 
 
@@ -74,8 +75,9 @@ mongoose.Promise = global.Promise;
 mongoose.set("useNewUrlParser", true)
 mongoose.set("useCreateIndex", true)
 mongoose.set("useUnifiedTopology", true)
-mongoose.connect("mongodb+srv://bdappalmoxarifado:ddapj060814@cluster0-p1olg.mongodb.net/warehouseapp?retryWrites=true&w=majority").then(() => {
-    console.log("conectado ao mongo")
+//mongoose.connect("mongodb+srv://bdappalmoxarifado:ddapj060814@cluster0-p1olg.mongodb.net/warehouseapp?retryWrites=true&w=majority").then(() => {
+mongoose.connect(db.mongoURI).then(() => {    
+console.log("conectado ao mongo")
 }).catch((err) => {
     console.log("Erro ao se conectar" + err)
 })

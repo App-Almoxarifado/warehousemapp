@@ -15,7 +15,7 @@
             <tr>
               <th scope="col">Id</th>
               <th scope="col">Grupo</th>
-              <th scope="col">descricao</th>
+              <th scope="col">description</th>
               <th scope="col">qrcode</th>
               <th scope="col">Criação</th>
               <th scope="col">Ações</th>
@@ -25,10 +25,10 @@
             {{#each subgrupos}}
             <tr>
               <th scope="row">{{_id}}</th>
-              <td>{{grupo.descricao}}</td>
-              <td>{{descricao}}</td>
+              <td>{{grupo.description}}</td>
+              <td>{{description}}</td>
               <td>{{qrcode}}</td>
-              <td>{{data}}</td>
+              <td>{{date}}</td>
               <td>
                 <a href="/group/subgrupos/saibamais/{{_id}}" class="btn btn-dark mt-2"><i
                     class="fas fa-align-right"></i></a>
@@ -66,11 +66,11 @@
     <div class="card mt-3">
       <div id="card2" class="card-body">
         <!-- <div class="col-md-6">
-        <img src="{{imagem}}" class="card-img" alt="...">
+        <img src="{{image}}" class="card-img" alt="...">
         </div>-->
-        <h4>{{descricao}}</h4>
-        <h6>Grupo: {{grupo.descricao}}</h6>
-        <h6>Subgrupo: {{subgrupo.descricao}}</h6>
+        <h4>{{description}}</h4>
+        <h6>Grupo: {{grupo.description}}</h6>
+        <h6>Subgrupo: {{subgrupo.description}}</h6>
         <a href="/product/products/saibamais/{{_id}}" class="btn btn-dark mt-2"><i class="fas fa-align-right"></i></a>
         <a href="/product/products/edit/{{_id}}"><button class="btn btn-primary mt-2"><i class="fas fa-pen"></i></button></a>
         <a href="/product/products/delete/{{_id}}"><button class="deletar btn btn-danger mt-2"><i

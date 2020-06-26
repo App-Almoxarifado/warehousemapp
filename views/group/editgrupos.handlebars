@@ -13,11 +13,11 @@
                     </div>
                     <div class="form-group col-md-6">
                         <div class="text-center">
-                            <img src="{{grupo.imagem}}" style="width: 150px;" class="avatar img-circle img-thumbnail"
+                            <img src="{{grupo.image}}" style="width: 150px;" class="avatar img-circle img-thumbnail"
                                 alt="">
                             <input type="file" accept="image/*" name="file" id="file"
                                 class="custom-file-input btn-file text-center center-block file-upload">
-                            <input type='submit' class='btn btn-primary' value='Upload de Imagem'>
+                            <input type='submit' class='btn btn-primary' value='Upload de image'>
                         </div>
                     </div>
                 </div>
@@ -28,14 +28,14 @@
                         <input type="hidden" class="form-control" id="id" name="id" placeholder="Id" value="{{grupo._id}}">
                         <input type="hidden" class="form-control" id="qrcode" name="qrcode" onkeyup="qrcodeFormat()"
                             placeholder="QrCode do Grupo"  value="{{grupo.qrcode}}">
-                        <input type="hidden" class="form-control mt-2" name="imagem" id="imagem" value="{{grupo.imagem}}">
-                        <label for="descricao">Descrição:</label>
-                        <input type="text" class="form-control" id="descricao" name="descricao"
-                            placeholder="Descrição do Grupo" value="{{grupo.descricao}}" onkeyup="qrcodeFormat()">
+                        <input type="hidden" class="form-control mt-2" name="image" id="image" value="{{grupo.image}}">
+                        <label for="description">Descrição:</label>
+                        <input type="text" class="form-control" id="description" name="description"
+                            placeholder="Descrição do Grupo" value="{{grupo.description}}" onkeyup="qrcodeFormat()">
                     </div>
                 </div>
-                <input type="hidden" class="form-control" id="data" name="data" placeholder="Data"
-                    value="{{#formatDate data}}{{/formatDate}}">
+                <input type="hidden" class="form-control" id="date" name="date" placeholder="date"
+                    value="{{#formatDate date}}{{/formatDate}}">
                 <div class="form-group col-md-12">
                     <div class="form-row">
                         <button type="submit" class="btn btn-success"><i class="fas fa-share"></i></button>

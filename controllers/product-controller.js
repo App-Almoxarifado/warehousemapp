@@ -40,12 +40,12 @@ exports.getCreate = async (req, res) => {
 exports.postCreate = async (req, res) => {
     let endImg = "https://warehousemapp.herokuapp.com/uploads/"
     var erros = []
-    if (!req.body.descricao || typeof req.body.descricao == undefined || req.body.descricao == null) {
+    if (!req.body.description || typeof req.body.description == undefined || req.body.description == null) {
         erros.push({
             texto: "Descricão Inválida"
         })
     }
-    if (req.body.descricao.length < 2) {
+    if (req.body.description.length < 2) {
         erros.push({
             texto: "Descrição do Produto Muito Pequeno!"
         })
@@ -58,11 +58,11 @@ exports.postCreate = async (req, res) => {
         try {      
         const products = new Product({
             qrcode: req.body.qrcode,
-            imagem: endImg + req.body.imagem.slice(0, -1),
+            image: endImg + req.body.image.slice(0, -1),
             grupo: req.body.grupo,
             subgrupo: req.body.subgrupo,
-            descricao: req.body.descricao,
-            data: req.body.data
+            description: req.body.description,
+            date: req.body.date
         })
             await products.save()
             req.flash("success_msg", "Produto criado com sucesso!")
@@ -81,7 +81,7 @@ exports.getUpdate = async (req, res) => {
     try {
         var grupos = await Grupo.find({}).lean()
         var subgrupos = await Subgrupo.find({}).lean()
-        res.render("group/editproducts", {grupos: grupos, subgrupos: subgrupos, subgrupo: subgrupo})
+        res.render("product/editproducts",{grupos: grupos, subgrupos: subgrupos, product: product})
     } catch (_err) {
         req.flash ("error_msg", "Ops, Houve um erro interno!")
         res.redirect("/product/products")
@@ -93,12 +93,12 @@ exports.postUpdate = async (req, res) => {
     var product = await Product.findOne({ _id: req.body.id})
     let endImg = "https://warehousemapp.herokuapp.com/uploads/"
     var erros = []
-    if (!req.body.descricao || typeof req.body.descricao == undefined || req.body.descricao == null) {
+    if (!req.body.description || typeof req.body.description == undefined || req.body.description == null) {
         erros.push({
             texto: "Descricão Inválida"
         })
     }
-    if (req.body.descricao.length < 2) {
+    if (req.body.description.length < 2) {
         erros.push({
             texto: "Descrição do Subgrupo Muito Pequeno!"
         })
@@ -110,12 +110,12 @@ exports.postUpdate = async (req, res) => {
     } else {
         try {      
 
-            subgrupo.qrcode = req.body.qrcode
-            subgrupo.imagem = endImg + req.body.imagem//.slice(0, -1)
-            subgrupo.grupo = req.body.grupo
-            subgrupo.subgrupo = req.body.subgrupo
-            subgrupo.descricao = req.body.descricao
-            subgrupo.data = req.body.data
+            product.qrcode = req.body.qrcode
+            product.image = endImg + req.body.image//.slice(0, -1)
+            product.grupo = req.body.grupo
+            product.subgrupo = req.body.subgrupo
+            product.description = req.body.description
+            product.date = req.body.date
         
             await product.save()
             req.flash("success_msg", "Produto editado com Sucesso!")

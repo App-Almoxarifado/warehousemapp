@@ -7,7 +7,7 @@ const Product = new Schema({
       type: String,
       required: false
    },
-   imagem: {
+   image: {
       type: String,
       required: false
    },
@@ -21,11 +21,23 @@ const Product = new Schema({
     ref: "subgrupos",
     required: true
   },
-   descricao: {
+   description: {
       type: String,
       required: true
    },
-   data: {
+   /*fabricante: {
+      type: String,
+      required: true
+   },
+   madelo: {
+      type: String,
+      required: true
+   },
+   capacidadealcance: {
+      type: String,
+      required: true
+   },*/
+   date: {
       type: String,
       default: Date.now()
    }

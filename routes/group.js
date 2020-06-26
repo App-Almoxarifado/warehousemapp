@@ -47,12 +47,12 @@ router.get('/grupos/add', async (req, res) => {
 /*router.post("/grupos/novo", (req, res) => {
     let endImg = "http://localhost:3000/uploads/"
     var erros = []
-    if (!req.body.descricao || typeof req.body.descricao == undefined || req.body.descricao == null) {
+    if (!req.body.description || typeof req.body.description == undefined || req.body.description == null) {
         erros.push({
             texto: "Descricão Inválida"
         })
     }
-    if (req.body.descricao.length < 2) {
+    if (req.body.description.length < 2) {
         erros.push({
             texto: "Descrição do Grupo Muito Pequeno!"
         })
@@ -64,8 +64,8 @@ router.get('/grupos/add', async (req, res) => {
     } else {
         const novoGrupo = {
             qrcode: req.body.qrcode,
-            imagem: endImg + req.body.imagem.slice(0, -1),
-            descricao: req.body.descricao,
+            image: endImg + req.body.image.slice(0, -1),
+            description: req.body.description,
             data: req.body.data
         }
         new Grupo(novoGrupo).save().then(() => {
@@ -82,12 +82,12 @@ router.get('/grupos/add', async (req, res) => {
 router.post("/grupos/novo", async (req, res) => {
     let endImg = "http://localhost:3000/uploads/"
     var erros = []
-    if (!req.body.descricao || typeof req.body.descricao == undefined || req.body.descricao == null) {
+    if (!req.body.description || typeof req.body.description == undefined || req.body.description == null) {
         erros.push({
             texto: "Descricão Inválida"
         })
     }
-    if (req.body.descricao.length < 2) {
+    if (req.body.description.length < 2) {
         erros.push({
             texto: "Descrição do Grupo Muito Pequeno!"
         })
@@ -101,8 +101,8 @@ router.post("/grupos/novo", async (req, res) => {
        
         const grupos = new Grupo({
             qrcode: req.body.qrcode,
-            imagem: endImg + req.body.imagem.slice(0, -1),
-            descricao: req.body.descricao,
+            image: endImg + req.body.image.slice(0, -1),
+            description: req.body.description,
             data: req.body.data
         })
             await grupos.save()
