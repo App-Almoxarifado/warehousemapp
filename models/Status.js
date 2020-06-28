@@ -1,15 +1,8 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema;
 
-const Group = new Schema({
-    qrcode: {
-        type: String,
-        required: false
-    },
-    image: {
-        type: String,
-        required: false
-    },
+const Status = new Schema({
+
     description: {
         type: String,
         required: true
@@ -20,9 +13,12 @@ const Group = new Schema({
     },
     user: {
         type: String,
+        required: true
+    },
+    user: {
+        type: String,
         default: "Daniel Soares de Albuquerque"
     }
-
 })
 
-mongoose.model("groups", Group)
+mongoose.model("status", Status)

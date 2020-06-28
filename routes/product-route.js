@@ -10,7 +10,7 @@ router.get("/products/add",controller.getCreate)
 router.post("/products/new", controller.postCreate)
 router.get('/products/edit/:id', controller.getUpdate)
 router.post("/products/edit", controller.postUpdate) 
-//router.get("/products/delete/:id", controller.getDelete) 
+router.get("/products/delete/:id", controller.getDelete) 
 //router.get("/products/saibamais/:id", controller.getView) 
 
 

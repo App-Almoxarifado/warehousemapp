@@ -5,6 +5,7 @@ const mongoose = require("mongoose")
 const session = require('express-session')
 const flash = require('connect-flash')
 const multer = require("multer")
+const qr = require('qr-image')
 const moment = require('moment')
 const cors = require("cors")
 var cookieParser = require('cookie-parser')
@@ -106,6 +107,14 @@ app.get("/", (req, res) => {
 app.post("/upload", upload.single("file"), (_req, _res) => {
     console.log('Upload Realizado Com Sucesso!')
 });
+
+
+app.get('/qrcode', (req, res) => {
+  const url = "https://warehousemapp.herokuapp.com/"
+  const code = qr.image(url, {type: 'svg'})  
+  res.type('svg')
+  code.pipe(res)
+})
 
 
 //app.use('/group', group)

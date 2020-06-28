@@ -1,13 +1,20 @@
+<style>
+    body {
+        background-image: url("/img/ferramentas25.jpg");
+        top: 50%;
+        left: 50%;
+    }
+    </style>
 <div class="addsubgroups container mt-2">
-    <h3>Novo Subgroup:</h3>
+    <h3>Crie um Subgrupo</h3>
     {{#each erros}}
     <div class="alert alert-danger">{{texto}}</div>
     {{else}}
 
     {{/each}}
-    <div class="card">
-        <div class="card-body">
-            <form method='post' enctype="multipart/form-data" action="/upload">
+    <!--<div class="card">
+        <div class="card-body">-->
+            <form class="mt-5" method='post' enctype="multipart/form-data" action="/upload">
                 <div class="form-row">
                     <div class="form-group col-md-6" id="qrcode2" onchange="qrcodeFormat()">
                     </div>
@@ -17,7 +24,7 @@
                                 alt="">
                             <input type="file" accept="image/*" name="file" id="file"
                                 class="custom-file-input btn-file text-center center-block file-upload">
-                            <input type='submit' class='btn btn-primary' value='Upload de image'>
+                            <input type='submit' class='btn btn-primary' value='Upload de imagem'>
                         </div>
                     </div>
                 </div>
@@ -40,7 +47,7 @@
                             {{#each groups}}
                             <option value="{{_id}}">{{description}}</option>
                             {{else}}
-                            <option value="0">Nenhum group registrado</option>
+                            <option value="0">Nenhum Subgrupo registrado</option>
                             {{/each}}
                         </select>
                     </div>
@@ -54,6 +61,5 @@
                 </div>
             </form>
         </div>
-    </div>
-</div>
+
 <div class="mt-2"></div>

@@ -29,7 +29,7 @@ const Product = new Schema({
       type: String,
       required: true
    },
-   madelo: {
+   modelo: {
       type: String,
       required: true
    },
@@ -40,7 +40,11 @@ const Product = new Schema({
    date: {
       type: String,
       default: Date.now()
-   }
+   },
+   user: {
+      type: String,
+      default: "Daniel Soares de Albuquerque"
+  }
 })
 
 mongoose.model("products", Product)

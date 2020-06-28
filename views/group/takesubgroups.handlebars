@@ -1,0 +1,53 @@
+<div class="groups container mt-2">
+
+
+  <!--VIZULIZAÇÃO EM LISTA-->
+
+<h4>{{subgroup.description}}</h4>
+<hr>
+<div class="card-deck mt-3">
+<div class="form-group col-md-2" id="qrcode2" onchange="qrcodeFormat()"></div>
+<div class="form-group col-md-3">
+<img src="{{subgroup.image}}" class="card-img-top" style="max-width: 15rem;" alt="...">
+</div>
+<div id="card2" class="card-body">
+<form action="/group/subgroups/take/" method="POST">
+<!--<form action="/group/subgroups/new" method="POST">-->
+<input type="hidden" class="form-control mt-2" id="id" name="id" placeholder="Id" value="{{subgroup._id}}">
+<input type="hidden" class="form-control mt-2" id="qrcode" name="qrcode" placeholder="QrCode do group" value="{{subgroup.qrcode}}">
+<input type="hidden" class="form-control mt-2" name="image" id="image" value="{{subgroup.image}}">
+<input type="hidden" class="form-control mt-2" id="description" name="description" placeholder="Descrição do group" value="{{subgroup.description}}" onkeyup="qrcodeFormat()">
+<input type="hidden" class="form-control mt-2" id="date" name="date" placeholder="date" value="{{#formatDate date}}{{/formatDate}}">
+<div class="form-row">
+<div class="form-group col-md-12">
+<label for="group">Grupo:</label>
+<select class="car" id="group" name="group" value="{{subgroup.group}}">
+<option selected disabled value="">Selecione...</option>
+{{#each groups}}
+<option {{#if_eq ../subgroup.group _id}}selected{{/if_eq}} value="{{_id}}">{{description}}</option>
+{{else}}
+{{/each}}
+</div>
+</div>
+<input type="hidden" class="car form-control mt-2" value="{{subgroup.qrcode}}">
+<div class="form-row">
+<div class="form-group col-md-12">  
+<p class="card-text">Código QrCode: {{subgroup.qrcode}}</p>
+<p class="card-text"><small class="text-muted">Data de Criação: {{subgroup.date}}</small></p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<hr>
+<div class="container mt-2">
+<div
+ class="form-row">
+<button type="submit" class="btn btn-success"><i class="fas fa-share"></i></button>
+</div>
+</form>
+</div>
+</div>
+</div>

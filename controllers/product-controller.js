@@ -127,3 +127,15 @@ exports.postUpdate = async (req, res) => {
         }
     }
 }
+
+//Deletando um Poduto
+exports.getDelete = async(req, res) => {
+    await Product.remove({_id: req.params.id})
+    try {
+        req.flash("success_msg", "subgroup deletado com Sucesso!")
+        res.redirect("/group/subgroups")
+    } catch (err) {
+        req.flash("error_msg", "Houve um erro interno!")
+        res.redirect("/group/subgroups")
+    }
+}

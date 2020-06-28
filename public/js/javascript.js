@@ -97,24 +97,33 @@ $(document).ready(function() {
     });
 })
 
-//MOSTRAR E OCULTAR TABELA
-function mostrartabela() {
-    document.getElementById("table").style.display = 'block';
-    document.getElementById("card").style.display = 'none';
-}
+$("#cpfCnpj").keydown(function(){
+    try {
+        $("#cpfCnpj").unmask();
+    } catch (e) {}
 
-function mostrarlista() {
-    document.getElementById("table").style.display = 'none';
-    document.getElementById("card").style.display = 'block';
-}
+    var tamanho = $("#cpfcnpj").val().length;
 
-function openNav() {
-    document.getElementById("mySidenav").style.width = "250px";
-    document.getElementById("main").style.marginLeft = "250px";
-}
+    if(tamanho < 11){
+        $("#cpfCnpj").mask("999.999.999-99");
+    } else {
+        $("#cpfCnpj").mask("99.999.999/9999-99");
+    }
 
-/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
-function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-    document.getElementById("main").style.marginLeft = "0";
-}
+    // ajustando foco
+    var elem = this;
+    setTimeout(function(){
+        // mudo a posição do seletor
+        elem.selectionStart = elem.selectionEnd = 10000;
+    }, 0);
+    // reaplico o valor para mudar o foco
+    var currentValue = $(this).val();
+    $(this).val('');
+    $(this).val(currentValue);
+});
+
+/*$('#txtCep').mask('99999-999');
+
+String.prototype.capitalizeFirstLetter = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase();
+}*/

@@ -23,7 +23,11 @@ const Subgroup = new Schema({
    date: {
       type: String,
       default: Date.now()
-   }
+   },
+   user: {
+      type: String,
+      default: "Daniel Soares de Albuquerque"
+  }
 })
 
 mongoose.model("subgroups", Subgroup)
