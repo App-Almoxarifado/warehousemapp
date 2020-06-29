@@ -1,3 +1,4 @@
+//DEPENDÊNCIAS
 const express = require('express')
 const handlebars = require('express-handlebars')
 const bodyParser = require("body-parser")
@@ -12,9 +13,10 @@ var cookieParser = require('cookie-parser')
 const path = require("path")
 const app = express()
 
-//const group = require('./routes/group')
+//ROTAS
 const groupRoute = require('./routes/group-route')
 const productRoute = require('./routes/product-route')
+const userRoute = require('./routes/user-route')
 const usuarios = require("./routes/usuario")
 const passport = require("passport")
 require("./config/auth")(passport)
@@ -118,9 +120,10 @@ app.get('/qrcode', (req, res) => {
 
 
 //app.use('/group', group)
-app.use('/group', groupRoute)
-app.use('/product', productRoute)
+app.use('/groups', groupRoute)
+app.use('/products', productRoute)
 app.use('/usuarios', usuarios)
+app.use('/users', usuarios)
 
 
 //Server

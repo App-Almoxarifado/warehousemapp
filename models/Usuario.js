@@ -6,7 +6,7 @@ const Usuario = new Schema({
         type: String,
         require: true
     },
-    imagem: {
+    image: {
         type: String,
         require: true
     },

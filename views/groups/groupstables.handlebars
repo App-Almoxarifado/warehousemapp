@@ -6,12 +6,12 @@
     }
     </style>
 <div class="container mt-2">
-  <h2>Subgrupos</h2>
-  <a href="/group/subgroups/add"><button class="btn btn-success">Crie um Subgrupo <i class="fas fa-share"></i></button></a>
+  <h2>Grupos</h2>
+  <a href="/groups/groups/add"><button class="btn btn-success">Crie um Grupo <i class="fas fa-share"></i></button></a>
 
   <hr>
-  <a href="/group/subgroups"><button type="button" class="btn btn-primary">Lista <i class="fas fa-th-list"></i></button></a>
-  <a href="/group/subgroupstables"><button type="button" class="btn btn-primary">Tabela <i class="fas fa-table"></i></button></a>
+  <a href="/groups/groups"><button type="button" class="btn btn-primary">Lista <i class="fas fa-th-list"></i></button></a>
+  <a href="/groups/groupstables"><button type="button" class="btn btn-primary">Tabela <i class="fas fa-table"></i></button></a>
   
   <hr>
     
@@ -19,32 +19,30 @@
           <thead>
             <tr>
               <th scope="col">Imagem</th>
-              <th scope="col">Grupo</th>
-              <th scope="col">Subgrupos</th>
+              <th scope="col">Descrição</th>
               <th scope="col">Código QrCode</th>
               <th scope="col">Data de Criação</th>
               <th scope="col">Ações</th>
             </tr>
           </thead>
           <tbody>
-            {{#each subgroups}}
+            {{#each groups}}
             <tr>
               <th scope="row"><img src="{{image}}" class="card-img-top"  style="max-width: 6rem;" alt="..."></th>
-              <td>{{group.description}}</td>
               <td>{{description}}</td>
               <td>{{qrcode}}</td>
               <td>{{date}}</td>
               <td>
-                <a href="/group/subgroups/take/{{_id}}" class="btntb btn btn-dark mt-2"><i
+                <a href="/groups/groups/take/{{_id}}" class="btntb btn btn-dark mt-2"><i
                     class="fas fa-align-right"></i></a>
-                <a href="/group/subgroups/edit/{{_id}}"><button class="btntb btn btn-primary mt-2"><i
+                <a href="/groups/groups/edit/{{_id}}"><button class="btntb btn btn-primary mt-2"><i
                       class="fas fa-pen"></i></button></a>
-                <a href="/group/subgroups/deletar/{{_id}}"><button class="btntb deletar btn btn-danger mt-2"><i
+                <a href="/groups/groups/deletar/{{_id}}"><button class="btntb deletar btn btn-danger mt-2"><i
                       class="fas fa-trash-alt"></i></button></a>
               </td>
             </tr>
             {{else}}
-            <h4 class="mt-2">Nenhum Subgrupo Registrado!</h4>
+            <h4 class="mt-2">Nenhum Grupo Registrado!</h4>
             {{/each}}
           </tbody>
         </table>

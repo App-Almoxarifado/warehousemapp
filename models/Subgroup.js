@@ -27,7 +27,11 @@ const Subgroup = new Schema({
    user: {
       type: String,
       default: "Daniel Soares de Albuquerque"
-  }
+   },
+   active: {
+      type: Boolean,
+      default: "true"
+   }
 })
 
 mongoose.model("subgroups", Subgroup)

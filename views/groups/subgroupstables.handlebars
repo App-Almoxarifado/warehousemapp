@@ -1,0 +1,68 @@
+<style>
+    body {
+        background-image: url("/img/ferramentas25.jpg");
+        top: 50%;
+        left: 50%;
+    }
+    </style>
+<div class="container mt-2">
+  <h2>Subgrupos</h2>
+  <a href="/groups/subgroups/add"><button class="btn btn-success">Crie um Subgrupo <i class="fas fa-share"></i></button></a>
+
+  <hr>
+  <a href="/groups/subgroups"><button type="button" class="btn btn-primary">Lista <i class="fas fa-th-list"></i></button></a>
+  <a href="/groups/subgroupstables"><button type="button" class="btn btn-primary">Tabela <i class="fas fa-table"></i></button></a>
+  
+  <hr>
+    
+          <table id="example" class="table table-bordered" style="width:100%">
+          <thead>
+            <tr>
+              <th scope="col">Imagem</th>
+              <th scope="col">Grupo</th>
+              <th scope="col">Subgrupos</th>
+              <th scope="col">Código QrCode</th>
+              <th scope="col">Data de Criação</th>
+              <th scope="col">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each subgroups}}
+            <tr>
+              <th scope="row"><img src="{{image}}" class="card-img-top"  style="max-width: 6rem;" alt="..."></th>
+              <td>{{group.description}}</td>
+              <td>{{description}}</td>
+              <td>{{qrcode}}</td>
+              <td>{{date}}</td>
+              <td>
+                <a href="/groups/subgroups/take/{{_id}}" class="btntb btn btn-dark mt-2"><i
+                    class="fas fa-align-right"></i></a>
+                <a href="/groups/subgroups/edit/{{_id}}"><button class="btntb btn btn-primary mt-2"><i
+                      class="fas fa-pen"></i></button></a>
+                <a href="/groups/subgroups/deletar/{{_id}}"><button class="btntb deletar btn btn-danger mt-2"><i
+                      class="fas fa-trash-alt"></i></button></a>
+              </td>
+            </tr>
+            {{else}}
+            <h4 class="mt-2">Nenhum Subgrupo Registrado!</h4>
+            {{/each}}
+          </tbody>
+        </table>
+        </div>
+        <nav class="mt-2" aria-label="Navegação de página exemplo">
+      <ul class="pagination">
+        {{#if prev}}
+        <li class="page-item"><a class="page-link" href="{{prev}}">Anterior</a></li>
+        {{/if}}
+        {{#paginate}}
+        <li class="page-item"><a class="page-link" href="{{link}}">{{number}}</a></li>
+        {{/paginate}}
+        <li class="page-item"><a class="page-link" href="{{next}}">Próximo</a></li>
+      </ul>
+    </nav>
+
+
+  
+
+
+<div class="mt-2"></div>

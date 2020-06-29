@@ -5,11 +5,15 @@ const Schema = mongoose.Schema;
 const Product = new Schema({
    qrcode: {
       type: String,
-      required: false
+      required: false,
+      index: true,
+      trim: true
    },
    image: {
       type: String,
-      required: false
+      required: false,
+      trim: true,
+      default: "https://warehousemapp.herokuapp.com/img/logo8.png"
    },
    group: {
       type: Schema.Types.ObjectId,
@@ -17,13 +21,15 @@ const Product = new Schema({
       required: true
    },
    subgroup: {
-    type: Schema.Types.ObjectId,
-    ref: "subgroups",
-    required: true
-  },
+      type: Schema.Types.ObjectId,
+      ref: "subgroups",
+      required: true
+   },
    description: {
       type: String,
-      required: true
+      required: true,
+      index: true,
+      trim: true
    },
    /*fabricante: {
       type: String,
@@ -44,7 +50,14 @@ const Product = new Schema({
    user: {
       type: String,
       default: "Daniel Soares de Albuquerque"
-  }
+   },
+   active: {
+      type: Boolean,
+      default: "true"
+   },
+   tags: [{
+      type: String
+   }]
 })
 
 mongoose.model("products", Product)

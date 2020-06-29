@@ -11,8 +11,8 @@
 <img src="{{subgroup.image}}" class="card-img-top" style="max-width: 15rem;" alt="...">
 </div>
 <div id="card2" class="card-body">
-<form action="/group/subgroups/take/" method="POST">
-<!--<form action="/group/subgroups/new" method="POST">-->
+<form action="/groups/subgroups/take/" method="POST">
+<!--<form action="/groups/subgroups/new" method="POST">-->
 <input type="hidden" class="form-control mt-2" id="id" name="id" placeholder="Id" value="{{subgroup._id}}">
 <input type="hidden" class="form-control mt-2" id="qrcode" name="qrcode" placeholder="QrCode do group" value="{{subgroup.qrcode}}">
 <input type="hidden" class="form-control mt-2" name="image" id="image" value="{{subgroup.image}}">
@@ -45,7 +45,7 @@
 <div class="container mt-2">
 <div
  class="form-row">
-<button type="submit" class="btn btn-success"><i class="fas fa-share"></i></button>
+<!--<button type="submit" class="btn btn-success"><i class="fas fa-share"></i></button>-->
 </div>
 </form>
 </div>

@@ -13,7 +13,6 @@ router.get("/registro", (req, res) => {
 });
 
 router.post("/registro", (req, res) => {
-    let endImg = "https://warehousecentralapp.herokuapp.com/uploads/"
     var erros = [];
 
     if (!req.body.nome || typeof req.body.nome == undefined || req.body.nome == null) {
@@ -42,7 +41,7 @@ router.post("/registro", (req, res) => {
             } else {
                 var novoUsuario = new Usuario({
                     qrcode: req.body.qrcode,
-                    imagem: endImg + req.body.imagem.slice(0, -1),
+                    image: "https://warehousemapp.herokuapp.com/uploads/" + req.body.image,//.slice(0, -1),
                     nome: req.body.nome,
                     email: req.body.email,
                     eadmin: req.body.eadmin,
@@ -92,7 +91,7 @@ router.post("/login", (req, res, next) => {
 
 router.get("/logout", (req, res) => {
     req.logout()
-    req.flash('success_msg', "Deslogando com sucesso!")
+    req.flash('success_msg', "Deslogado com sucesso!")
     res.redirect("/")
 })
 
