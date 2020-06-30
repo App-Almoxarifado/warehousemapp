@@ -78,7 +78,9 @@ exports.postCreate = async (req, res) => {
             image: endImg + req.body.image,//.slice(0, -1),
             description: req.body.description,
             date: req.body.date,
-            active: req.body.active
+            active: req.body.active,
+            tags: [req.body.qrcode,req.body.description]
+            
         })
             await groups.save()
             req.flash("success_msg", "Grupo criado com sucesso!")

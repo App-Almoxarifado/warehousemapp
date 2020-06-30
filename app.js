@@ -14,9 +14,13 @@ const path = require("path")
 const app = express()
 
 //ROTAS
+
+//Grupos
 const groupRoute = require('./routes/group-route')
+//Produtos
 const productRoute = require('./routes/product-route')
-const usuarios = require("./routes/usuario")
+//Usuarios
+const usuarioRoute = require("./routes/usuario-route")
 const passport = require("passport")
 require("./config/auth")(passport)
 const db = require("./config/db")
@@ -121,7 +125,7 @@ app.get('/qrcode', (req, res) => {
 //app.use('/group', group)
 app.use('/groups', groupRoute)
 app.use('/products', productRoute)
-app.use('/usuarios', usuarios)
+app.use('/usuarios', usuarioRoute)
 
 
 

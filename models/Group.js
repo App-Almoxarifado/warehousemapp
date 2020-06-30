@@ -25,7 +25,11 @@ const Group = new Schema({
     active: {
         type: Boolean,
         default: "true"
-    }
+    },
+    tags: [{
+        type: String
+        
+     }]
 
 
 })

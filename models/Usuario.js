@@ -27,8 +27,12 @@ const Usuario = new Schema({
         require: true
     },
     date: {
-        type: Date,
+        type: String,
         default: Date.now()
+    },
+    active: {
+        type: Boolean,
+        default: "true"
     }
 
 })

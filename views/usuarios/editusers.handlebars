@@ -12,30 +12,35 @@
     {{else}}
 
     {{/each}}
-    <form method='post' enctype="multipart/form-data" action="/upload">
-        <div class="form-row">
-            <div style="display: none;" class="form-group col-md-6" id="qrcode2" onchange="qrcodeFormat()">
-            </div>
-            <div class="form-group col-md-12">
-                <div class="text-center">
-                    <img src="/img/avatar.png" style="width: 150px;" class="avatar img-circle img-thumbnail" alt="">
-                    <input type="file" accept="image/*" name="file" id="file"
-                        class="custom-file-input btn-file text-center center-block file-upload">
-                    <input type='submit' class='btn btn-primary' value='Upload de Imagem'>
+            <form class="mt-5" method='post' enctype="multipart/form-data" action="/upload">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <div class="text-center">
+                         <img  src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{usuario.qrcode}}" class="avatar img-circle img-thumbnail"
+                                alt="">
+                                </div>
+                                </div>
+                    <div class="form-group col-md-6">
+                        <div class="text-center">
+                            <img src="{{usuario.image}}" style="width: 150px;" class="avatar img-circle img-thumbnail"
+                                alt="">
+                            <input type="file" accept="image/*" name="file" id="file"
+                                class="custom-file-input btn-file text-center center-block file-upload">
+                            <input type='submit' class='btn btn-primary' value='Upload de imagem'>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </form>
+            </form>
     <form action="" method="POST">
         <div class="form-row">
             <div class="form-group col-md-12">
                         <input type="hidden" class="form-control" id="id" name="id" placeholder="Id">
                         <input type="hidden" class="form-control" id="qrcode" name="qrcode"
-                            placeholder="QrCode do group">
+                            placeholder="QrCode do group" value ="{{usuario.qrcode}}">
                         <input type="hidden" class="form-control mt-2" name="image" id="image">
                 <label for="nome">Nome:</label>
                 <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite seu nome:" required
-                    onkeyup="qrcodeFormatUser()">
+                    onkeyup="qrcodeFormatUser()" value ="{{usuario.nome}}">
             </div>
             <div class="form-group col-md-12">
                 <label for="email">Email:</label>

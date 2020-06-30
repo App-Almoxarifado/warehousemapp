@@ -125,7 +125,7 @@ $(document).ready(function() {
         btn.trigger('click');
     });
 })
-
+//CPF CNPJ
 $("#cpfCnpj").keydown(function(){
     try {
         $("#cpfCnpj").unmask();
@@ -150,9 +150,3 @@ $("#cpfCnpj").keydown(function(){
     $(this).val('');
     $(this).val(currentValue);
 });
-
-/*$('#txtCep').mask('99999-999');
-
-String.prototype.capitalizeFirstLetter = function() {
-    return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase();
-}*/
