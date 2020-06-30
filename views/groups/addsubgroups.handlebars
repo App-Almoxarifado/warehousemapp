@@ -54,12 +54,18 @@
                 </div>
                 <input type="hidden" class="form-control" id="date" name="date" placeholder="date"
                     value="{{#formatDate date}}{{/formatDate}}">
-                <div class="form-group col-md-12">
-                    <div class="form-row">
-                        <button type="submit" class="btn btn-success"><i class="fas fa-share"></i></button>
-                    </div>
-                </div>
-            </form>
+        <div class="form-row align-items-center">
+           <!-- <div class="col-auto my-1">
+                <select class="custom-select mr-sm-2" id="active" name="active">
+                    <option Disabled selected>Ativar...</option>
+                    <option value="true">Sim</option>
+                    <option value="false">Não</option>
+                </select>
+            </div> -->
+            <div class="col-auto my-1">
+                <button type="submit" class="btn btn-success">Salvar <i class="fas fa-share"></i></button>
+            </div>
         </div>
-
+    </form>
+</div>
 <div class="mt-2"></div>

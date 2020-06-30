@@ -4,7 +4,7 @@
         top: 50%;
         left: 50%;
     }
-    </style>
+</style>
 <div class="addgroups container mt-2">
     <h3>Crie um Grupo</h3>
     {{#each erros}}
@@ -14,40 +14,46 @@
     {{/each}}
     <!--<div class="card">
         <div class="card-body">-->
-            <form class="mt-5" method='post' enctype="multipart/form-data" action="/upload">
-                <div class="form-row">
-                    <div class="form-group col-md-6" id="qrcode2" onchange="qrcodeFormat()">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <div class="text-center">
-                            <img src="/img/logo8.png" style="width: 150px;" class="avatar img-circle img-thumbnail"
-                                alt="">
-                            <input type="file" accept="image/*" name="file" id="file"
-                                class="custom-file-input btn-file text-center center-block file-upload">
-                            <input type='submit' class='btn btn-primary' value='Upload de imagem'>
-                        </div>
-                    </div>
+    <form class="mt-5" method='post' enctype="multipart/form-data" action="/upload">
+        <div class="form-row">
+            <div class="form-group col-md-6" id="qrcode2" onchange="qrcodeFormat()">
+            </div>
+            <div class="form-group col-md-6">
+                <div class="text-center">
+                    <img src="/img/logo8.png" style="width: 150px;" class="avatar img-circle img-thumbnail" alt="">
+                    <input type="file" accept="image/*" name="file" id="file"
+                        class="custom-file-input btn-file text-center center-block file-upload">
+                    <input type='submit' class='btn btn-primary' value='Upload de imagem'>
                 </div>
-            </form>
-            <form action="/groups/groups/novo" method="POST">
-            <div class="form-row">
-                <div class="form-group col-md-12">                   
-                        <input type="hidden" class="form-control" id="id" name="id" placeholder="Id">
-                        <input type="hidden" class="form-control" id="qrcode" name="qrcode"
-                            placeholder="QrCode do group">
-                        <input type="hidden" class="form-control mt-2" name="image" id="image">
-                        <label for="description">Descrição:</label>
-                        <input type="text" class="form-control" id="description" name="description"
-                            placeholder="Descrição do group" onkeyup="qrcodeFormat()">
-                    </div>
-                </div>
-                <input type="hidden" class="form-control" id="date" name="date" placeholder="date"
-                    value="{{#formatDate date}}{{/formatDate}}">
-                <div class="form-group col-md-12">
-                    <div class="form-row">
-                        <button type="submit" class="btn btn-success"><i class="fas fa-share"></i></button>
-                    </div>
-                </div>
-            </form>
+            </div>
         </div>
+    </form>
+    <form action="/groups/groups/novo" method="POST">
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <input type="hidden" class="form-control" id="id" name="id" placeholder="Id">
+                <input type="hidden" class="form-control" id="qrcode" name="qrcode" placeholder="QrCode do group">
+                <input type="hidden" class="form-control mt-2" name="image" id="image">
+                <label for="description">Descrição:</label>
+                <input type="text" class="form-control" id="description" name="description"
+                    placeholder="Descrição do group" onkeyup="qrcodeFormat()">
+            </div>
+        </div>
+        <input type="hidden" class="form-control" id="date" name="date" placeholder="date"
+            value="{{#formatDate date}}{{/formatDate}}">
+        <div class="form-row align-items-center">
+           <!-- <div class="col-auto my-1">
+                <select class="custom-select mr-sm-2" id="active" name="active">
+                    <option Disabled selected>Ativar...</option>
+                    <option value="true">Sim</option>
+                    <option value="false">Não</option>
+                </select>
+            </div> -->
+            <div class="col-auto my-1">
+                <button type="submit" class="btn btn-success">Salvar <i class="fas fa-share"></i></button>
+            </div>
+        </div>
+    </form>
+
+</div>
 <div class="mt-2"></div>
