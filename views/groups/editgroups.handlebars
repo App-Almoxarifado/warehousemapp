@@ -17,8 +17,12 @@
         <div class="card-body">-->
             <form class="mt-5" method='post' enctype="multipart/form-data" action="/upload">
                 <div class="form-row">
-                    <div class="form-group col-md-6" id="qrcode2" onkeyup="qrcodeFormat()">
-                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="text-center">
+                    <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{group.image}}" class="avatar img-circle img-thumbnail"
+                                alt="">
+                                </div>
+                                </div>
                     <div class="form-group col-md-6">
                         <div class="text-center">
                             <img src="{{group.image}}" style="width: 150px;" class="avatar img-circle img-thumbnail"
