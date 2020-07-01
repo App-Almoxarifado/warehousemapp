@@ -99,9 +99,21 @@ exports.getlogout = (req, res) => {
 }
 
 //LISTANDO USUÁRIOS CADASTRADOS - LISTA
-exports.getList = async (req, res) => {
+exports.getListFull = async (req, res) => {
     try {
 var usuarios = await Usuario.find({})
+    res.render("usuarios/usersfull", {usuarios:usuarios.map(usuarios => usuarios.toJSON())})
+} catch (err) {
+    req.flash("error_msg", "Ops, Houve um erro interno!")
+    res.redirect("/usuarios/registro")
+}
+}
+
+
+//LISTANDO USUÁRIOS CADASTRADOS - LISTA
+exports.getList = async (req, res) => {
+    try {
+var usuarios = await Usuario.find({active: true})
     res.render("usuarios/users", {usuarios:usuarios.map(usuarios => usuarios.toJSON())})
 } catch (err) {
     req.flash("error_msg", "Ops, Houve um erro interno!")
@@ -112,7 +124,7 @@ var usuarios = await Usuario.find({})
 //LISTANDO USUÁRIOS CADASTRADOS - TABELA
 exports.getListTable = async (req, res) => {
     try {
-var usuarios = await Usuario.find({})
+var usuarios = await Usuario.find({active: true})
     res.render("usuarios/userstables", {usuarios:usuarios.map(usuarios => usuarios.toJSON())})
 } catch (err) {
     req.flash("error_msg", "Ops, Houve um erro interno!")
@@ -135,7 +147,7 @@ exports.getUpdate = async (req, res) => {
 exports.postUpdate = async (req, res) => {
     var usuario = await Usuario.findOne({ _id: req.body.id})
     let endImg = "https://warehousemapp.herokuapp.com/uploads/"
-    var erros = [];
+    /*var erros = [];
 
     if (!req.body.nome || typeof req.body.nome == undefined || req.body.nome == null) {
         erros.push({ Message: "Nome inválido!" });
@@ -154,14 +166,15 @@ exports.postUpdate = async (req, res) => {
     }
 
     if (erros.length > 0) {
-        res.render("usuarios/users/editusers", { erros: erros });
-    } else {
+        res.render("usuarios/editusers", { erros: erros });
+    } else {*/
         try {      
 
             usuario.qrcode = req.body.qrcode
             usuario.image = endImg + req.body.image//.slice(0, -1)
-            usuario.description = req.body.nome
-            usuario.senha = req.body.senha
+            //usuario.email = req.body.email
+            usuario.nome = req.body.nome
+            //usuario.senha = req.body.senha
             usuario.eAdmin = req.body.eAdmin
             usuario.date = req.body.date
             usuario.active = req.body.active
@@ -175,7 +188,7 @@ exports.postUpdate = async (req, res) => {
             res.redirect("/usuarios/users")
         }
     }
-}
+
 
 //DELETANDO UM USUÁRIO
 //DELETANDO UM GRUPO

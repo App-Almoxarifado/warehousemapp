@@ -78,7 +78,8 @@ exports.postCreate = async (req, res) => {
             image: endImg + req.body.image,//.slice(0, -1),
             description: req.body.description,
             date: req.body.date,
-            active: req.body.active,
+            //user: req.body.user,
+            //active: req.body.active,
             tags: [req.body.qrcode,req.body.description]
             
         })
@@ -130,8 +131,8 @@ exports.postUpdate = async (req, res) => {
             group.image = endImg + req.body.image//.slice(0, -1)
             group.description = req.body.description
             group.date = req.body.date
-            group.active = req.body.active
-
+            //group.active = req.body.active
+            group.tags = [req.body.qrcode,req.body.description]
             await group.save()
             req.flash("success_msg", "Grupo editado com Sucesso!")
             res.redirect("/groups/groups")
@@ -192,7 +193,7 @@ exports.postUpdateView = async (req, res) => {
             group.image = req.body.image//.slice(0, -1)
             group.description = req.body.description
             group.date = req.body.date
-            group.active = req.body.active
+            //group.active = req.body.active
         
             await group.save()
             req.flash("success_msg", "Grupo editado com Sucesso!")
@@ -230,7 +231,7 @@ exports.postCreateView = async (req, res) => {
             image: req.body.image,//.slice(0, -1),
             description: req.body.description,
             date: req.body.date,
-            active: req.body.active
+            //active: req.body.active
         })
             await groups.save()
             req.flash("success_msg", "Grupo criado com sucesso!")
@@ -312,7 +313,7 @@ exports.postCreateSub = async (req, res) => {
             group: req.body.group,
             description: req.body.description,
             date: req.body.date,
-            active: req.body.active
+            //active: req.body.active
         })
             await subgroups.save()
             req.flash("success_msg", "Subgrupo criado com sucesso!")
@@ -374,7 +375,7 @@ exports.postUpdateSub = async (req, res) => {
             subgroup.group = req.body.group
             subgroup.description = req.body.description
             subgroup.date = req.body.date
-            subgroup.active = req.body.active
+            //subgroup.active = req.body.active
 
             await subgroup.save()
             req.flash("success_msg", "Subgrupo editado com Sucesso!")
@@ -468,7 +469,7 @@ exports.postUpdateViewSub = async (req, res) => {
             subgroup.group = req.body.group
             subgroup.description = req.body.description
             subgroup.date = req.body.date
-            subgroup.active = req.body.active
+            //subgroup.active = req.body.active
         
             await subgroup.save()
             req.flash("success_msg", "Subgrupo editado com Sucesso!")
@@ -519,7 +520,7 @@ exports.postCreateViewSub = async (req, res) => {
                 group: req.body.group,
                 description: req.body.description,
                 date: req.body.date,
-                active: req.body.active
+                //active: req.body.active
             })
                 await subgroups.save()
                 req.flash("success_msg", "Subgrupo criado com sucesso!")

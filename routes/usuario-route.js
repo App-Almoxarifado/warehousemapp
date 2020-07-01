@@ -11,6 +11,7 @@ router.get("/login", controller.getLogin)
 router.post("/login", controller.getStay)
 router.get("/logout", controller.getlogout)
 //LISTANDO OS USUARIOS CADASTRADOS
+router.get("/usersfull",controller.getListFull)
 router.get("/users",controller.getList)
 router.get("/userstables",controller.getListTable)
 router.get('/users/edit/:id', controller.getUpdate)
