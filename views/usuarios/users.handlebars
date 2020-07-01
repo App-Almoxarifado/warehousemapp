@@ -1,6 +1,6 @@
 <div class="container mt-2">
-  <h2>Grupos</h2>
-  <a href="/usuarios/registro"><button class="btn btn-success">Crie um Grupo <i class="fas fa-share"></i></button></a>
+  <h2>Usuarios</h2>
+  <a href="/usuarios/registro"><button class="btn btn-success">Crie um Usuario <i class="fas fa-share"></i></button></a>
 
   <hr>
   <a href="/usuarios/users"><button type="button" class="btn btn-primary">Lista <i
@@ -18,12 +18,12 @@
       <div id="card2" class="card-body">
         <h4>{{nome}}</h4>
         <div class="form-admin col-md-6" id="qrcode2" onchange="qrcodeFormat()"></div>
-        <p class="card-text"><small class="text-muted">Código QrCode: {{email}}</small></p>
-        <p class="card-text">Data de Criação: {{date}}</p>
+        <h6 class="card-text"><small class="text-muted">Código QrCode: {{email}}</small></h6>
+        <h6 class="card-text">Data de Criação: {{date}}</h6>
         <a href="/usuarios/users/take/{{_id}}" class="btn btn-dark mt-2"><i class="fas fa-align-right"></i></a>
         <a href="/usuarios/users/edit/{{_id}}"><button class="btn btn-primary mt-2"><i
               class="fas fa-pen"></i></button></a>
-        <a href="/usuarios/users/deletar/{{_id}}"><button class="deletar btn btn-danger mt-2"><i
+        <a href="/usuarios/users/delete/{{_id}}"><button class="deletar btn btn-danger mt-2"><i
               class="fas fa-trash-alt"></i></button></a>
       </div>
     </div>

@@ -98,11 +98,22 @@ exports.getlogout = (req, res) => {
     res.redirect("/")
 }
 
-//LISTANDO USUÁRIOS CADASTRADOS
+//LISTANDO USUÁRIOS CADASTRADOS - LISTA
 exports.getList = async (req, res) => {
     try {
 var usuarios = await Usuario.find({})
     res.render("usuarios/users", {usuarios:usuarios.map(usuarios => usuarios.toJSON())})
+} catch (err) {
+    req.flash("error_msg", "Ops, Houve um erro interno!")
+    res.redirect("/usuarios/registro")
+}
+}
+
+//LISTANDO USUÁRIOS CADASTRADOS - TABELA
+exports.getListTable = async (req, res) => {
+    try {
+var usuarios = await Usuario.find({})
+    res.render("usuarios/userstables", {usuarios:usuarios.map(usuarios => usuarios.toJSON())})
 } catch (err) {
     req.flash("error_msg", "Ops, Houve um erro interno!")
     res.redirect("/usuarios/registro")
@@ -150,16 +161,41 @@ exports.postUpdate = async (req, res) => {
             usuario.qrcode = req.body.qrcode
             usuario.image = endImg + req.body.image//.slice(0, -1)
             usuario.description = req.body.nome
+            usuario.senha = req.body.senha
+            usuario.eAdmin = req.body.eAdmin
             usuario.date = req.body.date
             usuario.active = req.body.active
 
             await usuario.save()
-            req.flash("success_msg", "Grupo editado com Sucesso!")
+            req.flash("success_msg", "Usuário editado com Sucesso!")
             res.redirect("/usuarios/users")
             console.log("Usuário editado com sucesso!")
         } catch (err) {
-            req.flash("error_msg", "Houve um erro interno ao editar o Usuario, tente Novamente!")
+            req.flash("error_msg", "Houve um erro interno ao editar o Usuario, tente Novamente!" + err)
             res.redirect("/usuarios/users")
         }
+    }
+}
+
+//DELETANDO UM USUÁRIO
+//DELETANDO UM GRUPO
+exports.getDelete = async(req, res) => {
+    await Usuario.remove({_id: req.params.id})
+    try {
+        req.flash("success_msg", "Usuario deletado com Sucesso!")
+        res.redirect("/usuarios/users")
+    } catch (err) {
+        req.flash("error_msg", "Houve um erro interno!")
+        res.redirect("/usuarios/users")
+    }
+}
+
+exports.getView = async (req, res) => {  
+    try {
+    const usuario = await Usuario.findOne({ _id: req.params.id}).lean()
+    res.render("usuarios/takeusers", {usuario: usuario})
+    } catch (err) {
+        req.flash ("error_msg", "Ops, Erro ao Conectar com o Banco de Dados!")
+        res.redirect("/usuarios/users")
     }
 }

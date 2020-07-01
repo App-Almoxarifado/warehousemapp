@@ -12,10 +12,12 @@ router.post("/login", controller.getStay)
 router.get("/logout", controller.getlogout)
 //LISTANDO OS USUARIOS CADASTRADOS
 router.get("/users",controller.getList)
+router.get("/userstables",controller.getListTable)
 router.get('/users/edit/:id', controller.getUpdate)
 router.post("/users/edit", controller.postUpdate) 
-//router.get("/groupstables", controller.getListTable)
-//router.get("/groups/add",controller.getCreate)
+router.get("/users/delete/:id", controller.getDelete) 
+router.get("/users/take/:id", controller.getView)
+
 
 
 
