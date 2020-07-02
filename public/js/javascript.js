@@ -63,35 +63,6 @@ function makeCode() {
     if(qrCode && elText) qrCode.makeCode(elText.value);
 }*/
 
-/*var qrcode = new QRCode("qrcode2");
-
-function makeCode () {      
-    var elText = document.getElementById("qrcode");
-    
-    if (!elText.value) {
-        alert("Input a text");
-        elText.focus();
-        return;
-    }
-    
-    qrcode.makeCode(elText.value);
-}
-
-makeCode();
-
-$("#qrcode2").
-    on("blur", function () {
-        makeCode();
-    }).
-    on("keydown", function (e) {
-        if (e.keyCode == 13) {
-            makeCode();
-        }
-    });*/
-
-
-
-
 //CARREGANDO IMAGEM
 $(document).ready(function() {
 

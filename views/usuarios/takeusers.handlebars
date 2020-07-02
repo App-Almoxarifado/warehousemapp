@@ -1,53 +1,48 @@
 <style>
     body {
-        background-image: url("/img/ferramentas25.jpg");
-        top: 50%;
-        left: 50%;
+        color: aliceblue;
+        background-image: url("/img/ferramentas11.jpg");
+        width: 100%;
+        height: 100%;
+        background-position: 50% 50%;
+        background-color: black;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        background-size: cover;
+        -o-background-size: cover;
+        background-repeat: no-repeat;
     }
-    </style>
-
+    hr{
+      border-color: #4b4b4bcc; 
+    }
+</style>
 
 <div class="takegroups container mt-2">
 
-
-  <!--VIZULIZAÇÃO EM LISTA-->
-
-<h4>{{usuario.nome}}</h4>
+<h3>{{usuario.nome}}</h3>
 <hr>
 <div class="form-row">
-    <div class="form-group col-md-3 text-center">
-<img  src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl={{usuario.qrcode}}" class="img-circle img-thumbnail" alt="">
+<div class="form-group col-md-3 text-center">
+<img  src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl={{usuario.qrcode}}" width="200px"  class="img-fluid rounded" alt="Responsive image">
 </div>
-     <div class="form-group col-md-3 ">
-<img src="{{usuario.image}}" class="card-img-top" style="max-width: 13rem;" alt="...">
-</div>
+<div class="form-group col-md-3 text-center">
 
-<!--<form action="/groups/groups/take/" method="POST">-->
-<form action="/usuarios/users/new" method="POST">
-<input type="hidden" class="form-control mt-2" id="id" name="id" placeholder="Id" value="{{usuario._id}}">
-<input type="hidden" class="form-control mt-2" id="qrcode" name="qrcode" placeholder="QrCode do group" value="{{usuario.qrcode}}">
-<input type="hidden" class="form-control mt-2" name="image" id="image" value="{{usuario.image}}">
-<input type="hidden" class="form-control mt-2" id="description" name="description" placeholder="Descrição do group" value="{{usuario.nome}}" onkeyup="qrcodeFormat()">
-<input type="hidden" class="form-control mt-2" id="date" name="date" placeholder="date" value="{{#formatDate date}}{{/formatDate}}">
-<input type="hidden" class="car form-control mt-2" value="{{usuario.qrcode}}">
-
-<h6 class="card-text"><small class="text-muted">Código QrCode: {{usuario.qrcode}}</small></h6>
-<h6 class="card-text"><small class="text-muted">Email: {{usuario.email}}</small></h6>
-<h6 class="card-text"><small class="text-muted">Data de Criação: {{usuario.date}}</small></h6>
+<img src="{{usuario.image}}" width="200px"  class=" img-fluid rounded" alt="Responsive image">
 
 </div>
-<hr>
-    </div>
-  </div>
-</div>
-</div>
-<hr>
-<div class="container mt-2">
-<div
- class="form-row">
-<!--<button type="submit" class="btn btn-success"><i class="fas fa-share"></i></button>-->
-</div>
+<form action="" >
+  <br>
+  <br>
+<h5 class="card-text">Email: {{usuario.email}}</h5>
+<h6 class="card-text">Código QrCode: {{usuario.qrcode}}</h6>
+<h6 class="card-text">Data de Registro: {{usuario.date}}</h6>
+<h6 class="card-text"><small class="text-muted">Ativo: {{usuario.active}}</small></h6>
+<h6 class="card-text"><small class="text-muted">Nível de Acesso: {{usuario.eAdmin}}</small></h6>
 </form>
+
+
+
+
 </div>
-</div>
+<hr>
 </div>

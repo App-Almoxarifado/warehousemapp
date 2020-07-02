@@ -1,10 +1,22 @@
 <style>
-  body {
-    background-image: url("/img/ferramentas25.jpg");
-    top: 50%;
-    left: 50%;
-  }
+    body {
+        color: aliceblue;
+        background-image: url("/img/ferramentas11.jpg");
+        width: 100%;
+        height: 100%;
+        background-position: 50% 50%;
+        background-color: black;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        background-size: cover;
+        -o-background-size: cover;
+        background-repeat: no-repeat;
+    }
+    hr{
+      border-color: #4b4b4bcc; 
+    }
 </style>
+
 <div class="container mt-2">
   <h2>Grupos</h2>
   <a href="/groups/groups/add"><button class="btn btn-success">Crie um Grupo <i class="fas fa-share"></i></button></a>
@@ -21,12 +33,12 @@
   <div id="card" class="card-deck mt-2" style='display: block;'>
     {{#each groups}}
     <div class="card-deck mt-3">
-      <img src="{{image}}" class="card-img-top" style="max-width: 18rem;" alt="...">
+     <img src="{{image}}" class=" img-fluid rounded" alt="Responsive image" style="max-width: 14rem;">
       <div id="card2" class="card-body">
         <h4>{{description}}</h4>
         <div class="form-admin col-md-6" id="qrcode2" onchange="qrcodeFormat()"></div>
-        <p class="card-text"><small class="text-muted">Código QrCode: {{qrcode}}</small></p>
-        <p class="card-text">Data de Criação: {{date}}</p>
+        <h6 class="card-text"><small>Código QrCode: {{qrcode}}</small></h6>
+        <h6 class="card-text">Data de Criação: {{date}}</h6>
         <a href="/groups/groups/take/{{_id}}" class="btn btn-dark mt-2"><i class="fas fa-align-right"></i></a>
         <a href="/groups/groups/edit/{{_id}}"><button class="btn btn-primary mt-2"><i
               class="fas fa-pen"></i></button></a>

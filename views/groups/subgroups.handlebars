@@ -1,13 +1,26 @@
 <style>
     body {
-        background-image: url("/img/ferramentas25.jpg");
-        top: 50%;
-        left: 50%;
+        color: aliceblue;
+        background-image: url("/img/ferramentas11.jpg");
+        width: 100%;
+        height: 100%;
+        background-position: 50% 50%;
+        background-color: black;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        background-size: cover;
+        -o-background-size: cover;
+        background-repeat: no-repeat;
     }
-    </style>
+    hr{
+      border-color: #4b4b4bcc; 
+    }
+</style>
+
 <div class="container mt-2">
   <h2>Subgrupos</h2>
-  <a href="/groups/subgroups/add"><button class="btn btn-success">Crie um Subgrupo <i class="fas fa-share"></i></button></a>
+  <a href="/groups/subgroups/add"><button class="btn btn-success">Crie um Subgrupo <i
+        class="fas fa-share"></i></button></a>
 
   <hr>
   <a href="/groups/subgroups"><button type="button" class="btn btn-primary">Lista <i
@@ -21,13 +34,13 @@
   <div id="card" class="card-deck mt-2" style='display: block;'>
     {{#each subgroups}}
     <div class="card-deck mt-3">
-      <img src="{{image}}" class="card-img-top" style="max-width: 18rem;" alt="...">
+      <img src="{{image}}" class=" img-fluid rounded" alt="Responsive image" style="max-width: 16rem;">
       <div id="card2" class="card-body">
         <h4>{{description}}</h4>
         <h6>Grupo: {{group.description}}</h6>
         <div class="form-admin col-md-6" id="qrcode2" onchange="qrcodeFormat()"></div>
-        <p class="card-text"><small class="text-muted">Código QrCode: {{qrcode}}</small></p>
-        <p class="card-text">Data de Criação: {{date}}</p>
+        <h6 class="card-text"><small>Código QrCode: {{qrcode}}</small></h6>
+        <h6 class="card-text">Data de Criação: {{date}}</h6>
         <a href="/groups/subgroups/take/{{_id}}" class="btn btn-dark mt-2"><i class="fas fa-align-right"></i></a>
         <a href="/groups/subgroups/edit/{{_id}}"><button class="btn btn-primary mt-2"><i
               class="fas fa-pen"></i></button></a>

@@ -1,10 +1,25 @@
 <style>
     body {
-        background-image: url("/img/ferramentas25.jpg");
-        top: 50%;
-        left: 50%;
+        color: aliceblue;
+        background-image: url("/img/ferramentas11.jpg");
+        width: 100%;
+        height: 100%;
+        background-position: 50% 50%;
+        background-color: black;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        background-size: cover;
+        -o-background-size: cover;
+        background-repeat: no-repeat;
     }
-    </style>
+    hr{
+      border-color: aliceblue; 
+    }
+    table{
+        background-color: #ffffff;
+    }
+</style>
+
 <div class="container mt-2">
   <h2>Subgrupos</h2>
   <a href="/groups/subgroups/add"><button class="btn btn-success">Crie um Subgrupo <i class="fas fa-share"></i></button></a>
@@ -15,7 +30,7 @@
   
   <hr>
     
-          <table id="example" class="table table-bordered" style="width:100%">
+          <table id="example" class="table table-bordered text-center" style="width:100%">
           <thead>
             <tr>
               <th scope="col">Imagem</th>
@@ -29,10 +44,10 @@
           <tbody>
             {{#each subgroups}}
             <tr>
-              <th scope="row"><img src="{{image}}" class="card-img-top"  style="max-width: 6rem;" alt="..."></th>
+              <th scope="row"><img src="{{image}}" style="max-width: 6rem;" class=" img-fluid rounded" alt="Responsive image"></th>
               <td>{{group.description}}</td>
               <td>{{description}}</td>
-              <td>{{qrcode}}</td>
+              <td><img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{qrcode}}" style="max-width: 4rem;" class=" img-fluid rounded" alt="Responsive image" ></td>
               <td>{{date}}</td>
               <td>
                 <a href="/groups/subgroups/take/{{_id}}" class="btntb btn btn-dark mt-2"><i

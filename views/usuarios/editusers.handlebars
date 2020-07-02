@@ -1,12 +1,23 @@
 <style>
     body {
-        background-image: url("/img/ferramentas01.jpg");
-        top: 50%;
-        left: 50%;
+        color: aliceblue;
+        background-image: url("/img/ferramentas11.jpg");
+        width: 100%;
+        height: 100%;
+        background-position: 50% 50%;
+        background-color: black;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        background-size: cover;
+        -o-background-size: cover;
+        background-repeat: no-repeat;
+    }
+    hr{
+      border-color: #4b4b4bcc; 
     }
 </style>
 <div class="user container">
-    <h3>Crie sua Conta:</h3>
+    <h3>Editar Conta:</h3>
     {{#each erros}}
     <div class="alert alert-danger">{{texto}}</div>
     {{else}}
@@ -16,14 +27,13 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <div class="text-center">
-                         <img  src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{usuario.qrcode}}" class="img-circle img-thumbnail"
-                                alt="">
+                         <img  src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{usuario.qrcode}}" class=" img-fluid rounded" alt="Responsive image">
                                 </div>
                                 </div>
                     <div class="form-group col-md-6">
                         <div class="text-center">
-                            <img src="{{usuario.image}}" style="width: 150px;" class="avatar img-circle img-thumbnail"
-                                alt="">
+                            <img src="{{usuario.image}}" style="width: 150px;" class="avatar img-fluid rounded"
+                                 alt="Responsive image">
                             <input type="file" accept="image/*" name="file" id="file"
                                 class="custom-file-input btn-file text-center center-block file-upload">
                             <input type='submit' class='btn btn-primary' value='Upload de imagem'>
@@ -35,8 +45,8 @@
         <div class="form-row">
             <div class="form-group col-md-12">
                         <input type="hidden" class="form-control" id="id" name="id" placeholder="Id" value ="{{usuario._id}}">
-                        <!--<input type="hidden" class="form-control" id="qrcode" name="qrcode"
-                            placeholder="QrCode do group" value ="{{usuario.qrcode}}">-->
+                        <input type="hidden" class="form-control" id="qrcode" name="qrcode"
+                            placeholder="QrCode do group" value ="{{usuario.qrcode}}">
                         <input type="hidden" class="form-control mt-2" name="image" id="image">
                 <label for="nome">Nome:</label>
                 <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite seu nome:" required

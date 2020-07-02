@@ -21,6 +21,8 @@ const groupRoute = require('./routes/group-route')
 const productRoute = require('./routes/product-route')
 //Usuarios
 const usuarioRoute = require("./routes/usuario-route")
+//Painel Admin
+const developerRoute = require("./routes/developer-route")
 const passport = require("passport")
 require("./config/auth")(passport)
 const db = require("./config/db")
@@ -126,7 +128,7 @@ app.get('/qrcode', (req, res) => {
 app.use('/groups', groupRoute)
 app.use('/products', productRoute)
 app.use('/usuarios', usuarioRoute)
-
+app.use('/developers', developerRoute)
 
 
 //Server
