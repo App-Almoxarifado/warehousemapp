@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema;
 
-const Location = new Schema({
+const Sublease = new Schema({
 
     description: {
         type: String,
@@ -25,4 +25,4 @@ const Location = new Schema({
      }]
 })
 
-mongoose.model("leases", Location)
+mongoose.model("subleases", Sublease)

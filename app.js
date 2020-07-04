@@ -29,6 +29,10 @@ const collaboratorRoute = require("./routes/collaborator-route")
 const providerRoute = require("./routes/provider-route")
 //Clientes
 const clientRoute = require("./routes/client-route")
+//Locações
+const locationRoute = require("./routes/location-route")
+//Sublocações
+const subleaseRoute = require("./routes/sublease-route")
 const passport = require("passport")
 require("./config/auth")(passport)
 const db = require("./config/db")
@@ -138,6 +142,8 @@ app.use('/developers', developerRoute)
 app.use('/providers', providerRoute)
 app.use('/collaborators', collaboratorRoute)
 app.use('/customers', clientRoute)
+app.use('/leases', locationRoute)
+app.use('/subleases', subleaseRoute)
 
 
 //Server
