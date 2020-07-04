@@ -121,3 +121,13 @@ $("#cpfCnpj").keydown(function(){
     $(this).val('');
     $(this).val(currentValue);
 });
+
+//MUDAR BACKGROUND
+function muda(){
+    classe = document.getElementById('bg').className; 
+    if(classe == 'bgLight'){
+       document.getElementById('bg').className = 'bgDark';
+   }else{
+       document.getElementById('bg').className = 'bgLight';
+   }
+}
