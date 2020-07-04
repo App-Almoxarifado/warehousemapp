@@ -9,8 +9,9 @@ const Subgroup = mongoose.model("subgroups")
 //Listando products
 exports.getList = async (req, res) => {
     try {
-        // no repository var products = await repository.get();
-        var products = await Product.find().populate("group").populate("subgroup")
+        var products = await Product.find()
+        .populate("group")
+        .populate("subgroup")
         res.render("product/products", {
             products:products.map(products => products.toJSON())
         })

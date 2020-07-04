@@ -25,7 +25,7 @@
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/dashboard">Dashboards</a>
+        <a class="nav-link" href="">Dashboards</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/groups">Sobre o app</a>
@@ -44,6 +44,9 @@
           <a class="dropdown-item" href="/groups/subgroups">Subgrupos</a>
           <a class="dropdown-item" href="/products/products">Produtos</a>
           <a class="dropdown-item" href="/usuarios/users">Usuários</a>
+          <a class="dropdown-item" href="/providers/providers">Fornecedores</a>
+          <a class="dropdown-item" href="/customers/customers">Clientes</a>
+          <a class="dropdown-item" href="/collaborators/collaborators">Colaboradores</a>
         </div>
       </li>
       <li class="nav-item dropdown">
@@ -54,9 +57,6 @@
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="/developers/">Desenvolvedor</a>
           <a class="dropdown-item" href="">Painel Administrativo</a>
-          <a class="dropdown-item" href="">Em Breve</a>
-          <a class="dropdown-item" href="">Em Breve</a>
-          <a class="dropdown-item" href="">Em Breve</a>
         </div>
       </li>
       {{#if user}}
@@ -71,6 +71,7 @@
         <a class="nav-link" href="/usuarios/registro">Registro</a>
       </li>
       {{/if}}
+      <button type="button" class="btn btn-primary" onclick="muda();" ><i class="fas fa-adjust"></i></button></a>
     </ul>
 </div>
 </nav>

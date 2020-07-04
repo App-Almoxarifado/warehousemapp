@@ -7,6 +7,7 @@ const Product = new Schema({
       type: String,
       required: false,
       index: true,
+      lowercase: true,
       trim: true
    },
    image: {

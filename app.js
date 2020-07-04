@@ -23,6 +23,12 @@ const productRoute = require('./routes/product-route')
 const usuarioRoute = require("./routes/usuario-route")
 //Painel Admin
 const developerRoute = require("./routes/developer-route")
+//Colaboradores
+const collaboratorRoute = require("./routes/collaborator-route")
+//Fornecedores
+const providerRoute = require("./routes/provider-route")
+//Clientes
+const clientRoute = require("./routes/client-route")
 const passport = require("passport")
 require("./config/auth")(passport)
 const db = require("./config/db")
@@ -129,6 +135,9 @@ app.use('/groups', groupRoute)
 app.use('/products', productRoute)
 app.use('/usuarios', usuarioRoute)
 app.use('/developers', developerRoute)
+app.use('/providers', providerRoute)
+app.use('/collaborators', collaboratorRoute)
+app.use('/customers', clientRoute)
 
 
 //Server

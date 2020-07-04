@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const Group = new Schema({
     qrcode: {
         type: String,
+        lowercase: true,
         required: false
     },
     image: {
@@ -12,7 +13,7 @@ const Group = new Schema({
     },
     description: {
         type: String,
-        required: true
+        required: true,
     },
     date: {
         type: String,
@@ -25,11 +26,11 @@ const Group = new Schema({
     active: {
         type: Boolean,
         default: "true"
-    },
-    tags: [{
+    }
+    /*tags: [{
         type: String
         
-     }]
+     }]*/
 
 
 })

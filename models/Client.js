@@ -22,15 +22,15 @@ const Client = new Schema({
         type: String,
         required: true
     },
-    code: {
-        type: String,
-        required: true
-    },
     name: {
         type: String,
         required: true
     },
     email: {
+        type: String,
+        required: true
+    },
+    socialReason: {
         type: String,
         required: true
     },
@@ -81,7 +81,15 @@ const Client = new Schema({
     user: {
         type: String,
         default: "Daniel Soares de Albuquerque"
-    }
+    },
+    active: {
+        type: Boolean,
+        default: "true"
+    },
+    tags: [{
+        type: String
+        
+     }]
 
 })
 

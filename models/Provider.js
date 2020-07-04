@@ -10,11 +10,11 @@ const Provider = new Schema({
         type: String,
         required: false
     },
-    name: {
+    service: {
         type: String,
         required: true
     },
-    service: {
+    name: {
         type: String,
         required: true
     },
@@ -23,6 +23,10 @@ const Provider = new Schema({
         required: true
     },
     phone: {
+        type: String,
+        required: true
+    },
+    socialReason: {
         type: String,
         required: true
     },
@@ -69,7 +73,15 @@ const Provider = new Schema({
     user: {
         type: String,
         default: "Daniel Soares de Albuquerque"
-    }
+    },
+    active: {
+        type: Boolean,
+        default: "true"
+    },
+    tags: [{
+        type: String
+        
+     }]
 
 })
 

@@ -140,6 +140,9 @@ input {
     hr {
         border-color: #4b4b4bcc;
     }
+    table{
+        background-color: #ffffff;
+    }
 }
 
 .bgLight {
@@ -156,3 +159,16 @@ input {
 }
 
 button{ margin:1px; }
+
+.bgLogin {
+    display: table;
+    width: 100%;
+    height: 100vh;
+    padding: 0;
+    //color: white;
+    background-image: url("/img/ferramentas11.jpg");
+    background-color:  #000000;
+    background-position: 30% 45%;
+    background-size: cover;
+
+}

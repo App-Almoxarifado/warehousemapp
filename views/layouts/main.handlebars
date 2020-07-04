@@ -17,6 +17,7 @@
 
 <body>
     {{>_navbar}}
+    <div class="bgLight" id="bg">
     <div class="container">
         {{#if error}}
         <div class="alert alert-danger">{{error}}</div>
@@ -24,6 +25,7 @@
         {{/if}}
         {{>_msg}}
         {{{body}}}
+        </div></div>
         {{>_footer}}
 
         <!-- JS JQUERY JS-->

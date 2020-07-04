@@ -2,6 +2,10 @@
 
 ## Criando um app para Gestão de Almoxarifado
 
+### Arquitetura do Projeto
+
+Este projeto será desenvolvido no padrão Model-View-Controller (MVC), no meu ver é o padrão mais recomendado para nossa API <https://take.net/blog/devs/api-conceito-e-exemplos>, poís facilita a documentação garante maior produtividade, manutenção e o mais importante torna o nosso software confiável, para entender melhor o conceito de MVC <https://www.devmedia.com.br/introducao-ao-padrao-mvc/29308>
+
 ## Etapa 01
 
 Instalar o Nodejs - <https://nodejs.org/en/> - Obs: Sempre utilizar Recommended For Most Users

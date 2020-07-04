@@ -17,7 +17,7 @@
 })
 
 //FUNÇÃO PARA AUTOMATIZAR O CÓDIGO QRCODE
-function qrcodeFormat() {
+/*function qrcodeFormat() {
     let v1 = document.getElementById('description').value
     let desired = v1.normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
         .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
@@ -27,10 +27,10 @@ function qrcodeFormat() {
     //RETIRA OS CARACTERES ESPECIAIS PARA GERAR O QR CODE
     document.getElementById("qrcode").value = desired;
     makeCode();
-}
+}*/
 
 //FUNÇÃO PARA AUTOMATIZAR O CÓDIGO QRCODE usuario
-function qrcodeFormatUser() {
+/*function qrcodeFormatUser() {
     var v1 = document.getElementById('nome').value
     var desired = v1.normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
         .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
@@ -41,7 +41,7 @@ function qrcodeFormatUser() {
     document.getElementById("qrcode").value = desired;
     console.log("aqui")
     makeCode();
-}
+}/*
 
 //GERA QRCODE
 /*var qrCode;
@@ -96,6 +96,8 @@ $(document).ready(function() {
         btn.trigger('click');
     });
 })
+
+
 //CPF CNPJ
 $("#cpfCnpj").keydown(function(){
     try {

@@ -74,13 +74,17 @@ exports.postCreate = async (req, res) => {
     } else {
         try {      
         const groups = new Group({
-            qrcode: req.body.qrcode,
+            qrcode: req.body.description
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+            .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+            .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+            .replace(/(^-+|-+$)/, ''), // Remove hífens extras do final ou do inicio da string
             image: endImg + req.body.image,//.slice(0, -1),
             description: req.body.description,
             date: req.body.date,
             //user: req.body.user,
             //active: req.body.active,
-            tags: [req.body.qrcode,req.body.description]
+            //tags: [req.body.qrcode,req.body.description]
             
         })
             await groups.save()
@@ -127,12 +131,16 @@ exports.postUpdate = async (req, res) => {
     } else {
         try {      
 
-            group.qrcode = req.body.qrcode
+            group.qrcode = req.body.description
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+            .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+            .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+            .replace(/(^-+|-+$)/, '')
             group.image = endImg + req.body.image//.slice(0, -1)
             group.description = req.body.description
             group.date = req.body.date
             //group.active = req.body.active
-            group.tags = [req.body.qrcode,req.body.description]
+            //group.tags = [req.body.qrcode,req.body.description]
             await group.save()
             req.flash("success_msg", "Grupo editado com Sucesso!")
             res.redirect("/groups/groups")
@@ -189,7 +197,11 @@ exports.postUpdateView = async (req, res) => {
     } else {
         try {      
 
-            group.qrcode = req.body.qrcode
+            group.qrcode = req.body.description
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+            .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+            .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+            .replace(/(^-+|-+$)/, ''),
             group.image = req.body.image//.slice(0, -1)
             group.description = req.body.description
             group.date = req.body.date
@@ -227,7 +239,11 @@ exports.postCreateView = async (req, res) => {
     } else {
         try {      
         const groups = new Group({
-            qrcode: req.body.qrcode,
+            qrcode: req.body.description
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+            .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+            .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+            .replace(/(^-+|-+$)/, ''),
             image: req.body.image,//.slice(0, -1),
             description: req.body.description,
             date: req.body.date,
@@ -308,7 +324,11 @@ exports.postCreateSub = async (req, res) => {
     } else {
         try {      
         const subgroups = new Subgroup({
-            qrcode: req.body.qrcode,
+            qrcode: req.body.description
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+            .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+            .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+            .replace(/(^-+|-+$)/, ''),
             image: endImg + req.body.image,//.slice(0, -1),
             group: req.body.group,
             description: req.body.description,
@@ -370,7 +390,11 @@ exports.postUpdateSub = async (req, res) => {
     } else {
         try {      
 
-            subgroup.qrcode = req.body.qrcode
+            subgroup.qrcode = req.body.description
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+            .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+            .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+            .replace(/(^-+|-+$)/, ''),
             subgroup.image = endImg + req.body.image//.slice(0, -1)
             subgroup.group = req.body.group
             subgroup.description = req.body.description
@@ -446,7 +470,11 @@ exports.postUpdateViewSub = async (req, res) => {
         //Rota para Salvar
         /*try {      
             const subgroups = new Subgroup({
-                qrcode: req.body.qrcode,
+                qrcode: qrcode: req.body.description
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                .replace(/(^-+|-+$)/, ''),
                 image: req.body.image.slice(0, -1),
                 group: req.body.group,
                 description: req.body.description,
@@ -464,7 +492,11 @@ exports.postUpdateViewSub = async (req, res) => {
     }*/ 
         try {      
 
-            subgroup.qrcode = req.body.qrcode
+            subgroup.qrcode = req.body.description
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+            .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+            .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+            .replace(/(^-+|-+$)/, ''),
             subgroup.image = req.body.image//.slice(0, -1)
             subgroup.group = req.body.group
             subgroup.description = req.body.description
@@ -515,7 +547,11 @@ exports.postCreateViewSub = async (req, res) => {
         //Rota para Salvar
         try {      
             const subgroups = new Subgroup({
-                qrcode: req.body.qrcode,
+                qrcode: req.body.description
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                .replace(/(^-+|-+$)/, ''),
                 image: req.body.image,
                 group: req.body.group,
                 description: req.body.description,
@@ -534,7 +570,11 @@ exports.postCreateViewSub = async (req, res) => {
     }
         /*try {      
 
-            subgroup.qrcode = req.body.qrcode
+            subgroup.qrcode = req.body.description
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                .replace(/(^-+|-+$)/, ''),
             subgroup.image = req.body.image//.slice(0, -1)
             subgroup.group = req.body.group
             subgroup.description = req.body.description
