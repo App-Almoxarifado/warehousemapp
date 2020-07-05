@@ -33,6 +33,14 @@ const clientRoute = require("./routes/client-route")
 const locationRoute = require("./routes/location-route")
 //Sublocações
 const subleaseRoute = require("./routes/sublease-route")
+//Intervalos de Certificação/Calibração
+const intervalRoute = require("./routes/interval-route")
+//Unidades
+const unityRoute = require("./routes/unity-route")
+//Status
+const statusRoute = require("./routes/status-route")
+//Tipos de Equipamentos
+const typesRoute = require("./routes/type-route")
 const passport = require("passport")
 require("./config/auth")(passport)
 const db = require("./config/db")
@@ -144,6 +152,10 @@ app.use('/collaborators', collaboratorRoute)
 app.use('/customers', clientRoute)
 app.use('/leases', locationRoute)
 app.use('/subleases', subleaseRoute)
+app.use('/breaks', intervalRoute)
+app.use('/units', unityRoute)
+app.use('/status', statusRoute)
+app.use('/types', typesRoute)
 
 
 //Server

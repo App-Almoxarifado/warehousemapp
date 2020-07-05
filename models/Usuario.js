@@ -4,7 +4,8 @@ const Schema = mongoose.Schema
 const Usuario = new Schema({
     qrcode: {
         type: String,
-        require: true
+        lowercase: true,
+        required: false
     },
     image: {
         type: String,

@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const Provider = new Schema({
     qrcode: {
         type: String,
+        lowercase: true,
         required: false
     },
     image: {

@@ -5,8 +5,9 @@ const Schema = mongoose.Schema;
 const Subgroup = new Schema({
    qrcode: {
       type: String,
+      lowercase: true,
       required: false
-   },
+  },
    image: {
       type: String,
       required: false
