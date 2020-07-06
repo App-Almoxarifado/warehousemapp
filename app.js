@@ -41,6 +41,7 @@ const unityRoute = require("./routes/unity-route")
 const statusRoute = require("./routes/status-route")
 //Tipos de Equipamentos
 const typesRoute = require("./routes/type-route")
+
 const passport = require("passport")
 require("./config/auth")(passport)
 const db = require("./config/db")

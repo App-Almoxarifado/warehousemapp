@@ -1,4 +1,6 @@
 const mongoose = require("mongoose")
+//const mongoosePaginate = require("mongoose-paginate")
+
 const Schema = mongoose.Schema;
 
 const Location = new Schema({
@@ -32,5 +34,5 @@ const Location = new Schema({
         
      }]
 })
-
+//Location.plugin(mongoosePaginate);
 mongoose.model("leases", Location)
