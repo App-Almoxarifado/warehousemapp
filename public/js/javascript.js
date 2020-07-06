@@ -99,17 +99,17 @@ $(document).ready(function() {
 
 
 //CPF CNPJ
-$("#cpfCnpj").keydown(function(){
+/*$("#cpfcnpj").keydown(function(){
     try {
-        $("#cpfCnpj").unmask();
+        $("#cpfcnpj").unmask();
     } catch (e) {}
 
     var tamanho = $("#cpfcnpj").val().length;
 
     if(tamanho < 11){
-        $("#cpfCnpj").mask("999.999.999-99");
+        $("#cpfcnpj").mask("999.999.999-99");
     } else {
-        $("#cpfCnpj").mask("99.999.999/9999-99");
+        $("#cpfcnpj").mask("99.999.999/9999-99");
     }
 
     // ajustando foco
@@ -123,6 +123,34 @@ $("#cpfCnpj").keydown(function(){
     $(this).val('');
     $(this).val(currentValue);
 });
+
+$('#cep').mask('00000-000');
+
+$('#fone').mask('(00) 0000-00009');
+$('#fone').blur(function(event) {
+   if($(this).val().length == 15){ // Celular com 9 dígitos + 2 dígitos DDD e 4 da máscara
+      $('#fone').mask('(00) 00000-0009');
+   } else {
+      $('#fone').mask('(00) 0000-00009');
+   }
+});
+
+function formatarMoeda() {
+    var elemento = document.getElementById('valor');
+    var valor = elemento.value;
+    
+    valor = valor + '';
+    valor = parseInt(valor.replace(/[\D]+/g,''));
+    valor = valor + '';
+    valor = valor.replace(/([0-9]{2})$/g, ",$1");
+  
+    if (valor.length > 6) {
+      valor = valor.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
+    }
+  
+    elemento.value = valor;
+  }*/
+ 
 
 //MUDAR BACKGROUND
 function muda(){

@@ -1,0 +1,80 @@
+<div class="addsubgroups container mt-2">
+    <h3>Editar Produto:</h3>
+    {{#each erros}}
+    <div class="alert alert-danger">{{texto}}</div>
+    {{else}}
+
+    {{/each}}
+    <div class="card">
+        <div class="card-body">
+            <form method='post' enctype="multipart/form-data" action="/upload">
+                <div class="form-row">
+                    <div class="form-group col-md-6" id="qrcode2" onchange="qrcodeFormat()">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="text-center">
+                            <img src="{{product.image}}" style="width: 150px;" class="avatar img-circle img-thumbnail"
+                                alt="">
+                            <input type="file" accept="image/*" name="file" id="file"
+                                class="custom-file-input btn-file text-center center-block file-upload">
+                            <input type='submit' class='btn btn-primary' value='Upload de image'>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <form action="/products/products/edit" method="POST">
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <input type="hidden" class="form-control mt-2" id="id" name="id" placeholder="Id" value="{{product._id}}">
+                        <input type="hidden" class="form-control mt-2" id="qrcode" name="qrcode"
+                            placeholder="QrCode do group" value="{{product.qrcode}}">
+                        <input type="hidden" class="form-control mt-2" name="image" id="image" value="{{product.image}}">
+                        <label for="group">group:</label>
+                        <select  class="custom-select" id="group" name="group" value="{{product.group}}">
+                            <option selected disabled value="">Selecione...</option >
+                            {{#each groups}}
+                            <option {{#if_eq ../product.group _id}}selected{{/if_eq}} value="{{_id}}">{{description}}</option>
+                                    {{description}}
+                                </option>
+                            {{else}}
+                            <option value="0">Nenhum group registrado</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="subgroup">Subgroup:</label>
+                        <select class="custom-select" id="subgroup" name="subgroup" value="{{product.subgroup}}">
+                            <option selected disabled value="">Selecione...</option>
+                            {{#each subgroups}}
+                                <option {{#if_eq ../product.subgroup _id}}selected{{/if_eq}} value="{{_id}}">{{description}}</option>
+                            {{else}}
+                            <option value="0">Nenhum Subgroup registrado</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="description">Descrição:</label>
+                        <input type="text" class="form-control" id="description" name="description"
+                            placeholder="Descrição do group" value="{{product.description}}" onkeyup="qrcodeFormat()">
+                    </div>
+                </div>
+
+                <input type="hidden" class="form-control" id="date" name="date" placeholder="date"
+                    value="{{#formatDate date}}{{/formatDate}}">
+                <div class="form-group col-md-12">
+                    <div class="form-row">
+                        <button type="submit" class="btn btn-success"><i class="fas fa-share"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="mt-2"></div>
