@@ -1,0 +1,57 @@
+<div class="container mt-2">
+  <h2>Produtos</h2>
+  <a href="/products/products/add"><button class="btn btn-success">Crie um Grupo <i class="fas fa-share"></i></button></a>
+
+  <hr>
+  <a href="/products/products"><button type="button" class="btn btn-primary">Lista <i class="fas fa-th-list"></i></button></a>
+  <a href="/products/productstables"><button type="button" class="btn btn-primary">Tabela <i class="fas fa-table"></i></button></a>
+  
+  <hr>
+    
+          <table id="example" class="table table-bordered text-center" style="width:100%">
+          <thead>
+            <tr>
+              <th scope="col">Imagem</th>
+              <th scope="col">Descrição</th>
+              <th scope="col">Código QrCode</th>
+              <th scope="col">Data de Criação</th>
+              <th scope="col">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each products}}
+            <tr>
+              <th scope="row"><img src="{{image}}" style="max-width: 6rem;" class=" img-fluid rounded" alt="Responsive image"></th>
+              <td>{{description}}</td>
+              <td><img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{qrcode}}" style="width: 4rem;" class=" img-fluid rounded" alt="Responsive image" ></td>
+              <td>{{date}}</td>
+              <td>
+                <a href="/products/products/take/{{_id}}" class="btntb btn btn-dark mt-2"><i
+                    class="fas fa-align-right"></i></a>
+                <a href="/products/products/edit/{{_id}}"><button class="btntb btn btn-primary mt-2"><i
+                      class="fas fa-pen"></i></button></a>
+                <a href="/products/products/delete/{{_id}}"><button class="btntb deletar btn btn-danger mt-2"><i
+                      class="fas fa-trash-alt"></i></button></a>
+              </td>
+            </tr>
+            {{else}}
+            <h4 class="mt-2">Nenhum Produto Registrado!</h4>
+            {{/each}}
+          </tbody>
+        </table>
+        
+    <nav class="mt-2" aria-label="Navegação de página exemplo">
+      <ul class="pagination">
+        {{#if prev}}
+        <li class="page-item"><a class="page-link" href="{{prev}}">Anterior</a></li>
+        {{/if}}
+        {{#paginate}}
+        <li class="page-item"><a class="page-link" href="{{link}}">{{number}}</a></li>
+        {{/paginate}}
+        <li class="page-item"><a class="page-link" href="{{next}}">Próximo</a></li>
+      </ul>
+    </nav>
+
+
+ </div> 
+

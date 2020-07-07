@@ -1,0 +1,47 @@
+<div class="takegroups container mt-2">
+  <!--VIZULIZAÇÃO EM LISTA-->
+  <h4>{{subgroup.description}}</h4>
+  <hr>
+  <div class="card-deck mt-3">
+    <img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl={{subgroup.qrcode}}" width="200px"
+      class="img-fluid rounded" alt="Responsive image">
+    <div class="form-group col-md-3">
+      <img src="{{subgroup.image}}" width="200px" class=" img-fluid rounded" alt="Responsive image">
+    </div>
+    <div id="card2" class="card-body">
+      <form action="/groups/subgroups/take/" method="POST">
+        <!--<form action="/groups/subgroups/new" method="POST">-->
+        <input type="hidden" class="form-control mt-2" id="id" name="id" placeholder="Id" value="{{subgroup._id}}">
+        <input type="hidden" class="form-control mt-2" id="qrcode" name="qrcode" placeholder="QrCode do group"
+          value="{{subgroup.qrcode}}">
+        <input type="hidden" class="form-control mt-2" name="image" id="image" value="{{subgroup.image}}">
+        <input type="hidden" class="form-control mt-2" id="description" name="description"
+          placeholder="Descrição do group" value="{{subgroup.description}}" onkeyup="qrcodeFormat()">
+        <input type="hidden" class="form-control mt-2" id="date" name="date" placeholder="date"
+          value="{{#formatDate date}}{{/formatDate}}">
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <br>
+            <label for="group">Grupo:</label>
+            <select class="car" id="group" name="group" value="{{subgroup.group}}">
+              <option selected disabled value="">Selecione...</option>
+              {{#each groups}}
+              <option {{#if_eq ../subgroup.group _id}}selected{{/if_eq}} value="{{_id}}">{{description}}</option>
+              {{else}}
+              {{/each}}
+          </div>
+        </div>
+        <input type="hidden" class="car form-control mt-2" value="{{subgroup.qrcode}}">
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <h6 class="card-text">Código QrCode: {{subgroup.qrcode}}</h6>
+            <h6 class="card-text"><small>Data de Criação: {{subgroup.date}}</small></h6>
+            <h6 class="card-text"><small>Active: {{subgroup.active}}</small></h6>
+          </div>
+        </div>
+    </div>
+  </div>
+  </div> 
+  </form>
+</div>
+ <hr>

@@ -6,13 +6,47 @@ const Group = mongoose.model("groups")
 require("../models/Subgroup")
 const Subgroup = mongoose.model("subgroups")
 
-//Listando products
+//PRODUTOS POR LISTA
 exports.getList = async (req, res) => {
+    try {
+        const filtros = [];
+        let { search, page } = req.query;
+        if(search) {
+            const pattern = new RegExp(`.*${search}.*`)
+            filtros.push({ description : { $regex : pattern }})
+            filtros.push({ qrcode : { $regex : pattern }})
+        }
+
+        page = page || 1;
+
+        const quant = await Product
+            .find(filtros.length > 0 ? { $or: filtros} : {}).estimatedDocumentCount()
+    
+        var products = await Product
+            .find(filtros.length > 0 ? { $or: filtros} : {})
+            .limit(3)
+            .skip(page && Number(page) > 1 ? Number(page-1) * 3 : 0)
+            .populate("group")
+            .populate("subgroup")
+        res.render("products/products", {
+            products:products.map(products => products.toJSON()),
+            prev: Number(page) > 1,
+            next: Number(page)*20 < quant,
+            page
+        })
+    } catch (err) {
+        req.flash("error_msg", "Ops, Houve um erro interno!")
+        res.redirect("/products/products")
+    }
+}
+
+//PRODUTOS POR TABELA
+exports.getListTable = async (req, res) => {
     try {
         var products = await Product.find()
         .populate("group")
         .populate("subgroup")
-        res.render("products/products", {
+        res.render("products/productstables", {
             products:products.map(products => products.toJSON())
         })
     } catch (err) {
@@ -21,7 +55,7 @@ exports.getList = async (req, res) => {
     }
 }
 
-//Criando um Product
+//CRIANDO UM PRODUTO
 exports.getCreate = async (req, res) => {
     try {
         var groups = await Group.find({})
@@ -58,12 +92,17 @@ exports.postCreate = async (req, res) => {
     } else {
         try {      
         const products = new Product({
-            qrcode: req.body.qrcode,
+            qrcode: req.body.description
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+            .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+            .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+            .replace(/(^-+|-+$)/, ''),
             image: endImg + req.body.image.slice(0, -1),
             group: req.body.group,
             subgroup: req.body.subgroup,
             description: req.body.description,
-            date: req.body.date
+            date: req.body.date,
+            tags: [req.body.qrcode,req.body.group,req.body.subgroup,req.body.description]
         })
             await products.save()
             req.flash("success_msg", "Produto criado com sucesso!")
@@ -76,7 +115,7 @@ exports.postCreate = async (req, res) => {
     }
 }
 
-//Editando um Produto
+//EDITANDO UM PRODUTO
 exports.getUpdate = async (req, res) => {
     var product = await Product.findOne({ _id: req.params.id}).lean()
     try {
@@ -129,7 +168,7 @@ exports.postUpdate = async (req, res) => {
     }
 }
 
-//Deletando um Poduto
+//DELETANDO UM PRODUTO
 exports.getDelete = async(req, res) => {
     await Product.remove({_id: req.params.id})
     try {

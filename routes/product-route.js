@@ -6,6 +6,7 @@ const { eAdmin } = require("../helpers/eAdmin")
 //Produtos
 
 router.get("/products", controller.getList)
+router.get("/productstables", controller.getListTable)
 router.get("/products/add",controller.getCreate) 
 router.post("/products/new", controller.postCreate)
 router.get('/products/edit/:id', controller.getUpdate)
