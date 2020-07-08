@@ -34,14 +34,12 @@
                         <label for="group">Grupo:</label>
                         <select 
                             class="custom-select" id="group" name="group" 
-                            onchange="location.assign('?gId='+document.getElementById('group').value)"
-                        >
+                            onchange="location.assign('?gId='+document.getElementById('group').value)">
                             <option selected disabled value="">Selecione...</option>
                             {{#each groups}}
                                 <option 
                                     {{#if_eq ../idGroup _id}}selected{{/if_eq}} 
-                                    value="{{_id}}"
-                                >
+                                    value="{{_id}}">
                                     {{description}}
                                 </option>
                             {{else}}
