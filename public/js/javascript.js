@@ -17,17 +17,17 @@
 })
 
 //FUNÇÃO PARA AUTOMATIZAR O CÓDIGO QRCODE
-/*function qrcodeFormat() {
-    let v1 = document.getElementById('description').value
+function qrcodeFormat() {
+    let v1 = document.getElementById('subgroup').value
     let desired = v1.normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
         .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
         .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
         .replace(/(^-+|-+$)/, ''); // Remove hífens extras do final ou do inicio da string
     desired = desired.toLowerCase(); // Transforma Tudo em minúscula
     //RETIRA OS CARACTERES ESPECIAIS PARA GERAR O QR CODE
-    document.getElementById("qrcode").value = desired;
+    document.getElementById("copy").value = desired;
     makeCode();
-}*/
+}
 
 //FUNÇÃO PARA AUTOMATIZAR O CÓDIGO QRCODE usuario
 /*function qrcodeFormatUser() {

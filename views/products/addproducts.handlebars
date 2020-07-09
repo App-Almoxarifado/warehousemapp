@@ -30,6 +30,7 @@
                             placeholder="QrCode do group">
                         <input type="hidden" class="form-control mt-2" name="image" id="image">
                         <input type="hidden" class="form-control" name="image" id="image">
+                        <input type="text" class="form-control" name="copy" id="copy" >
 
                         <label for="group">Grupo:</label>
                         <select 
@@ -52,7 +53,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-12">
                         <label for="subgroup">Subgrupo:</label>
-                        <select class="custom-select" id="subgroup" name="subgroup">
+                        <select class="custom-select" id="subgroup" name="subgroup" onchange="qrcodeFormat()">
                             <option selected disabled value="">Selecione...</option>
                             {{#each subgroups}}
                                 <option value="{{_id}}">{{description}}</option>

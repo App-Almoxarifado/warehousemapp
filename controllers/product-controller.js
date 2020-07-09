@@ -13,8 +13,9 @@ exports.getList = async (req, res) => {
         let { search, page } = req.query;
         if(search) {
             const pattern = new RegExp(`.*${search}.*`)
-            filtros.push({ description : { $regex : pattern }})
             filtros.push({ qrcode : { $regex : pattern }})
+            filtros.push({ description : { $regex : pattern }})
+            filtros.push({ user : { $regex : pattern }})
         }
 
         page = page || 1;
@@ -31,7 +32,7 @@ exports.getList = async (req, res) => {
         res.render("products/products", {
             products:products.map(products => products.toJSON()),
             prev: Number(page) > 1,
-            next: Number(page)*20 < quant,
+            next: Number(page)*3 < quant,
             page
         })
     } catch (err) {
