@@ -1,19 +1,8 @@
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark " style="background-color: #0075be;">
-        <a class="navbar-brand mr-auto" href="#"><!--<h3>WarehouseApp</h3>-->
+        <a class="navbar-brand mr-auto" href="/"><!--<h3>WarehouseApp</h3>-->
         <img src="/img/logo6.png" width="200" alt="">
         </a>
-      {{#if user}}
 
-        <a class="nav-link" style="color: aliceblue;" href="/usuarios/logout">Sair</a>
-
-      {{else}}
-
-        <a class="nav-link" style="color: aliceblue;" href="/usuarios/login">Login</a>
-
-  
-        <a class="nav-link" style="color: aliceblue;" href="/usuarios/registro">Registro</a>
-
-      {{/if}}
       <button type="button" class="btn btn-primary" onclick="muda();" ><i class="fas fa-adjust"></i></button></a>
         <button class="navbar-toggler d-block" type="button" id="navToggle">
             <span class="navbar-toggler-icon"></span>
@@ -77,7 +66,18 @@
           <a class="dropdown-item" href="">Painel Administrativo</a>
         </div>
       </li>
+      {{#if user}}
 
+        <a class="nav-link"  href="/usuarios/logout">Sair</a>
+
+      {{else}}
+
+        <a class="nav-link"  href="/usuarios/login">Login</a>
+
+  
+        <a class="nav-link"  href="/usuarios/registro">Registro</a>
+
+      {{/if}}
       
     </ul>
 
