@@ -5,6 +5,10 @@ require("../models/Group")
 const Group = mongoose.model("groups")
 require("../models/Subgroup")
 const Subgroup = mongoose.model("subgroups")
+require("../models/Location")
+const Location = mongoose.model("leases")
+require("../models/Sublease")
+const Sublease = mongoose.model("subleases")
 
 //PRODUTOS POR LISTA
 exports.getList = async (req, res) => {
@@ -59,13 +63,18 @@ exports.getListTable = async (req, res) => {
 //CRIANDO UM PRODUTO
 exports.getCreate = async (req, res) => {
     try {
+
         var groups = await Group.find({})
         const { gId } = req.query;
         var subgroups = await Subgroup.find(gId ? { group: gId } : {});
+        var leases = await Location.find({})
+        var subleases = await Sublease.find({})
         return res.render("products/addproducts", { 
             groups:groups.map(groups => groups.toJSON()),
             subgroups:subgroups.map(subgroups => subgroups.toJSON()),
-            idGroup: gId
+            idGroup: gId,
+            leases:leases.map(leases => leases.toJSON()),
+            subleases:subleases.map(subleases => subleases.toJSON())
         })
     } catch (err) {
         req.flash("error_msg", "Ops, Houve um erro interno!")
@@ -76,12 +85,12 @@ exports.getCreate = async (req, res) => {
 exports.postCreate = async (req, res) => {
     let endImg = "https://warehousemapp.herokuapp.com/uploads/"
     var erros = []
-    if (!req.body.description || typeof req.body.description == undefined || req.body.description == null) {
+    if (!req.body.fullDescription || typeof req.body.fullDescription == undefined || req.body.fullDescription == null) {
         erros.push({
             texto: "Descricão Inválida"
         })
     }
-    if (req.body.description.length < 2) {
+    if (req.body.fullDescription.length < 2) {
         erros.push({
             texto: "Descrição do Produto Muito Pequeno!"
         })
@@ -93,17 +102,19 @@ exports.postCreate = async (req, res) => {
     } else {
         try {      
         const products = new Product({
-            qrcode: req.body.description
+            qrcode: req.body.fullDescription
             .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
             .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
             .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
             .replace(/(^-+|-+$)/, ''),
-            image: endImg + req.body.image.slice(0, -1),
+            image: endImg + req.body.image,
             group: req.body.group,
             subgroup: req.body.subgroup,
-            description: req.body.description,
+            local: req.body.local,
+            sublease: req.body.sublease,
+            fullDescription: req.body.fullDescription,
             date: req.body.date,
-            tags: [req.body.qrcode,req.body.group,req.body.subgroup,req.body.description]
+            tags: [req.body.qrcode,req.body.group,req.body.subgroup,req.body.fullDescription]
         })
             await products.save()
             req.flash("success_msg", "Produto criado com sucesso!")

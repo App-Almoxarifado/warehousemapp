@@ -13,7 +13,7 @@ const Client = new Schema({
     },
     description: {
         type: String,
-        required: true
+        required: true,
     },
     initials: {
         type: String,
@@ -60,6 +60,10 @@ const Client = new Schema({
         required: true
     },
     bairro: {
+        type: String,
+        required: true
+    },
+    complemento: {
         type: String,
         required: true
     },

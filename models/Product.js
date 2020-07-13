@@ -26,24 +26,22 @@ const Product = new Schema({
       ref: "subgroups",
       required: true
    },
-   description: {
+   local: {
+      type: Schema.Types.ObjectId,
+      ref: "leases",
+      required: true
+   },
+   sublease: {
+      type: Schema.Types.ObjectId,
+      ref: "subleases",
+      required: true
+   },
+   fullDescription: {
       type: String,
       required: true,
       index: true,
       trim: true
    },
-   /*fabricante: {
-      type: String,
-      required: true
-   },
-   modelo: {
-      type: String,
-      required: true
-   },
-   capacidadealcance: {
-      type: String,
-      required: true
-   },*/
    date: {
       type: String,
       default: Date.now()

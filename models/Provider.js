@@ -15,6 +15,10 @@ const Provider = new Schema({
         type: String,
         required: true
     },
+    clientCode: {
+        type: String,
+        required: true
+    },
     name: {
         type: String,
         required: true
@@ -52,6 +56,10 @@ const Provider = new Schema({
         required: true
     },
     bairro: {
+        type: String,
+        required: true
+    },
+    complemento: {
         type: String,
         required: true
     },

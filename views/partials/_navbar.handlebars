@@ -1,15 +1,27 @@
-
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark " style="background-color: #0075be;">
-  <a class="navbar-brand" href="/">
-    <!--<h3>WarehouseApp</h3>-->
-   <img src="/img/logo6.png" width="200" alt="">
-  </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
-    <ul class="navbar-nav ">
+        <a class="navbar-brand mr-auto" href="#"><!--<h3>WarehouseApp</h3>-->
+        <img src="/img/logo6.png" width="200" alt="">
+        </a>
+      {{#if user}}
+
+        <a class="nav-link" style="color: aliceblue;" href="/usuarios/logout">Sair</a>
+
+      {{else}}
+
+        <a class="nav-link" style="color: aliceblue;" href="/usuarios/login">Login</a>
+
+  
+        <a class="nav-link" style="color: aliceblue;" href="/usuarios/registro">Registro</a>
+
+      {{/if}}
+      <button type="button" class="btn btn-primary" onclick="muda();" ><i class="fas fa-adjust"></i></button></a>
+        <button class="navbar-toggler d-block" type="button" id="navToggle">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+
+        <div class="navbar-collapse offcanvas-collapse">
+ <ul class="navbar-nav ">
       <li class="nav-item active">
         <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
       </li>
@@ -65,20 +77,11 @@
           <a class="dropdown-item" href="">Painel Administrativo</a>
         </div>
       </li>
-      {{#if user}}
-      <li class="nav-item">
-        <a class="nav-link" href="/usuarios/logout">Sair</a>
-      </li>
-      {{else}}
-      <li class="nav-item">
-        <a class="nav-link" href="/usuarios/login">Login</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/usuarios/registro">Registro</a>
-      </li>
-      {{/if}}
-      <button type="button" class="btn btn-primary" onclick="muda();" ><i class="fas fa-adjust"></i></button></a>
+
+      
     </ul>
-</div>
-</nav>
-  
+
+
+        </div>
+    </nav>
+    
