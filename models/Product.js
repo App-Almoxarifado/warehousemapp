@@ -26,17 +26,6 @@ const Product = new Schema({
       ref: "subgroups",
       required: true
    },
-   fullDescription: {
-      type: String,
-      required: true,
-      index: true,
-      trim: true
-   },
-   client: {
-      type: Schema.Types.ObjectId,
-      ref: "customers",
-      required: true
-   },
    local: {
       type: Schema.Types.ObjectId,
       ref: "leases",
@@ -47,46 +36,11 @@ const Product = new Schema({
       ref: "subleases",
       required: true
    },
-   patrimonialAsset: {
-      type: String,
-      required: false,
-      index: true,
-      trim: true
-   },
-   description: {
+   fullDescription: {
       type: String,
       required: true,
       index: true,
       trim: true
-   },
-   manufacturer: {
-      type: String,
-      required: false,
-      index: true,
-      trim: true
-   },
-   model: {
-      type: String,
-      required: false,
-      index: true,
-      trim: true
-   },
-   capacityReach: {
-      type: String,
-      required: false,
-      index: true,
-      trim: true
-   },
-   serialNumber: {
-      type: String,
-      required: false,
-      index: true,
-      trim: true
-   },
-   physicalStatus: {
-      type: Schema.Types.ObjectId,
-      ref: "status",
-      required: true
    },
    date: {
       type: String,

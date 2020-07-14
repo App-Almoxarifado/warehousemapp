@@ -9,71 +9,58 @@
 
 
     <form class="mt-2" method='post' enctype="multipart/form-data" action="/upload">
-        <div class="form-row">
-            <div class="col-md-3 text-center">
-                <img src="/img/logo8.png" class="avatar img-fluid rounded" alt="Responsive image" style="width: 8rem;">
-            </div>
-            <input type="file" accept="image/*" name="file" id="file"
-                class="btn-file text-center center-block file-upload">
-            <div class="col-3 mt-5 text-center">
-                <input type='submit' class='btn btn-primary' value='Salvar Imagem'>
-            </div>
-        </div>
-
+    <div class="form-row">
+    <div class="col-md-3 text-center">
+    <img src="/img/logo8.png" class="avatar img-fluid rounded" alt="Responsive image" style="width: 8rem;">
+    </div>
+    <input type="file" accept="image/*" name="file" id="file" class="btn-file text-center center-block file-upload">
+    <div class="col-3 mt-5 text-center">
+    <input type='submit' class='btn btn-primary' value='Salvar Imagem'>
+    </div>
+    </div>
+    
     </form>
 
+    
 
 
-
-
+    
     <form action="/products/products/new" class="mt-2" method="POST">
 
-        <input type="hidden" class="form-control mt-2" name="image" id="image">
+    <input type="hidden" class="form-control mt-2" name="image" id="image">
+    
+    <div class="form-row">
 
-        <div class="form-row">
+    <div class="col-md-6">
+    <label for="group">Grupo:</label>
+    <select class="custom-select" id="group" name="group"
+     onchange="location.assign('?gId='+document.getElementById('group').value)">                                                   
+    <option selected disabled value="">Selecione...</option>
+    {{#each groups}}
+    <option {{#if_eq ../idGroup _id}}selected{{/if_eq}} value="{{_id}}"> {{description}}</option>                       
+    {{else}}
+    <option value="0">Nenhum grupo registrado</option>
+    {{/each}}
+    </select>                            
+    </div>
 
-            <div class="col-md-6">
-                <label for="group">Grupo:</label>
-                <select class="custom-select" id="group" name="group"
-                    onchange="location.assign('?gId='+document.getElementById('group').value)">
-                    <option selected disabled value="">Selecione...</option>
-                    {{#each groups}}
-                    <option {{#if_eq ../idGroup _id}}selected{{/if_eq}} value="{{_id}}"> {{description}}</option>
-                    {{else}}
-                    <option value="0">Nenhum grupo registrado</option>
-                    {{/each}}
-                </select>
-            </div>
+    <div class="col-md-6">
+    <label for="subgroup">Subgrupo:</label>                                
+    <select class="custom-select" id="subgroup" name="subgroup">                               
+    <option selected disabled value="">Selecione...</option>
+    {{#each subgroups}}
+    <option value="{{_id}}">{{description}}</option>
+    {{else}}
+    <option value="0">Nenhum Subgroup registrado</option>
+    {{/each}}
+    </select>
+    </div>
 
-            <div class="col-md-6">
-                <label for="subgroup">Subgrupo:</label>
-                <select class="custom-select" id="subgroup" name="subgroup">
-                    <option selected disabled value="">Selecione...</option>
-                    {{#each subgroups}}
-                    <option value="{{_id}}">{{description}}</option>
-                    {{else}}
-                    <option value="0">Nenhum Subgroup registrado</option>
-                    {{/each}}
-                </select>
-            </div>
+    </div>
 
-        </div>
+    <div class="form-row">
 
-        <div class="form-row">
-
-            <div class="form-group col-md-4">
-                <label for="client">Site:</label>
-                <select class="custom-select" id="client" name="client">
-                    <option selected disabled value="">Selecione...</option>
-                    {{#each customers}}
-                    <option value="{{_id}}">{{description}}</option>
-                    {{else}}
-                    <option value="0">Nenhum site registrado</option>
-                    {{/each}}
-                </select>
-            </div>
-
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-6">
                 <label for="local">Locação:</label>
                 <select class="custom-select" id="local" name="local">
                     <option selected disabled value="">Selecione...</option>
@@ -85,7 +72,7 @@
                 </select>
             </div>
 
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-6">
                 <label for="sublease">Sublocação:</label>
                 <select class="custom-select" id="sublease" name="sublease">
                     <option selected disabled value="">Selecione...</option>
@@ -97,78 +84,27 @@
                 </select>
             </div>
 
-        </div>
+    </div> 
+    
 
-        <input type="text" class="form-control mt-2" name="fullDescription" id="fullDescription"
-            placeholder="Descrição do Produto">
+    <div class="form-row">
+    <div class="form-group col-md-8">
+    <label for="fullDescription">Descrição:</label>
+    <input type="text" class="form-control" id="fullDescription" name="fullDescription"
+    placeholder="Descrição do group" onkeyup="qrcodeFormat()">
+    </div>
+    </div>
 
-        <div class="form-row">
-            <div class="form-group col-md-3">
-                <label for="patrimonialAsset">Bem Patrimonial:</label>
-                <input type="text" class="form-control" id="patrimonialAsset" name="patrimonialAsset"
-                    placeholder="Bem Patrimonial">
-            </div>
+    <input type="hidden" class="form-control" id="date" name="date" placeholder="date"
+    value="{{#formatDate date}}{{/formatDate}}">
 
-            <div class="form-group col-md-9">
-                <label for="description">Descrição:</label>
-                <input type="text" class="form-control" id="description" name="description"
-                    placeholder="Descrição do Produto">
-            </div>
-
-        </div>
-
-        <div class="form-row">
-            <div class="form-group col-md-3">
-                <label for="manufacturer">Fabricante:</label>
-                <input type="text" class="form-control" id="manufacturer" name="manufacturer"
-                    placeholder="Fabricante do Produto">
-            </div>
-
-            <div class="form-group col-md-3">
-                <label for="model">Modelo:</label>
-                <input type="text" class="form-control" id="model" name="model"
-                    placeholder="Modelo do Produto">
-            </div>
-            
-                <div class="form-group col-md-4">
-                    <label for="capacityReach">Capacidade / Alcance:</label>
-                    <input type="text" class="form-control" id="capacityReach" name="capacityReach"
-                        placeholder="Capacidade / Alcance do Produto">
-                </div>
-
-                <div class="form-group col-md-2">
-                    <label for="serialNumber">N° de série:</label>
-                    <input type="text" class="form-control" id="serialNumber" name="serialNumber"
-                        placeholder="N° de série do Produto">
-                </div>
-
-            </div>
-
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="physicalStatus">Status:</label>
-                    <select class="custom-select" id="physicalStatus" name="physicalStatus">
-                        <option selected disabled value="">Selecione...</option>
-                        {{#each status}}
-                        <option value="{{_id}}">{{description}}</option>
-                        {{else}}
-                        <option value="0">Nenhum status registrado</option>
-                        {{/each}}
-                    </select>
-                </div>
-
-            </div>
-
-            <input type="hidden" class="form-control" id="date" name="date" placeholder="date"
-                value="{{#formatDate date}}{{/formatDate}}">
-
-            <div class="form-group col-md-8">
-                <div class="form-row">
-                    <button type="submit" class="btn btn-success"><i class="fas fa-share"></i></button>
-                </div>
-            </div>
-            <hr>
-
+    <div class="form-group col-md-8">
+    <div class="form-row">
+    <button type="submit" class="btn btn-success"><i class="fas fa-share"></i></button>
+    </div>
+    </div>
+    <hr>
+   
     </form>
-
+    
 </div>
