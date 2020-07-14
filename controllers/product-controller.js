@@ -5,10 +5,14 @@ require("../models/Group")
 const Group = mongoose.model("groups")
 require("../models/Subgroup")
 const Subgroup = mongoose.model("subgroups")
+require("../models/Client")
+const Client = mongoose.model("customers")
 require("../models/Location")
 const Location = mongoose.model("leases")
 require("../models/Sublease")
 const Sublease = mongoose.model("subleases")
+require("../models/Status")
+const Status = mongoose.model("status")
 
 //PRODUTOS POR LISTA
 exports.getList = async (req, res) => {
