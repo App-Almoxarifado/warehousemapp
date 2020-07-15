@@ -13,6 +13,12 @@ require("../models/Sublease")
 const Sublease = mongoose.model("subleases")
 require("../models/Status")
 const Status = mongoose.model("status")
+require("../models/Type")
+const Type = mongoose.model("types")
+require("../models/Unity")
+const Unity = mongoose.model("units")
+require("../models/Interval")
+const Interval = mongoose.model("breaks")
 
 //PRODUTOS POR LISTA
 exports.getList = async (req, res) => {
@@ -75,6 +81,9 @@ exports.getCreate = async (req, res) => {
         var leases = await Location.find({})
         var subleases = await Sublease.find({})
         var status = await Status.find({})
+        var types = await Type.find({})
+        var units = await Unity.find({})
+        var breaks = await Interval.find({})
         return res.render("products/addproducts", { 
             groups:groups.map(groups => groups.toJSON()),
             subgroups:subgroups.map(subgroups => subgroups.toJSON()),
@@ -82,7 +91,10 @@ exports.getCreate = async (req, res) => {
             customers:customers.map(customers => customers.toJSON()),
             leases:leases.map(leases => leases.toJSON()),
             subleases:subleases.map(subleases => subleases.toJSON()),
-            status:status.map(status => status.toJSON())
+            status:status.map(status => status.toJSON()),
+            types:types.map(types => types.toJSON()),
+            units:units.map(units => units.toJSON()),
+            breaks:breaks.map(breaks => breaks.toJSON())
         })
     } catch (err) {
         req.flash("error_msg", "Ops, Houve um erro interno!")
@@ -122,6 +134,13 @@ exports.postCreate = async (req, res) => {
         erros.push({
             texto: "Status inválido, registre um status"
         })
+        
+    }
+    if (req.body.kindOfEquipment == "0") {
+        erros.push({
+            texto: "Tipo de equipamento inválido, registre um tipo de equipamento"
+        })
+        
     }
     if (!req.body.description || typeof req.body.description == undefined || req.body.description == null) {
         erros.push({
@@ -171,9 +190,13 @@ exports.postCreate = async (req, res) => {
             .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
             .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
             .replace(/(^-+|-+$)/, ''),
+
             image: endImg + req.body.image,
+
             group: req.body.group,
+
             subgroup: req.body.subgroup,
+
             fullDescription: 
             req.body.patrimonialAsset + " " + 
             req.body.description + " " + 
@@ -183,18 +206,51 @@ exports.postCreate = async (req, res) => {
             req.body.serialNumber,
 
             client: req.body.client,
+
             local: req.body.local,
+
             sublease: req.body.sublease,
 
             patrimonialAsset: req.body.patrimonialAsset,
+
             description: req.body.description,
+
             manufacturer: req.body.manufacturer,
+
             model: req.body.model,
+
             capacityReach: req.body.capacityReach,
+            
             serialNumber: req.body.serialNumber,
 
             physicalStatus: req.body.physicalStatus,
+
+            kindOfEquipment: req.body.kindOfEquipment,
+
+            inputAmount: req.body.inputAmount,
+
+            unity: req.body.unity,
+
+            weightKg: req.body.weightKg,
+
+            faceValue: req.body.faceValue,
+
+            dimensionsWxLxH: req.body.dimensionsWxLxH,
+
+            certificate: req.body.certificate,
+
+            entityLaboratory: req.body.entityLaboratory,
+
+            frequency: req.body.frequency,
+
+            calibrationDate: req.body.calibrationDate,
+
+            validadeCalibracao: req.body.validadeCalibracao,
+
+            calibrationValidity: req.body.calibrationValidity,
+
             date: req.body.date,
+
             tags: [req.body.qrcode,req.body.group,req.body.subgroup,req.body.fullDescription]
         })
             await products.save()
