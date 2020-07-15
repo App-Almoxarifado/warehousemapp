@@ -90,41 +90,8 @@ const Product = new Schema({
    },
    kindOfEquipment: {
       type: Schema.Types.ObjectId,
-      ref: "types",
+      ref: "status",
       required: true
-   },
-   requiresCertificationCalibration: {
-      type: String,
-      required: false,
-      index: true,
-      trim: true
-   },
-   inputAmount: {
-      type: String,
-      required: false,
-   },
-   outputQuantity: {
-      type: String,
-      required: false,
-   },
-   unity: {
-      type: Schema.Types.ObjectId,
-      ref: "units",
-      required: true
-   },
-   weightKg: {
-      type: String,
-      required: false,
-   },
-   faceValue: {
-      type: String,
-      required: false,
-   },
-   dimensionsWxLxH: {
-      type: String,
-      required: false,
-      index: true,
-      trim: true
    },
    date: {
       type: String,

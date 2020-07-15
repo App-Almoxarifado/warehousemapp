@@ -133,11 +133,10 @@ $('#fone').blur(function(event) {
    } else {
       $('#fone').mask('(00) 0000-00009');
    }
-});*/
+});
 
-//MOEDA
 function formatarMoeda() {
-    var elemento = document.getElementById('faceValue');
+    var elemento = document.getElementById('valor');
     var valor = elemento.value;
     
     valor = valor + '';
@@ -150,13 +149,8 @@ function formatarMoeda() {
     }
   
     elemento.value = valor;
-  }
+  }*/
  
-//PESO
-    $('#weightKg').mask("#0.000", {reverse: true});
-
-
-
 
 //MUDAR BACKGROUND
 function muda(){
