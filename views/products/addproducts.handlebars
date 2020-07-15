@@ -208,65 +208,20 @@
 
             <div class="form-group col-md-2">
                 <label for="weightKg">Peso Kg:</label>
-                <input type="text" class="form-control" id="weightKg" name="weightKg" placeholder="Peso do Produto">
+                <input type="text" class="form-control" id="weightKg" name="weightKg"
+                    placeholder="Peso do Produto">
             </div>
 
             <div class="form-group col-md-2">
                 <label for="faceValue">Valor de Face:</label>
-                <input type="text" class="form-control" id="faceValue" name="faceValue" placeholder="Valor do Produto"
-                    onkeyup="formatarMoeda()">
+                <input type="text" class="form-control" id="faceValue" name="faceValue"
+                    placeholder="Valor do Produto" onkeyup="formatarMoeda()">
             </div>
 
             <div class="form-group col-md-3">
                 <label for="dimensionsWxLxH">Dimensões LxCxA mm:</label>
                 <input type="text" class="form-control" id="dimensionsWxLxH" name="dimensionsWxLxH"
                     placeholder="Dimensões do Produto">
-            </div>
-
-        </div>
-
-        <div class="form-row">
-
-            <div class="form-group col-md-2">
-                <label for="certificate">Certificado:</label>
-                <input type="text" class="form-control" id="certificate" name="certificate"
-                    placeholder="Certificado do Produto">
-            </div>
-
-            <div class="form-group col-md-2">
-                <label for="entityLaboratory">Laboratório/ Entidade:</label>
-                <input type="text" class="form-control" id="entityLaboratory" name="entityLaboratory"
-                    placeholder="Laboratório/ Entidade">
-            </div>
-
-            <div class="form-group col-md-2">
-                <label for="frequency">Periodicidade:</label>
-                <select class="custom-select" id="frequency" name="frequency">
-                    <option selected disabled value="">Selecione...</option>
-                    {{#each breaks}}
-                    <option value="{{_id}}">{{description}}</option>
-                    {{else}}
-                    <option value="0">Nenhum intervalo registrado</option>
-                    {{/each}}
-                </select>
-            </div>
-
-            <div class="form-group col-md-2">
-                <label for="calibrationDate">Data Calibração:</label>
-                <input oninput="mascara(this, 'data')" type="text" class="form-control" id="calibrationDate" name="calibrationDate"
-                    placeholder="Data Calibração">
-            </div>
-
-            <div class="form-group col-md-2">
-                <label for="ValidadeCalibracao">Validade Calibração:</label>
-                <input oninput="mascara(this, 'data')" type="text" class="form-control" id="validadeCalibracao" name="validadeCalibracao"
-                    placeholder="Validade Calibração">
-            </div>
-
-            <div class="form-group col-md-2">
-                <label for="calibrationValidity">Status Calibração:</label>
-                <input type="text" class="form-control" id="calibrationValidity" name="calibrationValidity"
-                    placeholder="Status Calibração">
             </div>
 
         </div>
