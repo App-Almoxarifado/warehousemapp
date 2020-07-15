@@ -161,6 +161,41 @@ const Product = new Schema({
       index: true,
       trim: true
    },
+   po: {
+      type: String,
+      required: false,
+      index: true,
+      trim: true
+   },
+   sapCode: {
+      type: String,
+      required: false,
+      index: true,
+      trim: true
+   },
+   ncmCode: {
+      type: String,
+      required: false,
+      index: true,
+      trim: true
+   },
+   provider: {
+      type: Schema.Types.ObjectId,
+      ref: "providers",
+      required: true
+   },
+   invoce: {
+      type: String,
+      required: false,
+      index: true,
+      trim: true
+   },
+   receivingDate: {
+      type: String,
+      required: false,
+      index: true,
+      trim: true
+   },
    date: {
       type: String,
       default: Date.now()

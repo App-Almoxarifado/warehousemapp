@@ -19,6 +19,8 @@ require("../models/Unity")
 const Unity = mongoose.model("units")
 require("../models/Interval")
 const Interval = mongoose.model("breaks")
+require("../models/Provider")
+const Provider = mongoose.model("providers")
 
 //PRODUTOS POR LISTA
 exports.getList = async (req, res) => {
@@ -84,6 +86,7 @@ exports.getCreate = async (req, res) => {
         var types = await Type.find({})
         var units = await Unity.find({})
         var breaks = await Interval.find({})
+        var providers = await Provider.find({})
         return res.render("products/addproducts", { 
             groups:groups.map(groups => groups.toJSON()),
             subgroups:subgroups.map(subgroups => subgroups.toJSON()),
@@ -94,7 +97,8 @@ exports.getCreate = async (req, res) => {
             status:status.map(status => status.toJSON()),
             types:types.map(types => types.toJSON()),
             units:units.map(units => units.toJSON()),
-            breaks:breaks.map(breaks => breaks.toJSON())
+            breaks:breaks.map(breaks => breaks.toJSON()),
+            providers:providers.map(providers => providers.toJSON())
         })
     } catch (err) {
         req.flash("error_msg", "Ops, Houve um erro interno!")
@@ -142,6 +146,21 @@ exports.postCreate = async (req, res) => {
         })
         
     }
+
+    if (req.body.unity == "0") {
+        erros.push({
+            texto: "Unidade inválida, registre uma unidade"
+        })
+        
+    }
+
+    if (req.body.frequency == "0") {
+        erros.push({
+            texto: "Periodicidade inválida, registre uma periodicidade"
+        })
+        
+    }
+
     if (!req.body.description || typeof req.body.description == undefined || req.body.description == null) {
         erros.push({
             texto: "Descricão Inválida"
@@ -149,7 +168,7 @@ exports.postCreate = async (req, res) => {
     }
     if (req.body.description.length < 2) {
         erros.push({
-            texto: "Descrição do Produto Muito Pequeno!"
+            texto: "Descrição do produto muito pequena!"
         })
     }
     if (erros.length > 0) {
@@ -248,6 +267,18 @@ exports.postCreate = async (req, res) => {
             calibrationValidity: req.body.calibrationValidity,
 
             calibrationStatus: req.body.calibrationStatus,
+
+            po: req.body.po,
+
+            sapCode: req.body.sapCode,
+
+            ncmCode: req.body.ncmCode,
+
+            provider: req.body.provider,
+
+            invoce: req.body.invoce,
+
+            receivingDate: req.body.receivingDate,
 
             date: req.body.date,
 

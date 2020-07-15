@@ -274,12 +274,58 @@
 
         </div>
 
+        <div class="form-row" >
+
+            <div class="form-group col-md-2">
+                <label for="po">P.O.:</label>
+                <input type="text" class="form-control" id="po" name="po"
+                    placeholder="P.O. do Produto">
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="sapCode">Código Sap:</label>
+                <input type="text" class="form-control" id="sapCode" name="sapCode"
+                    placeholder="Código Sap">
+            </div>
+
+                        <div class="form-group col-md-2">
+                <label for="ncmCode">Código Ncm:</label>
+                <input type="text" class="form-control" id="ncmCode" name="ncmCode"
+                    placeholder="Código Ncm">
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="provider">Fornecedor:</label>
+                <select class="custom-select" id="provider" name="provider">
+                    <option selected disabled value="">Selecione...</option>
+                    {{#each providers}}
+                    <option value="{{_id}}">{{name}}</option>
+                    {{else}}
+                    <option value="0">Nenhum Fornecedor registrado</option>
+                    {{/each}}
+                </select>
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="invoce">Nota Fiscal:</label>
+                <input type="text" class="form-control" id="invoce" name="invoce"
+                    placeholder="Nota Fiscal">
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="receivingDate">Data Recebimento:</label>
+                <input oninput="mascara(this, 'data')" type="text" class="form-control" id="receivingDate" name="receivingDate"
+                    placeholder="Data Recebimento">
+            </div>
+
+        </div>
+
         <input type="hidden" class="form-control" id="date" name="date" placeholder="date"
             value="{{#formatDate date}}{{/formatDate}}">
 
         <div class="form-group col-md-8">
             <div class="form-row">
-                <button type="submit" class="btn btn-success"><i class="fas fa-share"></i></button>
+                <button type="submit" class="btn btn-success">Salvar <i class="fas fa-share"></i></button>
             </div>
         </div>
         <hr>
