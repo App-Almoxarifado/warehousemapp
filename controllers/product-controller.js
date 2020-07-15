@@ -245,9 +245,9 @@ exports.postCreate = async (req, res) => {
 
             calibrationDate: req.body.calibrationDate,
 
-            validadeCalibracao: req.body.validadeCalibracao,
-
             calibrationValidity: req.body.calibrationValidity,
+
+            calibrationStatus: req.body.calibrationStatus,
 
             date: req.body.date,
 
