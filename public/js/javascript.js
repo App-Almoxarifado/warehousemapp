@@ -135,7 +135,7 @@ $('#fone').blur(function(event) {
    }
 });*/
 
-/*//MOEDA
+//MOEDA
 function formatarMoeda() {
     var elemento = document.getElementById('faceValue');
     var valor = elemento.value;
@@ -156,7 +156,7 @@ function formatarMoeda() {
     $('#weightKg').mask("#0.000", {reverse: true});
 
 
-    */
+
 
 //MUDAR BACKGROUND
 function muda(){
@@ -177,7 +177,7 @@ $(document).ready(function () {
 });
 
 
-/*function mascara(i,t){
+function mascara(i,t){
    
     var v = i.value;
     
@@ -218,4 +218,4 @@ $(document).ready(function () {
           if (v.length == 4) i.value += "-";
        }
     }
- }*/
+ }
