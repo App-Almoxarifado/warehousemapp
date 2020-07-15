@@ -99,8 +99,8 @@
 
         </div>
 
-        <input type="text" class="form-control mt-2" name="fullDescription" id="fullDescription"
-            placeholder="Descrição do Produto">
+        <input type="hidden" class="form-control mt-2" name="fullDescription" id="fullDescription"
+            placeholder="Descrição completa do Produto">
 
         <div class="form-row">
             <div class="form-group col-md-3">
@@ -136,7 +136,7 @@
             </div>
 
             <div class="form-group col-md-2">
-                <label for="serialNumber">N° de série:</label>
+                <label for="serialNumber">N° de Série:</label>
                 <input type="text" class="form-control" id="serialNumber" name="serialNumber"
                     placeholder="N° de série do Produto">
             </div>
@@ -144,7 +144,7 @@
         </div>
 
         <div class="form-row">
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-4">
                 <label for="physicalStatus">Status:</label>
                 <select class="custom-select" id="physicalStatus" name="physicalStatus">
                     <option selected disabled value="">Selecione...</option>
@@ -156,7 +156,7 @@
                 </select>
             </div>
 
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-4">
                 <label for="kindOfEquipment">Tipo de Equipamento:</label>
                 <select class="custom-select" id="kindOfEquipment" name="kindOfEquipment">
                     <option selected disabled value="">Selecione...</option>
@@ -166,6 +166,62 @@
                     <option value="0">Nenhum tipo de equipamento registrado</option>
                     {{/each}}
                 </select>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="requiresCertificationCalibration"> Requer Calibração/Certificação:</label>
+                <select class="custom-select" id="requiresCertificationCalibration"
+                    name="requiresCertificationCalibration">
+                    <option selected disabled value="">Selecione...</option>
+                    <option>Sim</option>
+                    <option>Não</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="form-row">
+
+            <div class="form-group col-md-2" style="display: block;">
+                <label for="inputAmount">Quantidade:</label>
+                <input type="text" class="form-control" id="inputAmount" name="inputAmount"
+                    placeholder="Quantidade do Produto" onkeyup="roundToTwo(num)">
+            </div>
+
+            <div class="form-group col-md-2" style="display: none;">
+                <label for="outputQuantity">Quantidade:</label>
+                <input type="text" class="form-control" id="outputQuantity" name="outputQuantity"
+                    placeholder="Quantidade do Produto">
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="unity">Unidade:</label>
+                <select class="custom-select" id="unity" name="unity">
+                    <option selected disabled value="">Selecione...</option>
+                    {{#each units}}
+                    <option value="{{_id}}">{{description}}</option>
+                    {{else}}
+                    <option value="0">Nenhuma unidade de equipamento registrada</option>
+                    {{/each}}
+                </select>
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="weightKg">Peso Kg:</label>
+                <input type="text" class="form-control" id="weightKg" name="weightKg"
+                    placeholder="Peso do Produto">
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="faceValue">Valor de Face:</label>
+                <input type="text" class="form-control" id="faceValue" name="faceValue"
+                    placeholder="Valor do Produto" onkeyup="formatarMoeda()">
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="dimensionsWxLxH">Dimensões LxCxA mm:</label>
+                <input type="text" class="form-control" id="dimensionsWxLxH" name="dimensionsWxLxH"
+                    placeholder="Dimensões do Produto">
             </div>
 
         </div>
