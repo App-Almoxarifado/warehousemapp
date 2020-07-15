@@ -1,10 +1,10 @@
-(function(_win, doc) {
+(function (_win, doc) {
 
     //CONFIRMAÇÃO AO DELETAR 
     if (doc.querySelector('.deletar')) {
         let deleters = doc.querySelectorAll('.deletar');
         for (let i = 0; i < deleters.length; i++) {
-            deleters[i].addEventListener('click', function(event) {
+            deleters[i].addEventListener('click', function (event) {
                 let id = deleters[i].dataset.id;
                 if (confirm("Deseja mesmo apagar este dado?")) {
                     return true;
@@ -64,9 +64,9 @@ function makeCode() {
 }*/
 
 //CARREGANDO IMAGEM
-$(document).ready(function() {
+$(document).ready(function () {
 
-    var readUrl = function(input) {
+    var readUrl = function (input) {
 
         if (input.files && input.files[0]) {
 
@@ -74,7 +74,7 @@ $(document).ready(function() {
 
             reader.readAsDataURL(input.files[0]);
 
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 $(".avatar").attr('src', e.target.result);
 
                 var url = (e.target.result);
@@ -87,11 +87,11 @@ $(document).ready(function() {
         }
     }
 
-    $(".file-upload").on('change', function() {
+    $(".file-upload").on('change', function () {
         readUrl(this);
     });
 
-    $(".avatar").click(function() {
+    $(".avatar").click(function () {
         var btn = $(".file-upload");
         btn.trigger('click');
     });
@@ -139,33 +139,35 @@ $('#fone').blur(function(event) {
 function formatarMoeda() {
     var elemento = document.getElementById('faceValue');
     var valor = elemento.value;
-    
+
     valor = valor + '';
-    valor = parseInt(valor.replace(/[\D]+/g,''));
+    valor = parseInt(valor.replace(/[\D]+/g, ''));
     valor = valor + '';
     valor = valor.replace(/([0-9]{2})$/g, ",$1");
-  
+
     if (valor.length > 6) {
-      valor = valor.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
+        valor = valor.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
     }
-  
+
     elemento.value = valor;
-  }
- 
+}
+
 //PESO
-    $('#weightKg').mask("#0.000", {reverse: true});
+$('#weightKg').mask("#0.000", {
+    reverse: true
+});
 
 
 
 
 //MUDAR BACKGROUND
-function muda(){
-    classe = document.getElementById('bg').className; 
-    if(classe == 'bgLight'){
-       document.getElementById('bg').className = 'bgDark';
-   }else{
-       document.getElementById('bg').className = 'bgLight';
-   }
+function muda() {
+    classe = document.getElementById('bg').className;
+    if (classe == 'bgLight') {
+        document.getElementById('bg').className = 'bgDark';
+    } else {
+        document.getElementById('bg').className = 'bgLight';
+    }
 }
 
 
@@ -176,46 +178,68 @@ $(document).ready(function () {
     })
 });
 
+//MASCARAS
+function mascara(i, t) {
 
-function mascara(i,t){
-   
     var v = i.value;
-    
-    if(isNaN(v[v.length-1])){
-       i.value = v.substring(0, v.length-1);
-       return;
+
+    if (isNaN(v[v.length - 1])) {
+        i.value = v.substring(0, v.length - 1);
+        return;
     }
-    
-    if(t == "data"){
-       i.setAttribute("maxlength", "10");
-       if (v.length == 2 || v.length == 5) i.value += "/";
+
+    if (t == "data") {
+        i.setAttribute("maxlength", "10");
+        if (v.length == 2 || v.length == 5) i.value += "/";
     }
- 
-    if(t == "cpf"){
-       i.setAttribute("maxlength", "14");
-       if (v.length == 3 || v.length == 7) i.value += ".";
-       if (v.length == 11) i.value += "-";
+
+    if (t == "cpf") {
+        i.setAttribute("maxlength", "14");
+        if (v.length == 3 || v.length == 7) i.value += ".";
+        if (v.length == 11) i.value += "-";
     }
- 
-    if(t == "cnpj"){
-       i.setAttribute("maxlength", "18");
-       if (v.length == 2 || v.length == 6) i.value += ".";
-       if (v.length == 10) i.value += "/";
-       if (v.length == 15) i.value += "-";
+
+    if (t == "cnpj") {
+        i.setAttribute("maxlength", "18");
+        if (v.length == 2 || v.length == 6) i.value += ".";
+        if (v.length == 10) i.value += "/";
+        if (v.length == 15) i.value += "-";
     }
- 
-    if(t == "cep"){
-       i.setAttribute("maxlength", "9");
-       if (v.length == 5) i.value += "-";
+
+    if (t == "cep") {
+        i.setAttribute("maxlength", "9");
+        if (v.length == 5) i.value += "-";
     }
- 
-    if(t == "tel"){
-       if(v[0] == 9){
-          i.setAttribute("maxlength", "10");
-          if (v.length == 5) i.value += "-";
-       }else{
-          i.setAttribute("maxlength", "9");
-          if (v.length == 4) i.value += "-";
-       }
+
+    if (t == "tel") {
+        if (v[0] == 9) {
+            i.setAttribute("maxlength", "10");
+            if (v.length == 5) i.value += "-";
+        } else {
+            i.setAttribute("maxlength", "9");
+            if (v.length == 4) i.value += "-";
+        }
     }
- }
+}
+
+//OCULTAR DIV
+function viewFile() {
+    var files = document.getElementsByClassName('upload');
+    var information = document.getElementById('subgroup')
+    if (information != "Selecione...") {
+        files[0].style.display = 'block';
+    } else {
+        files[0].style.display = 'none';
+    }
+}
+
+//OCULTAR DIV
+function viewCertificate() {
+    var files = document.getElementsByClassName('certificate');
+    var information = document.getElementById('requiresCertificationCalibration')
+    if (information == "Sim") {
+        files[0].style.display = 'block';
+    } else {
+        files[0].style.display = 'none';
+    }
+}
