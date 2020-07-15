@@ -224,8 +224,8 @@ function mascara(i, t) {
 
 //OCULTAR DIV
 function viewFile() {
-    var files = document.getElementsByClassName('upload');
-    var information = document.getElementById('subgroup')
+    let files = document.getElementsByClassName('upload');
+    let information = document.getElementById('subgroup')
     if (information != "Selecione...") {
         files[0].style.display = 'block';
     } else {
@@ -235,11 +235,12 @@ function viewFile() {
 
 //OCULTAR DIV
 function viewCertificate() {
-    var files = document.getElementsByClassName('certificate');
-    var information = document.getElementById('requiresCertificationCalibration')
-    if (information == "Sim") {
-        files[0].style.display = 'block';
-    } else {
+    let files = document.getElementsByClassName('certificate');
+    let information = document.getElementById('requiresCertificationCalibration').value
+    if (information != "Sim") {
         files[0].style.display = 'none';
+    } else {
+        files[0].style.display = 'block';
     }
 }
+

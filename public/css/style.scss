@@ -8,6 +8,10 @@ $border-radius-sm: 0.9rem !default;
 
 @import "../../node_modules/bootstrap/scss/bootstrap";
 
+.certificate {
+    display: none;
+}
+
 input[type="file"]{  color: transparent; display: none;}
 
 thead {
@@ -162,6 +166,7 @@ input {
 
 button{ margin:1px; }
 
+
 .bgLogin {
     display: table;
     width: 100%;
@@ -175,7 +180,7 @@ button{ margin:1px; }
 
 }
 
-
+//  SIDEBAR
 body {
     overflow-x: hidden;
 }
