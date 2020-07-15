@@ -90,7 +90,7 @@ const Product = new Schema({
    },
    kindOfEquipment: {
       type: Schema.Types.ObjectId,
-      ref: "status",
+      ref: "types",
       required: true
    },
    requiresCertificationCalibration: {
