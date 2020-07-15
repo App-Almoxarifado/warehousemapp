@@ -99,8 +99,8 @@
 
         </div>
 
-        <input type="text" class="form-control mt-2" name="fullDescription" id="fullDescription"
-            placeholder="Descrição do Produto">
+        <input type="hidden" class="form-control mt-2" name="fullDescription" id="fullDescription"
+            placeholder="Descrição completa do Produto">
 
         <div class="form-row">
             <div class="form-group col-md-3">
@@ -126,48 +126,160 @@
 
             <div class="form-group col-md-3">
                 <label for="model">Modelo:</label>
-                <input type="text" class="form-control" id="model" name="model"
-                    placeholder="Modelo do Produto">
-            </div>
-            
-                <div class="form-group col-md-4">
-                    <label for="capacityReach">Capacidade / Alcance:</label>
-                    <input type="text" class="form-control" id="capacityReach" name="capacityReach"
-                        placeholder="Capacidade / Alcance do Produto">
-                </div>
-
-                <div class="form-group col-md-2">
-                    <label for="serialNumber">N° de série:</label>
-                    <input type="text" class="form-control" id="serialNumber" name="serialNumber"
-                        placeholder="N° de série do Produto">
-                </div>
-
+                <input type="text" class="form-control" id="model" name="model" placeholder="Modelo do Produto">
             </div>
 
+            <div class="form-group col-md-4">
+                <label for="capacityReach">Capacidade / Alcance:</label>
+                <input type="text" class="form-control" id="capacityReach" name="capacityReach"
+                    placeholder="Capacidade / Alcance do Produto">
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="serialNumber">N° de Série:</label>
+                <input type="text" class="form-control" id="serialNumber" name="serialNumber"
+                    placeholder="N° de série do Produto">
+            </div>
+
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="physicalStatus">Status:</label>
+                <select class="custom-select" id="physicalStatus" name="physicalStatus">
+                    <option selected disabled value="">Selecione...</option>
+                    {{#each status}}
+                    <option value="{{_id}}">{{description}}</option>
+                    {{else}}
+                    <option value="0">Nenhum status registrado</option>
+                    {{/each}}
+                </select>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="kindOfEquipment">Tipo de Equipamento:</label>
+                <select class="custom-select" id="kindOfEquipment" name="kindOfEquipment">
+                    <option selected disabled value="">Selecione...</option>
+                    {{#each types}}
+                    <option value="{{_id}}">{{description}}</option>
+                    {{else}}
+                    <option value="0">Nenhum tipo de equipamento registrado</option>
+                    {{/each}}
+                </select>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="requiresCertificationCalibration"> Requer Calibração/Certificação:</label>
+                <select class="custom-select" id="requiresCertificationCalibration"
+                    name="requiresCertificationCalibration">
+                    <option selected disabled value="">Selecione...</option>
+                    <option>Sim</option>
+                    <option>Não</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="form-row">
+
+            <div class="form-group col-md-2" style="display: block;">
+                <label for="inputAmount">Quantidade:</label>
+                <input type="text" class="form-control" id="inputAmount" name="inputAmount"
+                    placeholder="Quantidade do Produto" onkeyup="roundToTwo(num)">
+            </div>
+
+            <div class="form-group col-md-2" style="display: none;">
+                <label for="outputQuantity">Quantidade:</label>
+                <input type="text" class="form-control" id="outputQuantity" name="outputQuantity"
+                    placeholder="Quantidade do Produto">
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="unity">Unidade:</label>
+                <select class="custom-select" id="unity" name="unity">
+                    <option selected disabled value="">Selecione...</option>
+                    {{#each units}}
+                    <option value="{{_id}}">{{description}}</option>
+                    {{else}}
+                    <option value="0">Nenhuma unidade de equipamento registrada</option>
+                    {{/each}}
+                </select>
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="weightKg">Peso Kg:</label>
+                <input type="text" class="form-control" id="weightKg" name="weightKg" placeholder="Peso do Produto">
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="faceValue">Valor de Face:</label>
+                <input type="text" class="form-control" id="faceValue" name="faceValue" placeholder="Valor do Produto"
+                    onkeyup="formatarMoeda()">
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="dimensionsWxLxH">Dimensões LxCxA mm:</label>
+                <input type="text" class="form-control" id="dimensionsWxLxH" name="dimensionsWxLxH"
+                    placeholder="Dimensões do Produto">
+            </div>
+
+        </div>
+
+        <div class="form-row">
+
+            <div class="form-group col-md-2">
+                <label for="certificate">Certificado:</label>
+                <input type="text" class="form-control" id="certificate" name="certificate"
+                    placeholder="Certificado do Produto">
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="entityLaboratory">Laboratório/ Entidade:</label>
+                <input type="text" class="form-control" id="entityLaboratory" name="entityLaboratory"
+                    placeholder="Laboratório/ Entidade">
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="frequency">Periodicidade:</label>
+                <select class="custom-select" id="frequency" name="frequency">
+                    <option selected disabled value="">Selecione...</option>
+                    {{#each breaks}}
+                    <option value="{{_id}}">{{description}}</option>
+                    {{else}}
+                    <option value="0">Nenhum intervalo registrado</option>
+                    {{/each}}
+                </select>
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="calibrationDate">Data Calibração:</label>
+                <input oninput="mascara(this, 'data')" type="text" class="form-control" id="calibrationDate" name="calibrationDate"
+                    placeholder="Data Calibração">
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="calibrationValidity">Validade Calibração:</label>
+                <input oninput="mascara(this, 'data')" type="text" class="form-control" id="calibrationValidity" name="calibrationValidity"
+                    placeholder="Validade Calibração">
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="calibrationStatus">Status Calibração:</label>
+                <input type="text" class="form-control" id="calibrationStatus" name="calibrationStatus"
+                    placeholder="Status Calibração">
+            </div>
+
+        </div>
+
+        <input type="hidden" class="form-control" id="date" name="date" placeholder="date"
+            value="{{#formatDate date}}{{/formatDate}}">
+
+        <div class="form-group col-md-8">
             <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="physicalStatus">Status:</label>
-                    <select class="custom-select" id="physicalStatus" name="physicalStatus">
-                        <option selected disabled value="">Selecione...</option>
-                        {{#each status}}
-                        <option value="{{_id}}">{{description}}</option>
-                        {{else}}
-                        <option value="0">Nenhum status registrado</option>
-                        {{/each}}
-                    </select>
-                </div>
-
+                <button type="submit" class="btn btn-success"><i class="fas fa-share"></i></button>
             </div>
-
-            <input type="hidden" class="form-control" id="date" name="date" placeholder="date"
-                value="{{#formatDate date}}{{/formatDate}}">
-
-            <div class="form-group col-md-8">
-                <div class="form-row">
-                    <button type="submit" class="btn btn-success"><i class="fas fa-share"></i></button>
-                </div>
-            </div>
-            <hr>
+        </div>
+        <hr>
 
     </form>
 
