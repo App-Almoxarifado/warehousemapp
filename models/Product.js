@@ -126,6 +126,41 @@ const Product = new Schema({
       index: true,
       trim: true
    },
+   certificate: {
+      type: String,
+      required: false,
+      index: true,
+      trim: true
+   },
+   entityLaboratory: {
+      type: String,
+      required: false,
+      index: true,
+      trim: true
+   },
+   frequency: {
+      type: Schema.Types.ObjectId,
+      ref: "breaks",
+      required: true
+   },
+   calibrationDate: {
+      type: String,
+      required: false,
+      index: true,
+      trim: true
+   },
+   validadeCalibracao: {
+      type: String,
+      required: false,
+      index: true,
+      trim: true
+   },
+   calibrationValidity: {
+      type: String,
+      required: false,
+      index: true,
+      trim: true
+   },
    date: {
       type: String,
       default: Date.now()

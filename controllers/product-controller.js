@@ -17,6 +17,8 @@ require("../models/Type")
 const Type = mongoose.model("types")
 require("../models/Unity")
 const Unity = mongoose.model("units")
+require("../models/Interval")
+const Interval = mongoose.model("breaks")
 
 //PRODUTOS POR LISTA
 exports.getList = async (req, res) => {
@@ -81,6 +83,7 @@ exports.getCreate = async (req, res) => {
         var status = await Status.find({})
         var types = await Type.find({})
         var units = await Unity.find({})
+        var breaks = await Interval.find({})
         return res.render("products/addproducts", { 
             groups:groups.map(groups => groups.toJSON()),
             subgroups:subgroups.map(subgroups => subgroups.toJSON()),
@@ -90,7 +93,8 @@ exports.getCreate = async (req, res) => {
             subleases:subleases.map(subleases => subleases.toJSON()),
             status:status.map(status => status.toJSON()),
             types:types.map(types => types.toJSON()),
-            units:units.map(units => units.toJSON())
+            units:units.map(units => units.toJSON()),
+            breaks:breaks.map(breaks => breaks.toJSON())
         })
     } catch (err) {
         req.flash("error_msg", "Ops, Houve um erro interno!")
@@ -231,7 +235,19 @@ exports.postCreate = async (req, res) => {
 
             faceValue: req.body.faceValue,
 
-            dimensionsWxLxH: dimensionsWxLxH,
+            dimensionsWxLxH: req.body.dimensionsWxLxH,
+
+            certificate: req.body.certificate,
+
+            entityLaboratory: req.body.entityLaboratory,
+
+            frequency: req.body.frequency,
+
+            calibrationDate: req.body.calibrationDate,
+
+            validadeCalibracao: req.body.validadeCalibracao,
+
+            calibrationValidity: req.body.calibrationValidity,
 
             date: req.body.date,
 
