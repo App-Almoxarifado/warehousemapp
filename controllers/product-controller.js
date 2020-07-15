@@ -13,8 +13,6 @@ require("../models/Sublease")
 const Sublease = mongoose.model("subleases")
 require("../models/Status")
 const Status = mongoose.model("status")
-require("../models/Type")
-const Type = mongoose.model("types")
 
 //PRODUTOS POR LISTA
 exports.getList = async (req, res) => {
@@ -77,7 +75,6 @@ exports.getCreate = async (req, res) => {
         var leases = await Location.find({})
         var subleases = await Sublease.find({})
         var status = await Status.find({})
-        var types = await Type.find({})
         return res.render("products/addproducts", { 
             groups:groups.map(groups => groups.toJSON()),
             subgroups:subgroups.map(subgroups => subgroups.toJSON()),
@@ -85,8 +82,7 @@ exports.getCreate = async (req, res) => {
             customers:customers.map(customers => customers.toJSON()),
             leases:leases.map(leases => leases.toJSON()),
             subleases:subleases.map(subleases => subleases.toJSON()),
-            status:status.map(status => status.toJSON()),
-            types:types.map(types => types.toJSON())
+            status:status.map(status => status.toJSON())
         })
     } catch (err) {
         req.flash("error_msg", "Ops, Houve um erro interno!")
@@ -198,7 +194,6 @@ exports.postCreate = async (req, res) => {
             serialNumber: req.body.serialNumber,
 
             physicalStatus: req.body.physicalStatus,
-            kindOfEquipment: req.body.kindOfEquipment,
             date: req.body.date,
             tags: [req.body.qrcode,req.body.group,req.body.subgroup,req.body.fullDescription]
         })

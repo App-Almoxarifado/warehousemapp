@@ -88,11 +88,6 @@ const Product = new Schema({
       ref: "status",
       required: true
    },
-   kindOfEquipment: {
-      type: Schema.Types.ObjectId,
-      ref: "status",
-      required: true
-   },
    date: {
       type: String,
       default: Date.now()

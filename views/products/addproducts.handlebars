@@ -126,59 +126,48 @@
 
             <div class="form-group col-md-3">
                 <label for="model">Modelo:</label>
-                <input type="text" class="form-control" id="model" name="model" placeholder="Modelo do Produto">
+                <input type="text" class="form-control" id="model" name="model"
+                    placeholder="Modelo do Produto">
+            </div>
+            
+                <div class="form-group col-md-4">
+                    <label for="capacityReach">Capacidade / Alcance:</label>
+                    <input type="text" class="form-control" id="capacityReach" name="capacityReach"
+                        placeholder="Capacidade / Alcance do Produto">
+                </div>
+
+                <div class="form-group col-md-2">
+                    <label for="serialNumber">N° de série:</label>
+                    <input type="text" class="form-control" id="serialNumber" name="serialNumber"
+                        placeholder="N° de série do Produto">
+                </div>
+
             </div>
 
-            <div class="form-group col-md-4">
-                <label for="capacityReach">Capacidade / Alcance:</label>
-                <input type="text" class="form-control" id="capacityReach" name="capacityReach"
-                    placeholder="Capacidade / Alcance do Produto">
-            </div>
-
-            <div class="form-group col-md-2">
-                <label for="serialNumber">N° de série:</label>
-                <input type="text" class="form-control" id="serialNumber" name="serialNumber"
-                    placeholder="N° de série do Produto">
-            </div>
-
-        </div>
-
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="physicalStatus">Status:</label>
-                <select class="custom-select" id="physicalStatus" name="physicalStatus">
-                    <option selected disabled value="">Selecione...</option>
-                    {{#each status}}
-                    <option value="{{_id}}">{{description}}</option>
-                    {{else}}
-                    <option value="0">Nenhum status registrado</option>
-                    {{/each}}
-                </select>
-            </div>
-
-            <div class="form-group col-md-6">
-                <label for="kindOfEquipment">Tipo de Equipamento:</label>
-                <select class="custom-select" id="kindOfEquipment" name="kindOfEquipment">
-                    <option selected disabled value="">Selecione...</option>
-                    {{#each types}}
-                    <option value="{{_id}}">{{description}}</option>
-                    {{else}}
-                    <option value="0">Nenhum tipo de equipamento registrado</option>
-                    {{/each}}
-                </select>
-            </div>
-
-        </div>
-
-        <input type="hidden" class="form-control" id="date" name="date" placeholder="date"
-            value="{{#formatDate date}}{{/formatDate}}">
-
-        <div class="form-group col-md-8">
             <div class="form-row">
-                <button type="submit" class="btn btn-success"><i class="fas fa-share"></i></button>
+                <div class="form-group col-md-6">
+                    <label for="physicalStatus">Status:</label>
+                    <select class="custom-select" id="physicalStatus" name="physicalStatus">
+                        <option selected disabled value="">Selecione...</option>
+                        {{#each status}}
+                        <option value="{{_id}}">{{description}}</option>
+                        {{else}}
+                        <option value="0">Nenhum status registrado</option>
+                        {{/each}}
+                    </select>
+                </div>
+
             </div>
-        </div>
-        <hr>
+
+            <input type="hidden" class="form-control" id="date" name="date" placeholder="date"
+                value="{{#formatDate date}}{{/formatDate}}">
+
+            <div class="form-group col-md-8">
+                <div class="form-row">
+                    <button type="submit" class="btn btn-success"><i class="fas fa-share"></i></button>
+                </div>
+            </div>
+            <hr>
 
     </form>
 
