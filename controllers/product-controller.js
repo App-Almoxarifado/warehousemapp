@@ -32,6 +32,7 @@ exports.getList = async (req, res) => {
             filtros.push({ qrcode : { $regex : pattern }})
             filtros.push({ description : { $regex : pattern }})
             filtros.push({ user : { $regex : pattern }})
+            filtros.push({ tags : { $regex : pattern }})
         }
 
         page = page || 1;
