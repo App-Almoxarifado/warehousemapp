@@ -196,6 +196,12 @@ const Product = new Schema({
       index: true,
       trim: true
    },
+   note: {
+      type: String,
+      required: false,
+      index: true,
+      trim: true
+   },
    date: {
       type: String,
       default: Date.now()

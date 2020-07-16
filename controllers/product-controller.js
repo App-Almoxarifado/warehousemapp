@@ -75,7 +75,6 @@ exports.getListTable = async (req, res) => {
 //CRIANDO UM PRODUTO
 exports.getCreate = async (req, res) => {
     try {
-
         var groups = await Group.find({})
         const { gId } = req.query;
         var subgroups = await Subgroup.find(gId ? { group: gId } : {});
@@ -161,11 +160,25 @@ exports.postCreate = async (req, res) => {
         
     }
 
+    if (req.body.provider == "0") {
+        erros.push({
+            texto: "Fornecedor inválido, registre um fornecedor"
+        })
+        
+    }
+
     if (!req.body.description || typeof req.body.description == undefined || req.body.description == null) {
         erros.push({
             texto: "Descricão Inválida"
         })
     }
+
+    if (!req.body.group || typeof req.body.group == undefined || req.body.group == null) {
+        erros.push({
+            texto: "Grupo Inválido"
+        })
+    }
+
     if (req.body.description.length < 2) {
         erros.push({
             texto: "Descrição do produto muito pequena!"
@@ -280,16 +293,29 @@ exports.postCreate = async (req, res) => {
 
             receivingDate: req.body.receivingDate,
 
+            note: req.body.note,
+
             date: req.body.date,
 
-            tags: [req.body.qrcode,req.body.group,req.body.subgroup,req.body.fullDescription]
+            user: req.body.user,
+
+            tags: [req.body.group,
+                req.body.subgroup,
+                req.body.client,
+                req.body.local,
+                req.body.sublease,
+                req.body.client,
+                req.body.physicalStatus,
+                req.body.kindOfEquipment,
+                req.body.provider
+            ]
         })
             await products.save()
             req.flash("success_msg", "Produto criado com sucesso!")
             res.redirect("/products/products")
             console.log("Produto criado com sucesso!")
         } catch (err) {
-            req.flash("error_msg", "Ops, Houve um erro ao salvar o Produto, tente novamente!"+ err)
+            req.flash("error_msg", "Ops, Houve um erro ao salvar o Produto, tente novamente!")
             res.redirect("/products/products")
         }
     }
