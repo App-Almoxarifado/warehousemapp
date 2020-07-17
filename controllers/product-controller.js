@@ -76,17 +76,17 @@ exports.getListTable = async (req, res) => {
 //CRIANDO UM PRODUTO
 exports.getCreate = async (req, res) => {
     try {
-        var groups = await Group.find({})
+        var groups = await Group.find({active: true}).sort({ description: "asc" })
         const { gId } = req.query;
-        var subgroups = await Subgroup.find(gId ? { group: gId } : {});
-        var customers = await Client.find({})
-        var leases = await Location.find({})
-        var subleases = await Sublease.find({})
-        var status = await Status.find({})
-        var types = await Type.find({})
-        var units = await Unity.find({})
-        var breaks = await Interval.find({})
-        var providers = await Provider.find({})
+        var subgroups = await Subgroup.find(gId ? { group: gId } : {active: true}).sort({ description: "asc" })
+        var customers = await Client.find({active: true}).sort({ description: "asc" })
+        var leases = await Location.find({active: true}).sort({ description: "asc" })
+        var subleases = await Sublease.find({active: true}).sort({ description: "asc" })
+        var status = await Status.find({active: true}).sort({ description: "asc" })
+        var types = await Type.find({active: true}).sort({ description: "asc" })
+        var units = await Unity.find({active: true}).sort({ description: "asc" })
+        var breaks = await Interval.find({active: true}).sort({ description: "asc" })
+        var providers = await Provider.find({active: true}).sort({ name: "asc" })
         return res.render("products/addproducts", { 
             groups:groups.map(groups => groups.toJSON()),
             subgroups:subgroups.map(subgroups => subgroups.toJSON()),
@@ -260,6 +260,8 @@ exports.postCreate = async (req, res) => {
 
             kindOfEquipment: req.body.kindOfEquipment,
 
+            requiresCertificationCalibration: req.body.requiresCertificationCalibration,
+
             inputAmount: req.body.inputAmount,
 
             unity: req.body.unity,
@@ -326,9 +328,28 @@ exports.postCreate = async (req, res) => {
 exports.getCreateId = async (req, res) => {
     var product = await Product.findOne({ _id: req.params.id}).lean()
     try {
-        var groups = await Group.find({}).lean()
-        var subgroups = await Subgroup.find({}).lean()
-        res.render("products/add_idproducts",{groups: groups, subgroups: subgroups, product: product})
+        var groups = await Group.find({active: true}).sort({ description: "asc" }).lean()
+        var subgroups = await Subgroup.find({active: true}).sort({ description: "asc" }).lean()
+        var customers = await Client.find({active: true}).sort({ description: "asc" }).lean()
+        var leases = await Location.find({active: true}).sort({ description: "asc" }).lean()
+        var subleases = await Sublease.find({active: true}).sort({ description: "asc" }).lean()
+        var status = await Status.find({active: true}).sort({ description: "asc" }).lean()
+        var types = await Type.find({active: true}).sort({ description: "asc" }).lean()
+        var units = await Unity.find({active: true}).sort({ description: "asc" }).lean()
+        var breaks = await Interval.find({active: true}).sort({ description: "asc" }).lean()
+        var providers = await Provider.find({active: true}).sort({ name: "asc" }).lean()
+        res.render("products/add_idproducts",{
+            groups: groups, 
+            subgroups: subgroups, 
+            customers: customers,
+            leases: leases,
+            subleases: subleases,
+            status: status,
+            types: types,
+            units: units,
+            breaks: breaks,
+            providers: providers,
+            product: product})
     } catch (_err) {
         req.flash ("error_msg", "Ops, Houve um erro interno!")
         res.redirect("/products/products")

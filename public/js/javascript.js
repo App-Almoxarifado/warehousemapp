@@ -225,7 +225,7 @@ function mascara(i, t) {
 //OCULTAR DIV
 function viewFile() {
     let files = document.getElementsByClassName('upload');
-    let information = document.getElementById('subgroup')
+    let information = document.getElementById('subgroup').value
     if (information != "Selecione...") {
         files[0].style.display = 'block';
     } else {

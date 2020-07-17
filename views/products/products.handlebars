@@ -1,27 +1,29 @@
 <div class="container mt-2">
   <script>
-    function navigate(offset){
+    function navigate(offset) {
       var searchParams = new URLSearchParams(location.search);
       const page = Number(searchParams.get("page")) || 1;
-      searchParams.set("page",page+offset);
+      searchParams.set("page", page + offset);
       location.search = searchParams.toString();
     }
 
-    function search(){
+    function search() {
       var searchParams = new URLSearchParams(location.search);
       const search = document.getElementById('search').value;
-      searchParams.set("search",search);
+      searchParams.set("search", search);
       location.search = searchParams.toString();
     }
 
   </script>
   <h2>Produtos</h2>
-  <a href="/products/products/add"><button class="btn btn-success">Novo Produto <i
-        class="fas fa-share"></i></button></a>
+  <div class="d-flex">
+    <div class="mr-auto p-2">
+      <a href="/products/products/add"><button class="btn btn-success">Novo Produto
+          <i class="fa fa-paper-plane" aria-hidden="true"></i></button></a>
+    </div>
 
-  <hr>
-  <div class="form-row">
-    <div class="form-group col-md-6">
+    <div class="p-2">
+
       <a href="/products/products"><button type="button" class="btn btn-primary">Lista <i
             class="fas fa-th-list"></i></button></a>
 
@@ -29,58 +31,72 @@
       <a href="/products/productstables"><button type="button" class="btn btn-primary">Tabela <i
             class="fas fa-table"></i></button></a>
     </div>
-    <div class="form-group col-md-4 text-right">
-      <input type="text" class="form-control" id="search"
-        name="search"
-        placeholder="Pesquise aqui..." onchange="this.value=this.value.toLowerCase()">
+  </div>
+
+  <hr>
+
+  <div class="d-flex">
+        <div class=" p-2">
+      <input type="text" class="form-control" id="search" name="search" placeholder="Pesquise aqui..."
+        onchange="this.value=this.value.toLowerCase()">
     </div>
-    <div class="form-group col-md-2 text-right">
-      <button type="button"
-        class="btn btn-primary" 
-        onclick="search()"
-        ><i class="fa fa-search" aria-hidden="true"></i></button>
+        <div class="p-2">
+      <button type="button" class="btn btn-primary" onclick="search()"><i class="fa fa-search"
+          aria-hidden="true"></i></button>
     </div>
   </div>
+
   <hr>
 
   <!--VIZULIZAÇÃO EM LISTA-->
   <div id="card" class="card-deck mt-2" style='display: block;'>
     {{#each products}}
-    <h4>{{fullDescription}}</h4>
+    <h5>{{fullDescription}}</h5>
     <div class="card-deck mt-3">
       <img src="{{image}}" class=" img-fluid rounded" alt="Responsive image" style="width: 10rem;">
       <div id="card2" class="card-body">
-        
+
         <div class="form-admin col-md-6" id="qrcode2" onchange="qrcodeFormat()"></div>
         <h6 class="card-text">Grupo: {{group.description}}</h6>
         <h6 class="card-text">Subgrupo: {{subgroup.description}}</h6>
 
-        <a href="/products/products/add_id/{{_id}}" class="btn btn-dark mt-2"><i 
-              class="fas fa-align-right"></i></a>
-        <a href="/products/products/take/{{_id}}" class="btn btn-dark mt-2"><i 
-              class="fas fa-align-right"></i></a>
-        <a href="/products/products/edit/{{_id}}"><button class="btn btn-primary mt-2"><i
-              class="fas fa-pen"></i></button></a>
-        <a href="/products/products/delete/{{_id}}"><button class="deletar btn btn-danger mt-2"><i
-              class="fas fa-trash-alt"></i></button></a>
+        <a href="/products/products/add_id/{{_id}}" class="btn btn-primary btn-sm" data-toggle="tooltip"
+          data-placement="bottom" title="Criar novo produto a partir dessas informações">
+          <i class="fa fa-paper-plane" aria-hidden="true"></i></a>
+
+        <a href="/products/products/take/{{_id}}" class="btn btn-dark btn-sm" data-toggle="tooltip"
+          data-placement="bottom" title="Visualizar detalhes">
+          <i class="fas fa-align-right"></i></a>
+
+        <a href="/products/products/edit/{{_id}}" class="btn btn-secondary btn-sm" data-toggle="tooltip"
+          data-placement="bottom" title="Ediar Produto">
+          <i class="fas fa-pen"></i></button></a>
+
+        <a href="/products/products/delete/{{_id}}" class="btn btn-danger btn-sm" data-toggle="tooltip"
+          data-placement="bottom" title="Deletar Produto">
+          <i class="fas fa-trash-alt"></i></a>
+
       </div>
     </div>
     <hr>
     {{else}}
-    <h4 class="mt-2 mb-2">Nenhum Produto Registrado!</h4>
+    <h4 class="mt-12 mb-2">Nenhum Produto Registrado!</h4>
     {{/each}}
-    <nav class="px-md-2 mt-2" aria-label="Navegação de página exemplo">
-      <ul class="pagination">
+
+    <div class="form-row">
+      <div class="form-group col-md-6 text-left">
         {{#if prev }}
-        <li class="page-item"><button class="page-link" onclick="navigate(-1)">Anterior</button></li>
+        <button class="btn btn-primary btn-sm mt-2" onclick="navigate(-1)">
+          <i class="fa fa-arrow-left" aria-hidden="true"></i> Anterior</button>
         {{/if}}
-        {{#paginate}}
-        <li class="page-item"><a class="page-link" href="{{link}}">{{number}}</a></li>
-        {{/paginate}}
+      </div>
+      <div class="form-group col-md-12 text-right">
         {{#if next }}
-        <li class="page-item"><button class="page-link" onclick="navigate(1)">Próximo</button></li>
+        <button class="btn btn-primary btn-sm mt-2" onclick="navigate(1)">Próximo
+          <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
         {{/if}}
-      </ul>
-    </nav>
+      </div>
+    </div>
+
   </div>
 </div>

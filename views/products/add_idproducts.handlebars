@@ -8,10 +8,10 @@
     {{/each}}
 
 
-    <form class="upload mt-2" method='post' enctype="multipart/form-data" action="/upload" style="display:none;">
+    <form class="upload mt-2" method='post' enctype="multipart/form-data" action="/upload" style="display:block;">
         <div class="form-row">
             <div class="col-md-12 text-left">
-                <img src="/img/logo8.png" class="avatar img-fluid rounded" alt="Responsive image" style="width: 10rem;">
+                <img src="/img/logo8.png" class="avatar img-fluid rounded" alt="Responsive image" style="width: 8rem;">
                 <input type='submit' class='mt-5 btn btn-primary btn-sm' value='Salvar Imagem'>
                 <input type="file" accept="image/*" name="file" id="file"
                     class="btn-file text-center center-block file-upload">
@@ -22,29 +22,31 @@
 
     <form action="/products/products/add_id" class="mt-2" method="POST">
 
-        <input type="hidden" class="form-control mt-2" name="image" id="image">
+        <input type="hidden" class="form-control mt-2" name="image" id="image" value="{{product.image}}">
 
         <div class="form-row">
 
             <div class="col-md-6">
                 <label for="group">Grupo:</label>
-                <select class="custom-select" id="group" name="group"
-                    onchange="location.assign('?gId='+document.getElementById('group').value)">
+                <select class="custom-select" id="group" name="group" value="{{product.group}}" >
                     <option selected disabled value="">Selecione...</option>
                     {{#each groups}}
-                    <option {{#if_eq ../idGroup _id}}selected{{/if_eq}} value="{{_id}}"> {{description}}</option>
+                    <option {{#if_eq ../product.group _id}}selected{{/if_eq}} value="{{_id}}">{{description}}</option>
+                    {{description}}
+                    </option>
                     {{else}}
-                    <option value="0">Nenhum grupo registrado</option>
+                    <option value="0">Nenhum group registrado</option>
                     {{/each}}
                 </select>
             </div>
 
             <div class="col-md-6">
                 <label for="subgroup">Subgrupo:</label>
-                <select class="custom-select" id="subgroup" name="subgroup" onchange="viewFile()">
+                <select class="custom-select" id="subgroup" name="subgroup" onchange="viewFile()" value="{{product.subgroup}}">
                     <option selected disabled value="">Selecione...</option>
                     {{#each subgroups}}
-                    <option value="{{_id}}">{{description}}</option>
+                    <option {{#if_eq ../product.subgroup _id}}selected{{/if_eq}} value="{{_id}}">{{description}}
+                    </option>
                     {{else}}
                     <option value="0">Nenhum Subgroup registrado</option>
                     {{/each}}
@@ -166,7 +168,7 @@
                 <label for="requiresCertificationCalibration"> Requer Calibração/Certificação:</label>
                 <select class="custom-select" id="requiresCertificationCalibration"
                     name="requiresCertificationCalibration" onchange="viewCertificate()">
-                    <option selected disabled value="">Selecione...</option>
+                    <option value="{{product.requiresCertificationCalibration}}"selected>{{product.requiresCertificationCalibration}}</option>
                     <option value="Sim">Sim</option>
                     <option value="Não">Não</option>
                 </select>
@@ -179,7 +181,7 @@
             <div class="form-group col-md-2" style="display: block;">
                 <label for="inputAmount">Quantidade:</label>
                 <input type="text" class="form-control" id="inputAmount" name="inputAmount"
-                    placeholder="Quantidade do Produto">
+                    placeholder="Quantidade do Produto" onblur="viewCertificate()" autofocus>
             </div>
 
             <div class="form-group col-md-2" style="display: none;">
@@ -314,7 +316,7 @@
             <div class="form-group col-md-12">
                 <label for="note">Observações:</label>
                 <input type="text" class="form-control" id="note" name="note" placeholder="Observações sobre o produto">
-            </div> 
+            </div>
         </div>
 
         <input type="hidden" class="form-control mt-2" name="user" id="user">
