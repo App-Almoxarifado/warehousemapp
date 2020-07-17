@@ -510,6 +510,8 @@ exports.postCreateId = async (req, res) => {
 
             kindOfEquipment: req.body.kindOfEquipment,
 
+            requiresCertificationCalibration: req.body.requiresCertificationCalibration,
+
             inputAmount: req.body.inputAmount,
 
             unity: req.body.unity,
@@ -566,7 +568,7 @@ exports.postCreateId = async (req, res) => {
             res.redirect("/products/products")
             console.log("Produto criado com sucesso!")
         } catch (err) {
-            req.flash("error_msg", "Ops, Houve um erro ao salvar o Produto, tente novamente!")
+            req.flash("error_msg", "Ops, Houve um erro ao salvar o Produto, tente novamente!" + err)
             res.redirect("/products/products")
         }
     }

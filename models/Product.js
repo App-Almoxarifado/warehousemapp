@@ -141,7 +141,7 @@ const Product = new Schema({
    frequency: {
       type: Schema.Types.ObjectId,
       ref: "breaks",
-      required: true
+      //required: true
    },
    calibrationDate: {
       type: String,
@@ -182,7 +182,7 @@ const Product = new Schema({
    provider: {
       type: Schema.Types.ObjectId,
       ref: "providers",
-      required: true
+      //required: true
    },
    invoce: {
       type: String,

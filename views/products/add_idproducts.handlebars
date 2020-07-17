@@ -11,7 +11,7 @@
     <form class="upload mt-2" method='post' enctype="multipart/form-data" action="/upload" style="display:block;">
         <div class="form-row">
             <div class="col-md-12 text-left">
-                <img src="/img/logo8.png" class="avatar img-fluid rounded" alt="Responsive image" style="width: 8rem;">
+                <img src="{{product.image}}" class="avatar img-fluid rounded" alt="Responsive image" style="width: 8rem;">
                 <input type='submit' class='mt-5 btn btn-primary btn-sm' value='Salvar Imagem'>
                 <input type="file" accept="image/*" name="file" id="file"
                     class="btn-file text-center center-block file-upload">
@@ -174,7 +174,9 @@
                 <label for="requiresCertificationCalibration"> Requer Calibração/Certificação:</label>
                 <select class="custom-select" id="requiresCertificationCalibration"
                     name="requiresCertificationCalibration" onchange="viewCertificate()">
-                    <option value="{{product.requiresCertificationCalibration}}"selected>{{product.requiresCertificationCalibration}}</option>
+                    <option value="{{product.requiresCertificationCalibration}}"selected>{{product.requiresCertificationCalibration}}
+    
+                    </option>
                     <option value="Sim">Sim</option>
                     <option value="Não">Não</option>
                 </select>
@@ -187,21 +189,23 @@
             <div class="form-group col-md-2" style="display: block;">
                 <label for="inputAmount">Quantidade:</label>
                 <input type="text" class="form-control" id="inputAmount" name="inputAmount"
-                    placeholder="Quantidade do Produto" onblur="viewCertificate()" autofocus>
+                    placeholder="Quantidade do Produto" onblur="viewCertificate()" 
+                    value="{{product.inputAmount}}"autofocus>
             </div>
 
             <div class="form-group col-md-2" style="display: none;">
                 <label for="outputQuantity">Quantidade:</label>
                 <input type="text" class="form-control" id="outputQuantity" name="outputQuantity"
-                    placeholder="Quantidade do Produto">
+                    placeholder="Quantidade do Produto" value="{{product.outputQuantity}}">
             </div>
 
             <div class="form-group col-md-3">
                 <label for="unity">Unidade:</label>
-                <select class="custom-select" id="unity" name="unity">
+                <select class="custom-select" id="unity" name="unity" value="{{product.unity}}">
                     <option selected disabled value="">Selecione...</option>
                     {{#each units}}
-                    <option value="{{_id}}">{{description}}</option>
+                    <option {{#if_eq ../product.unity _id}}selected{{/if_eq}} value="{{_id}}">{{description}}
+                    </option>
                     {{else}}
                     <option value="0">Nenhuma unidade de equipamento registrada</option>
                     {{/each}}
@@ -210,19 +214,20 @@
 
             <div class="form-group col-md-2">
                 <label for="weightKg">Peso Kg:</label>
-                <input type="text" class="form-control" id="weightKg" name="weightKg" placeholder="Peso do Produto">
+                <input type="text" class="form-control" id="weightKg" name="weightKg" 
+                placeholder="Peso do Produto"  value="{{product.weightKg}}">
             </div>
 
             <div class="form-group col-md-2">
                 <label for="faceValue">Valor de Face:</label>
-                <input type="text" class="form-control" id="faceValue" name="faceValue" placeholder="Valor do Produto"
-                    onkeyup="formatarMoeda()">
+                <input type="text" class="form-control" id="faceValue" name="faceValue" 
+                placeholder="Valor do Produto"  onkeyup="formatarMoeda()" value="{{product.faceValue}}">
             </div>
 
             <div class="form-group col-md-3">
                 <label for="dimensionsWxLxH">Dimensões LxCxA mm:</label>
                 <input type="text" class="form-control" id="dimensionsWxLxH" name="dimensionsWxLxH"
-                    placeholder="Dimensões do Produto">
+                    placeholder="Dimensões do Produto" value="{{product.dimensionsWxLxH}}">
             </div>
 
         </div>
@@ -233,21 +238,22 @@
                 <div class="form-group col-md-2">
                     <label for="certificate">Certificado:</label>
                     <input type="text" class="form-control" id="certificate" name="certificate"
-                        placeholder="Certificado do Produto">
+                        placeholder="Certificado do Produto" value="{{product.certificate}}">
                 </div>
 
                 <div class="form-group col-md-2">
                     <label for="entityLaboratory">Laboratório/ Entidade:</label>
                     <input type="text" class="form-control" id="entityLaboratory" name="entityLaboratory"
-                        placeholder="Laboratório/ Entidade">
+                        placeholder="Laboratório/ Entidade" value="{{product.entityLaboratory}}">
                 </div>
 
                 <div class="form-group col-md-2">
                     <label for="frequency">Periodicidade:</label>
-                    <select class="custom-select" id="frequency" name="frequency">
+                    <select class="custom-select" id="frequency" name="frequency" value="{{product.frequency}}">
                         <option selected disabled value="">Selecione...</option>
                         {{#each breaks}}
-                        <option value="{{_id}}">{{description}}</option>
+                        <option {{#if_eq ../product.frequency _id}}selected{{/if_eq}} value="{{_id}}">{{description}}
+                        </option>
                         {{else}}
                         <option value="0">Nenhum intervalo registrado</option>
                         {{/each}}
@@ -257,19 +263,19 @@
                 <div class="form-group col-md-2">
                     <label for="calibrationDate">Data Calibração:</label>
                     <input oninput="mascara(this, 'data')" type="text" class="form-control" id="calibrationDate"
-                        name="calibrationDate" placeholder="Data Calibração">
+                        name="calibrationDate" placeholder="Data Calibração" value="{{product.calibrationDate}}">
                 </div>
 
                 <div class="form-group col-md-2">
                     <label for="calibrationValidity">Validade Calibração:</label>
                     <input oninput="mascara(this, 'data')" type="text" class="form-control" id="calibrationValidity"
-                        name="calibrationValidity" placeholder="Validade Calibração">
+                        name="calibrationValidity" placeholder="Validade Calibração" value="{{product.calibrationValidity}}">
                 </div>
 
                 <div class="form-group col-md-2">
                     <label for="calibrationStatus">Status Calibração:</label>
                     <input type="text" class="form-control" id="calibrationStatus" name="calibrationStatus"
-                        placeholder="Status Calibração">
+                        placeholder="Status Calibração" value="{{product.calibrationStatus}}">
                 </div>
 
             </div>
@@ -280,25 +286,29 @@
 
             <div class="form-group col-md-2">
                 <label for="po">P.O.:</label>
-                <input type="text" class="form-control" id="po" name="po" placeholder="P.O. do Produto">
+                <input type="text" class="form-control" id="po" name="po" 
+                placeholder="P.O. do Produto" value="{{product.po}}">
             </div>
 
             <div class="form-group col-md-2">
                 <label for="sapCode">Código Sap:</label>
-                <input type="text" class="form-control" id="sapCode" name="sapCode" placeholder="Código Sap">
+                <input type="text" class="form-control" id="sapCode" name="sapCode" 
+                placeholder="Código Sap" value="{{product.sapCode}}">
             </div>
 
             <div class="form-group col-md-2">
                 <label for="ncmCode">Código Ncm:</label>
-                <input type="text" class="form-control" id="ncmCode" name="ncmCode" placeholder="Código Ncm">
+                <input type="text" class="form-control" id="ncmCode" name="ncmCode" 
+                placeholder="Código Ncm" value="{{product.ncmCode}}">
             </div>
 
             <div class="form-group col-md-2">
                 <label for="provider">Fornecedor:</label>
-                <select class="custom-select" id="provider" name="provider">
+                <select class="custom-select" id="provider" name="provider" value="{{product.provider}}">
                     <option selected disabled value="">Selecione...</option>
                     {{#each providers}}
-                    <option value="{{_id}}">{{name}}</option>
+                     <option {{#if_eq ../product.provider _id}}selected{{/if_eq}} value="{{_id}}">{{name}}
+                     </option>
                     {{else}}
                     <option value="0">Nenhum Fornecedor registrado</option>
                     {{/each}}
@@ -307,13 +317,14 @@
 
             <div class="form-group col-md-2">
                 <label for="invoce">Nota Fiscal:</label>
-                <input type="text" class="form-control" id="invoce" name="invoce" placeholder="Nota Fiscal">
+                <input type="text" class="form-control" id="invoce" name="invoce" 
+                placeholder="Nota Fiscal" value="{{product.provider}}">
             </div>
 
             <div class="form-group col-md-2">
                 <label for="receivingDate">Data Recebimento:</label>
                 <input oninput="mascara(this, 'data')" type="text" class="form-control" id="receivingDate"
-                    name="receivingDate" placeholder="Data Recebimento">
+                    name="receivingDate" placeholder="Data Recebimento" value="{{product.receivingDate}}">
             </div>
 
         </div>
@@ -321,7 +332,8 @@
         <div class="form-row">
             <div class="form-group col-md-12">
                 <label for="note">Observações:</label>
-                <input type="text" class="form-control" id="note" name="note" placeholder="Observações sobre o produto">
+                <input type="text" class="form-control" id="note" name="note" 
+                placeholder="Observações sobre o produto" value="{{product.note}}">
             </div>
         </div>
 
