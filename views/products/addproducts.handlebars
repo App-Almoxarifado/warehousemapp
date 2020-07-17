@@ -29,7 +29,7 @@
             <div class="col-md-6">
                 <label for="group">Grupo:</label>
                 <select class="custom-select" id="group" name="group"
-                    onchange="location.assign('?gId='+document.getElementById('group').value)">
+                    onchange="location.assign('?gId='+document.getElementById('group').value)" required>
                     <option selected disabled value="">Selecione...</option>
                     {{#each groups}}
                     <option {{#if_eq ../idGroup _id}}selected{{/if_eq}} value="{{_id}}"> {{description}}</option>

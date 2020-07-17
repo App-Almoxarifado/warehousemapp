@@ -11,7 +11,7 @@
     <form class="upload mt-2" method='post' enctype="multipart/form-data" action="/upload" style="display:block;">
         <div class="form-row">
             <div class="col-md-12 text-left">
-                <img src="{{product.image}}" class="avatar img-fluid rounded" alt="Responsive image" style="width: 8rem;">
+                <img src="{{product.image}}" class="avatar img-fluid rounded" alt="/img/logo8.png" style="width: 8rem;">
                 <input type='submit' class='mt-5 btn btn-primary btn-sm' value='Salvar Imagem'>
                 <input type="file" accept="image/*" name="file" id="file"
                     class="btn-file text-center center-block file-upload">
@@ -22,13 +22,13 @@
 
     <form action="/products/products/add_id" class="mt-2" method="POST">
 
-        <input type="hidden" class="form-control mt-2" name="image" id="image" value="{{product.image}}">
+        <input type="hidden" class="form-control mt-2" name="image" id="image" value="{{product.image}}" required>
 
         <div class="form-row">
 
             <div class="col-md-6">
                 <label for="group">Grupo:</label>
-                <select class="custom-select" id="group" name="group" value="{{product.group}}" >
+                <select class="custom-select" id="group" name="group" value="{{product.group}}" required>
                     <option selected disabled value="">Selecione...</option>
                     {{#each groups}}
                     <option {{#if_eq ../product.group _id}}selected{{/if_eq}} value="{{_id}}">{{description}}</option>
