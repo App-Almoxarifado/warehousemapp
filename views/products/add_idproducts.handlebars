@@ -59,10 +59,11 @@
 
             <div class="form-group col-md-4">
                 <label for="client">Site:</label>
-                <select class="custom-select" id="client" name="client">
+                <select class="custom-select" id="client" name="client" value="{{product.client}}">
                     <option selected disabled value="">Selecione...</option>
                     {{#each customers}}
-                    <option value="{{_id}}">{{description}}</option>
+                    <option {{#if_eq ../product.client _id}}selected{{/if_eq}} value="{{_id}}">{{description}}
+                    </option>
                     {{else}}
                     <option value="0">Nenhum site registrado</option>
                     {{/each}}
@@ -71,10 +72,11 @@
 
             <div class="form-group col-md-4">
                 <label for="local">Locação:</label>
-                <select class="custom-select" id="local" name="local">
+                <select class="custom-select" id="local" name="local" value="{{product.local}}">
                     <option selected disabled value="">Selecione...</option>
                     {{#each leases}}
-                    <option value="{{_id}}">{{description}}</option>
+                    <option {{#if_eq ../product.local _id}}selected{{/if_eq}} value="{{_id}}">{{description}}
+                    </option>
                     {{else}}
                     <option value="0">Nenhuma locação registrada</option>
                     {{/each}}
@@ -83,10 +85,11 @@
 
             <div class="form-group col-md-4">
                 <label for="sublease">Sublocação:</label>
-                <select class="custom-select" id="sublease" name="sublease">
+                <select class="custom-select" id="sublease" name="sublease" value="{{product.sublease}}">
                     <option selected disabled value="">Selecione...</option>
                     {{#each subleases}}
-                    <option value="{{_id}}">{{description}}</option>
+                    <option {{#if_eq ../product.sublease _id}}selected{{/if_eq}} value="{{_id}}">{{description}}
+                    </option>
                     {{else}}
                     <option value="0">Nenhuma sublocação registrada</option>
                     {{/each}}
@@ -102,13 +105,13 @@
             <div class="form-group col-md-3">
                 <label for="patrimonialAsset">Bem Patrimonial:</label>
                 <input type="text" class="form-control" id="patrimonialAsset" name="patrimonialAsset"
-                    placeholder="Bem Patrimonial">
+                    placeholder="Bem Patrimonial" value="{{product.patrimonialAsset}}">
             </div>
 
             <div class="form-group col-md-9">
                 <label for="description">Descrição:</label>
                 <input type="text" class="form-control" id="description" name="description"
-                    placeholder="Descrição do Produto">
+                    placeholder="Descrição do Produto" value="{{product.description}}">
             </div>
 
         </div>
@@ -117,24 +120,25 @@
             <div class="form-group col-md-3">
                 <label for="manufacturer">Fabricante:</label>
                 <input type="text" class="form-control" id="manufacturer" name="manufacturer"
-                    placeholder="Fabricante do Produto">
+                    placeholder="Fabricante do Produto" value="{{product.manufacturer}}">
             </div>
 
             <div class="form-group col-md-3">
                 <label for="model">Modelo:</label>
-                <input type="text" class="form-control" id="model" name="model" placeholder="Modelo do Produto">
+                <input type="text" class="form-control" id="model" name="model" 
+                placeholder="Modelo do Produto" value="{{product.model}}">
             </div>
 
             <div class="form-group col-md-4">
                 <label for="capacityReach">Capacidade / Alcance:</label>
                 <input type="text" class="form-control" id="capacityReach" name="capacityReach"
-                    placeholder="Capacidade / Alcance do Produto">
+                    placeholder="Capacidade / Alcance do Produto" value="{{product.capacityReach}}">
             </div>
 
             <div class="form-group col-md-2">
                 <label for="serialNumber">N° de Série:</label>
                 <input type="text" class="form-control" id="serialNumber" name="serialNumber"
-                    placeholder="N° de série do Produto">
+                    placeholder="N° de série do Produto" value="{{product.serialNumber}}">
             </div>
 
         </div>
@@ -142,10 +146,11 @@
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label for="physicalStatus">Status:</label>
-                <select class="custom-select" id="physicalStatus" name="physicalStatus">
+                <select class="custom-select" id="physicalStatus" name="physicalStatus" value="{{product.physicalStatus}}">
                     <option selected disabled value="">Selecione...</option>
                     {{#each status}}
-                    <option value="{{_id}}">{{description}}</option>
+                    <option {{#if_eq ../product.physicalStatus _id}}selected{{/if_eq}} value="{{_id}}">{{description}}
+                    </option>
                     {{else}}
                     <option value="0">Nenhum status registrado</option>
                     {{/each}}
@@ -154,10 +159,11 @@
 
             <div class="form-group col-md-4">
                 <label for="kindOfEquipment">Tipo de Equipamento:</label>
-                <select class="custom-select" id="kindOfEquipment" name="kindOfEquipment">
+                <select class="custom-select" id="kindOfEquipment" name="kindOfEquipment" value="{{product.kindOfEquipment}}">
                     <option selected disabled value="">Selecione...</option>
                     {{#each types}}
-                    <option value="{{_id}}">{{description}}</option>
+                    <option {{#if_eq ../product.kindOfEquipment _id}}selected{{/if_eq}} value="{{_id}}">{{description}}
+                    </option>
                     {{else}}
                     <option value="0">Nenhum tipo de equipamento registrado</option>
                     {{/each}}
