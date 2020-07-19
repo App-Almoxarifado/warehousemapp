@@ -41,7 +41,7 @@
 
             <div class="col-md-6">
                 <label for="subgroup">Subgrupo:</label>
-                <select class="custom-select" id="subgroup" name="subgroup" onchange="viewFile()">
+                <select class="custom-select" id="subgroup" name="subgroup" onchange="viewFile()" required
                     <option selected disabled value="">Selecione...</option>
                     {{#each subgroups}}
                     <option value="{{_id}}">{{description}}</option>
