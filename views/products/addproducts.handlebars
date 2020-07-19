@@ -57,7 +57,7 @@
 
             <div class="form-group col-md-4">
                 <label for="client">Site:</label>
-                <select class="custom-select" id="client" name="client">
+                <select class="custom-select" id="client" name="client" required>
                     <option selected disabled value="">Selecione...</option>
                     {{#each customers}}
                     <option value="{{_id}}">{{description}}</option>
