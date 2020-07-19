@@ -8,7 +8,7 @@ const flash = require('connect-flash')
 const multer = require("multer")
 const qr = require('qr-image')
 const moment = require('moment')
-const morgan = require('morgan')
+//const morgan = require('morgan')
 const cors = require("cors")
 var cookieParser = require('cookie-parser')
 const path = require("path")
@@ -75,7 +75,7 @@ app.use((req, res, next) => {
 // Body Parser
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json({limit: '5mb'}))
-app.use(morgan('dev'))
+//app.use(morgan('dev'))
 
 //Handlebars
 app.engine('handlebars', handlebars({
