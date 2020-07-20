@@ -69,7 +69,7 @@
 
             <div class="form-group col-md-4">
                 <label for="local">Locação:</label>
-                <select class="custom-select" id="local" name="local">
+                <select class="custom-select" id="local" name="local" required>
                     <option selected disabled value="">Selecione...</option>
                     {{#each leases}}
                     <option value="{{_id}}">{{description}}</option>
