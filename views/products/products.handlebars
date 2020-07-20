@@ -18,8 +18,7 @@
   <h2>Produtos</h2>
   <div class="d-flex">
     <div class="mr-auto p-2">
-      <a href="/products/products/add"><button class="btn btn-success">Novo Produto
-          <i class="fa fa-paper-plane" aria-hidden="true"></i></button></a>
+      <a href="/products/products/add"><button class="btn btn-success">Novo <i class="fa fa-paper-plane" aria-hidden="true"></i></button></a>
     </div>
 
     <div class="p-2">
@@ -83,14 +82,14 @@
     <h4 class="mt-12 mb-2">Nenhum Produto Registrado!</h4>
     {{/each}}
 
-    <div class="form-row">
-      <div class="form-group col-md-6 text-left">
+    <div class="d-flex">
+      <div class="mr-auto p-2">
         {{#if prev }}
         <button class="btn btn-primary btn-sm mt-2" onclick="navigate(-1)">
           <i class="fa fa-arrow-left" aria-hidden="true"></i> Anterior</button>
         {{/if}}
       </div>
-      <div class="form-group col-md-12 text-right">
+      <div class="p-2">
         {{#if next }}
         <button class="btn btn-primary btn-sm mt-2" onclick="navigate(1)">Próximo
           <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
