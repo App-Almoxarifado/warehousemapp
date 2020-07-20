@@ -1,6 +1,6 @@
 //DEPENDÊNCIAS
 const express = require('express')
-var compression = require('compression')
+const compression = require('compression')
 const handlebars = require('express-handlebars')
 const bodyParser = require("body-parser")
 const mongoose = require("mongoose")
@@ -11,7 +11,7 @@ const qr = require('qr-image')
 const moment = require('moment')
 const morgan = require('morgan')
 const cors = require("cors")
-var cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser')
 const path = require("path")
 const app = express()
 
