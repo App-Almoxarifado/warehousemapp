@@ -1,5 +1,6 @@
 //DEPENDÊNCIAS
 const express = require('express')
+var compression = require('compression')
 const handlebars = require('express-handlebars')
 const bodyParser = require("body-parser")
 const mongoose = require("mongoose")
@@ -50,6 +51,7 @@ const db = require("./config/db")
 
 
 //Configurações
+app.use(compression())
 app.use(cors())
 app.use(cookieParser())
 //Sessões
