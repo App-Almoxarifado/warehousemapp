@@ -328,16 +328,16 @@ exports.postCreate = async (req, res) => {
 exports.getCreateId = async (req, res) => {
     var product = await Product.findOne({ _id: req.params.id}).lean()
     try {
-        var groups = await Group.find({}).lean()
-        var subgroups = await Subgroup.find({}).lean()
-        var customers = await Client.find({}).lean()
-        var leases = await Location.find({}).lean()
-        var subleases = await Sublease.find({}).lean()
-        var status = await Status.find({}).lean()
-        var types = await Type.find({}).lean()
-        var units = await Unity.find({}).lean()
-        var breaks = await Interval.find({}).lean()
-        var providers = await Provider.find({}).lean()
+        var groups = await Group.find({active: true}).sort({ description: "asc" }).lean()
+        var subgroups = await Subgroup.find({active: true}).sort({ description: "asc" }).lean()
+        var customers = await Client.find({active: true}).sort({ description: "asc" }).lean()
+        var leases = await Location.find({active: true}).sort({ description: "asc" }).lean()
+        var subleases = await Sublease.find({active: true}).sort({ description: "asc" }).lean()
+        var status = await Status.find({active: true}).sort({ description: "asc" }).lean()
+        var types = await Type.find({active: true}).sort({ description: "asc" }).lean()
+        var units = await Unity.find({active: true}).sort({ description: "asc" }).lean()
+        var breaks = await Interval.find({active: true}).sort({ description: "asc" }).lean()
+        var providers = await Provider.find({active: true}).sort({ name: "asc" }).lean()
         res.render("products/add_idproducts",{
             groups: groups, 
             subgroups: subgroups, 
