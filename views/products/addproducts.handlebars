@@ -81,7 +81,7 @@
 
             <div class="form-group col-md-4">
                 <label for="sublease">Sublocação:</label>
-                <select class="custom-select" id="sublease" name="sublease">
+                <select class="custom-select" id="sublease" name="sublease" required>
                     <option selected disabled value="">Selecione...</option>
                     {{#each subleases}}
                     <option value="{{_id}}">{{description}}</option>
