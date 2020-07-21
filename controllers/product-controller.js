@@ -262,13 +262,13 @@ exports.postCreate = async (req, res) => {
 
             requiresCertificationCalibration: req.body.requiresCertificationCalibration,
 
-            inputAmount: req.body.inputAmount,
+            inputAmount: req.body.inputAmount.replace(",","."),
 
             unity: req.body.unity,
 
             weightKg: req.body.weightKg,
 
-            faceValue: req.body.faceValue,
+            faceValue: req.body.faceValue.replace(",","."),
 
             dimensionsWxLxH: req.body.dimensionsWxLxH,
 
@@ -302,6 +302,8 @@ exports.postCreate = async (req, res) => {
 
             user: req.body.user,
 
+            total:req.body.inputAmount * req.body.faceValue,
+
             tags: [req.body.group,
                 req.body.subgroup,
                 req.body.client,
@@ -318,7 +320,7 @@ exports.postCreate = async (req, res) => {
             res.redirect("/products/products")
             console.log("Produto criado com sucesso!")
         } catch (err) {
-            req.flash("error_msg", "Ops, Houve um erro ao salvar o Produto, tente novamente!")
+            req.flash("error_msg", "Ops, Houve um erro ao salvar o Produto, tente novamente!" + err)
             res.redirect("/products/products")
         }
     }

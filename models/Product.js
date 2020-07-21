@@ -6,7 +6,6 @@ const Product = new Schema({
    qrcode: {
       type: String,
       required: false,
-      index: true,
       lowercase: true,
       trim: true
    },
@@ -29,7 +28,6 @@ const Product = new Schema({
    fullDescription: {
       type: String,
       required: true,
-      index: true,
       trim: true
    },
    client: {
@@ -50,37 +48,31 @@ const Product = new Schema({
    patrimonialAsset: {
       type: String,
       required: false,
-      index: true,
       trim: true
    },
    description: {
       type: String,
       required: true,
-      index: true,
       trim: true
    },
    manufacturer: {
       type: String,
       required: false,
-      index: true,
       trim: true
    },
    model: {
       type: String,
       required: false,
-      index: true,
       trim: true
    },
    capacityReach: {
       type: String,
       required: false,
-      index: true,
       trim: true
    },
    serialNumber: {
       type: String,
       required: false,
-      index: true,
       trim: true
    },
    physicalStatus: {
@@ -96,15 +88,14 @@ const Product = new Schema({
    requiresCertificationCalibration: {
       type: String,
       required: false,
-      index: true,
       trim: true
    },
    inputAmount: {
-      type: String,
+      type: Number,
       required: false,
    },
    outputQuantity: {
-      type: String,
+      type: Number,
       required: false,
    },
    unity: {
@@ -113,11 +104,11 @@ const Product = new Schema({
       required: true
    },
    weightKg: {
-      type: String,
+      type: Number,
       required: false,
    },
    faceValue: {
-      type: String,
+      type: Number,
       required: false,
    },
    dimensionsWxLxH: {
@@ -146,37 +137,31 @@ const Product = new Schema({
    calibrationDate: {
       type: String,
       required: false,
-      index: true,
       trim: true
    },
    calibrationValidity: {
       type: String,
       required: false,
-      index: true,
       trim: true
    },
    calibrationStatus: {
       type: String,
       required: false,
-      index: true,
       trim: true
    },
    po: {
       type: String,
       required: false,
-      index: true,
       trim: true
    },
    sapCode: {
       type: String,
       required: false,
-      index: true,
       trim: true
    },
    ncmCode: {
       type: String,
       required: false,
-      index: true,
       trim: true
    },
    provider: {
@@ -187,19 +172,16 @@ const Product = new Schema({
    invoce: {
       type: String,
       required: false,
-      index: true,
       trim: true
    },
    receivingDate: {
       type: String,
       required: false,
-      index: true,
       trim: true
    },
    note: {
       type: String,
       required: false,
-      index: true,
       trim: true
    },
    date: {
@@ -213,6 +195,9 @@ const Product = new Schema({
    active: {
       type: Boolean,
       default: "true"
+   },
+   total: {
+      type:Number
    },
    tags: [{
       type: String
