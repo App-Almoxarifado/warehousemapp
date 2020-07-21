@@ -88,9 +88,9 @@ exports.getCreate = async (req, res) => {
         var breaks = await Interval.find({active: true}).sort({ description: "asc" })
         var providers = await Provider.find({active: true}).sort({ name: "asc" })
         return res.render("products/addproducts", { 
+            idGroup: gId,
             groups:groups.map(groups => groups.toJSON()),
             subgroups:subgroups.map(subgroups => subgroups.toJSON()),
-            idGroup: gId,
             customers:customers.map(customers => customers.toJSON()),
             leases:leases.map(leases => leases.toJSON()),
             subleases:subleases.map(subleases => subleases.toJSON()),
