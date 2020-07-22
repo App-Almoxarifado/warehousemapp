@@ -1,6 +1,6 @@
 //DEPENDÊNCIAS
-const express = require('express')
 const compression = require('compression')
+const express = require('express')
 const handlebars = require('express-handlebars')
 const bodyParser = require("body-parser")
 const mongoose = require("mongoose")
@@ -14,6 +14,7 @@ const cors = require("cors")
 const cookieParser = require('cookie-parser')
 const path = require("path")
 const app = express()
+
 
 //ROTAS
 
@@ -48,12 +49,12 @@ const passport = require("passport")
 require("./config/auth")(passport)
 const db = require("./config/db")
 
-
-
 //Configurações
 app.use(compression())
 app.use(cors())
 app.use(cookieParser())
+
+
 //Sessões
 app.use(session({
     secret: "warehousemapp",
@@ -83,7 +84,7 @@ app.use((req, res, next) => {
 
 
 // Body Parser
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json({limit: '5mb'}))
 app.use(morgan('dev'))
 
@@ -110,7 +111,7 @@ hbs.handlebars.registerHelper('if_eq', function(a, b, opts) {
 app.set('view engine', 'handlebars');
 
 // Moongoose
-mongoose.Promise = global.Promise;
+//mongoose.Promise = global.Promise;
 mongoose.set("useNewUrlParser", true)
 mongoose.set("useCreateIndex", true)
 mongoose.set("useUnifiedTopology", true)

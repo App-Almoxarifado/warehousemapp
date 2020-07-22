@@ -75,10 +75,10 @@ exports.getListTable = async (req, res) => {
 
 //CRIANDO UM PRODUTO
 exports.getCreate = async (req, res) => {
-    try {
+    try {       
         var groups = await Group.find({active: true}).sort({ description: "asc" })
         const { gId } = req.query;
-        var subgroups = await Subgroup.find(gId ? { group: gId } : {active: true}).sort({ description: "asc" })
+        var subgroups = await Subgroup.find(gId ? { group: gId } : {active: true}).sort({ description: "asc" })     
         var customers = await Client.find({active: true}).sort({ description: "asc" })
         var leases = await Location.find({active: true}).sort({ description: "asc" })
         var subleases = await Sublease.find({active: true}).sort({ description: "asc" })
@@ -87,9 +87,10 @@ exports.getCreate = async (req, res) => {
         var units = await Unity.find({active: true}).sort({ description: "asc" })
         var breaks = await Interval.find({active: true}).sort({ description: "asc" })
         var providers = await Provider.find({active: true}).sort({ name: "asc" })
-        return res.render("products/addproducts", { 
-            idGroup: gId,
+        
+        return res.render("products/addproducts", {     
             groups:groups.map(groups => groups.toJSON()),
+            idGroup: gId,
             subgroups:subgroups.map(subgroups => subgroups.toJSON()),
             customers:customers.map(customers => customers.toJSON()),
             leases:leases.map(leases => leases.toJSON()),
@@ -98,7 +99,9 @@ exports.getCreate = async (req, res) => {
             types:types.map(types => types.toJSON()),
             units:units.map(units => units.toJSON()),
             breaks:breaks.map(breaks => breaks.toJSON()),
-            providers:providers.map(providers => providers.toJSON())
+            providers:providers.map(providers => providers.toJSON()),
+            
+            
         })
     } catch (err) {
         req.flash("error_msg", "Ops, Houve um erro interno!")
@@ -318,11 +321,11 @@ exports.postCreate = async (req, res) => {
             await products.save()
             req.flash("success_msg", "Produto criado com sucesso!")
             res.redirect("/products/products")
-            console.log("Produto criado com sucesso!")
+            
         } catch (err) {
             req.flash("error_msg", "Ops, Houve um erro ao salvar o Produto, tente novamente!" + err)
             res.redirect("/products/products")
-            console.log(req.user)
+            
         }
     }
 }
@@ -354,7 +357,7 @@ exports.getCreateId = async (req, res) => {
             breaks: breaks,
             providers: providers,
             product: product})
-            console.log(req.user)
+            
     } catch (_err) {
         req.flash ("error_msg", "Ops, Houve um erro interno!")
         res.redirect("/products/products")
@@ -573,7 +576,7 @@ exports.postCreateId = async (req, res) => {
             await products.save()
             req.flash("success_msg", "Produto criado com sucesso!")
             res.redirect("/products/products")
-            console.log("Produto criado com sucesso!")
+            
         } catch (err) {
             req.flash("error_msg", "Ops, Houve um erro ao salvar o Produto, tente novamente!" + err)
             res.redirect("/products/products")
@@ -627,7 +630,7 @@ exports.postUpdate = async (req, res) => {
             await product.save()
             req.flash("success_msg", "Produto editado com Sucesso!")
             res.redirect("/products/products")
-            console.log("Produto editado com sucesso!")
+            
         } catch (err) {
             req.flash("error_msg", "Houve um erro interno ao editar o Produto, tente Novamente!" + err)
             res.redirect("/products/products")
