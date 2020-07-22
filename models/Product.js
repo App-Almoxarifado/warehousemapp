@@ -188,9 +188,9 @@ const Product = new Schema({
       type: String,
       default: Date.now()
    },
-   user: {
+   userName: {
       type: String,
-      default: "Daniel Soares de Albuquerque"
+     
    },
    active: {
       type: Boolean,

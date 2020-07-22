@@ -72,7 +72,15 @@ app.use((req, res, next) => {
     res.locals.error = req.flash("error")
     res.locals.user = req.user || null;
     next()
-})
+    if(req.user) {
+        if(req.user.eAdmin == 0) {
+          res.locals.eAdmin = null
+        } else {
+          res.locals.eAdmin = true
+        }
+      }
+    })
+
 
 // Body Parser
 app.use(bodyParser.urlencoded({ extended: false }))

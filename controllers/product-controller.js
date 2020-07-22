@@ -102,7 +102,7 @@ exports.getCreate = async (req, res) => {
         })
     } catch (err) {
         req.flash("error_msg", "Ops, Houve um erro interno!")
-        res.redirect("/products/products")
+        res.redirect("/products/products",{ user: req.user})
     }
 }
 
@@ -322,6 +322,7 @@ exports.postCreate = async (req, res) => {
         } catch (err) {
             req.flash("error_msg", "Ops, Houve um erro ao salvar o Produto, tente novamente!" + err)
             res.redirect("/products/products")
+            console.log(req.user)
         }
     }
 }
@@ -341,6 +342,7 @@ exports.getCreateId = async (req, res) => {
         var breaks = await Interval.find({active: true}).sort({ description: "asc" }).lean()
         var providers = await Provider.find({active: true}).sort({ name: "asc" }).lean()
         res.render("products/add_idproducts",{
+            user: req.user,
             groups: groups, 
             subgroups: subgroups, 
             customers: customers,
@@ -352,6 +354,7 @@ exports.getCreateId = async (req, res) => {
             breaks: breaks,
             providers: providers,
             product: product})
+            console.log(req.user)
     } catch (_err) {
         req.flash ("error_msg", "Ops, Houve um erro interno!")
         res.redirect("/products/products")
@@ -514,13 +517,13 @@ exports.postCreateId = async (req, res) => {
 
             requiresCertificationCalibration: req.body.requiresCertificationCalibration,
 
-            inputAmount: req.body.inputAmount,
+            inputAmount: req.body.inputAmount.replace(",","."),
 
             unity: req.body.unity,
 
             weightKg: req.body.weightKg,
 
-            faceValue: req.body.faceValue,
+            faceValue: req.body.faceValue.replace(",","."),
 
             dimensionsWxLxH: req.body.dimensionsWxLxH,
 
@@ -552,7 +555,9 @@ exports.postCreateId = async (req, res) => {
 
             date: req.body.date,
 
-            user: req.body.user,
+            userName: req.user.email,
+
+            total:req.body.inputAmount * req.body.faceValue,
 
             tags: [req.body.group,
                 req.body.subgroup,
