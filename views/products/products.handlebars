@@ -51,13 +51,17 @@
   <div id="card" class="card-deck mt-2" style='display: block;'>
     {{#each products}}
     <h5>{{fullDescription}}</h5>
-    <div class="card-deck mt-3">
-      <img src="{{image}}" class=" img-fluid rounded" alt="Responsive image" style="width: 10rem;">
-      <div id="card2" class="card-body">
+    <div class="row no-gutters position-relative">
+  <div class="col-md-3 mb-md-0 p-md-4">
+  <img src="{{image}}" style="width: 200px;" class="mr-3" alt="...">
+ </div> 
+      <div class="col-md-6 position-static p-4 pl-md-0">
 
-        <div class="form-admin col-md-6" id="qrcode2" onchange="qrcodeFormat()"></div>
+        
         <h6 class="card-text">Grupo: {{group.description}}</h6>
         <h6 class="card-text">Subgrupo: {{subgroup.description}}</h6>
+
+
          
         <a href="/products/products/add_id/{{_id}}" class="btn btn-primary btn-sm" data-toggle="tooltip"
           data-placement="bottom" title="Criar novo produto a partir dessas informações">
