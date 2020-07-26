@@ -5,7 +5,7 @@
         let deleters = doc.querySelectorAll('.deletar');
         for (let i = 0; i < deleters.length; i++) {
             deleters[i].addEventListener('click', function (event) {
-                let id = deleters[i].dataset.id;
+                let _id = deleters[i].dataset._id;
                 if (confirm("Deseja mesmo apagar este dado?")) {
                     return true;
                 } else {
@@ -152,11 +152,19 @@ $('#fone').blur(function(event) {
     elemento.value = valor;
 }*/
 
-//PESO
-$('#weightKg').mask("#0.000", {
-    reverse: true
+//ARREDONDA SEMPRE DUAS CASAS DECIMAIS INPUT NUMBER
+$(".number").on("change", function () {
+    $(this).val(parseFloat($(this).val()).toFixed(2));
 });
-
+//MOSTAR SEMPRE DUAS CASAS DECIMAIS AO MOSTRAR TELA
+$(".number").each(function () {
+    var help = $(this).val().split(".");
+    if (help.length == 1) {
+        $(this).val($(this).val() + ".00");
+    } else if (help[1].length == 1) {
+        $(this).val($(this).val() + "0");
+    }
+});
 
 
 
@@ -230,4 +238,3 @@ function viewCertificate() {
         files[0].style.display = 'block';
     }
 }
-
