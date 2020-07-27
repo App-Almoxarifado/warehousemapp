@@ -1,20 +1,16 @@
-(function (_win, doc) {
+
 
     //CONFIRMAÇÃO AO DELETAR 
-    if (doc.querySelector('.deletar')) {
-        let deleters = doc.querySelectorAll('.deletar');
-        for (let i = 0; i < deleters.length; i++) {
-            deleters[i].addEventListener('click', function (event) {
-                let _id = deleters[i].dataset._id;
-                if (confirm("Deseja mesmo apagar este dado?")) {
-                    return true;
-                } else {
-                    event.preventDefault();
-                }
-            });
-        }
-    }
-})
+    $(document).ready(function(){
+        $(".deletar").click( function(event) {
+           var apagar = confirm('Deseja realmente excluir este registro?');
+           if (apagar){
+         // aqui vai a instrução para apagar registro			
+           }else{
+              event.preventDefault();
+           }	
+        })
+     })
 
 //FUNÇÃO PARA AUTOMATIZAR O CÓDIGO QRCODE
 function qrcodeFormat() {
@@ -238,3 +234,68 @@ function viewCertificate() {
         files[0].style.display = 'block';
     }
 }
+
+//CALCULAR DATA DE VENCIMENTO
+function calculater() {
+    var inicial = document.getElementById("calibrationDate").value;
+    //var daysToExpire = parseInt(document.getElementById("daysToExpire").value);
+    var monthsDue = document.getElementById("frequency").value;
+    
+    var partes = inicial.split("-");
+    var ano = partes[0];
+    var mes = partes[1] - 1;
+    var dia = partes[2];
+  
+    inicial = new Date(ano, mes, dia);
+    final = new Date(inicial);
+    if (monthsDue == "5f011814038643547805dbe1") {
+        daysToExpire = 365;
+    }
+    if (monthsDue == "5f011814038643547805dbe2") {
+        daysToExpire = 365*2;
+    }
+    if (monthsDue == "5f011814038643547805dbe3") {
+        daysToExpire = 365*3;
+    }
+    if (monthsDue == "5f011814038643547805dbe4") {
+        daysToExpire = 365*4;
+    }
+    if (monthsDue == "5f011814038643547805dbe5") {
+        daysToExpire = 365*5;
+    }
+    final.setDate(final.getDate() + daysToExpire);
+    //final.setDate(final.getDate() - 14); // menos 14 dias do resultado
+    
+    var dd = ("0" + final.getDate()).slice(-2);
+    var mm = ("0" + (final.getMonth() + 1)).slice(-2);
+    var y = final.getFullYear();
+  
+    var dataformatada = y + '-' + mm + '-' + dd;
+    document.getElementById('calibrationValidity').value = dataformatada;
+    var calibrationValidity =  document.getElementById('calibrationValidity').valueAsDate
+    //var today = document.getElementById('today').valueAsDate = new Date();
+    var today  = new Date();
+    if (calibrationValidity > today){
+        calibrationStatus = "Ok"   
+    }
+    if (calibrationValidity < today){
+        calibrationStatus = "Vencido"   
+    }  
+    document.getElementById('calibrationStatus').value = calibrationStatus;
+  }
+
+ function statusCalibration (){
+    var calibrationValidity =  document.getElementById('calibrationValidity').valueAsDate
+    //var today = document.getElementById('today').valueAsDate = new Date();
+    var today = new Date();
+  
+    if (calibrationValidity > today){
+        calibrationStatus = "Ok"   
+    }
+    if (calibrationValidity < today){
+        calibrationStatus = "Vencido"   
+    }  
+    document.getElementById('calibrationStatus').value = calibrationStatus;
+ }
+
+  

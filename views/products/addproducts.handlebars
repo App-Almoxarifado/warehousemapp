@@ -178,13 +178,13 @@
 
             <div class="form-group col-md-2" style="display: block;">
                 <label for="inputAmount">Quantidade:</label>
-                <input type="number" class="form-control" id="inputAmount" name="inputAmount"
+                <input type="number" class="number form-control" id="inputAmount" name="inputAmount" step="0.01"
                     placeholder="Quantidade do Produto">
             </div>
 
             <div class="form-group col-md-2" style="display: none;">
                 <label for="outputQuantity">Quantidade:</label>
-                <input type="number" class="form-control" id="outputQuantity" name="outputQuantity"
+                <input type="number" class="number form-control" id="outputQuantity" name="outputQuantity" step="0.01"
                     placeholder="Quantidade do Produto">
             </div>
 
@@ -202,14 +202,14 @@
 
             <div class="form-group col-md-2">
                 <label for="weightKg">Peso Kg:</label>
-                <input type="text" class="form-control" id="weightKg" name="weightKg" 
-                placeholder="Peso do Produto">
+                <input type="number" class="number form-control" id="weightKg" name="weightKg" step="0.01"
+                    placeholder="Peso do Produto">
             </div>
 
             <div class="form-group col-md-2">
                 <label for="faceValue">Valor de Face:</label>
-                <input type="number" class="form-control" id="faceValue" name="faceValue" 
-                step="0.01" min="-9999999999.99" max="9999999999.99" placeholder="Valor do Produto">
+                <input type="number" class="number form-control" id="faceValue" name="faceValue" step="0.01"
+                    placeholder="Valor do Produto">
             </div>
 
             <div class="form-group col-md-3">
@@ -236,8 +236,14 @@
                 </div>
 
                 <div class="form-group col-md-2">
+                    <label for="calibrationDate">Data Calibração:</label>
+                    <input type="date" class="form-control" id="calibrationDate" name="calibrationDate"
+                        placeholder="Data Calibração">
+                </div>
+
+                <div class="form-group col-md-2">
                     <label for="frequency">Periodicidade:</label>
-                    <select class="custom-select" id="frequency" name="frequency">
+                    <select class="custom-select" id="frequency" name="frequency" onchange="calculater();">
                         <option selected disabled value="">Selecione...</option>
                         {{#each breaks}}
                         <option value="{{_id}}">{{description}}</option>
@@ -248,15 +254,9 @@
                 </div>
 
                 <div class="form-group col-md-2">
-                    <label for="calibrationDate">Data Calibração:</label>
-                    <input oninput="mascara(this, 'data')" type="text" class="form-control" id="calibrationDate"
-                        name="calibrationDate" placeholder="Data Calibração">
-                </div>
-
-                <div class="form-group col-md-2">
                     <label for="calibrationValidity">Validade Calibração:</label>
-                    <input oninput="mascara(this, 'data')" type="text" class="form-control" id="calibrationValidity"
-                        name="calibrationValidity" placeholder="Validade Calibração">
+                    <input type="date" class="form-control" id="calibrationValidity" name="calibrationValidity"
+                        placeholder="Validade Calibração" onchange="expire()">
                 </div>
 
                 <div class="form-group col-md-2">
@@ -267,6 +267,8 @@
 
             </div>
 
+            <input type="date" class="form-control mt-2" name="today" id="today">
+            <input type="text" class="form-control mt-2" name="daysToExpire" id="daysToExpire">
         </div>
 
         <div class="form-row">
@@ -305,8 +307,8 @@
 
             <div class="form-group col-md-2">
                 <label for="receivingDate">Data Recebimento:</label>
-                <input oninput="mascara(this, 'data')" type="text" class="form-control" id="receivingDate"
-                    name="receivingDate" placeholder="Data Recebimento">
+                <input type="date" class="form-control" id="receivingDate" name="receivingDate"
+                    placeholder="Data Recebimento">
             </div>
 
         </div>
@@ -315,7 +317,7 @@
             <div class="form-group col-md-12">
                 <label for="note">Observações:</label>
                 <input type="text" class="form-control" id="note" name="note" placeholder="Observações sobre o produto">
-            </div> 
+            </div>
         </div>
 
         <input type="hidden" class="form-control mt-2" name="user" id="user">
