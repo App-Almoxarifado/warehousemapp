@@ -22,14 +22,14 @@
 
     <form action="/products/products/add_id" class="mt-2" method="POST">
 
-        <input type="hidden" class="form-control mt-2" name="image" id="image" value="{{product.image}}" required>
+        <input type="text" class="form-control mt-2" name="image" id="image" value="{{product.image}}" required>
 
         <div class="form-row">
 
             <div class="col-md-6">
                 <label for="group">Grupo:</label>
                 <select class="custom-select" id="group" name="group" value="{{product.group}}"
-                    onblur="viewCertificate(), statusCalibration ()" required autofocus>
+                    onblur="viewCertificate(), statusCalibration()" required autofocus>
                     <option selected disabled value="">Selecione...</option>
                     {{#each groups}}
                     <option {{#if_eq ../product.group _id}}selected{{/if_eq}} value="{{_id}}">{{description}}</option>

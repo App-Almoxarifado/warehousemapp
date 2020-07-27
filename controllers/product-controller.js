@@ -110,7 +110,7 @@ exports.getCreate = async (req, res) => {
 }
 
 exports.postCreate = async (req, res) => {
-    let endImg = "https://warehousemapp.herokuapp.com/uploads/"
+    //let endImg = "https://warehousemapp.herokuapp.com/uploads/"
     var erros = []
     if (req.body.group == "0") {
         erros.push({
@@ -227,7 +227,7 @@ exports.postCreate = async (req, res) => {
             .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
             .replace(/(^-+|-+$)/, ''),
 
-            image: endImg + req.body.image,
+            image: req.body.image,
 
             group: req.body.group,
 
@@ -365,7 +365,7 @@ exports.getCreateId = async (req, res) => {
 }
 
 exports.postCreateId = async (req, res) => {
-    let endImg = "https://warehousemapp.herokuapp.com/uploads/"
+    //let endImg = "https://warehousemapp.herokuapp.com/uploads/"
     var erros = []
     if (req.body.group == "0") {
         erros.push({
@@ -482,7 +482,7 @@ exports.postCreateId = async (req, res) => {
             .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
             .replace(/(^-+|-+$)/, ''),
 
-            image: endImg + req.body.image,
+            image: req.body.image,
 
             group: req.body.group,
 

@@ -76,7 +76,7 @@ $(document).ready(function () {
                 var url = (e.target.result);
                 console.log(url);
                 var nameimg = document.getElementById("file").files[0].name
-                document.getElementById('image').value = (nameimg)
+                document.getElementById('image').value = "https://warehousemapp.herokuapp.com/uploads/"+(nameimg)
 
             }
 
@@ -152,6 +152,7 @@ $('#fone').blur(function(event) {
 $(".number").on("change", function () {
     $(this).val(parseFloat($(this).val()).toFixed(2));
 });
+
 //MOSTAR SEMPRE DUAS CASAS DECIMAIS AO MOSTRAR TELA
 $(".number").each(function () {
     var help = $(this).val().split(".");
