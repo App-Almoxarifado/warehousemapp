@@ -1,4 +1,5 @@
 //DEPENDÊNCIAS
+require('dotenv').config()
 const compression = require('compression')
 const express = require('express')
 const handlebars = require('express-handlebars')
