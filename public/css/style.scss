@@ -251,7 +251,7 @@ input {
     padding: 0;
     //color: white;
     background-image: url("/img/bg01.jpg");
-    background-color: grayscale($color: #ffffff);
+    //background-color: grayscale($color: #ffffff);
     background-position: 30% 45%;
     background-size: cover;
 
@@ -265,7 +265,6 @@ button{ margin:1px; }
     width: 100%;
     height: 100vh;
     padding: 0;
-    
     background-image: url("/img/ferramentas11.jpg");
     background-color:  #000000;
     background-position: 30% 45%;

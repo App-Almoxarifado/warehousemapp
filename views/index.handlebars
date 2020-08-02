@@ -91,27 +91,123 @@
     <div class="carousel02 carousel-item">
       <div class="carousel-caption d-block d-md-block">
         <div class="elemento">
-          <image src="img/logo6.png" style="opacity : 0.3; border-radius:20px " width="800px" class="img-fluid"
+          {{#if user}}
+           <image src="img/logo6.png" style="opacity : 0.3; border-radius:20px " width="800px" class="img-fluid"
             alt="Responsive image"></image>
           <!--<h1>Bem Vindo ao WarehouseApp!</h1>-->
+          {{else}}
+          <div class="userlogin2 container">
+            <div class="card">
+              <div class="card-body">
+                <h3>Login:</h3>
+                <form class="mt-5" action="/usuarios/login" method="POST">
+                  <div class="form-row">
+                    <div class="form-group col-md-12">
+                      <label for="descricao">Email:</label>
+                      <input type="email" class="form-control" id="email" name="email" placeholder="Digite o seu email"
+                        required>
+                    </div>
+                    <div class="form-group col-md-12 ">
+                      <label for="descricao">Senha:</label>
+                      <input type="password" class="form-control" id="senha" name="senha"
+                        placeholder="Digite a sua senha:" required>
+                    </div>
+                  </div>
+                  <div class="d-flex">
+                    <div class="mr-auto p-2">
+                      <a href="/usuarios/registro"><button class="btn btn-primary">Crie sua Conta </button></a>
+                    </div>
+                    <div class="p-2">
+                      <button type="submit" class="btn btn-success">Entrar </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          {{/if}}
         </div>
       </div>
     </div>
     <div class="carousel03 carousel-item">
       <div class="carousel-caption d-block d-md-block">
         <div class="elemento">
-          <image src="img/logo6.png" style="opacity : 0.3; border-radius:20px " width="800px" class="img-fluid"
+          {{#if user}}
+           <image src="img/logo6.png" style="opacity : 0.3; border-radius:20px " width="800px" class="img-fluid"
             alt="Responsive image"></image>
           <!--<h1>Bem Vindo ao WarehouseApp!</h1>-->
+          {{else}}
+          <div class="userlogin2 container">
+            <div class="card">
+              <div class="card-body">
+                <h3>Login:</h3>
+                <form class="mt-5" action="/usuarios/login" method="POST">
+                  <div class="form-row">
+                    <div class="form-group col-md-12">
+                      <label for="descricao">Email:</label>
+                      <input type="email" class="form-control" id="email" name="email" placeholder="Digite o seu email"
+                        required>
+                    </div>
+                    <div class="form-group col-md-12 ">
+                      <label for="descricao">Senha:</label>
+                      <input type="password" class="form-control" id="senha" name="senha"
+                        placeholder="Digite a sua senha:" required>
+                    </div>
+                  </div>
+                  <div class="d-flex">
+                    <div class="mr-auto p-2">
+                      <a href="/usuarios/registro"><button class="btn btn-primary">Crie sua Conta </button></a>
+                    </div>
+                    <div class="p-2">
+                      <button type="submit" class="btn btn-success">Entrar </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          {{/if}}
         </div>
       </div>
     </div>
     <div class="carousel04 carousel-item">
       <div class="carousel-caption d-block d-md-block">
         <div class="elemento">
-          <image src="img/logo6.png" style="opacity : 0.3; border-radius:20px " width="800px" class="img-fluid"
+          {{#if user}}
+           <image src="img/logo6.png" style="opacity : 0.3; border-radius:20px " width="800px" class="img-fluid"
             alt="Responsive image"></image>
           <!--<h1>Bem Vindo ao WarehouseApp!</h1>-->
+          {{else}}
+          <div class="userlogin2 container">
+            <div class="card">
+              <div class="card-body">
+                <h3>Login:</h3>
+                <form class="mt-5" action="/usuarios/login" method="POST">
+                  <div class="form-row">
+                    <div class="form-group col-md-12">
+                      <label for="descricao">Email:</label>
+                      <input type="email" class="form-control" id="email" name="email" placeholder="Digite o seu email"
+                        required>
+                    </div>
+                    <div class="form-group col-md-12 ">
+                      <label for="descricao">Senha:</label>
+                      <input type="password" class="form-control" id="senha" name="senha"
+                        placeholder="Digite a sua senha:" required>
+                    </div>
+                  </div>
+                  <div class="d-flex">
+                    <div class="mr-auto p-2">
+                      <a href="/usuarios/registro"><button class="btn btn-primary">Crie sua Conta </button></a>
+                    </div>
+                    <div class="p-2">
+                      <button type="submit" class="btn btn-success">Entrar </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          {{/if}}
         </div>
       </div>
     </div>
