@@ -160,8 +160,21 @@ table {
 }
 
 .userlogin {
-    padding-top: 100px;
-    padding-bottom: 335px;
+    padding-top: 180px;
+    //padding-bottom: 335px;
+    
+    width: 400px;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    color: lighten($color: #ffffff, $amount: 0);
+    //transform: translate(-50%, -50%);
+}
+
+.userlogin2 {
+    //padding-top: 80px;
+    //padding-bottom: 335px;
+    text-align: left;
     width: 400px;
     height: 100%;
     top: 50%;
@@ -219,12 +232,12 @@ input {
     height: 100vh;
     padding: 0;
     color: white;
-    background-image: url("/img/ferramentas11.jpg");
+    background-image: url("/img/bg02.jpg");
     //background-color: grayscale($color: #000000);
     background-position: 30% 45%;
     background-size: cover;
     hr {
-        border-color: #4b4b4bcc;
+        border-color: #ffffff;
     }
     table{
         background-color: #ffffff;
@@ -237,7 +250,7 @@ input {
     height: 100vh;
     padding: 0;
     //color: white;
-    //background-image: url("/img/ferramentas11.jpg");
+    background-image: url("/img/bg01.jpg");
     background-color: grayscale($color: #ffffff);
     background-position: 30% 45%;
     background-size: cover;
@@ -252,7 +265,7 @@ button{ margin:1px; }
     width: 100%;
     height: 100vh;
     padding: 0;
-    //color: white;
+    
     background-image: url("/img/ferramentas11.jpg");
     background-color:  #000000;
     background-position: 30% 45%;
@@ -261,3 +274,17 @@ button{ margin:1px; }
 }
 
 
+
+.card {
+    background-color: rgba(0, 0, 0, 0.4) !important;
+    color: white;
+}
+
+.elemento {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  
