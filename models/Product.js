@@ -190,13 +190,20 @@ const Product = new Schema({
    },
    userName: {
       type: String,
-     
+      //required: true,
+   },
+   userEmail: {
+      type: String,
+      //required: true,
    },
    active: {
       type: Boolean,
       default: "true"
    },
-   total: {
+   totalFaceValue: {
+      type:Number
+   },
+   totalWeightKg: {
       type:Number
    },
    tags: [{
