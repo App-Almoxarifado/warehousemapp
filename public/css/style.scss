@@ -160,18 +160,20 @@ table {
 }
 
 .userlogin {
-    padding-top: 180px;
-    //padding-bottom: 335px;
-    
-    width: 400px;
-    height: 100%;
+    position: fixed;
     top: 50%;
     left: 50%;
+    transform: translate(-50%, -50%);
+    padding-top: 250px;
+    //padding-bottom: 335px;  
+    width: 400px;
+    height: 100%;
     color: lighten($color: #ffffff, $amount: 0);
     //transform: translate(-50%, -50%);
 }
 
 .userlogin2 {
+    position: fixed;
     //padding-top: 80px;
     //padding-bottom: 335px;
     text-align: left;
@@ -180,17 +182,19 @@ table {
     top: 50%;
     left: 50%;
     color: lighten($color: #ffffff, $amount: 0);
-    //transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }
 
 .user {
-    padding-top: 50px;
-    padding-bottom: 100px;
+    position: fixed;
+    padding-top: 75px;
+    //padding-bottom: 100px;
     width: 400px;
     height: 100%;
     top: 50%;
     left: 50%;
     color: lighten($color: #ffffff, $amount: 0);
+    transform: translate(-50%, -50%);
 }
 
 input {
