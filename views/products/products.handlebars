@@ -1,4 +1,4 @@
-<div class="container mt-2">
+<div class="container">
   <script>
     function navigate(offset) {
       var searchParams = new URLSearchParams(location.search);
@@ -49,13 +49,17 @@
   <hr>
 
   <!--VIZULIZAÇÃO EM LISTA-->
-  <div id="card" class="card-deck mt-2" style='display: block;'>
+  
     {{#each products}}
     <h5>{{fullDescription}}</h5>
     <div class="row no-gutters position-relative">
-  <div class="col-md-3 mb-md-0 p-md-4">
-  <img src="{{image}}" style="width: 12rem;" class="rounded mr-3" alt="...">
+  <div class="col-sm-12-md-2 mb-md-0 p-md-4 text-center">
+  <img src="{{image}}" style="width: 10rem;" class="rounded mr-3" alt="...">
+  </div>
+  <div class="col-sm-6-md-2 mb-md-0 p-md-4 text-center">
+  <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{qrcode}}" style="width: 6rem;" class="rounded mr-3">
  </div> 
+ 
       <div class="col-md-6 position-static p-4 pl-md-0">
 
         
@@ -103,4 +107,3 @@
     </div>
 
   </div>
-</div>

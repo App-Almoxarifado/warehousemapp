@@ -39,7 +39,7 @@ exports.getList = async (req, res) => {
 
         const quant = await Product
             .find(filtros.length > 0 ? { $or: filtros} : {}).estimatedDocumentCount()
-    
+        
         var products = await Product
             .find(filtros.length > 0 ? { $or: filtros} : {})
             .limit(3)
