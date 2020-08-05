@@ -17,27 +17,27 @@ exports.getCreate = (req, res) => {
 
     if (!req.body.nome || typeof req.body.nome == undefined || req.body.nome == null) {
         erros.push({
-            Message: "Nome inválido!"
+            texto: "Nome inválido!"
         });
     }
     if (!req.body.email || typeof req.body.email == undefined || req.body.email == null) {
         erros.push({
-            Message: "Email inválido!"
+            texto: "Email inválido!"
         });
     }
     if (!req.body.senha || typeof req.body.senha == undefined || req.body.senha == null) {
         erros.push({
-            Message: "Senha inválida!"
+            texto: "Senha inválida!"
         });
     }
     if (req.body.senha.length < 4) {
         erros.push({
-            Message: "Senha muito curta!"
+            texto: "Senha muito curta!"
         });
     }
     if (req.body.senha != req.body.senha2) {
         erros.push({
-            Message: "As senhas são diferentes, tente novamente!"
+            texto: "As senhas são diferentes, tente novamente!"
         });
     }
 

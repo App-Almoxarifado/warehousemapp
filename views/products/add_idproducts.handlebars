@@ -12,7 +12,7 @@
                 <div class="form-row">
                     <div class="col-md-12 text-left">
                         <img src="{{product.image}}" class="avatar img-fluid rounded" alt="/img/logo8.png"
-                            style="width: 8rem;">
+                            style="width: 10rem;">
                         <input type='submit' class='mt-5 btn btn-primary btn-sm' value='Salvar Imagem'>
                         <input type="file" accept="image/*" name="file" id="file"
                             class="btn-file text-center center-block file-upload">
@@ -353,8 +353,8 @@
                 <input type="hidden" class="form-control" id="date" name="date" placeholder="date"
                     value="{{#formatDate date}}{{/formatDate}}">
 
-                <input type="text" class="form-control mt-2" name="userName" id="userName" value="{{user.nome}}">
-                <input type="hidden" class="form-control mt-2" name="userEmail" id="userEmail" value="{{product.userEmail}}">
+                <input type="hidden" class="form-control mt-2" name="userName" id="userName" value="{{user.nome}}">
+                <input type="hidden" class="form-control mt-2" name="userEmail" id="userEmail" value="{{user.email}}">
 
                 <div class="form-group col-md-8">
                     <div class="form-row">

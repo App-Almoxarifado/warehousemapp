@@ -303,9 +303,13 @@ exports.postCreate = async (req, res) => {
 
             date: req.body.date,
 
-            user: req.body.user,
+            userName: req.body.userName,
 
-            total:req.body.inputAmount * req.body.faceValue,
+            userEmail: req.body.userEmail,
+
+            totalFaceValue:req.body.inputAmount * req.body.faceValue,
+
+            totalWeightKg:req.body.inputAmount * req.body.weightKg,
 
             tags: [req.body.group,
                 req.body.subgroup,
@@ -558,9 +562,9 @@ exports.postCreateId = async (req, res) => {
 
             date: req.body.date,
 
-            userName: req.user.nome,
+            userName: req.body.userName,
 
-            userEmail: req.user.email,
+            userEmail: req.body.userEmail,
 
             totalFaceValue:req.body.inputAmount * req.body.faceValue,
 

@@ -1,15 +1,18 @@
+
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark " style="background-color: #0075be;">
         <a class="navbar-brand mr-auto" href="/"><!--<h3>WarehouseApp</h3>-->
         <img src="/img/logo6.png" width="200" alt="">
         </a>
-
+{{#if user}}
       <button type="button" class="btn btn-primary" onclick="muda();" ><i class="fas fa-adjust"></i></button></a>
+
         <button class="navbar-toggler d-block" type="button" id="navToggle">
             <span class="navbar-toggler-icon"></span>
         </button>
         
-
+  
         <div class="navbar-collapse offcanvas-collapse">
+        
  <ul class="navbar-nav ">
    <div class="mt-3 text-center">
    <img src="{{user.image}}" style="width: 8rem;" alt="" class="rounded-circle">
@@ -87,5 +90,7 @@
 
 
         </div>
+        {{else}}
+        {{/if}}
     </nav>
     

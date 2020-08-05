@@ -317,7 +317,8 @@
             </div>
         </div>
 
-        <input type="text" class="form-control mt-2" name="userName" id="userName" value="{{user.nome}}">
+        <input type="hidden" class="form-control mt-2" name="userName" id="userName" value="{{user.nome}}">
+        <input type="hidden" class="form-control mt-2" name="userEmail" id="userEmail" value="{{user.email}}">
 
         <input type="hidden" class="form-control" id="date" name="date" placeholder="date"
             value="{{#formatDate date}}{{/formatDate}}">
