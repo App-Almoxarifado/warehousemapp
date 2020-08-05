@@ -16,10 +16,11 @@
 
   </script>
   <h2>Produtos</h2>
-  
+
   <div class="d-flex">
     <div class="mr-auto p-2">
-      <a href="/products/products/add"><button class="btn btn-success">Novo <i class="fa fa-paper-plane" aria-hidden="true"></i></button></a>
+      <a href="/products/products/add"><button class="btn btn-success">Novo <i class="fa fa-paper-plane"
+            aria-hidden="true"></i></button></a>
     </div>
 
     <div class="p-2">
@@ -36,11 +37,11 @@
   <hr>
 
   <div class="d-flex">
-        <div class=" p-2">
+    <div class=" p-2">
       <input type="text" class="form-control" id="search" name="search" placeholder="Pesquise aqui..."
         onchange="this.value=this.value.toLowerCase()">
     </div>
-        <div class="p-2">
+    <div class="p-2">
       <button type="button" class="btn btn-primary" onclick="search()"><i class="fa fa-search"
           aria-hidden="true"></i></button>
     </div>
@@ -49,61 +50,63 @@
   <hr>
 
   <!--VIZULIZAÇÃO EM LISTA-->
-  
-    {{#each products}}
-    <h5>{{fullDescription}}</h5>
-    <div class="row no-gutters position-relative">
-  <div class="col-sm-12-md-2 mb-md-0 p-md-4 text-center">
-  <img src="{{image}}" style="width: 10rem;" class="rounded mr-3" alt="...">
-  </div>
-  <div class="col-sm-6-md-2 mb-md-0 p-md-4 text-center">
-  <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{qrcode}}" style="width: 6rem;" class="rounded mr-3">
- </div> 
- 
-      <div class="col-md-6 position-static p-4 pl-md-0">
 
-        
-        <h6 class="card-text">Grupo: {{group.description}}</h6>
-        <h6 class="card-text">Subgrupo: {{subgroup.description}}</h6>
-
-
-         
-        <a href="/products/products/add_id/{{_id}}" class="btn btn-primary btn-sm" data-toggle="tooltip"
-          data-placement="bottom" title="Criar novo produto a partir dessas informações">
-          <i class="fa fa-paper-plane" aria-hidden="true"></i></a>
-
-        <a href="/products/products/take/{{_id}}" class="btn btn-dark btn-sm" data-toggle="tooltip"
-          data-placement="bottom" title="Visualizar detalhes">
-          <i class="fas fa-align-right"></i></a>
-
-        <a href="/products/products/edit/{{_id}}" class="btn btn-secondary btn-sm" data-toggle="tooltip"
-          data-placement="bottom" title="Ediar Produto">
-          <i class="fas fa-pen"></i></button></a>
-
-        <a href="/products/products/delete/{{_id}}" class="deletar btn btn-danger btn-sm" data-toggle="tooltip"
-          data-placement="bottom" title="Deletar Produto">
-          <i class="fas fa-trash-alt"></i></a>
-
-      </div>
+  {{#each products}}
+  <h5>{{fullDescription}}</h5>
+  <div class="row no-gutters position-relative">
+    <div class="col-sm-12-md-2 mb-md-0 p-md-4 text-center">
+      <img src="{{image}}" style="width: 10rem;" class="rounded mr-3" alt="...">
     </div>
-    <hr>
-    {{else}}
-    <h4 class="mt-12 mb-2">Nenhum Produto Registrado!</h4>
-    {{/each}}
-
-    <div class="d-flex">
-      <div class="mr-auto p-2">
-        {{#if prev }}
-        <button class="btn btn-primary btn-sm mt-2" onclick="navigate(-1)">
-          <i class="fa fa-arrow-left" aria-hidden="true"></i> Anterior</button>
-        {{/if}}
-      </div>
-      <div class="p-2">
-        {{#if next }}
-        <button class="btn btn-primary btn-sm mt-2" onclick="navigate(1)">Próximo
-          <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
-        {{/if}}
-      </div>
+    <div class="col-sm-6-md-2 mb-md-0 p-md-4 text-center">
+      <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{qrcode}}" style="width: 6rem;"
+        class="rounded mr-3">
     </div>
 
+    <div class="col-md-6 position-static p-4 pl-md-0">
+
+
+      <h6 class="card-text">Grupo: {{group.description}}</h6>
+      <h6 class="card-text">Subgrupo: {{subgroup.description}}</h6>
+
+
+
+
+      <a href="/products/products/add_id/{{_id}}" class="btn btn-primary btn-sm" data-toggle="tooltip"
+        data-placement="bottom" title="Criar novo produto a partir dessas informações">
+        <i class="fa fa-paper-plane" aria-hidden="true"></i></a>
+
+      <a href="/products/products/take/{{_id}}" class="btn btn-dark btn-sm" data-toggle="tooltip"
+        data-placement="bottom" title="Visualizar detalhes">
+        <i class="fas fa-align-right"></i></a>
+
+      <a href="/products/products/edit/{{_id}}" class="btn btn-secondary btn-sm" data-toggle="tooltip"
+        data-placement="bottom" title="Ediar Produto">
+        <i class="fas fa-pen"></i></button></a>
+
+      <a href="/products/products/delete/{{_id}}" class="deletar btn btn-danger btn-sm" data-toggle="tooltip"
+        data-placement="bottom" title="Deletar Produto">
+        <i class="fas fa-trash-alt"></i></a>
+
+    </div>
   </div>
+  <hr>
+  {{else}}
+  <h4 class="mt-12 mb-2">Nenhum Produto Registrado!</h4>
+  {{/each}}
+
+  <div class="d-flex">
+    <div class="mr-auto p-2">
+      {{#if prev }}
+      <button class="btn btn-primary btn-sm mt-2" onclick="navigate(-1)">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i> Anterior</button>
+      {{/if}}
+    </div>
+    <div class="p-2">
+      {{#if next }}
+      <button class="btn btn-primary btn-sm mt-2" onclick="navigate(1)">Próximo
+        <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+      {{/if}}
+    </div>
+  </div>
+
+</div>
