@@ -58,6 +58,33 @@ exports.getList = async (req, res) => {
     }
 }
 
+exports.postCreateRequest = async (req, res) => {
+    
+        try {      
+        const products = new Product({
+            qrcode: req.body.qrcode,
+
+            image: req.body.image,
+
+            group: req.body.group,
+
+            subgroup: req.body.subgroup,
+
+            fullDescription: req.body.fullDescription,
+            
+            
+        })
+            await products.save()
+            req.flash("success_msg", "Produto criado com sucesso!")
+            res.redirect("/products/products")
+            
+        } catch (err) {
+            req.flash("error_msg", "Ops, Houve um erro ao salvar o Produto, tente novamente!" + err)
+            res.redirect("/products/products")
+        }
+    }
+
+
 //PRODUTOS POR TABELA
 exports.getListTable = async (req, res) => {
     try {

@@ -18,32 +18,32 @@ const Product = new Schema({
    group: {
       type: Schema.Types.ObjectId,
       ref: "groups",
-      required: true
+      //required: true
    },
    subgroup: {
       type: Schema.Types.ObjectId,
       ref: "subgroups",
-      required: true
+      //required: true
    },
    fullDescription: {
       type: String,
-      required: true,
+      //required: true,
       trim: true
    },
    client: {
       type: Schema.Types.ObjectId,
       ref: "customers",
-      required: true
+      //required: true
    },
    local: {
       type: Schema.Types.ObjectId,
       ref: "leases",
-      required: true
+      //required: true
    },
    sublease: {
       type: Schema.Types.ObjectId,
       ref: "subleases",
-      required: true
+      //required: true
    },
    patrimonialAsset: {
       type: String,
@@ -52,7 +52,7 @@ const Product = new Schema({
    },
    description: {
       type: String,
-      required: true,
+      //required: true,
       trim: true
    },
    manufacturer: {
@@ -78,12 +78,12 @@ const Product = new Schema({
    physicalStatus: {
       type: Schema.Types.ObjectId,
       ref: "status",
-      required: true
+      //required: true
    },
    kindOfEquipment: {
       type: Schema.Types.ObjectId,
       ref: "types",
-      required: true
+      //required: true
    },
    requiresCertificationCalibration: {
       type: String,
@@ -101,7 +101,7 @@ const Product = new Schema({
    unity: {
       type: Schema.Types.ObjectId,
       ref: "units",
-      required: true
+      //required: true
    },
    weightKg: {
       type: Number,

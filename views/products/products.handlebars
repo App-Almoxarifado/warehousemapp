@@ -50,25 +50,25 @@
   <hr>
 
   <!--VIZULIZAÇÃO EM LISTA-->
-
+ <form action="/products/products/newRequest" class="mt-2" method="POST">
   {{#each products}}
-  <h5>{{fullDescription}}</h5>
+  <h5 id="fullDescription" name="fullDescription" >{{fullDescription}}</h5>
   <div class="row no-gutters position-relative">
     <div class="col-sm-12-md-2 mb-md-0 p-md-4 text-center">
       <img src="{{image}}" style="width: 10rem;" class="rounded mr-3" alt="...">
     </div>
     <div class="col-sm-6-md-2 mb-md-0 p-md-4 text-center">
-      <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{qrcode}}" style="width: 6rem;"
+      <img id="qrcode" name="qrcode" src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{qrcode}}" style="width: 6rem;"
         class="rounded mr-3">
     </div>
 
     <div class="col-md-6 position-static p-4 pl-md-0">
 
 
-      <h6 class="card-text">Grupo: {{group.description}}</h6>
-      <h6 class="card-text">Subgrupo: {{subgroup.description}}</h6>
-
-
+      <h6 id="group" name="group" class="card-text">Grupo: {{group.description}}</h6>
+      <h6 id="subgroup" name="subgroup" class="card-text">Subgrupo: {{subgroup.description}}</h6>
+      <input type="text" class="form-control mt-2" name="fullDescription" id="fullDescription" value="{{product.fullDescription}}">
+      
 
 
       <a href="/products/products/add_id/{{_id}}" class="btn btn-primary btn-sm" data-toggle="tooltip"
@@ -86,13 +86,14 @@
       <a href="/products/products/delete/{{_id}}" class="deletar btn btn-danger btn-sm" data-toggle="tooltip"
         data-placement="bottom" title="Deletar Produto">
         <i class="fas fa-trash-alt"></i></a>
-
+      <button type="submit" class="btn btn-success">Salvar <i class="fas fa-share"></i></button>
     </div>
   </div>
   <hr>
   {{else}}
   <h4 class="mt-12 mb-2">Nenhum Produto Registrado!</h4>
   {{/each}}
+  </form>
 
   <div class="d-flex">
     <div class="mr-auto p-2">
