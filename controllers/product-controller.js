@@ -301,7 +301,7 @@ exports.postCreate = async (req, res) => {
 
             note: req.body.note,
 
-            date: req.body.date,
+            releaseDateOf: req.body.releaseDateOf,
 
             userName: req.body.userName,
 
@@ -560,7 +560,7 @@ exports.postCreateId = async (req, res) => {
 
             note: req.body.note,
 
-            date: req.body.date,
+            releaseDateOf: req.body.releaseDateOf,
 
             userName: req.body.userName,
 
@@ -633,7 +633,7 @@ exports.postUpdate = async (req, res) => {
             product.group = req.body.group
             product.subgroup = req.body.subgroup
             product.description = req.body.description
-            product.date = req.body.date
+            product.releaseDateOf = req.body.releaseDateOf
         
             await product.save()
             req.flash("success_msg", "Produto editado com Sucesso!")

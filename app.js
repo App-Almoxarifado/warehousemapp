@@ -95,6 +95,7 @@ app.engine('handlebars', handlebars({
         helpers: {
             formatDate: (date) => {
                 return moment(date).format('DD/MM/YYYY')
+                
             }
         }
     }))

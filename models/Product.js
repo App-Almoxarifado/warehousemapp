@@ -184,15 +184,31 @@ const Product = new Schema({
       required: false,
       trim: true
    },
-   date: {
+   releaseDateOf: {
       type: String,
-      default: Date.now()
+      //default: Date.now()
+   },
+   issueDate: {
+      type: String,
+      //default: Date.now()
    },
    userName: {
       type: String,
       //required: true,
    },
    userEmail: {
+      type: String,
+      //required: true,
+   },
+   requestNumber: {
+      type: String,
+      //required: true,
+   },
+   requestUser: {
+      type: String,
+      //required: true,
+   },
+   requestEmail: {
       type: String,
       //required: true,
    },
