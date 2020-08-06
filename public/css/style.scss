@@ -1,5 +1,4 @@
-$theme-colors: (
-    "primary": #0075be,
+$theme-colors: ("primary": #0075be,
 );
 $border-radius: 0.9rem !default;
 $border-radius-lg: 0.9rem !default;
@@ -26,7 +25,10 @@ body {
     padding-left: 1rem;
     overflow-y: auto;
     visibility: hidden;
-    background-color: /*#343a40*//*#f8f9fa*/#0075be;
+    background-color:
+        /*#343a40*/
+        /*#f8f9fa*/
+        #0075be;
     transition-timing-function: ease-in-out;
     transition-duration: .3s;
     transition-property: left, visibility;
@@ -37,7 +39,7 @@ body {
     -moz-background-clip: padding;
     -webkit-background-clip: padding;
     background-clip: padding-box;
-    
+
 
 }
 
@@ -57,6 +59,7 @@ body {
     height: 2.75rem;
     overflow-y: hidden;
 }
+
 .nav-scroller .nav {
     display: -ms-flexbox;
     display: flex;
@@ -92,12 +95,16 @@ body {
     display: none;
 }
 
-input[type="file"]{  color: transparent; display: none;}
+input[type="file"] {
+    color: transparent;
+    display: none;
+}
 
 thead {
     background-color: #0075be;
     color: #fff;
 }
+
 table {
     font-size: x-small;
 }
@@ -219,6 +226,7 @@ input {
     padding: 0;
     margin: 0;
 }
+
 .intro {
     display: table;
     width: 100%;
@@ -240,10 +248,16 @@ input {
     //background-color: grayscale($color: #000000);
     background-position: 30% 45%;
     background-size: cover;
+
     hr {
         border-color: #ffffff;
     }
-    table{
+
+    .card {
+        border-color: #ffffff;
+    }
+
+    table {
         //background-color: #ffffff;
         color: white;
         background-color: rgba(0, 0, 0, 0.7) !important;
@@ -263,7 +277,9 @@ input {
 
 }
 
-button{ margin:1px; }
+button {
+    margin: 1px;
+}
 
 
 .bgRegister {
@@ -272,7 +288,7 @@ button{ margin:1px; }
     height: 100vh;
     padding: 0;
     background-image: url("/img/ferramentas07.jpg");
-    background-color:  #000000;
+    background-color: #000000;
     background-position: 30% 45%;
     background-size: cover;
 
@@ -284,7 +300,7 @@ button{ margin:1px; }
     height: 100vh;
     padding: 0;
     background-image: url("/img/ferramentas08.jpg");
-    background-color:  #000000;
+    background-color: #000000;
     background-position: 30% 45%;
     background-size: cover;
 
@@ -296,7 +312,7 @@ button{ margin:1px; }
     height: 100vh;
     padding: 0;
     background-image: url("/img/ferramentas01.jpg");
-    background-color:  #000000;
+    background-color: #000000;
     background-position: 30% 45%;
     background-size: cover;
 
@@ -304,7 +320,7 @@ button{ margin:1px; }
 
 
 
-.card {
+.cardLogin {
     background-color: rgba(0, 0, 0, 0.6) !important;
     color: white;
 }
@@ -314,6 +330,4 @@ button{ margin:1px; }
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-  }
-
-  
+}

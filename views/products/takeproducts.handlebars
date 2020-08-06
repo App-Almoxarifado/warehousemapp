@@ -1,47 +1,368 @@
-<div class="takegroups container mt-2">
-  <!--VIZULIZAÇÃO EM LISTA-->
-  <h4>{{subgroup.description}}</h4>
-  <hr>
-  <div class="card-deck mt-3">
-    <img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl={{subgroup.qrcode}}" width="200px"
-      class="img-fluid rounded" alt="Responsive image">
-    <div class="form-group col-md-3">
-      <img src="{{subgroup.image}}" width="200px" class=" img-fluid rounded" alt="Responsive image">
-    </div>
-    <div id="card2" class="card-body">
-      <form action="/groups/subgroups/take/" method="POST">
-        <!--<form action="/groups/subgroups/new" method="POST">-->
-        <input type="hidden" class="form-control mt-2" id="id" name="id" placeholder="Id" value="{{subgroup._id}}">
-        <input type="hidden" class="form-control mt-2" id="qrcode" name="qrcode" placeholder="QrCode do group"
-          value="{{subgroup.qrcode}}">
-        <input type="hidden" class="form-control mt-2" name="image" id="image" value="{{subgroup.image}}">
-        <input type="hidden" class="form-control mt-2" id="description" name="description"
-          placeholder="Descrição do group" value="{{subgroup.description}}" onkeyup="qrcodeFormat()">
-        <input type="hidden" class="form-control mt-2" id="date" name="date" placeholder="date"
-          value="{{#formatDate date}}{{/formatDate}}">
-        <div class="form-row">
-          <div class="form-group col-md-12">
-            <br>
-            <label for="group">Grupo:</label>
-            <select class="car" id="group" name="group" value="{{subgroup.group}}">
-              <option selected disabled value="">Selecione...</option>
-              {{#each groups}}
-              <option {{#if_eq ../subgroup.group _id}}selected{{/if_eq}} value="{{_id}}">{{description}}</option>
-              {{else}}
-              {{/each}}
-          </div>
+<div class="container mt-2">
+    <h3>Novo Produto:</h3>
+    <hr>
+    {{#each erros}}
+    <div class="alert alert-danger">{{texto}}</div>
+    {{else}}
+
+    {{/each}}
+
+            <form class="upload mt-2" method='post' enctype="multipart/form-data" action="/upload"
+                style="display:block;">
+                <div class="form-row">
+                    <div class="col-md-12 text-left">
+                        <img src="{{product.image}}" class="avatar img-fluid rounded" alt="/img/logo8.png"
+                            style="width: 10rem;">
+                        <input type='submit' class='mt-5 btn btn-primary btn-sm' value='Salvar Imagem'>
+                        <input type="file" accept="image/*" name="file" id="file"
+                            class="btn-file text-center center-block file-upload">
+                    </div>
+                </div>
+
+            </form>
+
+            <form action="/products/products/newRequest" class="mt-2" method="POST">
+
+                <input type="hidden" class="form-control mt-2" name="image" id="image" value="{{product.image}}"
+                    required>
+
+                <div class="form-row">
+
+                    <div class="invisible">
+                        <label for="group">Grupo:</label>
+                        <select class="car custom-select" id="group" name="group" value="{{product.group}}"
+                            onblur="viewCertificate(), statusCalibration()" required autofocus>
+                            <option selected disabled value="">Selecione...</option>
+                            {{#each groups}}
+                            <option {{#if_eq ../product.group _id}}selected{{/if_eq}} value="{{_id}}">{{description}}
+                            </option>
+                            {{description}}
+                            </option>
+                            {{else}}
+                            <option value="0">Nenhum group registrado</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="subgroup">Subgrupo:</label>
+                        <select class="custom-select" id="subgroup" name="subgroup" onchange="viewFile()"
+                            value="{{product.subgroup}}">
+                            <option selected disabled value="">Selecione...</option>
+                            {{#each subgroups}}
+                            <option {{#if_eq ../product.subgroup _id}}selected{{/if_eq}} value="{{_id}}">{{description}}
+                            </option>
+                            {{else}}
+                            <option value="0">Nenhum Subgroup registrado</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="form-row">
+
+                    <div class="form-group col-md-4">
+                        <label for="client">Site:</label>
+                        <select class="custom-select" id="client" name="client" value="{{product.client}}">
+                            <option selected disabled value="">Selecione...</option>
+                            {{#each customers}}
+                            <option {{#if_eq ../product.client _id}}selected{{/if_eq}} value="{{_id}}">{{description}}
+                            </option>
+                            {{else}}
+                            <option value="0">Nenhum site registrado</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="local">Locação:</label>
+                        <select class="custom-select" id="local" name="local" value="{{product.local}}">
+                            <option selected disabled value="">Selecione...</option>
+                            {{#each leases}}
+                            <option {{#if_eq ../product.local _id}}selected{{/if_eq}} value="{{_id}}">{{description}}
+                            </option>
+                            {{else}}
+                            <option value="0">Nenhuma locação registrada</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="sublease">Sublocação:</label>
+                        <select class="custom-select" id="sublease" name="sublease" value="{{product.sublease}}">
+                            <option selected disabled value="">Selecione...</option>
+                            {{#each subleases}}
+                            <option {{#if_eq ../product.sublease _id}}selected{{/if_eq}} value="{{_id}}">{{description}}
+                            </option>
+                            {{else}}
+                            <option value="0">Nenhuma sublocação registrada</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                </div>
+
+                <input type="hidden" class="form-control mt-2" name="fullDescription" id="fullDescription"
+                    placeholder="Descrição completa do Produto">
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="patrimonialAsset">Bem Patrimonial:</label>
+                        <input type="text" class="form-control" id="patrimonialAsset" name="patrimonialAsset"
+                            placeholder="Bem Patrimonial" value="{{product.patrimonialAsset}}">
+                    </div>
+
+                    <div class="form-group col-md-9">
+                        <label for="description">Descrição:</label>
+                        <input type="text" class="form-control" id="description" name="description"
+                            placeholder="Descrição do Produto" value="{{product.description}}">
+                    </div>
+
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="manufacturer">Fabricante:</label>
+                        <input type="text" class="form-control" id="manufacturer" name="manufacturer"
+                            placeholder="Fabricante do Produto" value="{{product.manufacturer}}">
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="model">Modelo:</label>
+                        <input type="text" class="form-control" id="model" name="model" placeholder="Modelo do Produto"
+                            value="{{product.model}}">
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="capacityReach">Capacidade / Alcance:</label>
+                        <input type="text" class="form-control" id="capacityReach" name="capacityReach"
+                            placeholder="Capacidade / Alcance do Produto" value="{{product.capacityReach}}">
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="serialNumber">N° de Série:</label>
+                        <input type="text" class="form-control" id="serialNumber" name="serialNumber"
+                            placeholder="N° de série do Produto" value="{{product.serialNumber}}">
+                    </div>
+
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="physicalStatus">Status:</label>
+                        <select class="custom-select" id="physicalStatus" name="physicalStatus"
+                            value="{{product.physicalStatus}}">
+                            <option selected disabled value="">Selecione...</option>
+                            {{#each status}}
+                            <option {{#if_eq ../product.physicalStatus _id}}selected{{/if_eq}} value="{{_id}}">
+                                {{description}}
+                            </option>
+                            {{else}}
+                            <option value="0">Nenhum status registrado</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="kindOfEquipment">Tipo de Equipamento:</label>
+                        <select class="custom-select" id="kindOfEquipment" name="kindOfEquipment"
+                            value="{{product.kindOfEquipment}}">
+                            <option selected disabled value="">Selecione...</option>
+                            {{#each types}}
+                            <option {{#if_eq ../product.kindOfEquipment _id}}selected{{/if_eq}} value="{{_id}}">
+                                {{description}}
+                            </option>
+                            {{else}}
+                            <option value="0">Nenhum tipo de equipamento registrado</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="requiresCertificationCalibration"> Requer Calibração/Certificação:</label>
+                        <select class="custom-select" id="requiresCertificationCalibration"
+                            name="requiresCertificationCalibration" onchange="viewCertificate()">
+                            <option value="{{product.requiresCertificationCalibration}}" selected>
+                                {{product.requiresCertificationCalibration}}
+
+                            </option>
+                            <option value="Sim">Sim</option>
+                            <option value="Não">Não</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="form-row">
+
+                    <div class="form-group col-md-2" style="display: block;">
+                        <label for="inputAmount">Quantidade:</label>
+                        <input type="number" class="number form-control" id="inputAmount" name="inputAmount" step="0.01"
+                            placeholder="Quantidade do Produto" value="{{product.inputAmount}}">
+                    </div>
+                    <div class="form-group col-md-2" style="display: none;">
+                        <label for="outputQuantity">Quantidade:</label>
+                        <input type="number" class="form-control" id="outputQuantity" name="outputQuantity" step="0.01"
+                            placeholder="Quantidade do Produto" value="{{product.outputQuantity}}">
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="unity">Unidade:</label>
+                        <select class="custom-select" id="unity" name="unity" value="{{product.unity}}">
+                            <option selected disabled value="">Selecione...</option>
+                            {{#each units}}
+                            <option {{#if_eq ../product.unity _id}}selected{{/if_eq}} value="{{_id}}">{{description}}
+                            </option>
+                            {{else}}
+                            <option value="0">Nenhuma unidade de equipamento registrada</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="weightKg">Peso Kg:</label>
+                        <input type="number" class="number form-control" id="weightKg" name="weightKg" step="0.01"
+                            placeholder="Peso do Produto" value="{{product.weightKg}}">
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="faceValue">Valor de Face:</label>
+                        <input type="number" class="number form-control" id="faceValue" name="faceValue"
+                            placeholder="Valor do Produto" step="0.01" value="{{product.faceValue}}">
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="dimensionsWxLxH">Dimensões LxCxA mm:</label>
+                        <input type="text" class="form-control" id="dimensionsWxLxH" name="dimensionsWxLxH"
+                            placeholder="Dimensões do Produto" value="{{product.dimensionsWxLxH}}">
+                    </div>
+
+                </div>
+
+                <div class="certificate">
+                    <div class="form-row">
+
+                        <div class="form-group col-md-2">
+                            <label for="certificate">Certificado:</label>
+                            <input type="text" class="form-control" id="certificate" name="certificate"
+                                placeholder="Certificado do Produto" value="{{product.certificate}}">
+                        </div>
+
+                        <div class="form-group col-md-2">
+                            <label for="entityLaboratory">Laboratório/ Entidade:</label>
+                            <input type="text" class="form-control" id="entityLaboratory" name="entityLaboratory"
+                                placeholder="Laboratório/ Entidade" value="{{product.entityLaboratory}}">
+                        </div>
+
+                        <div class="form-group col-md-2">
+                            <label for="calibrationDate">Data Calibração:</label>
+                            <input type="date" class="form-control" id="calibrationDate" name="calibrationDate"
+                                placeholder="Data Calibração" value="{{product.calibrationDate}}"
+                                onchange="calculater();">
+                        </div>
+
+                        <div class="form-group col-md-2">
+                            <label for="frequency">Periodicidade:</label>
+                            <select class="custom-select" id="frequency" name="frequency" value="{{product.frequency}}"
+                                onchange="calculater();">
+                                <option selected disabled value="">Selecione...</option>
+                                {{#each breaks}}
+                                <option {{#if_eq ../product.frequency _id}}selected{{/if_eq}} value="{{_id}}">
+                                    {{description}}
+                                </option>
+                                {{else}}
+                                <option value="0">Nenhum intervalo registrado</option>
+                                {{/each}}
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-2">
+                            <label for="calibrationValidity">Validade Calibração:</label>
+                            <input type="date" class="form-control" id="calibrationValidity" name="calibrationValidity"
+                                placeholder="Validade Calibração" value="{{product.calibrationValidity}}">
+                        </div>
+
+                        <div class="form-group col-md-2">
+                            <label for="calibrationStatus">Status Calibração:</label>
+                            <input type="text" class="form-control" id="calibrationStatus" name="calibrationStatus"
+                                placeholder="Status Calibração">
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="form-row">
+
+                    <div class="form-group col-md-2">
+                        <label for="po">P.O.:</label>
+                        <input type="text" class="form-control" id="po" name="po" placeholder="P.O. do Produto"
+                            value="{{product.po}}">
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="sapCode">Código Sap:</label>
+                        <input type="text" class="form-control" id="sapCode" name="sapCode" placeholder="Código Sap"
+                            value="{{product.sapCode}}">
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="ncmCode">Código Ncm:</label>
+                        <input type="text" class="form-control" id="ncmCode" name="ncmCode" placeholder="Código Ncm"
+                            value="{{product.ncmCode}}">
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="provider">Fornecedor:</label>
+                        <select class="custom-select" id="provider" name="provider" value="{{product.provider}}">
+                            <option selected disabled value="">Selecione...</option>
+                            {{#each providers}}
+                            <option {{#if_eq ../product.provider _id}}selected{{/if_eq}} value="{{_id}}">{{name}}
+                            </option>
+                            {{else}}
+                            <option value="0">Nenhum Fornecedor registrado</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="invoce">Nota Fiscal:</label>
+                        <input type="text" class="form-control" id="invoce" name="invoce" placeholder="Nota Fiscal"
+                            value="{{product.provider}}">
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="receivingDate">Data Recebimento:</label>
+                        <input type="date" class="form-control" id="receivingDate" name="receivingDate"
+                            placeholder="Data Recebimento" value="{{product.receivingDate}}">
+                    </div>
+
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="note">Observações:</label>
+                        <input type="text" class="form-control" id="note" name="note"
+                            placeholder="Observações sobre o produto" value="{{product.note}}">
+                    </div>
+                </div>
+
+                <input type="hidden" class="form-control mt-2" name="user" id="user">
+
+                <input type="hidden" class="form-control" id="releaseDateOf" name="releaseDateOf" placeholder="date"
+                    value="{{#formatDate date}}{{/formatDate}}">
+
+                <input type="hidden" class="form-control mt-2" name="userName" id="userName" value="{{user.nome}}">
+                <input type="hidden" class="form-control mt-2" name="userEmail" id="userEmail" value="{{user.email}}">
+
+                <div class="form-group col-md-8">
+                    <div class="form-row">
+                        <button type="submit" class="btn btn-success">Salvar <i class="fas fa-share"></i></button>
+                    </div>
+                </div>
+                <hr>
+
+            </form>
+
         </div>
-        <input type="hidden" class="car form-control mt-2" value="{{subgroup.qrcode}}">
-        <div class="form-row">
-          <div class="form-group col-md-12">
-            <h6 class="card-text">Código QrCode: {{subgroup.qrcode}}</h6>
-            <h6 class="card-text"><small>Data de Criação: {{subgroup.date}}</small></h6>
-            <h6 class="card-text"><small>Active: {{subgroup.active}}</small></h6>
-          </div>
-        </div>
-    </div>
-  </div>
-  </div> 
-  </form>
-</div>
- <hr>
