@@ -1,22 +1,5 @@
-<style>
-    body {
-        color: aliceblue;
-        background-image: url("/img/ferramentas11.jpg");
-        width: 100%;
-        height: 100%;
-        background-position: 50% 50%;
-        background-color: black;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        background-size: cover;
-        -o-background-size: cover;
-        background-repeat: no-repeat;
-    }
-    hr{
-      border-color: #4b4b4bcc; 
-    }
-</style>
-<div class="user container">
+<div class="bgRegister">
+    <div class="user container">
     <h3>Editar Conta:</h3>
     {{#each erros}}
     <div class="alert alert-danger">{{texto}}</div>
@@ -47,7 +30,7 @@
                         <input type="hidden" class="form-control" id="id" name="id" placeholder="Id" value ="{{usuario._id}}">
                         <input type="hidden" class="form-control" id="qrcode" name="qrcode"
                             placeholder="QrCode do group" value ="{{usuario.qrcode}}">
-                        <input type="hidden" class="form-control mt-2" name="image" id="image">
+                        <input type="text" class="form-control mt-2" name="image" id="image" value ="{{usuario.image}}">
                 <label for="nome">Nome:</label>
                 <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite seu nome:" required
                     onkeyup="qrcodeFormatUser()" value ="{{usuario.nome}}">
@@ -95,9 +78,7 @@
                 <button type="submit" class="btn btn-success mt-2">Salvar <i class="fas fa-share"></i></button>
             </div>
             </div>
+            </form>
         </div>
-    </form>
+    
 </div>
-
-
-<div class="mt-2"></div>

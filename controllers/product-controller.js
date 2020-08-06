@@ -614,7 +614,7 @@ exports.getUpdate = async (req, res) => {
 
 exports.postUpdate = async (req, res) => {
     var product = await Product.findOne({ _id: req.body.id})
-    let endImg = "https://warehousemapp.herokuapp.com/uploads/"
+    
     var erros = []
     if (!req.body.description || typeof req.body.description == undefined || req.body.description == null) {
         erros.push({
@@ -634,7 +634,7 @@ exports.postUpdate = async (req, res) => {
         try {      
 
             product.qrcode = req.body.qrcode
-            product.image = endImg + req.body.image//.slice(0, -1)
+            product.image = req.body.image//.slice(0, -1)
             product.group = req.body.group
             product.subgroup = req.body.subgroup
             product.description = req.body.description
@@ -665,10 +665,11 @@ exports.getDelete = async(req, res) => {
 
 
 
-//CRIANDOPRODUTOPELO ID
+//CARRINHO DE COMPRAS ID
 exports.getCreateRequest = async (req, res) => {
-    var product = await Product.findOne({ _id: req.params.id}).lean()
+    
     try {
+        var product = await Product.findOne({ _id: req.params.id}).lean()
         var products = await Product.find({active: true}).sort({ description: "asc" }).lean()
         var groups = await Group.find({active: true}).sort({ description: "asc" }).lean()
         var subgroups = await Subgroup.find({active: true}).sort({ description: "asc" }).lean()

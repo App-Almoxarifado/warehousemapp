@@ -220,6 +220,10 @@ input {
     //background: transparent url('example.png') no-repeat right center;
     padding: 2px 30px 2px 2px;
     border: none;
+    text-align: center; /* para firefox */
+    text-align-last: center; /* para chrome */
+    font-size: small;
+    //width:200px
 }
 
 * {

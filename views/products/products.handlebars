@@ -70,16 +70,17 @@
           <p class="mt-0 mb-1"><small><b>Grupo:</b> {{group.description}}</small></p>
           <p class="mt-0 mb-1"><small><b>Subgrupo:</b> {{subgroup.description}}</small></p>
           <p class="mt-0 mb-1"><small><b>Localização:</b> {{client.description}}</small></p>
-          <p class="mt-0 mb-1"><small><b>Status Físico:</b> {{calibrationStatus}}</small></p>
+          <p class="mt-0 mb-1"><small><b>Status Físico:</b> {{physicalStatus.description}}</small></p>
           <p class="mt-0 mb-1"><small><b>Tipo de Equipamento:</b> {{kindOfEquipment.description}}</small></p>
         </div>
 
         <div class="col-md-4 position-static p-0 pl-md-0 text-center">
 
-          <p class="mt-0 mb-1"><small><b>Status Físico:</b> {{physicalStatus.description}}</small></p>
-          <p class="mt-0 mb-1"><small><b>Calibração/Certificação:</b> {{physicalStatus.description}}</small></p>
+          
+          <p class="mt-0 mb-1"><small><b>Calibração/Certificação:</b> {{calibrationStatus}}</small></p>
           <p class="mt-0 mb-1"><small><b>Quantidade Entrada:</b> {{inputAmount}}</small></p>
           <p class="mt-0 mb-1"><small><b>Quantidade Estoque:</b> {{quant}}</small></p>
+          <p class="mt-0 mb-1"><small><b>Ultima Movimentação:</b> {{quant}}</small></p>
           
           <a href="/products/products/take/{{_id}}" class="btn btn-primary btn-sm" data-toggle="tooltip"
             data-placement="bottom" title="Visualizar detalhes">
