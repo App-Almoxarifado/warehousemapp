@@ -26,34 +26,57 @@ const Provider = mongoose.model("providers")
 exports.getList = async (req, res) => {
     try {
         const filtros = [];
-        let { search, page } = req.query;
-        if(search) {
+        let {
+            search,
+            page
+        } = req.query;
+        if (search) {
             const pattern = new RegExp(`.*${search}.*`)
-            filtros.push({ qrcode : { $regex : pattern }})
-            filtros.push({ description : { $regex : pattern }})
-            filtros.push({ user : { $regex : pattern }})
-            filtros.push({ tags : { $regex : pattern }})
+            filtros.push({
+                qrcode: {
+                    $regex: pattern
+                }
+            })
+            filtros.push({
+                description: {
+                    $regex: pattern
+                }
+            })
+            filtros.push({
+                user: {
+                    $regex: pattern
+                }
+            })
+            filtros.push({
+                tags: {
+                    $regex: pattern
+                }
+            })
         }
 
         page = page || 1;
 
         const quant = await Product
-            .find(filtros.length > 0 ? { $or: filtros} : {}).estimatedDocumentCount()
-        
+            .find(filtros.length > 0 ? {
+                $or: filtros
+            } : {}).estimatedDocumentCount()
+
         var products = await Product
-            .find(filtros.length > 0 ? { $or: filtros} : {})
+            .find(filtros.length > 0 ? {
+                $or: filtros
+            } : {})
             .limit(3)
-            .skip(page && Number(page) > 1 ? Number(page-1) * 3 : 0)
+            .skip(page && Number(page) > 1 ? Number(page - 1) * 3 : 0)
             .populate("group")
             .populate("subgroup")
             .populate("client")
             .populate("physicalStatus")
             .populate("kindOfEquipment")
-            //.populate("calibrationStatus")
+        //.populate("calibrationStatus")
         res.render("products/products", {
-            products:products.map(products => products.toJSON()),
+            products: products.map(products => products.toJSON()),
             prev: Number(page) > 1,
-            next: Number(page)*3 < quant,
+            next: Number(page) * 3 < quant,
             page
         })
     } catch (err) {
@@ -67,10 +90,10 @@ exports.getList = async (req, res) => {
 exports.getListTable = async (req, res) => {
     try {
         var products = await Product.find()
-        .populate("group")
-        .populate("subgroup")
+            .populate("group")
+            .populate("subgroup")
         res.render("products/productstables", {
-            products:products.map(products => products.toJSON())
+            products: products.map(products => products.toJSON())
         })
     } catch (err) {
         req.flash("error_msg", "Ops, Houve um erro interno!")
@@ -80,37 +103,83 @@ exports.getListTable = async (req, res) => {
 
 //CRIANDO UM PRODUTO
 exports.getCreate = async (req, res) => {
-    try {       
-        var groups = await Group.find({active: true}).sort({ description: "asc" })
-        const { gId } = req.query;
-        var subgroups = await Subgroup.find(gId ? { group: gId } : {active: true}).sort({ description: "asc" })     
-        var customers = await Client.find({active: true}).sort({ description: "asc" })
-        var leases = await Location.find({active: true}).sort({ description: "asc" })
-        var subleases = await Sublease.find({active: true}).sort({ description: "asc" })
-        var status = await Status.find({active: true}).sort({ description: "asc" })
-        var types = await Type.find({active: true}).sort({ description: "asc" })
-        var units = await Unity.find({active: true}).sort({ description: "asc" })
-        var breaks = await Interval.find({active: true}).sort({ description: "asc" })
-        var providers = await Provider.find({active: true}).sort({ name: "asc" })
-        
-        return res.render("products/addproducts", {     
-            groups:groups.map(groups => groups.toJSON()),
+    try {
+        var groups = await Group.find({
+            active: true
+        }).sort({
+            description: "asc"
+        })
+        const {
+            gId
+        } = req.query;
+        var subgroups = await Subgroup.find(gId ? {
+            group: gId
+        } : {
+            active: true
+        }).sort({
+            description: "asc"
+        })
+        var customers = await Client.find({
+            active: true
+        }).sort({
+            description: "asc"
+        })
+        var leases = await Location.find({
+            active: true
+        }).sort({
+            description: "asc"
+        })
+        var subleases = await Sublease.find({
+            active: true
+        }).sort({
+            description: "asc"
+        })
+        var status = await Status.find({
+            active: true
+        }).sort({
+            description: "asc"
+        })
+        var types = await Type.find({
+            active: true
+        }).sort({
+            description: "asc"
+        })
+        var units = await Unity.find({
+            active: true
+        }).sort({
+            description: "asc"
+        })
+        var breaks = await Interval.find({
+            active: true
+        }).sort({
+            description: "asc"
+        })
+        var providers = await Provider.find({
+            active: true
+        }).sort({
+            name: "asc"
+        })
+
+        return res.render("products/addproducts", {
+            groups: groups.map(groups => groups.toJSON()),
             idGroup: gId,
-            subgroups:subgroups.map(subgroups => subgroups.toJSON()),
-            customers:customers.map(customers => customers.toJSON()),
-            leases:leases.map(leases => leases.toJSON()),
-            subleases:subleases.map(subleases => subleases.toJSON()),
-            status:status.map(status => status.toJSON()),
-            types:types.map(types => types.toJSON()),
-            units:units.map(units => units.toJSON()),
-            breaks:breaks.map(breaks => breaks.toJSON()),
-            providers:providers.map(providers => providers.toJSON()),
-            
-            
+            subgroups: subgroups.map(subgroups => subgroups.toJSON()),
+            customers: customers.map(customers => customers.toJSON()),
+            leases: leases.map(leases => leases.toJSON()),
+            subleases: subleases.map(subleases => subleases.toJSON()),
+            status: status.map(status => status.toJSON()),
+            types: types.map(types => types.toJSON()),
+            units: units.map(units => units.toJSON()),
+            breaks: breaks.map(breaks => breaks.toJSON()),
+            providers: providers.map(providers => providers.toJSON()),
+
+
         })
     } catch (err) {
         req.flash("error_msg", "Ops, Houve um erro interno!")
-        res.redirect("/products/products",{ user: req.user})
+        res.redirect("/products/products", {
+            user: req.user
+        })
     }
 }
 
@@ -146,34 +215,34 @@ exports.postCreate = async (req, res) => {
         erros.push({
             texto: "Status inválido, registre um status"
         })
-        
+
     }
     if (req.body.kindOfEquipment == "0") {
         erros.push({
             texto: "Tipo de equipamento inválido, registre um tipo de equipamento"
         })
-        
+
     }
 
     if (req.body.unity == "0") {
         erros.push({
             texto: "Unidade inválida, registre uma unidade"
         })
-        
+
     }
 
     if (req.body.frequency == "0") {
         erros.push({
             texto: "Periodicidade inválida, registre uma periodicidade"
         })
-        
+
     }
 
     if (req.body.provider == "0") {
         erros.push({
             texto: "Fornecedor inválido, registre um fornecedor"
         })
-        
+
     }
 
     if (!req.body.description || typeof req.body.description == undefined || req.body.description == null) {
@@ -198,165 +267,213 @@ exports.postCreate = async (req, res) => {
             erros: erros
         })
     } else {
-        try {      
-        const products = new Product({
-            qrcode: 
-            req.body.patrimonialAsset
-            .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
-            .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
-            .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, '') +
-            req.body.description
-            .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
-            .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
-            .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, '') +
-            req.body.manufacturer
-            .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
-            .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
-            .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, '') +
-            req.body.model
-            .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
-            .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
-            .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, '') +
-            req.body.capacityReach
-            .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
-            .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
-            .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, '') +
-            req.body.serialNumber
-            .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
-            .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
-            .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, ''),
+        try {
+            const products = new Product({
+                qrcode: req.body.patrimonialAsset
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, '') +
+                    req.body.description
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, '') +
+                    req.body.manufacturer
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, '') +
+                    req.body.model
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, '') +
+                    req.body.capacityReach
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, '') +
+                    req.body.serialNumber
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, ''),
 
-            image: req.body.image,
+                image: req.body.image,
 
-            group: req.body.group,
+                group: req.body.group,
 
-            subgroup: req.body.subgroup,
+                subgroup: req.body.subgroup,
 
-            fullDescription: 
-            req.body.patrimonialAsset + " " + 
-            req.body.description + " " + 
-            req.body.manufacturer + " " + 
-            req.body.model + " " + 
-            req.body.capacityReach + " " + 
-            req.body.serialNumber,
+                fullDescription: req.body.patrimonialAsset + " " +
+                    req.body.description + " " +
+                    req.body.manufacturer + " " +
+                    req.body.model + " " +
+                    req.body.capacityReach + " " +
+                    req.body.serialNumber,
 
-            client: req.body.client,
+                client: req.body.client,
 
-            local: req.body.local,
+                local: req.body.local,
 
-            sublease: req.body.sublease,
+                sublease: req.body.sublease,
 
-            patrimonialAsset: req.body.patrimonialAsset,
+                patrimonialAsset: req.body.patrimonialAsset,
 
-            description: req.body.description,
+                description: req.body.description,
 
-            manufacturer: req.body.manufacturer,
+                manufacturer: req.body.manufacturer,
 
-            model: req.body.model,
+                model: req.body.model,
 
-            capacityReach: req.body.capacityReach,
-            
-            serialNumber: req.body.serialNumber,
+                capacityReach: req.body.capacityReach,
 
-            physicalStatus: req.body.physicalStatus,
+                serialNumber: req.body.serialNumber,
 
-            kindOfEquipment: req.body.kindOfEquipment,
+                physicalStatus: req.body.physicalStatus,
 
-            requiresCertificationCalibration: req.body.requiresCertificationCalibration,
+                kindOfEquipment: req.body.kindOfEquipment,
 
-            inputAmount: req.body.inputAmount.replace(",","."),
+                requiresCertificationCalibration: req.body.requiresCertificationCalibration,
 
-            unity: req.body.unity,
+                inputAmount: req.body.inputAmount.replace(",", "."),
 
-            weightKg: req.body.weightKg,
+                unity: req.body.unity,
 
-            faceValue: req.body.faceValue.replace(",","."),
+                weightKg: req.body.weightKg,
 
-            dimensionsWxLxH: req.body.dimensionsWxLxH,
+                faceValue: req.body.faceValue.replace(",", "."),
 
-            certificate: req.body.certificate,
+                dimensionsWxLxH: req.body.dimensionsWxLxH,
 
-            entityLaboratory: req.body.entityLaboratory,
+                certificate: req.body.certificate,
 
-            frequency: req.body.frequency,
+                entityLaboratory: req.body.entityLaboratory,
 
-            calibrationDate: req.body.calibrationDate,
+                frequency: req.body.frequency,
 
-            calibrationValidity: req.body.calibrationValidity,
+                calibrationDate: req.body.calibrationDate,
 
-            calibrationStatus: req.body.calibrationStatus,
+                calibrationValidity: req.body.calibrationValidity,
 
-            po: req.body.po,
+                calibrationStatus: req.body.calibrationStatus,
 
-            sapCode: req.body.sapCode,
+                po: req.body.po,
 
-            ncmCode: req.body.ncmCode,
+                sapCode: req.body.sapCode,
 
-            provider: req.body.provider,
+                ncmCode: req.body.ncmCode,
 
-            invoce: req.body.invoce,
+                provider: req.body.provider,
 
-            receivingDate: req.body.receivingDate,
+                invoce: req.body.invoce,
 
-            note: req.body.note,
+                receivingDate: req.body.receivingDate,
 
-            releaseDateOf: req.body.releaseDateOf,
+                note: req.body.note,
 
-            userName: req.body.userName,
+                releaseDateOf: req.body.releaseDateOf,
 
-            userEmail: req.body.userEmail,
+                userLaunch: req.body.userLaunch,
 
-            totalFaceValue:req.body.inputAmount * req.body.faceValue,
+                emailLaunch: req.body.emailLaunch,
 
-            totalWeightKg:req.body.inputAmount * req.body.weightKg,
+                userLaunch: req.body.userLaunch,
 
-            tags: [req.body.group,
-                req.body.subgroup,
-                req.body.client,
-                req.body.local,
-                req.body.sublease,
-                req.body.client,
-                req.body.physicalStatus,
-                req.body.kindOfEquipment,
-                req.body.provider
-            ]
-        })
+                editionDate: req.body.editionDate,
+
+                userEdtion: req.body.userEdtion,
+
+                emailEdtion: req.body.emailEdtion,
+
+                //totalFaceValue:req.body.inputAmount * req.body.faceValue,
+
+                //totalWeightKg:req.body.inputAmount * req.body.weightKg,
+
+                tags: [req.body.group,
+                    req.body.subgroup,
+                    req.body.client,
+                    req.body.local,
+                    req.body.sublease,
+                    req.body.client,
+                    req.body.physicalStatus,
+                    req.body.kindOfEquipment,
+                    req.body.provider
+                ]
+            })
             await products.save()
             req.flash("success_msg", "Produto criado com sucesso!")
             res.redirect("/products/products")
-            
+
         } catch (err) {
             req.flash("error_msg", "Ops, Houve um erro ao salvar o Produto, tente novamente!" + err)
             res.redirect("/products/products")
-            
+
         }
     }
 }
 
 //CRIANDOPRODUTOPELO ID
 exports.getCreateId = async (req, res) => {
-    var product = await Product.findOne({ _id: req.params.id}).lean()
+    var product = await Product.findOne({
+        _id: req.params.id
+    }).lean()
     try {
-        var groups = await Group.find({active: true}).sort({ description: "asc" }).lean()
-        var subgroups = await Subgroup.find({active: true}).sort({ description: "asc" }).lean()
-        var customers = await Client.find({active: true}).sort({ description: "asc" }).lean()
-        var leases = await Location.find({active: true}).sort({ description: "asc" }).lean()
-        var subleases = await Sublease.find({active: true}).sort({ description: "asc" }).lean()
-        var status = await Status.find({active: true}).sort({ description: "asc" }).lean()
-        var types = await Type.find({active: true}).sort({ description: "asc" }).lean()
-        var units = await Unity.find({active: true}).sort({ description: "asc" }).lean()
-        var breaks = await Interval.find({active: true}).sort({ description: "asc" }).lean()
-        var providers = await Provider.find({active: true}).sort({ name: "asc" }).lean()
-        res.render("products/add_idproducts",{
+        var groups = await Group.find({
+            active: true
+        }).sort({
+            description: "asc"
+        }).lean()
+        var subgroups = await Subgroup.find({
+            active: true
+        }).sort({
+            description: "asc"
+        }).lean()
+        var customers = await Client.find({
+            active: true
+        }).sort({
+            description: "asc"
+        }).lean()
+        var leases = await Location.find({
+            active: true
+        }).sort({
+            description: "asc"
+        }).lean()
+        var subleases = await Sublease.find({
+            active: true
+        }).sort({
+            description: "asc"
+        }).lean()
+        var status = await Status.find({
+            active: true
+        }).sort({
+            description: "asc"
+        }).lean()
+        var types = await Type.find({
+            active: true
+        }).sort({
+            description: "asc"
+        }).lean()
+        var units = await Unity.find({
+            active: true
+        }).sort({
+            description: "asc"
+        }).lean()
+        var breaks = await Interval.find({
+            active: true
+        }).sort({
+            description: "asc"
+        }).lean()
+        var providers = await Provider.find({
+            active: true
+        }).sort({
+            name: "asc"
+        }).lean()
+        res.render("products/add_idproducts", {
             user: req.user,
-            groups: groups, 
-            subgroups: subgroups, 
+            groups: groups,
+            subgroups: subgroups,
             customers: customers,
             leases: leases,
             subleases: subleases,
@@ -365,10 +482,11 @@ exports.getCreateId = async (req, res) => {
             units: units,
             breaks: breaks,
             providers: providers,
-            product: product})
-            
+            product: product
+        })
+
     } catch (_err) {
-        req.flash ("error_msg", "Ops, Houve um erro interno!")
+        req.flash("error_msg", "Ops, Houve um erro interno!")
         res.redirect("/products/products")
     }
 }
@@ -405,34 +523,34 @@ exports.postCreateId = async (req, res) => {
         erros.push({
             texto: "Status inválido, registre um status"
         })
-        
+
     }
     if (req.body.kindOfEquipment == "0") {
         erros.push({
             texto: "Tipo de equipamento inválido, registre um tipo de equipamento"
         })
-        
+
     }
 
     if (req.body.unity == "0") {
         erros.push({
             texto: "Unidade inválida, registre uma unidade"
         })
-        
+
     }
 
     if (req.body.frequency == "0") {
         erros.push({
             texto: "Periodicidade inválida, registre uma periodicidade"
         })
-        
+
     }
 
     if (req.body.provider == "0") {
         erros.push({
             texto: "Fornecedor inválido, registre um fornecedor"
         })
-        
+
     }
 
     if (!req.body.description || typeof req.body.description == undefined || req.body.description == null) {
@@ -457,139 +575,145 @@ exports.postCreateId = async (req, res) => {
             erros: erros
         })
     } else {
-        try {      
-        const products = new Product({
-            qrcode: 
-            req.body.patrimonialAsset
-            .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
-            .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
-            .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, '') +
-            req.body.description
-            .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
-            .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
-            .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, '') +
-            req.body.manufacturer
-            .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
-            .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
-            .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, '') +
-            req.body.model
-            .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
-            .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
-            .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, '') +
-            req.body.capacityReach
-            .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
-            .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
-            .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, '') +
-            req.body.serialNumber
-            .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
-            .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
-            .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, ''),
+        try {
+            const products = new Product({
+                qrcode: req.body.patrimonialAsset
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, '') +
+                    req.body.description
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, '') +
+                    req.body.manufacturer
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, '') +
+                    req.body.model
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, '') +
+                    req.body.capacityReach
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, '') +
+                    req.body.serialNumber
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, ''),
 
-            image: req.body.image,
+                image: req.body.image,
 
-            group: req.body.group,
+                group: req.body.group,
 
-            subgroup: req.body.subgroup,
+                subgroup: req.body.subgroup,
 
-            fullDescription: 
-            req.body.patrimonialAsset + " " + 
-            req.body.description + " " + 
-            req.body.manufacturer + " " + 
-            req.body.model + " " + 
-            req.body.capacityReach + " " + 
-            req.body.serialNumber,
+                fullDescription: req.body.patrimonialAsset + " " +
+                    req.body.description + " " +
+                    req.body.manufacturer + " " +
+                    req.body.model + " " +
+                    req.body.capacityReach + " " +
+                    req.body.serialNumber,
 
-            client: req.body.client,
+                client: req.body.client,
 
-            local: req.body.local,
+                local: req.body.local,
 
-            sublease: req.body.sublease,
+                sublease: req.body.sublease,
 
-            patrimonialAsset: req.body.patrimonialAsset,
+                patrimonialAsset: req.body.patrimonialAsset,
 
-            description: req.body.description,
+                description: req.body.description,
 
-            manufacturer: req.body.manufacturer,
+                manufacturer: req.body.manufacturer,
 
-            model: req.body.model,
+                model: req.body.model,
 
-            capacityReach: req.body.capacityReach,
-            
-            serialNumber: req.body.serialNumber,
+                capacityReach: req.body.capacityReach,
 
-            physicalStatus: req.body.physicalStatus,
+                serialNumber: req.body.serialNumber,
 
-            kindOfEquipment: req.body.kindOfEquipment,
+                physicalStatus: req.body.physicalStatus,
 
-            requiresCertificationCalibration: req.body.requiresCertificationCalibration,
+                kindOfEquipment: req.body.kindOfEquipment,
 
-            inputAmount: req.body.inputAmount.replace(",","."),
+                requiresCertificationCalibration: req.body.requiresCertificationCalibration,
 
-            unity: req.body.unity,
+                inputAmount: req.body.inputAmount.replace(",", "."),
 
-            weightKg: req.body.weightKg,
+                unity: req.body.unity,
 
-            faceValue: req.body.faceValue.replace(",","."),
+                weightKg: req.body.weightKg,
 
-            dimensionsWxLxH: req.body.dimensionsWxLxH,
+                faceValue: req.body.faceValue.replace(",", "."),
 
-            certificate: req.body.certificate,
+                dimensionsWxLxH: req.body.dimensionsWxLxH,
 
-            entityLaboratory: req.body.entityLaboratory,
+                certificate: req.body.certificate,
 
-            frequency: req.body.frequency,
+                entityLaboratory: req.body.entityLaboratory,
 
-            calibrationDate: req.body.calibrationDate,
+                frequency: req.body.frequency,
 
-            calibrationValidity: req.body.calibrationValidity,
+                calibrationDate: req.body.calibrationDate,
 
-            calibrationStatus: req.body.calibrationStatus,
+                calibrationValidity: req.body.calibrationValidity,
 
-            po: req.body.po,
+                calibrationStatus: req.body.calibrationStatus,
 
-            sapCode: req.body.sapCode,
+                po: req.body.po,
 
-            ncmCode: req.body.ncmCode,
+                sapCode: req.body.sapCode,
 
-            provider: req.body.provider,
+                ncmCode: req.body.ncmCode,
 
-            invoce: req.body.invoce,
+                provider: req.body.provider,
 
-            receivingDate: req.body.receivingDate,
+                invoce: req.body.invoce,
 
-            note: req.body.note,
+                receivingDate: req.body.receivingDate,
 
-            releaseDateOf: req.body.releaseDateOf,
+                note: req.body.note,
 
-            userName: req.body.userName,
+                releaseDateOf: req.body.releaseDateOf,
 
-            userEmail: req.body.userEmail,
+                userLaunch: req.body.userLaunch,
 
-            totalFaceValue:req.body.inputAmount * req.body.faceValue,
+                emailLaunch: req.body.emailLaunch,
 
-            totalWeightKg:req.body.inputAmount * req.body.weightKg,
+                userLaunch: req.body.userLaunch,
 
-            tags: [req.body.group,
-                req.body.subgroup,
-                req.body.client,
-                req.body.local,
-                req.body.sublease,
-                req.body.client,
-                req.body.physicalStatus,
-                req.body.kindOfEquipment,
-                req.body.provider
-            ]
-        })
+                editionDate: req.body.editionDate,
+
+                userEdtion: req.body.userEdtion,
+
+                emailEdtion: req.body.emailEdtion,
+
+                //totalFaceValue:req.body.inputAmount * req.body.faceValue,
+
+                //totalWeightKg:req.body.inputAmount * req.body.weightKg,
+
+                tags: [req.body.group,
+                    req.body.subgroup,
+                    req.body.client,
+                    req.body.local,
+                    req.body.sublease,
+                    req.body.client,
+                    req.body.physicalStatus,
+                    req.body.kindOfEquipment,
+                    req.body.provider
+                ]
+            })
             await products.save()
             req.flash("success_msg", "Produto criado com sucesso!")
             res.redirect("/products/products")
-            
+
         } catch (err) {
             req.flash("error_msg", "Ops, Houve um erro ao salvar o Produto, tente novamente!" + err)
             res.redirect("/products/products")
@@ -600,21 +724,29 @@ exports.postCreateId = async (req, res) => {
 
 //EDITANDO UM PRODUTO
 exports.getUpdate = async (req, res) => {
-    var product = await Product.findOne({ _id: req.params.id}).lean()
+    var product = await Product.findOne({
+        _id: req.params.id
+    }).lean()
     try {
         var groups = await Group.find({}).lean()
         var subgroups = await Subgroup.find({}).lean()
-        res.render("products/editproducts",{groups: groups, subgroups: subgroups, product: product})
+        res.render("products/editproducts", {
+            groups: groups,
+            subgroups: subgroups,
+            product: product
+        })
     } catch (_err) {
-        req.flash ("error_msg", "Ops, Houve um erro interno!")
+        req.flash("error_msg", "Ops, Houve um erro interno!")
         res.redirect("/products/products")
     }
 }
 
 
 exports.postUpdate = async (req, res) => {
-    var product = await Product.findOne({ _id: req.body.id})
-    
+    var product = await Product.findOne({
+        _id: req.body.id
+    })
+
     var erros = []
     if (!req.body.description || typeof req.body.description == undefined || req.body.description == null) {
         erros.push({
@@ -631,19 +763,66 @@ exports.postUpdate = async (req, res) => {
             erros: erros
         })
     } else {
-        try {      
+        try {
 
-            product.qrcode = req.body.qrcode
-            product.image = req.body.image//.slice(0, -1)
-            product.group = req.body.group
-            product.subgroup = req.body.subgroup
-            product.description = req.body.description
-            product.releaseDateOf = req.body.releaseDateOf
-        
+        product.qrcode = req.body.qrcode
+        product.image = req.body.image
+        product.group = req.body.group
+        product.subgroup = req.body.subgroup
+        product.fullDescription = req.body.fullDescription
+        product.stockCode = req.body.stockCode
+        product.client = req.body.client
+        product.local = req.body.local
+        product.sublease = req.body.sublease
+        product.patrimonialAsset = req.body.patrimonialAsset
+        product.description = req.body.description
+        product.manufacturer = req.body.manufacturer
+        product.model = req.body.model
+        product.capacityReach = req.body.capacityReach
+        product.serialNumber = req.body.serialNumber
+        product.physicalStatus = req.body.physicalStatus
+        product.kindOfEquipment = req.body.kindOfEquipment
+        product.requiresCertificationCalibration = req.body.requiresCertificationCalibration
+        product.inputAmount = req.body.inputAmount
+        product.outputQuantity = req.body.outputQuantity
+        product.unity = req.body.unity
+        product.weightKg = req.body.weightKg
+        product.faceValue = req.body.faceValue
+        product.dimensionsWxLxH = req.body.dimensionsWxLxH
+        product.certificate = req.body.certificate
+        product.entityLaboratory = req.body.entityLaboratory
+        product.frequency = req.body.frequency
+        product.calibrationDate = req.body.calibrationDate
+        product.calibrationValidity = req.body.calibrationValidity
+        product.calibrationStatus = req.body.calibrationStatus
+        product.po = req.body.po
+        product.sapCode = req.body.sapCode
+        product.ncmCode = req.body.ncmCode
+        product.provider = req.body.provider
+        product.invoce = req.body.invoce
+        product.receivingDate = req.body.receivingDate
+        product.note = req.body.note
+        product.activeStatus = req.body.activeStatus
+        //product.releaseDateOf = req.body.releaseDateOf
+        //product.userLaunch = req.body.userLaunch
+        //product.emailLaunch = req.body.emailLaunch
+        product.editionDate = req.body.editionDate
+        product.userEdtion = req.body.userEdtion
+        product.emailEdtion = req.body.emailEdtion
+        //product.requestNumber = req.body.requestNumber
+        //product.requestLocation = req.body.requestLocation
+        //product.requestUser = req.body.requestUser
+        //product.requestEmail = req.body.requestEmail
+        //product.responsible = req.body.responsible
+        //product.active = req.body.active
+        //product.totalFaceValue = req.body.totalFaceValue
+        //product.totalWeightKg = req.body.totalWeightKg
+        //product.tags = req.body.tags
+
             await product.save()
             req.flash("success_msg", "Produto editado com Sucesso!")
             res.redirect("/products/products")
-            
+
         } catch (err) {
             req.flash("error_msg", "Houve um erro interno ao editar o Produto, tente Novamente!" + err)
             res.redirect("/products/products")
@@ -652,8 +831,10 @@ exports.postUpdate = async (req, res) => {
 }
 
 //DELETANDO UM PRODUTO
-exports.getDelete = async(req, res) => {
-    await Product.remove({_id: req.params.id})
+exports.getDelete = async (req, res) => {
+    await Product.remove({
+        _id: req.params.id
+    })
     try {
         req.flash("success_msg", "Produto deletado com Sucesso!")
         res.redirect("/products/products")
@@ -667,25 +848,71 @@ exports.getDelete = async(req, res) => {
 
 //CARRINHO DE COMPRAS ID
 exports.getCreateRequest = async (req, res) => {
-    
+
     try {
-        var product = await Product.findOne({ _id: req.params.id}).lean()
-        var products = await Product.find({active: true}).sort({ description: "asc" }).lean()
-        var groups = await Group.find({active: true}).sort({ description: "asc" }).lean()
-        var subgroups = await Subgroup.find({active: true}).sort({ description: "asc" }).lean()
-        var customers = await Client.find({active: true}).sort({ description: "asc" }).lean()
-        var leases = await Location.find({active: true}).sort({ description: "asc" }).lean()
-        var subleases = await Sublease.find({active: true}).sort({ description: "asc" }).lean()
-        var status = await Status.find({active: true}).sort({ description: "asc" }).lean()
-        var types = await Type.find({active: true}).sort({ description: "asc" }).lean()
-        var units = await Unity.find({active: true}).sort({ description: "asc" }).lean()
-        var breaks = await Interval.find({active: true}).sort({ description: "asc" }).lean()
-        var providers = await Provider.find({active: true}).sort({ name: "asc" }).lean()
-        res.render("products/takeproducts",{
+        var product = await Product.findOne({
+            _id: req.params.id
+        }).lean()
+        var products = await Product.find({
+            active: true
+        }).sort({
+            description: "asc"
+        }).lean()
+        var groups = await Group.find({
+            active: true
+        }).sort({
+            description: "asc"
+        }).lean()
+        var subgroups = await Subgroup.find({
+            active: true
+        }).sort({
+            description: "asc"
+        }).lean()
+        var customers = await Client.find({
+            active: true
+        }).sort({
+            description: "asc"
+        }).lean()
+        var leases = await Location.find({
+            active: true
+        }).sort({
+            description: "asc"
+        }).lean()
+        var subleases = await Sublease.find({
+            active: true
+        }).sort({
+            description: "asc"
+        }).lean()
+        var status = await Status.find({
+            active: true
+        }).sort({
+            description: "asc"
+        }).lean()
+        var types = await Type.find({
+            active: true
+        }).sort({
+            description: "asc"
+        }).lean()
+        var units = await Unity.find({
+            active: true
+        }).sort({
+            description: "asc"
+        }).lean()
+        var breaks = await Interval.find({
+            active: true
+        }).sort({
+            description: "asc"
+        }).lean()
+        var providers = await Provider.find({
+            active: true
+        }).sort({
+            name: "asc"
+        }).lean()
+        res.render("products/takeproducts", {
             user: req.user,
             products: products,
-            groups: groups, 
-            subgroups: subgroups, 
+            groups: groups,
+            subgroups: subgroups,
             customers: customers,
             leases: leases,
             subleases: subleases,
@@ -694,10 +921,11 @@ exports.getCreateRequest = async (req, res) => {
             units: units,
             breaks: breaks,
             providers: providers,
-            product: product})
-            
+            product: product
+        })
+
     } catch (_err) {
-        req.flash ("error_msg", "Ops, Houve um erro interno!")
+        req.flash("error_msg", "Ops, Houve um erro interno!")
         res.redirect("/products/products")
     }
 }
@@ -734,34 +962,34 @@ exports.postCreateRequest = async (req, res) => {
         erros.push({
             texto: "Status inválido, registre um status"
         })
-        
+
     }
     if (req.body.kindOfEquipment == "0") {
         erros.push({
             texto: "Tipo de equipamento inválido, registre um tipo de equipamento"
         })
-        
+
     }
 
     if (req.body.unity == "0") {
         erros.push({
             texto: "Unidade inválida, registre uma unidade"
         })
-        
+
     }
 
     if (req.body.frequency == "0") {
         erros.push({
             texto: "Periodicidade inválida, registre uma periodicidade"
         })
-        
+
     }
 
     if (req.body.provider == "0") {
         erros.push({
             texto: "Fornecedor inválido, registre um fornecedor"
         })
-        
+
     }
 
     if (!req.body.description || typeof req.body.description == undefined || req.body.description == null) {
@@ -786,139 +1014,137 @@ exports.postCreateRequest = async (req, res) => {
             erros: erros
         })
     } else {
-        try {      
-        const products = new Product({
-            qrcode: 
-            req.body.patrimonialAsset
-            .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
-            .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
-            .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, '') +
-            req.body.description
-            .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
-            .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
-            .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, '') +
-            req.body.manufacturer
-            .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
-            .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
-            .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, '') +
-            req.body.model
-            .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
-            .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
-            .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, '') +
-            req.body.capacityReach
-            .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
-            .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
-            .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, '') +
-            req.body.serialNumber
-            .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
-            .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
-            .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, ''),
+        try {
+            const products = new Product({
+                qrcode: req.body.patrimonialAsset
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, '') +
+                    req.body.description
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, '') +
+                    req.body.manufacturer
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, '') +
+                    req.body.model
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, '') +
+                    req.body.capacityReach
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, '') +
+                    req.body.serialNumber
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, ''),
 
-            image: req.body.image,
+                image: req.body.image,
 
-            group: req.body.group,
+                group: req.body.group,
 
-            subgroup: req.body.subgroup,
+                subgroup: req.body.subgroup,
 
-            fullDescription: 
-            req.body.patrimonialAsset + " " + 
-            req.body.description + " " + 
-            req.body.manufacturer + " " + 
-            req.body.model + " " + 
-            req.body.capacityReach + " " + 
-            req.body.serialNumber,
+                fullDescription: req.body.patrimonialAsset + " " +
+                    req.body.description + " " +
+                    req.body.manufacturer + " " +
+                    req.body.model + " " +
+                    req.body.capacityReach + " " +
+                    req.body.serialNumber,
 
-            client: req.body.client,
+                client: req.body.client,
 
-            local: req.body.local,
+                local: req.body.local,
 
-            sublease: req.body.sublease,
+                sublease: req.body.sublease,
 
-            patrimonialAsset: req.body.patrimonialAsset,
+                patrimonialAsset: req.body.patrimonialAsset,
 
-            description: req.body.description,
+                description: req.body.description,
 
-            manufacturer: req.body.manufacturer,
+                manufacturer: req.body.manufacturer,
 
-            model: req.body.model,
+                model: req.body.model,
 
-            capacityReach: req.body.capacityReach,
-            
-            serialNumber: req.body.serialNumber,
+                capacityReach: req.body.capacityReach,
 
-            physicalStatus: req.body.physicalStatus,
+                serialNumber: req.body.serialNumber,
 
-            kindOfEquipment: req.body.kindOfEquipment,
+                physicalStatus: req.body.physicalStatus,
 
-            requiresCertificationCalibration: req.body.requiresCertificationCalibration,
+                kindOfEquipment: req.body.kindOfEquipment,
 
-            inputAmount: req.body.inputAmount.replace(",","."),
+                requiresCertificationCalibration: req.body.requiresCertificationCalibration,
 
-            unity: req.body.unity,
+                inputAmount: req.body.inputAmount.replace(",", "."),
 
-            weightKg: req.body.weightKg,
+                unity: req.body.unity,
 
-            faceValue: req.body.faceValue.replace(",","."),
+                weightKg: req.body.weightKg,
 
-            dimensionsWxLxH: req.body.dimensionsWxLxH,
+                faceValue: req.body.faceValue.replace(",", "."),
 
-            certificate: req.body.certificate,
+                dimensionsWxLxH: req.body.dimensionsWxLxH,
 
-            entityLaboratory: req.body.entityLaboratory,
+                certificate: req.body.certificate,
 
-            frequency: req.body.frequency,
+                entityLaboratory: req.body.entityLaboratory,
 
-            calibrationDate: req.body.calibrationDate,
+                frequency: req.body.frequency,
 
-            calibrationValidity: req.body.calibrationValidity,
+                calibrationDate: req.body.calibrationDate,
 
-            calibrationStatus: req.body.calibrationStatus,
+                calibrationValidity: req.body.calibrationValidity,
 
-            po: req.body.po,
+                calibrationStatus: req.body.calibrationStatus,
 
-            sapCode: req.body.sapCode,
+                po: req.body.po,
 
-            ncmCode: req.body.ncmCode,
+                sapCode: req.body.sapCode,
 
-            provider: req.body.provider,
+                ncmCode: req.body.ncmCode,
 
-            invoce: req.body.invoce,
+                provider: req.body.provider,
 
-            receivingDate: req.body.receivingDate,
+                invoce: req.body.invoce,
 
-            note: req.body.note,
+                receivingDate: req.body.receivingDate,
 
-            releaseDateOf: req.body.releaseDateOf,
+                note: req.body.note,
 
-            userName: req.body.userName,
+                releaseDateOf: req.body.releaseDateOf,
 
-            userEmail: req.body.userEmail,
+                userName: req.body.userName,
 
-            totalFaceValue:req.body.inputAmount * req.body.faceValue,
+                userEmail: req.body.userEmail,
 
-            totalWeightKg:req.body.inputAmount * req.body.weightKg,
+                totalFaceValue: req.body.inputAmount * req.body.faceValue,
 
-            tags: [req.body.group,
-                req.body.subgroup,
-                req.body.client,
-                req.body.local,
-                req.body.sublease,
-                req.body.client,
-                req.body.physicalStatus,
-                req.body.kindOfEquipment,
-                req.body.provider
-            ]
-        })
+                totalWeightKg: req.body.inputAmount * req.body.weightKg,
+
+                tags: [req.body.group,
+                    req.body.subgroup,
+                    req.body.client,
+                    req.body.local,
+                    req.body.sublease,
+                    req.body.client,
+                    req.body.physicalStatus,
+                    req.body.kindOfEquipment,
+                    req.body.provider
+                ]
+            })
             await products.save()
             req.flash("success_msg", "Produto criado com sucesso!")
             res.redirect("/products/products")
-            
+
         } catch (err) {
             req.flash("error_msg", "Ops, Houve um erro ao salvar o Produto, tente novamente!" + err)
             res.redirect("/products/products")

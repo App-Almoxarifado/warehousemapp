@@ -22,15 +22,11 @@
             </form>
 
             <form action="/products/products/add_id" class="mt-2" method="POST">
-
-                <input type="hidden" class="form-control mt-2" name="image" id="image" value="{{product.image}}"
-                    required>
-
-                <div class="form-row">
-
-                    <div class="col-md-6">
+    <div class="form-row">
+                <input type="hidden" class="form-control mt-2" name="image" id="image" value="{{product.image}}">
+                    <div class="visible col-md-6">
                         <label for="group">Grupo:</label>
-                        <select class="custom-select" id="group" name="group" value="{{product.group}}"
+                        <select class=" custom-select" id="group" name="group" value="{{product.group}}"
                             onblur="viewCertificate(), statusCalibration()" required autofocus>
                             <option selected disabled value="">Selecione...</option>
                             {{#each groups}}
@@ -347,14 +343,15 @@
                             placeholder="Observações sobre o produto" value="{{product.note}}">
                     </div>
                 </div>
-
-                <input type="hidden" class="form-control mt-2" name="user" id="user">
-
-                <input type="hidden" class="form-control" id="releaseDateOf" name="releaseDateOf" placeholder="date"
+                <input type="hidden" class="form-control mt-2" name="activeStatus" id="activeStatus">
+                <input type="hidden" class="form-control mt-2" id="releaseDateOf" name="releaseDateOf" placeholder="date"
                     value="{{#formatDate date}}{{/formatDate}}">
-
-                <input type="hidden" class="form-control mt-2" name="userName" id="userName" value="{{user.nome}}">
-                <input type="hidden" class="form-control mt-2" name="userEmail" id="userEmail" value="{{user.email}}">
+                <input type="hidden" class="form-control mt-2" name="userLaunch" id="userLaunch" value="{{user.nome}}">
+                <input type="hidden" class="form-control mt-2" name="emailLaunch" id="emailLaunch" value="{{user.email}}">
+                                <input type="hidden" class="form-control mt-2" id="editionDate" name="editionDate" placeholder="date"
+                    value="{{#formatDate date}}{{/formatDate}}">
+                <input type="hidden" class="form-control mt-2" name="userEdtion" id="userEdtion" value="{{user.nome}}">
+                <input type="hidden" class="form-control mt-2" name="emailEdtion" id="emailEdtion" value="{{user.email}}">
 
                 <div class="form-group col-md-8">
                     <div class="form-row">

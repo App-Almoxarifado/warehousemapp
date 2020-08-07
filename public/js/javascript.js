@@ -299,4 +299,4 @@ function calculater() {
     document.getElementById('calibrationStatus').value = calibrationStatus;
  }
 
-  
+ 

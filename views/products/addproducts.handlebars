@@ -317,12 +317,15 @@
             </div>
         </div>
 
-        <input type="hidden" class="form-control mt-2" name="userName" id="userName" value="{{user.nome}}">
-        <input type="hidden" class="form-control mt-2" name="userEmail" id="userEmail" value="{{user.email}}">
-
-        <input type="hidden" class="form-control" id="date" name="date" placeholder="date"
-            value="{{#formatDate date}}{{/formatDate}}">
-
+        <input type="hidden" class="form-control mt-2" name="activeStatus" id="activeStatus">
+                <input type="hidden" class="form-control mt-2" id="releaseDateOf" name="releaseDateOf" placeholder="date"
+                    value="{{#formatDate date}}{{/formatDate}}">
+                <input type="hidden" class="form-control mt-2" name="userLaunch" id="userLaunch" value="{{user.nome}}">
+                <input type="hidden" class="form-control mt-2" name="emailLaunch" id="emailLaunch" value="{{user.email}}">
+                                <input type="hidden" class="form-control mt-2" id="editionDate" name="editionDate" placeholder="date"
+                    value="{{#formatDate date}}{{/formatDate}}">
+                <input type="hidden" class="form-control mt-2" name="userEdtion" id="userEdtion" value="{{user.nome}}">
+                <input type="hidden" class="form-control mt-2" name="emailEdtion" id="emailEdtion" value="{{user.email}}">
         <div class="form-group col-md-8">
             <div class="form-row">
                 <button type="submit" class="btn btn-success">Salvar <i class="fas fa-share"></i></button>

@@ -10,11 +10,8 @@
             <form action="/products/products/newRequest" class="mt-2" method="POST">
 
 <div class="d-none">
-                <input type="hidden" class="form-control mt-2" name="image" id="image" value="{{product.image}}"
-                    required>
-
-                <div class="d-none form-row">
-
+    <div class="form-row">
+                <input type="hidden" class="form-control mt-2" name="image" id="image" value="{{product.image}}">
                     <div class="visible col-md-6">
                         <label for="group">Grupo:</label>
                         <select class=" custom-select" id="group" name="group" value="{{product.group}}"
@@ -334,14 +331,15 @@
                             placeholder="Observações sobre o produto" value="{{product.note}}">
                     </div>
                 </div>
-
-                <input type="hidden" class="form-control mt-2" name="user" id="user">
-
-                <input type="hidden" class="form-control" id="releaseDateOf" name="releaseDateOf" placeholder="date"
+                <input type="hidden" class="form-control mt-2" name="activeStatus" id="activeStatus">
+                <input type="hidden" class="form-control mt-2" id="releaseDateOf" name="releaseDateOf" placeholder="date"
                     value="{{#formatDate date}}{{/formatDate}}">
-
-                <input type="hidden" class="form-control mt-2" name="userName" id="userName" value="{{user.nome}}">
-                <input type="hidden" class="form-control mt-2" name="userEmail" id="userEmail" value="{{user.email}}">
+                <input type="hidden" class="form-control mt-2" name="userLaunch" id="userLaunch" value="{{user.nome}}">
+                <input type="hidden" class="form-control mt-2" name="emailLaunch" id="emailLaunch" value="{{user.email}}">
+                                <input type="hidden" class="form-control mt-2" id="editionDate" name="editionDate" placeholder="date"
+                    value="{{#formatDate date}}{{/formatDate}}">
+                <input type="hidden" class="form-control mt-2" name="userEdtion" id="userEdtion" value="{{user.nome}}">
+                <input type="hidden" class="form-control mt-2" name="emailEdtion" id="emailEdtion" value="{{user.email}}">
 </div>
                 <div class="form-group col-md-8">
                     <div class="form-row">
@@ -350,7 +348,7 @@
                 </div>
                 <hr>
 
-            </form>
+            
 
         
 
@@ -365,6 +363,7 @@
           <img id="qrcode" name="qrcode" src="https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl={{product.qrcode}}"
             style="width: 12rem;" class="rounded mr-0">
         </div>
+
 
         <div class="col-md-4 position-static p-0 pl-md-0 text-center">
         <h4>{{product.fullDescription}}</h4>
@@ -409,7 +408,7 @@
             Saiba Mais</a>
           
           <a href="/products/products/add_id/{{_id}}" class="btn btn-dark btn-sm" data-toggle="tooltip"
-            data-placement="bottom" title="Criar novo produto a partir dessas informações">
+           data-placement="bottom" title="Criar novo produto a partir dessas informações">
             <i class="fa fa-paper-plane" aria-hidden="true"></i></a>
  
           <a href="/products/products/edit/{{_id}}" class="btn btn-secondary btn-sm" data-toggle="tooltip"
@@ -419,7 +418,7 @@
           <a href="/products/products/delete/{{_id}}" class="deletar btn btn-danger btn-sm" data-toggle="tooltip"
             data-placement="bottom" title="Deletar Produto">
             <i class="fas fa-trash-alt"></i></a>
-
+</form>
         </div>
       </div>
     </div>
