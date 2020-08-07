@@ -518,7 +518,18 @@
                             value="Dimensões L x C x A mm: {{product.dimensionsWxLxH}}">
                     </div>
                     <div class="col-md-4 position-static p-0 pl-md-0 text-center">
-                        eu sou a div 1
+                        <select class="car form-control" value="{{product.provider}}">
+                            <option selected disabled value="">Selecione...</option>
+                            {{#each providers}}
+                            <option {{#if_eq ../product.provider _id}}selected{{/if_eq}} value="{{_id}}">
+                                Fornecedor: {{name}}
+                            </option>
+                            {{description}}
+                            </option>
+                            {{else}}
+                            <option value="0">Nenhum fornecedor registrado</option>
+                            {{/each}}
+                        </select>
                     </div>
                     <div class="col-md-4 position-static p-0 pl-md-0 text-center">
                         eu sou a div 2
