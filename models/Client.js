@@ -84,8 +84,17 @@ const Client = new Schema({
         default: Date.now()
     },
     user: {
-        type: String,
-        default: "Daniel Soares de Albuquerque"
+        type: String,   
+    },
+    ic: {
+        type: Schema.Types.ObjectId,
+        ref: "collaborators",
+        required: true   
+    },
+    administrator: {
+        type: Schema.Types.ObjectId,
+        ref: "collaborators",
+        required: true 
     },
     active: {
         type: Boolean,

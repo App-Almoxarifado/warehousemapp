@@ -304,6 +304,9 @@
                         placeholder="Observações sobre o produto" value="{{product.note}}">
                 </div>
             </div>
+
+            <input type="hidden" class="form-control" id="responsibleSite" name="responsibleSite"
+                placeholder="Responsável Site" value="{{user.nome}}">
             <input type="hidden" class="form-control mt-2" name="activeStatus" id="activeStatus">
             <input type="hidden" class="form-control mt-2" id="releaseDateOf" name="releaseDateOf" placeholder="date"
                 value="{{#formatDate date}}{{/formatDate}}">
@@ -328,10 +331,10 @@
 
         <div class="card" style="background-color: transparent;">
             <div class="card-body">
-                <h4>{{product.fullDescription}}</h4>
+                <h3>{{product.fullDescription}}</h3>
                 <hr>
                 <div class="row no-gutters position-relative">
-                    <div class="col-12 col-md-4 mb-md-0 p-md-0 text-center">
+                    <div class="col-12  col-md-4 mb-md-0 p-md-0 text-center">
                         <img src="{{product.image}}" style="width: 10rem;" class="rounded mr-0" alt="...">
                     </div>
                     <div class="col-12 d-none d-md-block col-md-3 mb-md-0 p-md-0 text-center">
@@ -341,9 +344,9 @@
                     </div>
 
 
-                    <div class="col-md-5 position-static p-0 pl-md-0 text-center">
+                    <div class=" col-md-5 position-static p-0 pl-md-0 text-center" >
 
-                        <div class="mt-2 form-group row">
+                        <div class="mt-2 form-group row" >
                             <label for="client" class="col-sm-4 col-form-label">Site Solicitante:</label>
                             <div class="col-sm-8">
                                 <select class="custom-select" id="client" name="client" value="{{product.client}}">
@@ -363,7 +366,7 @@
                             <label for="outputQuantity" class="col-6 col-sm-3 mt-1 col-form-label">Quantidade:</label>
                             <div class="col-6 col-sm-3 mt-1">
                                 <input type="number" class="form-control" id="outputQuantity" name="outputQuantity"
-                                     value="1">
+                                    value="1">
                             </div>
 
                             <label for="inputAmount" class="col-6  col-sm-3 mt-1 col-form-label">Disponível:</label>
@@ -531,19 +534,18 @@
                             {{/each}}
                         </select>
 
-                                                <input type="text" class="car form-control" placeholder="Nota Fiscal"
+                        <input type="text" class="car form-control" placeholder="Nota Fiscal"
                             value="Nota Fiscal: {{product.invoce}}">
 
-                                                <input type="text" class="car form-control" placeholder="Data de recebimento"
+                        <input type="text" class="car form-control" placeholder="Data de recebimento"
                             value="Data de recebimento: {{product.receivingDate}}">
 
-                                                <input type="text" class="car form-control" placeholder="PO"
-                            value="Po: {{product.po}}">
-                            
-                                                <input type="text" class="car form-control" placeholder="Quantidade entrada"
+                        <input type="text" class="car form-control" placeholder="PO" value="Po: {{product.po}}">
+
+                        <input type="text" class="car form-control" placeholder="Quantidade entrada"
                             value="Quantidade entrada: {{product.inputAmount}}">
 
-                                                <select class="car form-control" value="{{product.unity}}">
+                        <select class="car form-control" value="{{product.unity}}">
                             <option selected disabled value="">Selecione...</option>
                             {{#each units}}
                             <option {{#if_eq ../product.unity _id}}selected{{/if_eq}} value="{{_id}}">
@@ -557,13 +559,13 @@
                         </select>
                     </div>
                     <div class="col-md-4 position-static p-0 pl-md-0 text-center">
-                                                <input type="text" class="car form-control" placeholder="Certificado"
+                        <input type="text" class="car form-control" placeholder="Certificado"
                             value="Certificado: {{product.certificate}}">
-                            
-                                                <input type="text" class="car form-control" placeholder="Entidade / Laboratório"
+
+                        <input type="text" class="car form-control" placeholder="Entidade / Laboratório"
                             value="Entidade / Laboratório: {{product.entityLaboratory}}">
 
-                                                <select class="car form-control" value="{{product.frequency}}">
+                        <select class="car form-control" value="{{product.frequency}}">
                             <option selected disabled value="">Selecione...</option>
                             {{#each breaks}}
                             <option {{#if_eq ../product.frequency _id}}selected{{/if_eq}} value="{{_id}}">
@@ -576,21 +578,44 @@
                             {{/each}}
                         </select>
 
-                                                <input type="text" class="car form-control" placeholder="Data de Calibração"
+                        <input type="text" class="car form-control" placeholder="Data de Calibração"
                             value="Data de Calibração: {{product.calibrationDate}}">
-                            
-                                                <input type="text" class="car form-control" placeholder="Validade Calibração"
+
+                        <input type="text" class="car form-control" placeholder="Validade Calibração"
                             value="Validade Calibração: {{product.calibrationValidity}}">
 
-                                                <input type="text" class="car form-control" placeholder="Status Calibração"
+                        <input type="text" class="car form-control" placeholder="Status Calibração"
                             value="Status Calibração: {{product.calibrationStatus}}">
                     </div>
+
                     <div class="col-md-4 position-static p-0 pl-md-0 text-center">
-                        eu sou a div 3
+                        <input type="text" class="car form-control" placeholder="Código Sap"
+                            value="Código Sap: {{product.sapCode}}">
+
+                        <input type="text" class="car form-control" placeholder="Código Ncm"
+                            value="Código Ncm: {{product.ncmCode}}">
+
+                        <input type="text" class="car form-control" placeholder="Usuário Lançamento"
+                            value="Usuário Lançamento: {{product.userLaunch}}">
+
+                        <input type="text" class="car form-control" placeholder="Data Lançamento"
+                            value="Data Lançamento: {{product.releaseDateOf}}">
+
+                        <input type="text" class="car form-control" placeholder="Ultima Movimentação"
+                            value="Ultima Movimentação: {{product.editionDate}}">
+
+                        <input type="text" class="car form-control" placeholder="Renponsável pelo Material"
+                            value="Responsável pelo Material: {{product.userEdtion}}">
+                    </div>
+                </div>
+                <div class="row no-gutters position-relative">
+                    <div class="col-md-12 position-static p-0 pl-md-0 text-center">
+                        <input type="text" class="car form-control" placeholder="Renponsável pelo Material"
+                            value="Observação: {{product.note}}">
                     </div>
                 </div>
             </div>
-        </div>
+    </form>
 </div>
-</form>
+
 <div class="mt-2"></div>

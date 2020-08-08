@@ -279,9 +279,14 @@ const Product = new Schema({
       //required: true,
    },
    //RESPONSÁVEL
-   responsible: {
-      type: String,
-      //required: true,
+   responsibleSite: {
+      type: String
+      //required: true 
+   },
+   responsibleMaterial: {
+      type: Schema.Types.ObjectId,
+      ref: "collaborators",
+      //required: true 
    },
    //ACTIVE
    active: {

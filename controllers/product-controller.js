@@ -21,6 +21,8 @@ require("../models/Interval")
 const Interval = mongoose.model("breaks")
 require("../models/Provider")
 const Provider = mongoose.model("providers")
+require("../models/Collaborator")
+const Collaborator = mongoose.model("collaborators")
 
 //PRODUTOS POR LISTA
 exports.getList = async (req, res) => {
@@ -92,11 +94,62 @@ exports.getList = async (req, res) => {
 //PRODUTOS POR TABELA
 exports.getListTable = async (req, res) => {
     try {
-        var products = await Product.find()
+        const filtros = [];
+        let {
+            search,
+            page
+        } = req.query;
+        if (search) {
+            const pattern = new RegExp(`.*${search}.*`)
+            filtros.push({
+                qrcode: {
+                    $regex: pattern
+                }
+            })
+            filtros.push({
+                description: {
+                    $regex: pattern
+                }
+            })
+            filtros.push({
+                user: {
+                    $regex: pattern
+                }
+            })
+            filtros.push({
+                tags: {
+                    $regex: pattern
+                }
+            })
+        }
+
+        page = page || 1;
+
+        const quant = await Product
+            .find(filtros.length > 0 ? {
+                $or: filtros
+            } : {}).estimatedDocumentCount()
+
+        var products = await Product
+            .find(filtros.length > 0 ? {
+                $or: filtros
+            } : {})
+            .sort({
+                fullDescription: "asc"
+            })
+            .limit(5)
+            .skip(page && Number(page) > 1 ? Number(page - 1) * 5 : 0)
             .populate("group")
             .populate("subgroup")
+            .populate("client")
+            .populate("physicalStatus")
+            .populate("kindOfEquipment")
+        //.populate("calibrationStatus")
         res.render("products/productstables", {
-            products: products.map(products => products.toJSON())
+            products: products.map(products => products.toJSON()),
+            prev: Number(page) > 1,
+            next: Number(page) * 5 < quant,
+            page
         })
     } catch (err) {
         req.flash("error_msg", "Ops, Houve um erro interno!")
@@ -162,10 +215,16 @@ exports.getCreate = async (req, res) => {
         }).sort({
             name: "asc"
         })
+        var collaborators = await Collaborator.find({
+            active: true
+        }).sort({
+            name: "asc"
+        })
 
         return res.render("products/addproducts", {
             groups: groups.map(groups => groups.toJSON()),
             idGroup: gId,
+            responsibleSite: req.user,
             subgroups: subgroups.map(subgroups => subgroups.toJSON()),
             customers: customers.map(customers => customers.toJSON()),
             leases: leases.map(leases => leases.toJSON()),
@@ -175,7 +234,7 @@ exports.getCreate = async (req, res) => {
             units: units.map(units => units.toJSON()),
             breaks: breaks.map(breaks => breaks.toJSON()),
             providers: providers.map(providers => providers.toJSON()),
-
+            collaborators: collaborators.map(collaborators => collaborators.toJSON())
 
         })
     } catch (err) {
@@ -390,6 +449,8 @@ exports.postCreate = async (req, res) => {
 
                 emailEdtion: req.body.emailEdtion,
 
+                responsibleSite: req.body.responsibleSite,
+
                 //totalFaceValue:req.body.inputAmount * req.body.faceValue,
 
                 //totalWeightKg:req.body.inputAmount * req.body.weightKg,
@@ -473,6 +534,11 @@ exports.getCreateId = async (req, res) => {
         }).sort({
             name: "asc"
         }).lean()
+        var collaborators = await Collaborator.find({
+            active: true
+        }).sort({
+            name: "asc"
+        }).lean()
         res.render("products/add_idproducts", {
             user: req.user,
             groups: groups,
@@ -485,7 +551,8 @@ exports.getCreateId = async (req, res) => {
             units: units,
             breaks: breaks,
             providers: providers,
-            product: product
+            product: product,
+            collaborators: collaborators
         })
 
     } catch (_err) {
@@ -698,6 +765,8 @@ exports.postCreateId = async (req, res) => {
 
                 emailEdtion: req.body.emailEdtion,
 
+                responsibleSite: req.body.responsibleSite,
+
                 //totalFaceValue:req.body.inputAmount * req.body.faceValue,
 
                 //totalWeightKg:req.body.inputAmount * req.body.weightKg,
@@ -781,6 +850,11 @@ exports.getUpdate = async (req, res) => {
         }).sort({
             name: "asc"
         }).lean()
+        var collaborators = await Collaborator.find({
+            active: true
+        }).sort({
+            name: "asc"
+        }).lean()
         res.render("products/editproducts", {
             user: req.user,
             groups: groups,
@@ -793,7 +867,8 @@ exports.getUpdate = async (req, res) => {
             units: units,
             breaks: breaks,
             providers: providers,
-            product: product
+            product: product,
+            collaborators: collaborators
         })
     } catch (_err) {
         req.flash("error_msg", "Ops, Houve um erro interno!")
@@ -974,7 +1049,7 @@ exports.postUpdate = async (req, res) => {
             //product.requestLocation = req.body.requestLocation
             //product.requestUser = req.body.requestUser
             //product.requestEmail = req.body.requestEmail
-            //product.responsible = req.body.responsible
+            product.responsibleSite = req.body.responsibleSite
             //product.active = req.body.active
             //product.totalFaceValue = req.body.totalFaceValue
             //product.totalWeightKg = req.body.totalWeightKg
@@ -1069,6 +1144,11 @@ exports.getCreateRequest = async (req, res) => {
         }).sort({
             name: "asc"
         }).lean()
+        var collaborators = await Collaborator.find({
+            active: true
+        }).sort({
+            name: "asc"
+        }).lean()
         res.render("products/takeproducts", {
             user: req.user,
             products: products,
@@ -1082,7 +1162,8 @@ exports.getCreateRequest = async (req, res) => {
             units: units,
             breaks: breaks,
             providers: providers,
-            product: product
+            product: product,
+            collaborators: collaborators
         })
 
     } catch (_err) {

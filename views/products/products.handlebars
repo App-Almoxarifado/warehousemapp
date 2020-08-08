@@ -1,4 +1,4 @@
-<div class="container">
+<div class="mt-2 container">
   <script>
     function navigate(offset) {
       var searchParams = new URLSearchParams(location.search);
@@ -15,15 +15,14 @@
     }
   </script>
   <h2>
-    Produtos
+    Itens Cadastrados
   </h2>
   <hr />
   <div class="d-flex">
     <div class="mr-auto p-2">
       <a href="/products/products/add">
         <button class="btn btn-success">
-          Novo
-          <i class="fa fa-paper-plane" aria-hidden="true"></i>
+          Cadastre um item
         </button>
       </a>
     </div>
@@ -50,6 +49,7 @@
       <input type="text" class="form-control" id="search" name="search" placeholder="Pesquise aqui..."
         onchange="this.value=this.value.toLowerCase()" />
     </div>
+
     <div class="p-2">
       <button type="button" class="btn btn-primary" onclick="search()">
         <i class="fa fa-search" aria-hidden="true"></i>
@@ -61,13 +61,32 @@
   {{#each products}}
   <div class="card" style="background-color: transparent;">
     <div class="card-body">
-      <h6>
-        {{fullDescription}}
-      </h6>
+      <div class="d-flex">
+        <div class="mr-auto p-2">
+          <h6>{{fullDescription}}</h6>
+        </div>
+
+        <div class="col-4 col-md-2 text-right">
+          <a href="/products/products/add_id/{{_id}}" class="btn btn-dark btn-sm" data-toggle="tooltip"
+            data-placement="bottom" title="Criar novo produto a partir dessas informações">
+            <i class="fa fa-paper-plane" aria-hidden="true"></i>
+          </a>
+
+          <a href="/products/products/edit/{{_id}}" class="btn btn-secondary btn-sm" data-toggle="tooltip"
+            data-placement="bottom" title="Ediar Produto">
+            <i class="fas fa-pen"></i>
+          </a>
+
+          <a href="/products/products/delete/{{_id}}" class="deletar btn btn-danger btn-sm" data-toggle="tooltip"
+            data-placement="bottom" title="Deletar Produto">
+            <i class="fas fa-trash-alt"></i>
+          </a>
+        </div>
+      </div>
       <hr />
       <div class="row no-gutters position-relative">
         <div class="col-6 col-md-2 mb-md-0 p-md-0 text-center">
-          <img src="{{image}}" style="width: 8rem;" class="rounded mr-3" alt="..." />
+          <img src="{{image}}" style="width: 8rem;" class="rounded " alt="..." />
         </div>
         <div class="col-6 col-md-2 mb-md-0 p-md-0 text-center">
           <img id="qrcode" name="qrcode" src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{
@@ -165,23 +184,6 @@
               Envio - Solicitação
             </small>
           </a>
-
-          <div class="d-block">
-            <a href="/products/products/add_id/{{_id}}" class="btn btn-dark btn-sm" data-toggle="tooltip"
-              data-placement="bottom" title="Criar novo produto a partir dessas informações">
-              <i class="fa fa-paper-plane" aria-hidden="true"></i>
-            </a>
-
-            <a href="/products/products/edit/{{_id}}" class="btn btn-secondary btn-sm" data-toggle="tooltip"
-              data-placement="bottom" title="Ediar Produto">
-              <i class="fas fa-pen"></i>
-            </a>
-
-            <a href="/products/products/delete/{{_id}}" class="deletar btn btn-danger btn-sm" data-toggle="tooltip"
-              data-placement="bottom" title="Deletar Produto">
-              <i class="fas fa-trash-alt"></i>
-            </a>
-          </div>
         </div>
       </div>
     </div>

@@ -1,65 +1,150 @@
-<div class="container mt-2">
-  <h2>Produtos</h2>
-  <a href="/products/products/add"><button class="btn btn-success">Crie um Grupo <i
-        class="fas fa-share"></i></button></a>
+<div class="mt-2 container-fluid">
+  <script>
+    function navigate(offset) {
+      var searchParams = new URLSearchParams(location.search);
+      const page = Number(searchParams.get("page")) || 1;
+      searchParams.set("page", page + offset);
+      location.search = searchParams.toString();
+    }
 
-  <hr>
-  <a href="/products/products"><button type="button" class="btn btn-primary">Lista <i
-        class="fas fa-th-list"></i></button></a>
-  <a href="/products/productstables"><button type="button" class="btn btn-primary">Tabela <i
-        class="fas fa-table"></i></button></a>
+    function search() {
+      var searchParams = new URLSearchParams(location.search);
+      const search = document.getElementById('search').value;
+      searchParams.set("search", search);
+      location.search = searchParams.toString();
+    }
+  </script>
+  <h2>
+    Itens Cadastrados
+  </h2>
+  <hr />
+  <div class="d-flex">
+    <div class="mr-auto p-2">
+      <a href="/products/products/add">
+        <button class="btn btn-success">
+          Cadastre um item
+        </button>
+      </a>
+    </div>
 
-  <hr>
+    <div class="p-2">
+      <a href="/products/products">
+        <button type="button" class="btn btn-primary">
+          Lista
+          <i class="fas fa-th-list"></i>
+        </button>
+      </a>
+
+      <a href="/products/productstables">
+        <button type="button" class="btn btn-primary">
+          Tabela
+          <i class="fas fa-table"></i>
+        </button>
+      </a>
+    </div>
+  </div>
+
+  <div class="d-flex">
+    <div class="p-2">
+      <input type="text" class="form-control" id="search" name="search" placeholder="Pesquise aqui..."
+        onchange="this.value=this.value.toLowerCase()" />
+    </div>
+
+    <div class="p-2">
+      <button type="button" class="btn btn-primary" onclick="search()">
+        <i class="fa fa-search" aria-hidden="true"></i>
+      </button>
+    </div>
+  </div>
 
   <table id="example" class="table table-bordered text-center" style="width:100%">
     <thead>
       <tr>
         <th scope="col">Imagem</th>
+        <th scope="col">Qr Code</th>
+        <th scope="col">Grupo</th>
+        <th scope="col">Subgrupo</th>
         <th scope="col">Descrição</th>
-        <th scope="col">Código QrCode</th>
-        <th scope="col">Data de Criação</th>
+        <th scope="col">Localização</th>
+        <th scope="col">Status</th>
+        <th scope="col">Equipamento</th>
+        <th scope="col">Calibração / Cert.</th>
+        <th scope="col">Qtd. Estoque</th>
         <th scope="col">Ações</th>
       </tr>
     </thead>
     <tbody>
       {{#each products}}
       <tr>
-        <th scope="row"><img src="{{image}}" style="max-width: 6rem;" class=" img-fluid rounded" alt="Responsive image">
-        </th>
-        <td>{{description}}</td>
-        <td><img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{qrcode}}" style="width: 4rem;"
-            class=" img-fluid rounded" alt="Responsive image"></td>
-        <td>{{date}}</td>
+        <th scope="row"><img src="{{image}}" style="max-width: 4rem;" class="rounded" alt="Responsive image"></th>
+
+        <td><img id="qrcode" name="qrcode" src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{qrcode}}" 
+        style="width: 4rem;" class="rounded" /></td>
+
+        <td>{{group.description}}</td>
+        <td>{{subgroup.description}}</td>
+        <td>{{fullDescription}}</td>
+        <td>{{client.description}}</td>
+        <td>{{physicalStatus.description}}</td>
+        <td>{{kindOfEquipment.description}}</td>
+        <td>{{calibrationStatus}}</td>
+        <td>{{inputAmount}}</td>
         <td>
-        <a href="/products/products/add_id/{{_id}}" class="btn btn-primary btn-sm mt-2">
-          <i class="fa fa-paper-plane" aria-hidden="true"></i></a>
-        <a href="/products/products/take/{{_id}}" class="btn btn-dark btn-sm mt-2"> <i class="fas fa-align-right"></i></a>
-        <a href="/products/products/edit/{{_id}}"><button class="btn btn-secondary btn-sm mt-2"> <i
-              class="fas fa-pen"></i></button></a>
-        <a href="/products/products/delete/{{_id}}"><button class="deletar btn btn-danger btn-sm mt-2"><i
-              class="fas fa-trash-alt"></i></button></a>
-        </td>
+          <a href="/products/products/add_id/{{_id}}" class="btn btn-success btn-sm" data-toggle="tooltip"
+            data-placement="bottom" title="Criar novo produto a partir dessas informações">
+            <i class="fa fa-paper-plane" aria-hidden="true"></i>
+          </a>
+
+          <a href="/products/products/edit/{{_id}}" class="btn btn-secondary btn-sm" data-toggle="tooltip"
+            data-placement="bottom" title="Ediar Produto">
+            <i class="fas fa-pen"></i>
+          </a>
+
+          <a href="/products/products/delete/{{_id}}" class="deletar btn btn-danger btn-sm" data-toggle="tooltip"
+            data-placement="bottom" title="Deletar Produto">
+            <i class="fas fa-trash-alt"></i>
+          </a>
+          
+          <a href="/products/products/take/{{_id}}" class="mt-1 mb-1 btn btn-secondary btn-sm" data-toggle="tooltip"
+            data-placement="bottom" title="Visualizar detalhes">
+            <small>
+              Movimentação Interna
+            </small>
+          </a>
+
+          <a href="/products/products/take/{{_id}}" class="mt-0 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
+            data-placement="bottom" title="Visualizar detalhes">
+            <small>
+              Envio - Solicitação
+            </small>
+          </a>
+          
+          </td>
+
       </tr>
       {{else}}
       <h4 class="mt-2">Nenhum Produto Registrado!</h4>
       {{/each}}
     </tbody>
   </table>
-
-<div class="form-row">
-        <div class="form-group col-md-6 text-left">
-          {{#if prev }}
-          <button class="btn btn-primary btn-sm mt-2" onclick="navigate(-1)">
-            <i class="fa fa-arrow-left" aria-hidden="true"></i> Anterior</button>
-          {{/if}}
-        </div>
-        <div class="form-group col-md-12 text-right">
-          {{#if next }}
-          <button class="btn btn-primary btn-sm mt-2" onclick="navigate(1)">Próximo 
-            <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
-          {{/if}}
-        </div>
- </div>  
+  <div class="d-flex">
+    <div class="mr-auto p-2">
+      {{#if prev}}
+      <button class="btn btn-primary btn-sm mt-2" onclick="navigate(-1)">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        Anterior
+      </button>
+      {{/if}}
+    </div>
+    <div class="p-2">
+      {{#if next}}
+      <button class="btn btn-primary btn-sm mt-2" onclick="navigate(1)">
+        Próximo
+        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+      </button>
+      {{/if}}
+    </div>
+  </div>
 
 
 </div>
