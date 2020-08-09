@@ -157,6 +157,72 @@ exports.getListTable = async (req, res) => {
     }
 }
 
+//PRODUTOS POR PEDIDOS
+exports.getRequest = async (req, res) => {
+    try {
+        const filtros = [];
+        let {
+            search,
+            page
+        } = req.query;
+        if (search) {
+            const pattern = new RegExp(`.*${search}.*`)
+            filtros.push({
+                qrcode: {
+                    $regex: pattern
+                }
+            })
+            filtros.push({
+                description: {
+                    $regex: pattern
+                }
+            })
+            filtros.push({
+                user: {
+                    $regex: pattern
+                }
+            })
+            filtros.push({
+                tags: {
+                    $regex: pattern
+                }
+            })
+        }
+
+        page = page || 1;
+
+        const quant = await Product
+            .find(filtros.length > 0 ? {
+                $or: filtros
+            } : {}).estimatedDocumentCount()
+
+        var products = await Product
+            .find(filtros.length > 0 ? {
+                $or: filtros
+            } : {requestUser: req.user.nome})
+            .sort({
+                fullDescription: "asc"
+            })
+            .limit(5)
+            .skip(page && Number(page) > 1 ? Number(page - 1) * 5 : 0)
+            .populate("group")
+            .populate("subgroup")
+            .populate("client")
+            .populate("physicalStatus")
+            .populate("kindOfEquipment")
+        //.populate("calibrationStatus")
+        res.render("products/productorders", {
+            products: products.map(products => products.toJSON()),
+            prev: Number(page) > 1,
+            next: Number(page) * 5 < quant,
+            page
+        })
+    } catch (err) {
+        req.flash("error_msg", "Ops, Houve um erro interno!")
+        res.redirect("/products/products")
+    }
+}
+
 //CRIANDO UM PRODUTO
 exports.getCreate = async (req, res) => {
     try {
@@ -1376,6 +1442,8 @@ exports.postCreateRequest = async (req, res) => {
 
                 emailEdtion: req.body.emailEdtion,
 
+                requestUser: req.body.requestUser,
+
                 //totalFaceValue:req.body.inputAmount * req.body.faceValue,
 
                 //totalWeightKg:req.body.inputAmount * req.body.weightKg,
@@ -1394,7 +1462,7 @@ exports.postCreateRequest = async (req, res) => {
 
             await products.save()
             req.flash("success_msg", "Produto criado com sucesso!")
-            res.redirect("/products/products")
+            res.redirect("/products/productorders")
 
         } catch (err) {
             req.flash("error_msg", "Ops, Houve um erro ao salvar o Produto, tente novamente!" + err)

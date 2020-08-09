@@ -44,7 +44,7 @@
 
 
 
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-6">
                     <label for="local">Locação:</label>
                     <select class="custom-select" id="local" name="local" value="{{product.local}}">
                         <option selected disabled value="">Selecione...</option>
@@ -57,7 +57,7 @@
                     </select>
                 </div>
 
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-6">
                     <label for="sublease">Sublocação:</label>
                     <select class="custom-select" id="sublease" name="sublease" value="{{product.sublease}}">
                         <option selected disabled value="">Selecione...</option>
@@ -164,38 +164,38 @@
             </div>
 
 
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="unity">Unidade:</label>
+                    <select class="custom-select" id="unity" name="unity" value="{{product.unity}}">
+                        <option selected disabled value="">Selecione...</option>
+                        {{#each units}}
+                        <option {{#if_eq ../product.unity _id}}selected{{/if_eq}} value="{{_id}}">{{description}}
+                        </option>
+                        {{else}}
+                        <option value="0">Nenhuma unidade de equipamento registrada</option>
+                        {{/each}}
+                    </select>
+                </div>
 
-            <div class="form-group col-md-3">
-                <label for="unity">Unidade:</label>
-                <select class="custom-select" id="unity" name="unity" value="{{product.unity}}">
-                    <option selected disabled value="">Selecione...</option>
-                    {{#each units}}
-                    <option {{#if_eq ../product.unity _id}}selected{{/if_eq}} value="{{_id}}">{{description}}
-                    </option>
-                    {{else}}
-                    <option value="0">Nenhuma unidade de equipamento registrada</option>
-                    {{/each}}
-                </select>
+                <div class="form-group col-md-3">
+                    <label for="weightKg">Peso Kg:</label>
+                    <input type="number" class="number form-control" id="weightKg" name="weightKg" step="0.01"
+                        placeholder="Peso do Produto" value="{{product.weightKg}}">
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label for="faceValue">Valor de Face:</label>
+                    <input type="number" class="number form-control" id="faceValue" name="faceValue"
+                        placeholder="Valor do Produto" step="0.01" value="{{product.faceValue}}">
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label for="dimensionsWxLxH">Dimensões LxCxA mm:</label>
+                    <input type="text" class="form-control" id="dimensionsWxLxH" name="dimensionsWxLxH"
+                        placeholder="Dimensões do Produto" value="{{product.dimensionsWxLxH}}">
+                </div>
             </div>
-
-            <div class="form-group col-md-2">
-                <label for="weightKg">Peso Kg:</label>
-                <input type="number" class="number form-control" id="weightKg" name="weightKg" step="0.01"
-                    placeholder="Peso do Produto" value="{{product.weightKg}}">
-            </div>
-
-            <div class="form-group col-md-2">
-                <label for="faceValue">Valor de Face:</label>
-                <input type="number" class="number form-control" id="faceValue" name="faceValue"
-                    placeholder="Valor do Produto" step="0.01" value="{{product.faceValue}}">
-            </div>
-
-            <div class="form-group col-md-3">
-                <label for="dimensionsWxLxH">Dimensões LxCxA mm:</label>
-                <input type="text" class="form-control" id="dimensionsWxLxH" name="dimensionsWxLxH"
-                    placeholder="Dimensões do Produto" value="{{product.dimensionsWxLxH}}">
-            </div>
-
 
 
             <div class="certificate">
@@ -304,7 +304,8 @@
                         placeholder="Observações sobre o produto" value="{{product.note}}">
                 </div>
             </div>
-
+            <input type="hidden" class="form-control" id="requestUser" name="requestUser"
+                placeholder="Pedido Usuário" value="{{user.nome}}">
             <input type="hidden" class="form-control" id="responsibleSite" name="responsibleSite"
                 placeholder="Responsável Site" value="{{user.nome}}">
             <input type="hidden" class="form-control mt-2" name="activeStatus" id="activeStatus">
@@ -344,9 +345,9 @@
                     </div>
 
 
-                    <div class=" col-md-5 position-static p-0 pl-md-0 text-center" >
+                    <div class=" col-md-5 position-static p-0 pl-md-0 text-center">
 
-                        <div class="mt-2 form-group row" >
+                        <div class="mt-2 form-group row">
                             <label for="client" class="col-sm-4 col-form-label">Site Solicitante:</label>
                             <div class="col-sm-8">
                                 <select class="custom-select" id="client" name="client" value="{{product.client}}">
