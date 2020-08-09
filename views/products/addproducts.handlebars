@@ -9,10 +9,9 @@
 
 
     <form class="upload mt-2" method='post' enctype="multipart/form-data" action="/upload" style="display:none;">
-                <div class="row no-gutters position-relative">
-                    <div class="col-12 col-md-2 mb-md-0 p-md-0 text-center">
-                <img src="/img/logo8.png" class="avatar img-fluid rounded" alt=""
-                    style="width: 10rem;">
+        <div class="row no-gutters position-relative">
+            <div class="col-12 col-md-2 mb-md-0 p-md-0 text-center">
+                <img src="/img/logo8.png" class="avatar img-fluid rounded" alt="" style="width: 10rem;">
                 <input type='submit' class='mt-1 btn btn-primary btn-sm' value='Salvar Imagem'>
                 <input type="file" accept="image/*" name="file" id="file"
                     class="btn-file text-center center-block file-upload">
@@ -33,7 +32,7 @@
                     onchange="location.assign('?gId='+document.getElementById('group').value)" required>
                     <option selected disabled value="">Selecione...</option>
                     {{#each groups}}
-                    <option {{#if_eq ../idGroup _id}}selected{{/if_eq}} value="{{_id}}"> {{description}}</option>
+                    <option {{#if_eq ../idGroup _id}}selected{{/if_eq}} value="{{_id}}">{{description}}</option>
                     {{else}}
                     <option value="0">Nenhum grupo registrado</option>
                     {{/each}}
@@ -319,14 +318,14 @@
         </div>
 
         <input type="hidden" class="form-control mt-2" name="activeStatus" id="activeStatus">
-                <input type="hidden" class="form-control mt-2" id="releaseDateOf" name="releaseDateOf" placeholder="date"
-                    value="{{#formatDate date}}{{/formatDate}}">
-                <input type="hidden" class="form-control mt-2" name="userLaunch" id="userLaunch" value="{{user.nome}}">
-                <input type="hidden" class="form-control mt-2" name="emailLaunch" id="emailLaunch" value="{{user.email}}">
-                                <input type="hidden" class="form-control mt-2" id="editionDate" name="editionDate" placeholder="date"
-                    value="{{#formatDate date}}{{/formatDate}}">
-                <input type="hidden" class="form-control mt-2" name="userEdtion" id="userEdtion" value="{{user.nome}}">
-                <input type="hidden" class="form-control mt-2" name="emailEdtion" id="emailEdtion" value="{{user.email}}">
+        <input type="hidden" class="form-control mt-2" id="releaseDateOf" name="releaseDateOf" placeholder="date"
+            value="{{#formatDate date}}{{/formatDate}}">
+        <input type="hidden" class="form-control mt-2" name="userLaunch" id="userLaunch" value="{{user.nome}}">
+        <input type="hidden" class="form-control mt-2" name="emailLaunch" id="emailLaunch" value="{{user.email}}">
+        <input type="hidden" class="form-control mt-2" id="editionDate" name="editionDate" placeholder="date"
+            value="{{#formatDate date}}{{/formatDate}}">
+        <input type="hidden" class="form-control mt-2" name="userEdtion" id="userEdtion" value="{{user.nome}}">
+        <input type="hidden" class="form-control mt-2" name="emailEdtion" id="emailEdtion" value="{{user.email}}">
         <div class="form-group col-md-8">
             <div class="form-row">
                 <button type="submit" class="btn btn-success">Salvar <i class="fas fa-share"></i></button>

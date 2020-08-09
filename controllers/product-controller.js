@@ -94,6 +94,7 @@ exports.getList = async (req, res) => {
 //PRODUTOS POR TABELA
 exports.getListTable = async (req, res) => {
     try {
+        var cod = Date.now()
         const filtros = [];
         let {
             search,
@@ -130,6 +131,9 @@ exports.getListTable = async (req, res) => {
                 $or: filtros
             } : {}).estimatedDocumentCount()
 
+        const ola = await Product
+            .find({}).count()
+
         var products = await Product
             .find(filtros.length > 0 ? {
                 $or: filtros
@@ -149,6 +153,9 @@ exports.getListTable = async (req, res) => {
             products: products.map(products => products.toJSON()),
             prev: Number(page) > 1,
             next: Number(page) * 5 < quant,
+            quant,
+            ola,
+            cod,
             page
         })
     } catch (err) {
@@ -199,7 +206,7 @@ exports.getRequest = async (req, res) => {
         var products = await Product
             .find(filtros.length > 0 ? {
                 $or: filtros
-            } : {requestUser: req.user.nome})
+            } : { requestUser: req.user.nome })
             .sort({
                 fullDescription: "asc"
             })
@@ -1032,46 +1039,46 @@ exports.postUpdate = async (req, res) => {
         try {
 
             product.qrcode = req.body.patrimonialAsset
-            .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
-            .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
-            .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, '') +
-            req.body.description
                 .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
                 .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
                 .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
                 .replace(/(^-+|-+$)/, '') +
-            req.body.manufacturer
-                .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
-                .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
-                .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
-                .replace(/(^-+|-+$)/, '') +
-            req.body.model
-                .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
-                .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
-                .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
-                .replace(/(^-+|-+$)/, '') +
-            req.body.capacityReach
-                .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
-                .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
-                .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
-                .replace(/(^-+|-+$)/, '') +
-            req.body.serialNumber
-                .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
-                .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
-                .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
-                .replace(/(^-+|-+$)/, ''),
+                req.body.description
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, '') +
+                req.body.manufacturer
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, '') +
+                req.body.model
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, '') +
+                req.body.capacityReach
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, '') +
+                req.body.serialNumber
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, ''),
 
-            product.image = req.body.image
+                product.image = req.body.image
             product.group = req.body.group
             product.subgroup = req.body.subgroup
-            product.fullDescription = 
-            req.body.patrimonialAsset + " " +
-            req.body.description + " " +
-            req.body.manufacturer + " " +
-            req.body.model + " " +
-            req.body.capacityReach + " " +
-            req.body.serialNumber
+            product.fullDescription =
+                req.body.patrimonialAsset + " " +
+                req.body.description + " " +
+                req.body.manufacturer + " " +
+                req.body.model + " " +
+                req.body.capacityReach + " " +
+                req.body.serialNumber
             product.stockCode = req.body.stockCode
             product.client = req.body.client
             product.local = req.body.local
