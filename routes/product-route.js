@@ -16,6 +16,8 @@ router.post("/products/edit", controller.postUpdate)
 router.get("/products/delete/:id", controller.getDelete) 
 router.get("/products/take/:id", controller.getCreateRequest) 
 router.post("/products/newRequest", controller.postCreateRequest)
+router.get("/products/move/:id", controller.getCreateMove) 
+router.post("/products/newmove", controller.postCreateMove)
 router.get("/productorders", controller.getRequest) 
 
 

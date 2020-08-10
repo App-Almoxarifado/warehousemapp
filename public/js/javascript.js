@@ -320,5 +320,10 @@ function navigate(offset) {
     location.search = searchParams.toString();
   }
 
+  function stock(){
+    const input = document.getElementById('inputAmount').value
+    const exit = document.getElementById('outputQuantity').value
+    document.getElementById('stockQuantity').value = input - exit
+}
 
    

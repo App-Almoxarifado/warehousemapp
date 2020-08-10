@@ -123,6 +123,11 @@ const Product = new Schema({
       type: Number,
       required: false,
    },
+   //QUANTIDADE ESTOQUE
+   stockQuantity: {
+      type: Number,
+      required: false,
+   },
    //UNIDADE
    unity: {
       type: Schema.Types.ObjectId,
