@@ -76,6 +76,24 @@ exports.getList = async (req, res) => {
         const totalActive = await Product
         .find({accountingAssets:"true"}).count()
 
+        const group01 = await Product
+        .find({group:"5ef5b7baf96c3802ec2aad09"}).count()
+
+        const group02 = await Product
+        .find({group:"5ef5b7baf96c3802ec2aad0a"}).count()
+
+        const group03 = await Product
+        .find({group:"5ef5b7baf96c3802ec2aad0b"}).count()
+
+        const group04 = await Product
+        .find({group:"5ef5b7baf96c3802ec2aad0c"}).count()
+
+        const group05 = await Product
+        .find({group:"5ef5b7baf96c3802ec2aad0d"}).count()
+
+        const group06 = await Product
+        .find({group:"5ef5b7baf96c3802ec2aad0e"}).count()
+
         const quant = await Product
             .find(filtros.length > 0 ? {
                 $or: filtros
@@ -86,7 +104,7 @@ exports.getList = async (req, res) => {
                 $or: filtros
             } : {})
             .sort({
-                fullDescription: "asc"
+                editionDate: "desc"
             })
             .limit(3)
             .skip(page && Number(page) > 1 ? Number(page - 1) * 3 : 0)
@@ -106,7 +124,13 @@ exports.getList = async (req, res) => {
             totalBad,
             totalMaintenance,
             totalCalibration,
-            totalActive 
+            totalActive,
+            group01, 
+            group02,
+            group03,
+            group04,
+            group05,
+            group06
         })
     } catch (err) {
         req.flash("error_msg", "Ops, Houve um erro interno!")

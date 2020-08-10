@@ -1,6 +1,7 @@
-
 <div class="mt-2 container">
   <!--<canvas class="line-chart"></canvas>-->
+
+
   <div class="d-flex">
     <div class="mr-auto p-2">
       <a href="/products/products/add">
@@ -17,62 +18,108 @@
           <i class="fas fa-th-list"></i>
         </button>
       </a>
-
+      </div>
+      <div class="p-2">
       <a href="/products/productstables">
         <button type="button" class="btn btn-primary">
           Tabela
           <i class="fas fa-table"></i>
         </button>
       </a>
+     </div>
+      <div class="d-none d-md-block">
+        <div class="p-2">
+          <a href="/products/productorders">
+            <button type="button" class="btn btn-secondary">
+              <small><strong>Meus Pedidos <i class="fas fa-dolly"></i></strong></small>
+            </button>
+          </a>
+        </div>
     </div>
   </div>
+
+  <div class="d-block d-md-none">
+    <div class="d-flex">
+      <div class="mr-auto p-2">
+        <a href="/products/productstables">
+          <button type="button" class="btn btn-primary">
+            <small><strong>Total Cadastrados {{total}}</strong></small>
+          </button>
+        </a>
+      </div>
+      <div class=" p-2">
+        <a href="/products/productorders">
+          <button type="button" class="btn btn-secondary">
+            <small><strong>Meus Pedidos <i class="fas fa-dolly"></i></strong></small>
+          </button>
+        </a>
+      </div>
+    </div>
+  </div>
+
+
   <hr>
 
-
+  <div class="d-none d-md-block">
     <div class="form-row">
-    <div id="graf01" class="grafRight col-4 col-md-2 text-center"  aria-hidden="true" style="display: none;">
-      <button type="button" class="btn btn-primary btn-lg btn-block"><small><strong>Total Cadastrados<br><br>{{total}}</strong></small></button>
+      <div id="graf01" class="grafRight col-6 col-md-2 text-center" aria-hidden="true" style="display: none;">
+        <button type="button" class="btn btn-primary btn-lg btn-block"><small><strong>Total
+              Cadastrados<br><br>{{total}}</strong></small></button>
+      </div>
+      <div id="graf02" class="grafRight col-6  col-md-2 text-center" aria-hidden="true" style="display: none;">
+        <button type="button"
+          class="btn btn-success btn-lg btn-block"><small><strong>Ok<br><br>{{totalOk}}</strong></small></button>
+      </div>
+      <div id="graf03" class="grafRight col-6  col-md-2 text-center" aria-hidden="true" style="display: none; ">
+        <button type="button" class="btn btn-warning btn-lg btn-block"><small><strong>Precisa de
+              Manutenção<br>{{totalMaintenance }}</strong></small></button>
+      </div>
+      <div id="graf04" class="grafRight col-6  col-md-2 text-center" aria-hidden="true" style="display: none; ">
+        <button type="button"
+          class="btn btn-danger btn-lg btn-block"><small><strong>Segregados<br><br>{{totalBad}}</strong></small></button>
+      </div>
+      <div id="graf05" class="grafRight col-6 col-md-2 text-center" aria-hidden="true" style="display: none; ">
+        <button type="button" class="btn btn-secondary btn-lg btn-block"><small><strong>Requer Calibr./
+              Certif.<br>{{totalCalibration}}</strong></small></button>
+      </div>
+      <div id="graf06" class="grafRight col-6 col-md-2 text-center" aria-hidden="true" style="display: none;">
+        <button type="button"
+          class="btn btn-info btn-lg btn-block"><small><strong>Ativos<br><br>{{totalActive}}</strong></small></button>
+      </div>
     </div>
-    <div id="graf02" class="grafRight col-4  col-md-2 text-center"  aria-hidden="true" style="display: none;">
-      <button type="button" class="btn btn-success btn-lg btn-block"><small><strong>Ok<br><br>{{totalOk}}</strong></small></button>
-    </div>
-    <div id="graf03" class="grafRight col-4  col-md-2 text-center"  aria-hidden="true" style="display: none; ">
-      <button type="button" class="btn btn-warning btn-lg btn-block"><small><strong>Precisa de Manutenção<br>{{totalMaintenance }}</strong></small></button>
-    </div>
-    <div id="graf04" class="grafRight col-4  col-md-2 text-center"  aria-hidden="true" style="display: none; ">
-      <button type="button" class="btn btn-danger btn-lg btn-block"><small><strong>Segregados<br><br>{{totalBad}}</strong></small></button>
-    </div>
-    <div id="graf05" class="grafRight col-4 col-md-2 text-center"  aria-hidden="true" style="display: none; ">
-      <button type="button" class="btn btn-secondary btn-lg btn-block"><small><strong>Requer Calibr./ Certif.<br>{{totalCalibration}}</strong></small></button>
-    </div>
-        <div id="graf06" class="grafRight col-4 col-md-2 text-center"  aria-hidden="true" style="display: none;">
-      <button type="button" class="btn btn-info btn-lg btn-block"><small><strong>Ativos<br><br>{{totalActive}}</strong></small></button>
-    </div>
-</div>
+  </div>
 
+  <div class="d-none d-md-block ">
     <div class="form-row">
-    <div id="graf07" class="grafLeft col-4 mt-2 col-md-2 text-center"  aria-hidden="true" style="display: none;">
-      <button type="button" class="btn btn-info btn-lg btn-block"><small><strong>Consumiveis de Produção<br>{{total}}</strong></small></button>
+      <div id="graf07" class="grafLeft col-4 mt-2 col-md-2 text-center" aria-hidden="true" style="display: none;">
+        <button type="button" class="btn btn-info btn-lg btn-block"><small><strong>Consumiveis de
+              Produção<br>{{group01}}</strong></small></button>
+      </div>
+      <div id="graf08" class="grafLeft col-4 mt-2 col-md-2 text-center" aria-hidden="true" style="display: none;">
+        <button type="button" class="btn btn-secondary btn-lg btn-block"><small><strong>Ferramentas e
+              Acessórios<br>{{group02}}</strong></small></button>
+      </div>
+      <div id="graf09" class="grafLeft col-4 mt-2 col-md-2 text-center" aria-hidden="true" style="display: none; ">
+        <button type="button" class="btn btn-danger btn-lg btn-block"><small><strong>Infraestrutura de obra e
+              mobilia<br>{{group03}}</strong></small></button>
+      </div>
+      <div id="graf10" class="grafLeft col-4 mt-2 col-md-2 text-center" aria-hidden="true" style="display: none; ">
+        <button type="button" class="btn btn-dark btn-lg btn-block"><small><strong>Máquinas e
+              Equipamentos<br>{{group04}}</strong></small></button>
+      </div>
+      <div id="graf11" class="grafLeft col-4 mt-2 col-md-2 text-center" aria-hidden="true" style="display: none; ">
+        <button type="button"
+          class="btn btn-success btn-lg btn-block"><small><strong>Metrologia<br><br>{{group05}}</strong></small></button>
+      </div>
+      <div id="graf12" class="grafLeft mt-2 col-4 col-md-2 text-center" aria-hidden="true" style="display: none;">
+        <button type="button" class="btn btn-primary btn-lg btn-block"><small><strong>Saúde e
+              Segurança<br><br>{{group06}}</strong></small></button>
+      </div>
     </div>
-    <div id="graf08" class="grafLeft col-4 mt-2 col-md-2 text-center"  aria-hidden="true" style="display: none;">
-      <button type="button" class="btn btn-secondary btn-lg btn-block"><small><strong>Ferramentas e Acessórios<br>{{total}}</strong></small></button>
-    </div>
-    <div id="graf09" class="grafLeft col-4 mt-2 col-md-2 text-center"  aria-hidden="true" style="display: none; ">
-      <button type="button" class="btn btn-danger btn-lg btn-block"><small><strong>Infraestrutura de obra e mobilia<br>{{total}}</strong></small></button>
-    </div>
-    <div id="graf10" class="grafLeft col-4 mt-2 col-md-2 text-center"  aria-hidden="true" style="display: none; ">
-      <button type="button" class="btn btn-dark btn-lg btn-block"><small><strong>Máquinas e Equipamentos<br>{{total}}</strong></small></button>
-    </div>
-    <div id="graf11" class="grafLeft col-4 mt-2 col-md-2 text-center"  aria-hidden="true" style="display: none; ">
-      <button type="button" class="btn btn-success btn-lg btn-block"><small><strong>Metrologia<br><br>{{total}}</strong></small></button>
-    </div>
-        <div id="graf12" class="grafLeft mt-2 col-4 col-md-2 text-center"  aria-hidden="true" style="display: none;">
-      <button type="button" class="btn btn-primary btn-lg btn-block"><small><strong>Saúde e Segurança<br><br>{{total}}</strong></small></button>
-    </div>
-</div>
+  </div>
 
 
- 
+
 
   <div class="d-flex">
     <div class="p-2">
@@ -246,63 +293,63 @@
 </div>
 
 <script>
-function mostra(){
-document.getElementById("graf01").style.display = "block";
-}
-setTimeout(mostra,0000)
+  function mostra() {
+    document.getElementById("graf01").style.display = "block";
+  }
+  setTimeout(mostra, 0000)
 
-function mostra2(){
+  function mostra2() {
     document.getElementById("graf02").style.display = "block";
-    }
-    setTimeout(mostra2,500)
+  }
+  setTimeout(mostra2, 500)
 
-    function mostra3(){
-        document.getElementById("graf03").style.display = "block";
-        }
-        setTimeout(mostra3,1000)
+  function mostra3() {
+    document.getElementById("graf03").style.display = "block";
+  }
+  setTimeout(mostra3, 1000)
 
-        function mostra4(){
-            document.getElementById("graf04").style.display = "block";
-            }
-            setTimeout(mostra4,1500)
+  function mostra4() {
+    document.getElementById("graf04").style.display = "block";
+  }
+  setTimeout(mostra4, 1500)
 
-            function mostra5(){
-                document.getElementById("graf05").style.display = "block";
-                }
-                setTimeout(mostra5,2000)
+  function mostra5() {
+    document.getElementById("graf05").style.display = "block";
+  }
+  setTimeout(mostra5, 2000)
 
-                function mostra6(){
-                    document.getElementById("graf06").style.display = "block";
-                    }
-                    setTimeout(mostra6,2500)
-function mostra7(){
-document.getElementById("graf07").style.display = "block";
-}
-setTimeout(mostra7,0000)
+  function mostra6() {
+    document.getElementById("graf06").style.display = "block";
+  }
+  setTimeout(mostra6, 2500)
+  function mostra7() {
+    document.getElementById("graf07").style.display = "block";
+  }
+  setTimeout(mostra7, 0000)
 
-function mostra8(){
+  function mostra8() {
     document.getElementById("graf08").style.display = "block";
-    }
-    setTimeout(mostra8,500)
+  }
+  setTimeout(mostra8, 500)
 
-    function mostra9(){
-        document.getElementById("graf09").style.display = "block";
-        }
-        setTimeout(mostra9,1000)
+  function mostra9() {
+    document.getElementById("graf09").style.display = "block";
+  }
+  setTimeout(mostra9, 1000)
 
-        function mostra10(){
-            document.getElementById("graf10").style.display = "block";
-            }
-            setTimeout(mostra10,1500)
+  function mostra10() {
+    document.getElementById("graf10").style.display = "block";
+  }
+  setTimeout(mostra10, 1500)
 
-            function mostra11(){
-                document.getElementById("graf11").style.display = "block";
-                }
-                setTimeout(mostra11,2000)
+  function mostra11() {
+    document.getElementById("graf11").style.display = "block";
+  }
+  setTimeout(mostra11, 2000)
 
-                function mostra12(){
-                    document.getElementById("graf12").style.display = "block";
-                    }
-                    setTimeout(mostra12,2500)
+  function mostra12() {
+    document.getElementById("graf12").style.display = "block";
+  }
+  setTimeout(mostra12, 2500)
 
 </script>
