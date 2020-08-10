@@ -1,19 +1,4 @@
 <div class="mt-2 container-fluid">
-  <script>
-    function navigate(offset) {
-      var searchParams = new URLSearchParams(location.search);
-      const page = Number(searchParams.get("page")) || 1;
-      searchParams.set("page", page + offset);
-      location.search = searchParams.toString();
-    }
-
-    function search() {
-      var searchParams = new URLSearchParams(location.search);
-      const search = document.getElementById('search').value;
-      searchParams.set("search", search);
-      location.search = searchParams.toString();
-    }
-  </script>
   <h2>
     Itens Cadastrados {{ola}}
   </h2>
@@ -95,7 +80,7 @@
             <i class="fa fa-paper-plane" aria-hidden="true"></i>
           </a>
 
-          <a href="/products/products/edit/{{_id}}" class="btn btn-secondary btn-sm" data-toggle="tooltip"
+          <a href="/products/products/edit/{{_id}}" class="btn btn-info btn-sm" data-toggle="tooltip"
             data-placement="bottom" title="Ediar Produto">
             <i class="fas fa-pen"></i>
           </a>

@@ -299,4 +299,26 @@ function calculater() {
     document.getElementById('calibrationStatus').value = calibrationStatus;
  }
 
- 
+ /*var ctx = document.getElementsByClassName("line-chart");
+
+ var chartGraph = new Chart(ctx, {
+   type: 'bar',
+})*/
+
+
+function navigate(offset) {
+    var searchParams = new URLSearchParams(location.search);
+    const page = Number(searchParams.get("page")) || 1;
+    searchParams.set("page", page + offset);
+    location.search = searchParams.toString();
+  }
+
+  function search() {
+    var searchParams = new URLSearchParams(location.search);
+    const search = document.getElementById('search').value;
+    searchParams.set("search", search);
+    location.search = searchParams.toString();
+  }
+
+
+   

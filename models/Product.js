@@ -278,6 +278,11 @@ const Product = new Schema({
       type: String,
       //required: true,
    },
+   //ORIGEM PEDIDO
+   requestOrigin: {
+      type: String,
+      //required: true,
+   },
    //RESPONSÁVEL
    responsibleSite: {
       type: String
@@ -287,6 +292,11 @@ const Product = new Schema({
       type: Schema.Types.ObjectId,
       ref: "collaborators",
       //required: true 
+   },
+   //ATIVOS CONTÁBEIS
+   accountingAssets: {
+      type: Boolean,
+      default: "true"
    },
    //ACTIVE
    active: {

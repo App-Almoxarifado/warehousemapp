@@ -58,6 +58,24 @@ exports.getList = async (req, res) => {
 
         page = page || 1;
 
+        const total = await Product
+        .find({}).count()
+
+        const totalOk = await Product
+        .find({physicalStatus:"5f01252e038643547805dbeb"}).count()
+
+        const totalBad = await Product
+        .find({physicalStatus:"5f01252e038643547805dbed"}).count()
+
+        const totalMaintenance = await Product
+        .find({physicalStatus:"5f01252e038643547805dbec"}).count()
+
+        const totalCalibration = await Product
+        .find({requiresCertificationCalibration:"Sim"}).count()
+
+        const totalActive = await Product
+        .find({accountingAssets:"true"}).count()
+
         const quant = await Product
             .find(filtros.length > 0 ? {
                 $or: filtros
@@ -82,7 +100,13 @@ exports.getList = async (req, res) => {
             products: products.map(products => products.toJSON()),
             prev: Number(page) > 1,
             next: Number(page) * 3 < quant,
-            page
+            page,
+            total,
+            totalOk,
+            totalBad,
+            totalMaintenance,
+            totalCalibration,
+            totalActive 
         })
     } catch (err) {
         req.flash("error_msg", "Ops, Houve um erro interno!")
@@ -131,7 +155,7 @@ exports.getListTable = async (req, res) => {
                 $or: filtros
             } : {}).estimatedDocumentCount()
 
-        const ola = await Product
+        const total = await Product
             .find({}).count()
 
         var products = await Product
@@ -154,7 +178,7 @@ exports.getListTable = async (req, res) => {
             prev: Number(page) > 1,
             next: Number(page) * 5 < quant,
             quant,
-            ola,
+            total,
             cod,
             page
         })
@@ -1450,6 +1474,8 @@ exports.postCreateRequest = async (req, res) => {
                 emailEdtion: req.body.emailEdtion,
 
                 requestUser: req.body.requestUser,
+
+                requestOrigin:req.body.requestOrigin,
 
                 //totalFaceValue:req.body.inputAmount * req.body.faceValue,
 
