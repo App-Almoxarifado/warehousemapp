@@ -380,12 +380,12 @@
                             </div>
                         </div>
 
-                        
-                            
-                            <div class="col-6 col-sm-3 mt-1">
-                                <input type="hidden" class="form-control" id="inputAmount" name="inputAmount"
-                                    value="{{product.inputAmount}}" onfocus="stock()">
-                            </div>
+
+
+                        <div class="col-6 col-sm-3 mt-1">
+                            <input type="hidden" class="form-control" id="inputAmount" name="inputAmount"
+                                value="{{product.inputAmount}}" onfocus="stock()">
+                        </div>
                         <div class="form-group row">
                             <label for="outputQuantity" class="col-6 col-sm-3 mt-1 col-form-label">Quantidade:</label>
                             <div class="col-6 col-sm-3 mt-1">
@@ -395,20 +395,20 @@
 
                             <label for="stockQuantity" class="col-6  col-sm-3 mt-1 col-form-label">Disponível:</label>
                             <div class="col-6 col-sm-3 mt-1">
-                                <input type="number" class="car form-control" id="stockQuantity" name="stockQuantity"id="stockQuantity" name="stockQuantity"
-                                    step="0.01" value="{{product.stockQuantity}}">
+                                <input type="number" class="car form-control" id="stockQuantity" name="stockQuantity"
+                                    id="stockQuantity" name="stockQuantity" step="0.01"
+                                    value="{{product.stockQuantity}}">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <div class="col-sm-6 mt-1">
-                                <a href="/products/products" class="btn btn-secondary btn-lg btn-block"
-                                    data-toggle="tooltip" data-placement="bottom" title="Visualizar detalhes">
-                                    <h6>Voltar ao Dashboard</h6>
-                                </a>
+                            <label for="stockQuantity" class="col-5 col-md-5 mt-1 col-form-label">Data Necessidade:</label>
+                            <div class="col-6 col-md-5 mt-1">
+                                <input type="date" class="form-control" id="needDate" name="needDate">
                             </div>
-                            <div class="col-sm-6 mt-1">
-                                <button type="submit" class="btn btn-primary btn-lg btn-block">
-                                    <h6>Fazer Pedido</h6>
+                            
+                            <div class="col-1 col-md-2 mt-1">
+                                <button type="submit" class="btn btn-primary ">
+                                    <i class="fas fa-dolly"></i>
                                 </button>
                             </div>
                         </div>
@@ -629,8 +629,18 @@
                         <input type="text" class="car form-control" placeholder="Ultima Movimentação"
                             value="Ultima Movimentação: {{product.editionDate}}">
 
-                        <input type="text" class="car form-control" placeholder="Renponsável pelo Material"
-                            value="Responsável pelo Material: {{product.userEdtion}}">
+                        <select class="car form-control" value="{{product.responsibleMaterial}}">
+                            <option selected disabled value="">Selecione...</option>
+                            {{#each collaborators}}
+                            <option {{#if_eq ../product.responsibleMaterial _id}}selected{{/if_eq}} value="{{_id}}">
+                                Colaborador: {{name}}
+                            </option>
+                            {{name}}
+                            </option>
+                            {{else}}
+                            <option value="0">Nenhum fornecedor registrado</option>
+                            {{/each}}
+                        </select>
                     </div>
                 </div>
                 <div class="row no-gutters position-relative">

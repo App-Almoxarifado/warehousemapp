@@ -1453,7 +1453,7 @@ exports.postCreateRequest = async (req, res) => {
 
                 outputQuantity: req.body.outputQuantity.replace(",", "."),
 
-                stockQuantity: req.body.stockQuantity,
+                stockQuantity: req.body.inputAmount - req.body.outputQuantity,
 
                 unity: req.body.unity,
 
@@ -1506,6 +1506,8 @@ exports.postCreateRequest = async (req, res) => {
                 requestUser: req.body.requestUser,
 
                 requestOrigin: req.body.requestOrigin,
+
+                needDate: req.body.needDate,
 
                 //totalFaceValue:req.body.inputAmount * req.body.faceValue,
 

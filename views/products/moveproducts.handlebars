@@ -623,8 +623,18 @@
                         <input type="text" class="car form-control" placeholder="Ultima Movimentação"
                             value="Ultima Movimentação: {{product.editionDate}}">
 
-                        <input type="text" class="car form-control" placeholder="Renponsável pelo Material"
-                            value="Responsável pelo Material: {{product.userEdtion}}">
+                        <select class="car form-control" value="{{product.responsibleMaterial}}">
+                            <option selected disabled value="">Selecione...</option>
+                            {{#each collaborators}}
+                            <option {{#if_eq ../product.responsibleMaterial _id}}selected{{/if_eq}} value="{{_id}}">
+                                Colaborador: {{name}}
+                            </option>
+                            {{name}}
+                            </option>
+                            {{else}}
+                            <option value="0">Nenhum fornecedor registrado</option>
+                            {{/each}}
+                        </select>
                     </div>
                 </div>
                 <div class="row no-gutters position-relative">
