@@ -288,11 +288,27 @@ const Product = new Schema({
       type: String,
       //required: true,
    },
+   //DATA NECESSIDADE
+   needDate: {
+      type: String,
+      //required: true,
+   },
+   //DISPONIBILIDADE   
+   availability: {
+      type: String,
+      //required: true,
+   },
+   //DATA DISPONIVEL
+   availableDate: {
+      type: String,
+      //required: true,
+   },
    //RESPONSÁVEL
    responsibleSite: {
       type: String
       //required: true 
    },
+   //RESPONSÁVEL PELO MATERIAL
    responsibleMaterial: {
       type: Schema.Types.ObjectId,
       ref: "collaborators",

@@ -376,22 +376,21 @@
                 </select>
                             </div>
                         </div>
-                            <label for="inputAmount" class="col-6 col-sm-3 mt-1 col-form-label">Quantidade:</label>
                             <div class="col-6 col-sm-3 mt-1">
-                                <input type="number" class="form-control" id="inputAmount" name="inputAmount"
-                                    value="{{product.inputAmount}}" onchange="stock()">
+                                <input type="hidden" class="form-control" id="inputAmount" name="inputAmount"
+                                    value="{{product.inputAmount}}" onfocus="stock()">
                             </div>
                         <div class="form-group row">
                             <label for="outputQuantity" class="col-6 col-sm-3 mt-1 col-form-label">Quantidade:</label>
                             <div class="col-6 col-sm-3 mt-1">
                                 <input type="number" class="form-control" id="outputQuantity" name="outputQuantity"
-                                    value="1" onchange="stock()">
+                                    value="1" onkeyup="stock()" onchange="stock()">
                             </div>
 
                             <label for="stockQuantity" class="col-6  col-sm-3 mt-1 col-form-label">Disponível:</label>
                             <div class="col-6 col-sm-3 mt-1">
                                 <input type="number" class="car form-control" id="stockQuantity" name="stockQuantity"id="stockQuantity" name="stockQuantity"
-                                    step="0.01" value="{{product.stockQuantity}}" onchange="stock()">
+                                    step="0.01" value="{{product.stockQuantity}}">
                             </div>
                         </div>
                         <div class="form-group row">
