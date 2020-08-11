@@ -325,6 +325,7 @@
             </div>
             <input type="hidden" class="form-control" id="requestUser" name="requestUser" placeholder="Pedido Usuário"
                 value="{{user.nome}}">
+
             <input type="hidden" class="form-control" id="responsibleSite" name="responsibleSite"
                 placeholder="Responsável Site" value="{{user.nome}}">
             <input type="hidden" class="form-control mt-2" name="activeStatus" id="activeStatus">
@@ -403,7 +404,7 @@
                         <div class="form-group row">
                             <label for="stockQuantity" class="col-5 col-md-5 mt-1 col-form-label">Data Necessidade:</label>
                             <div class="col-6 col-md-5 mt-1">
-                                <input type="date" class="form-control" id="needDate" name="needDate">
+                                <input type="date" class="form-control" id="needDate" name="needDate" required>
                             </div>
                             
                             <div class="col-1 col-md-2 mt-1">
@@ -638,7 +639,7 @@
                             {{name}}
                             </option>
                             {{else}}
-                            <option value="0">Nenhum fornecedor registrado</option>
+                            <option value="0">Nenhum colaborador registrado</option>
                             {{/each}}
                         </select>
                     </div>

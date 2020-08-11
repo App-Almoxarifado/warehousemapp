@@ -21,8 +21,6 @@ const app = express()
 
 //Grupos
 const groupRoute = require('./routes/group-route')
-//Produtos
-const productRoute = require('./routes/product-route')
 //Usuarios
 const usuarioRoute = require("./routes/usuario-route")
 //Painel Admin
@@ -45,6 +43,22 @@ const unityRoute = require("./routes/unity-route")
 const statusRoute = require("./routes/status-route")
 //Tipos de Equipamentos
 const typesRoute = require("./routes/type-route")
+//Produtos Mostar Dadod(Leitura)
+const productReadRoute = require('./routes/productRead-route')
+//Produtos Carrinho de Compras
+const productCartRoute = require('./routes/productCart-route')
+//Produtos Criar e Deletar
+const productCreateAndDeleteRoute = require('./routes/productCreateAndDelete-route')
+//Produtos Criar Novo pelo Id
+const productCreateIdRoute = require('./routes/productCreateId-route')
+//Produtos Update
+const productUpdateRoute = require('./routes/productUpdate-route')
+//Produtos Pedidos
+const productRequestRoute = require('./routes/productRequest-route')
+//Produtos Movimentação Interna
+const productMovementRoute = require('./routes/productMovement-route')
+
+
 
 const passport = require("passport")
 require("./config/auth")(passport)
@@ -160,7 +174,6 @@ app.get('/qrcode', (req, res) => {
 
 //app.use('/group', group)
 app.use('/groups', groupRoute)
-app.use('/products', productRoute)
 app.use('/usuarios', usuarioRoute)
 app.use('/developers', developerRoute)
 app.use('/providers', providerRoute)
@@ -172,6 +185,15 @@ app.use('/breaks', intervalRoute)
 app.use('/units', unityRoute)
 app.use('/status', statusRoute)
 app.use('/types', typesRoute)
+app.use('/products', productCartRoute)
+app.use('/products', productReadRoute)
+app.use('/products', productCreateAndDeleteRoute)
+app.use('/products', productCreateIdRoute)
+app.use('/products', productUpdateRoute)
+app.use('/products', productRequestRoute)
+app.use('/products', productMovementRoute)
+app.use('/products', productReadRoute)
+
 
 
 //Server
