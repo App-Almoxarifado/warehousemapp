@@ -66,6 +66,7 @@ const db = require("./config/db")
 
 //Configurações
 app.use(compression())
+app.use("/favicon.ico",express.static('images/favicon.ico'))
 app.use(cors())
 app.use(cookieParser())
 
