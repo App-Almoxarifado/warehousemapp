@@ -1,138 +1,66 @@
-<div class="mt-2 container-fluid">
-  <h2>
-    Itens Cadastrados {{ola}}
+<div class="container mt-2">
+    <h3>Novo Produto:</h3>
+    <hr>
+    {{#each erros}}
+    <div class="alert alert-danger">{{texto}}</div>
+    {{else}}
 
-  </h2>
-  <hr />
-  <div class="d-flex">
-    <div class="mr-auto p-2">
-      <a href="/products/products/add">
-        <button class="btn btn-success">
-          Cadastro
-        </button>
-      </a>
-    </div>
+    {{/each}}
 
-    <div class="p-2">
-      <a href="/products/products">
-        <button type="button" class="btn btn-primary">
-          Lista
-          <i class="fas fa-th-list"></i>
-        </button>
-      </a>
 
-      <a href="/products/productstables">
-        <button type="button" class="btn btn-primary">
-          Tabela
-          <i class="fas fa-table"></i>
-        </button>
-      </a>
-    </div>
-  </div>
+    <form class="upload mt-2" method='post' enctype="multipart/form-data" action="/upload" style="display:none;">
+        <div class="row no-gutters position-relative">
+            <div class="col-12 col-md-2 mb-md-0 p-md-0 text-center">
+                <img src="/img/logo8.png" class="avatar img-fluid rounded" alt="" style="width: 10rem;">
+                <input type='submit' class='mt-1 btn btn-primary btn-sm' value='Salvar Imagem'>
+                <input type="file" accept="image/*" name="file" id="file"
+                    class="btn-file text-center center-block file-upload">
+            </div>
+        </div>
+    </form>
+{{#each products}} 
+    <form action="/products/products/addr" class="mt-2" method="POST">
+<div class="form-row">
+        <input type="hidden" class="form-control mt-2" name="image" id="image">
 
-  <div class="d-flex">
-    <div class="p-2">
-      <input type="text" class="form-control" id="search" name="search" placeholder="Pesquise aqui..."
-        onchange="this.value=this.value.toLowerCase()" />
-    </div>
+            <div class="form-group col-md-6">
+                <label for="description">Descrição:</label>
+                <input type="text" class="form-control" id="description" name="description"
+                    placeholder="Descrição do Produto" value="{{description}}">
+            </div>
 
-    <div class="p-2">
-      <button type="button" class="btn btn-primary" onclick="search()">
-        <i class="fa fa-search" aria-hidden="true"></i>
-      </button>
-    </div>
-  </div>
-<form action="/products/products/neworder" class="mt-2" method="POST">
-  <table id="example" class="table table-bordered text-center" style="width:100%">
-    <thead>
-      <tr>
-        <th scope="col">Imagem</th>
-        <th scope="col">Qr Code</th>
-        <th scope="col">Grupo</th>
-        <th scope="col">Subgrupo</th>
-        <th scope="col">Descrição</th>
-        <th scope="col">Localização</th>
-        <th scope="col">Status</th>
-        <th scope="col">Equipamento</th>
-        <th scope="col">Calibração / Cert.</th>
-        <th scope="col">Qtd. Estoque</th>
-        <th scope="col">Ações</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each products}}
-      <tr>
-        <th scope="row"><img src="{{image}}" style="max-width: 4rem;" class="rounded" alt="Responsive image"></th>
+            <div class="form-group col-md-6">
+                <label for="manufacturer">Fabricante:</label>
+                <input type="text" class="form-control" id="manufacturer" name="manufacturer"
+                    placeholder="Fabricante do Produto" value="{{manufacturer}}">
+            </div>
+            </div>
 
-        <td><img id="qrcode" name="qrcode" src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{qrcode}}"
-            style="width: 4rem;" class="rounded" /></td>
+<div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="model">Modelo:</label>
+                <input type="text" class="form-control" id="model" name="model" placeholder="Modelo do Produto" value="{{model}}">
+            </div>
 
-        <td>{{group.description}}</td>
-        <td>{{subgroup.description}}</td>
-        <td>{{fullDescription}}</td>
-        <td>{{client.description}}</td>
-        <td>{{physicalStatus.description}}</td>
-        <td>{{kindOfEquipment.description}}</td>
-        <td>{{calibrationStatus}}</td>
-        <td>{{inputAmount}}</td>
-        <td>
-        </form>
+            <div class="form-group col-md-6">
+                <label for="capacityReach">Capacidade / Alcance:</label>
+                <input type="text" class="form-control" id="capacityReach" name="capacityReach"
+                    placeholder="Capacidade / Alcance do Produto" value="{{capacityReach}}">
+            </div>
+</div>
+        <div class="form-row">
+        <div class="form-group col-md-12">
+  <button type="submit" class="btn btn-success">Salvar <i class="fas fa-share"></i></button>             
+            </div>
+        </div>
+        
+        <hr>
 
-          <a href="/products/products/add_id/{{_id}}" class="btn btn-success btn-sm" data-toggle="tooltip"
-            data-placement="bottom" title="Criar novo produto a partir dessas informações">
-            <i class="fa fa-paper-plane" aria-hidden="true"></i>
-          </a>
 
-          <a href="/products/products/edit/{{_id}}" class="btn btn-info btn-sm" data-toggle="tooltip"
-            data-placement="bottom" title="Ediar Produto">
-            <i class="fas fa-pen"></i>
-          </a>
+    </form>
 
-          <a href="/products/products/delete/{{_id}}" class="deletar btn btn-danger btn-sm" data-toggle="tooltip"
-            data-placement="bottom" title="Deletar Produto">
-            <i class="fas fa-trash-alt"></i>
-          </a>
-
-          <a href="/products/products/move/{{_id}}" class="mt-1 mb-1 btn btn-secondary btn-sm" data-toggle="tooltip"
-            data-placement="bottom" title="Visualizar detalhes">
-            <small>
-              Movimentação Interna
-            </small>
-          </a>
-
-          <a href="/products/products/take/{{_id}}" class="mt-0 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
-            data-placement="bottom" title="Visualizar detalhes">
-            <small>
-              Envio - Solicitação
-            </small>
-          </a>
-
-        </td>
-
-      </tr>
-      {{else}}
-      <h4 class="mt-2">Nenhum Produto Registrado!</h4>
-      {{/each}}
-    </tbody>
-  </table>
-  <div class="d-flex">
-    <div class="mr-auto p-2">
-      {{#if prev}}
-      <button class="btn btn-primary btn-sm mt-2" onclick="navigate(-1)">
-        <i class="fa fa-arrow-left" aria-hidden="true"></i>
-        Anterior
-      </button>
-      {{/if}}
-    </div>
-    <div class="p-2">
-      {{#if next}}
-      <button class="btn btn-primary btn-sm mt-2" onclick="navigate(1)">
-        Próximo
-        <i class="fa fa-arrow-right" aria-hidden="true"></i>
-      </button>
-      {{/if}}
-    </div>
-  </div>
-
+    {{else}}
+{{/each}}
 
 </div>
+

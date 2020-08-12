@@ -25,72 +25,67 @@ require("../models/Collaborator")
 const Collaborator = mongoose.model("collaborators")
 
 
-//PRODUTOS POR PEDIDOS
+//CRIANDO UM PRODUTO
 exports.getRequest = async (req, res) => {
     try {
-        const filtros = []
-        let {
-            search,
-            page
-        } = req.query
-        if (search) {
-            const pattern = new RegExp(`.*${search}.*`)
-            filtros.push({
-                qrcode: {
-                    $regex: pattern
-                }
-            })
-            filtros.push({
-                description: {
-                    $regex: pattern
-                }
-            })
-            filtros.push({
-                user: {
-                    $regex: pattern
-                }
-            })
-            filtros.push({
-                tags: {
-                    $regex: pattern
-                }
-            })
-        }
-
-        page = page || 1
-
-        const quant = await Product
-            .find(filtros.length > 0 ? {
-                $or: filtros
-            } : {}).estimatedDocumentCount()
-
         var products = await Product
-            .find(filtros.length > 0 ? {
-                $or: filtros
-            } : { requestUser: req.user.nome })
-            .sort({
-                fullDescription: "asc"
-            })
-            .limit(5)
-            .skip(page && Number(page) > 1 ? Number(page - 1) * 5 : 0)
-            .populate("group")
-            .populate("subgroup")
-            .populate("client")
-            .populate("physicalStatus")
-            .populate("kindOfEquipment")
-        //.populate("calibrationStatus")
-        res.render("products/productorders", {
-            products: products.map(products => products.toJSON()),
-            prev: Number(page) > 1,
-            next: Number(page) * 5 < quant,
-            page
+            .find({}).lean()
+        return res.render("products/productorders", {products:products
+        })
+    } catch (err) {
+        req.flash("error_msg", "Ops, Houve um erro interno!")
+        res.redirect("/products/products", {
+
         })
     }
-    catch (err) {
-        req.flash("error_msg", "Ops, Houve um erro interno!")
-        res.redirect("/products/products")
+}
+
+exports.postRequest = async (req, res) => {
+    var erros = []
+    if (!req.body.description || typeof req.body.description == undefined || req.body.description == null) {
+        erros.push({
+            texto: "Descricão Inválida"
+        })
+    }
+
+    if (req.body.description.length < 2) {
+        erros.push({
+            texto: "Descrição do produto muito pequena!"
+        })
+    }
+    if (erros.length > 0) {
+        res.render("products/addproducts", {
+            erros: erros
+        })
+    } else {
+        try {
+            const products = new Product({
+
+
+                description: req.body.description,
+
+                manufacturer: req.body.manufacturer,
+
+                model: req.body.model,
+
+                capacityReach: req.body.capacityReach,
+
+                serialNumber: req.body.serialNumber,
+
+
+            })
+            await products.save()
+            req.flash("success_msg", "Produto criado com sucesso!")
+            res.redirect("/products/products/request")
+
+        } catch (err) {
+            req.flash("error_msg", "Ops, Houve um erro ao salvar o Produto, tente novamente!" + err)
+            res.redirect("/products/products")
+
+        }
     }
 }
+
 
 
 
