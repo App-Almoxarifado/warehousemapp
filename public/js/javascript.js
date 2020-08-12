@@ -326,4 +326,20 @@ function navigate(offset) {
     document.getElementById('stockQuantity').value = input - exit
 }
 
+//MUDA O ATRIBUTO DO FORM CARRINHO DE COMPRAS
+$("#saveCart, #updateCart").click(function(){
+    //Recebe o id do botão clicado
+    var id = $(this).attr('id');
+    //Verifica qual foi o botão clicado através do id do mesmo e seta o action correspondente
+    if (id == 'saveCart'){
+        $('#form_cart').attr('action', '/products/addItem');
+    }
+    else {
+        $('#form_cart').attr('action', '/products/updateItem');
+    }
+  });
    
+//FECHA O ALERT APÓS SEGUNDOS
+  setTimeout(function() {
+    $('.alert').fadeOut('fast');
+}, 3000); // <-- time in millisecond

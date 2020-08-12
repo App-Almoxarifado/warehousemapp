@@ -5,8 +5,9 @@ const { eAdmin } = require("../helpers/eAdmin")
 const { eDevAdmin } = require("../helpers/eAdmin")
 
 //PRODUTOS - ROTA CARRINHO DE COMPRAS
-router.get("/request",controller.getRequest) 
-router.post("/addr", controller.postRequest)
+router.get("/request/:id?",controller.getRequest) 
+router.post("/addItem", controller.postRequest)
+router.post("/updateItem", controller.updateRequest)
 
 
 module.exports = router

@@ -25,12 +25,21 @@ require("../models/Collaborator")
 const Collaborator = mongoose.model("collaborators")
 
 
-//CRIANDO UM PRODUTO
+//VIZUALIZANDO PRODUTOS
 exports.getRequest = async (req, res) => {
     try {
+
         var products = await Product
             .find({}).lean()
-        return res.render("products/productorders", {products:products
+            var groups = await Group.find({
+                active: true
+            }).sort({
+                description: "asc"
+            }).lean()
+
+        return res.render("products/productorders", {
+            products: products,
+            groups: groups
         })
     } catch (err) {
         req.flash("error_msg", "Ops, Houve um erro interno!")
@@ -40,6 +49,7 @@ exports.getRequest = async (req, res) => {
     }
 }
 
+//COLOCANDO PRODUTO NO CARRINHO COM UM CLIQUE
 exports.postRequest = async (req, res) => {
     var erros = []
     if (!req.body.description || typeof req.body.description == undefined || req.body.description == null) {
@@ -75,7 +85,7 @@ exports.postRequest = async (req, res) => {
 
             })
             await products.save()
-            req.flash("success_msg", "Produto criado com sucesso!")
+            req.flash("success_msg", "Produto solicitado, enviado para pedido!")
             res.redirect("/products/request")
 
         } catch (err) {
@@ -87,6 +97,52 @@ exports.postRequest = async (req, res) => {
 }
 
 
+//FINALIZANDO SOLICITAÇÃO POR ID
+exports.updateRequest = async (req, res) => {
+    var product = await Product.findOne({ _id: req.body.id})
+    var erros = []
+    if (!req.body.description || typeof req.body.description == undefined || req.body.description == null) {
+        erros.push({
+            texto: "Descricão Inválida"
+        })
+    }
+
+    if (req.body.description.length < 2) {
+        erros.push({
+            texto: "Descrição do produto muito pequena!"
+        })
+    }
+    if (erros.length > 0) {
+        res.render("products/addproducts", {
+            erros: erros
+        })
+    } else {
+        try {
+            
+            product.description = req.body.description
+
+            product.manufacturer = req.body.manufacturer
+
+            product.model = req.body.model
+
+            product.capacityReach = req.body.capacityReach
+
+            product.serialNumber = req.body.serialNumber
+
+
+            
+            await product.save()
+            req.flash("success_msg", "Produto solicitado!")
+            res.redirect("/products/request")
+            
+
+        } catch (err) {
+            req.flash("error_msg", "Ops, Houve um erro ao salvar o Produto, tente novamente!" + err)
+            res.redirect("/products")
+
+        }
+    }
+}
 
 
 

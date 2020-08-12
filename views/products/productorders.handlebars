@@ -19,64 +19,95 @@
     </form>
 
 
-{{#each products}} 
-    <form action="/products/addr" class="mt-2" method="POST">
-<div class="form-row">
-        <input type="hidden" class="form-control mt-2" name="image" id="image">
 
-            <div class="form-group col-md-6">
-                <label for="description">Descrição:</label>
-                <input type="text" class="form-control" id="description" name="description"
-                    placeholder="Descrição do Produto" value="{{description}}">
-            </div>
 
-            <div class="form-group col-md-6">
-                <label for="manufacturer">Fabricante:</label>
-                <input type="text" class="form-control" id="manufacturer" name="manufacturer"
-                    placeholder="Fabricante do Produto" value="{{manufacturer}}">
-            </div>
-            </div>
+    <table class="table table-sm">
 
-<div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="model">Modelo:</label>
-                <input type="text" class="form-control" id="model" name="model" placeholder="Modelo do Produto" value="{{model}}">
-            </div>
+        <thead>
+            <tr>
+                
+                <th scope="col">Descrição</th>
+                <th scope="col">Grupos</th>
+                <th scope="col">GruposPopulate</th>
+                <th scope="col">Fabricante</th>
+                <th scope="col">Modelo</th>
+                <th scope="col">Cap. / Alcance</th>
+                <th scope="col">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+<select class="custom-select" id="group" name="group">
+                    <option selected disabled value="">Selecione...</option>
+                    {{#each groups}}
+                    <option {{#if_eq ../idGroup _id}}selected{{/if_eq}} value="{{_id}}">{{description}}</option>
+                    {{else}}
+                    <option value="0">Nenhum grupo registrado</option>
+                    {{/each}}
+                </select>
+            {{#each products}}
+            <form id="form_cart" class="mt-2" method="POST">
+                <tr>
+                    <input type="hidden" class="form-control" id="id" name="id" placeholder="Id" value="{{_id}}">
+                    <th><input type="text" class="hiddenTable form-control" id="description" name="description"
+                            placeholder="Descrição do Produto" value="{{description}}"></th>
+                    
 
-            <div class="form-group col-md-6">
-                <label for="capacityReach">Capacidade / Alcance:</label>
-                <input type="text" class="form-control" id="capacityReach" name="capacityReach"
-                    placeholder="Capacidade / Alcance do Produto" value="{{capacityReach}}">
-            </div>
+              
+                    <td><input type="text" class="hiddenTable form-control" id="group" name="group"
+                    placeholder="Grupo" value="{{group}}"></td>  
+
+                    <td><input type="text" class="hiddenTable form-control" id="manufacturer" name="manufacturer"
+                            placeholder="Fabricante" value="{{manufacturer}}"></td>
+
+                    
+       
+
+                    <td><input type="text" class="hiddenTable form-control" id="model" name="model" placeholder="Modelo"
+                            value="{{model}}"></td>
+
+                    <td><input type="text" class=" form-control" id="capacityReach" name="capacityReach"
+                            placeholder="Capacidade / Alcance" value="{{capacityReach}}"></td>
+                    <td>
+                        <button id="saveCart" type="submit" class="mt-1 mb-1 btn btn-primary btn-sm"><i
+                                class="fas fa-cart-arrow-down"></i></button>
+
+                        <button id="updateCart" type="submit" class="mt-1 mb-1 btn btn-success btn-sm">
+                            <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+
+                        <a href="/products/take/{{_id}}" class="mt-1 mb-1 btn btn-dark btn-sm" data-toggle="tooltip"
+                            data-placement="bottom" title="Visualizar detalhes">
+                            <i class="fas fa-align-left"></i>
+                        </a>
+
+                        <a href="/products/move/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
+                            data-placement="bottom" title="Movimentação interna">
+                            <i class="fas fa-file-signature"></i>
+                        </a>
+
+                        <a href="/products/add_id/{{_id}}" class="mt-1 mb-1 btn btn-success btn-sm"
+                            data-toggle="tooltip" data-placement="bottom"
+                            title="Criar novo produto a partir dessas informações">
+                            <i class="far fa-clone"></i>
+                        </a>
+
+                        <a href="/products/edit/{{_id}}" class="mt-1 mb-1 btn btn-secondary btn-sm"
+                            data-toggle="tooltip" data-placement="bottom" title="Ediar Produto">
+                            <i class="fas fa-pen"></i>
+                        </a>
+
+                        <a href="/products/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm"
+                            data-toggle="tooltip" data-placement="bottom" title="Deletar Produto">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </td>
+
+                </tr>
+            </form>
+            {{else}}
+            {{/each}}
+        </tbody>
+
+    </table>
 </div>
-        <div class="form-row">
-        <div class="form-group col-md-12">
-  <button type="submit" class="btn btn-success">Salvar <i class="fas fa-share"></i></button>   
-            <a href="/products/add_id/{{_id}}" class="btn btn-success btn-sm" data-toggle="tooltip"
-            data-placement="bottom" title="Criar novo produto a partir dessas informações">
-            <i class="fa fa-paper-plane" aria-hidden="true"></i>
-          </a>
-
-          <a href="/products/edit/{{_id}}" class="btn btn-secondary btn-sm" data-toggle="tooltip"
-            data-placement="bottom" title="Ediar Produto">
-            <i class="fas fa-pen"></i>
-          </a>
-
-          <a href="/products/delete/{{_id}}" class="deletar btn btn-danger btn-sm" data-toggle="tooltip"
-            data-placement="bottom" title="Deletar Produto">
-            <i class="fas fa-trash-alt"></i>
-          </a>          
-            </div>
-        </div>
-        
-        <hr>
-
-
-    </form>
-
-    {{else}}
-{{/each}}
- 
-</div>
-
 
