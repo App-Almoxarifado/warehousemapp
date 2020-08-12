@@ -110,7 +110,7 @@ exports.getCreateMove = async (req, res) => {
 
     } catch (_err) {
         req.flash("error_msg", "Ops, Houve um erro interno!")
-        res.redirect("/products/products")
+        res.redirect("/products")
     }
 }
 
@@ -359,11 +359,11 @@ exports.postCreateMove = async (req, res, next) => {
 
             await products.save()
             req.flash("success_msg", "Produto criado com sucesso!")
-            res.redirect("/products/productorders")
+            res.redirect("/products/request")
 
         } catch (err) {
             req.flash("error_msg", "Ops, Houve um erro ao salvar o Produto, tente novamente!" + err)
-            res.render("/products/products")
+            res.render("/products")
         }
     }
 }

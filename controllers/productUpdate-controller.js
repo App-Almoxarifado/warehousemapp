@@ -102,7 +102,7 @@ exports.getUpdate = async (req, res) => {
         })
     } catch (_err) {
         req.flash("error_msg", "Ops, Houve um erro interno!")
-        res.redirect("/products/products")
+        res.redirect("/products")
     }
 }
 
@@ -287,11 +287,11 @@ exports.postUpdate = async (req, res) => {
 
             await product.save()
             req.flash("success_msg", "Produto editado com Sucesso!")
-            res.redirect("/products/products")
+            res.redirect("/products")
 
         } catch (err) {
             req.flash("error_msg", "Houve um erro interno ao editar o Produto, tente Novamente!" + err)
-            res.redirect("/products/products")
+            res.redirect("/products")
         }
     }
 }

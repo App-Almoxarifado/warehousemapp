@@ -4,7 +4,7 @@
 
   <div class="d-flex">
     <div class="mr-auto p-2">
-      <a href="/products/products/add">
+      <a href="/products/add">
         <button class="btn btn-success">
           Cadastro
         </button>
@@ -12,7 +12,7 @@
     </div>
 
     <div class="p-2">
-      <a href="/products/products">
+      <a href="/products">
         <button type="button" class="btn btn-primary">
           Lista
           <i class="fas fa-th-list"></i>
@@ -20,7 +20,7 @@
       </a>
       </div>
       <div class="p-2">
-      <a href="/products/productstables">
+      <a href="/products/table">
         <button type="button" class="btn btn-primary">
           Tabela
           <i class="fas fa-table"></i>
@@ -29,7 +29,7 @@
      </div>
       <div class="d-none d-md-block">
         <div class="p-2">
-          <a href="/products/products/request">
+          <a href="/products/request">
             <button type="button" class="btn btn-secondary">
               <small><strong>Meus Pedidos <i class="fas fa-dolly"></i></strong></small>
             </button>
@@ -41,14 +41,14 @@
   <div class="d-block d-md-none">
     <div class="d-flex">
       <div class="mr-auto p-2">
-        <a href="/products/productstables">
+        <a href="/products/table">
           <button type="button" class="btn btn-primary">
             <small><strong>Total Cadastrados {{total}}</strong></small>
           </button>
         </a>
       </div>
       <div class=" p-2">
-        <a href="/products/products/request">
+        <a href="/products/request">
           <button type="button" class="btn btn-secondary">
             <small><strong>Meus Pedidos <i class="fas fa-dolly"></i></strong></small>
           </button>
@@ -144,20 +144,21 @@
         </div>
 
         <div class="col-4 col-md-2 text-right">
-          <a href="/products/products/add_id/{{_id}}" class="btn btn-success btn-sm" data-toggle="tooltip"
+          <a href="/products/add_id/{{_id}}" class="btn btn-success btn-sm" data-toggle="tooltip"
             data-placement="bottom" title="Criar novo produto a partir dessas informações">
             <i class="fa fa-paper-plane" aria-hidden="true"></i>
           </a>
 
-          <a href="/products/products/edit/{{_id}}" class="btn btn-secondary btn-sm" data-toggle="tooltip"
+          <a href="/products/edit/{{_id}}" class="btn btn-secondary btn-sm" data-toggle="tooltip"
             data-placement="bottom" title="Ediar Produto">
             <i class="fas fa-pen"></i>
           </a>
 
-          <a href="/products/products/delete/{{_id}}" class="deletar btn btn-danger btn-sm" data-toggle="tooltip"
+          <a href="/products/delete/{{_id}}" class="deletar btn btn-danger btn-sm" data-toggle="tooltip"
             data-placement="bottom" title="Deletar Produto">
             <i class="fas fa-trash-alt"></i>
           </a>
+          
         </div>
       </div>
       <hr />
@@ -248,14 +249,14 @@
             </small>
           </p>
 
-          <a href="/products/products/move/{{_id}}" class="mt-0 mb-1 btn btn-secondary btn-sm" data-toggle="tooltip"
+          <a href="/products/move/{{_id}}" class="mt-0 mb-1 btn btn-secondary btn-sm" data-toggle="tooltip"
             data-placement="bottom" title="Visualizar detalhes">
             <small>
               Movimentação Interna
             </small>
           </a>
 
-          <a href="/products/products/take/{{_id}}" class="mt-0 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
+          <a href="/products/take/{{_id}}" class="mt-0 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
             data-placement="bottom" title="Visualizar detalhes">
             <small>
               Envio - Solicitação

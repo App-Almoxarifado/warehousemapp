@@ -2,12 +2,11 @@ const express = require("express")
 const router = express.Router()
 const controller = require('../controllers/productCart-controller')
 const { eAdmin } = require("../helpers/eAdmin")
+const { eDevAdmin } = require("../helpers/eAdmin")
 
-//Produtos
-
-
-router.get("/products/request",controller.getRequest) 
-router.post("/products/addr", controller.postRequest)
+//PRODUTOS - ROTA CARRINHO DE COMPRAS
+router.get("/request",controller.getRequest) 
+router.post("/addr", controller.postRequest)
 
 
 module.exports = router

@@ -1,12 +1,13 @@
 const express = require("express")
 const router = express.Router()
 const controller = require('../controllers/productCreateId-controller')
+const { eAdmin } = require("../helpers/eAdmin")
+const { eDevAdmin } = require("../helpers/eAdmin")
 
 
-//Produtos
-
-router.get("/products/add_id/:id",controller.getCreateId) 
-router.post("/products/add_id", controller.postCreateId)
+//PRODUTOS - CRIAR PRODUTO PELO ID
+router.get("/add_id/:id",controller.getCreateId) 
+router.post("/add_id", controller.postCreateId)
 
 
 

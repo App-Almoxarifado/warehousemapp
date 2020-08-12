@@ -4,7 +4,6 @@
     {{#each erros}}
     <div class="alert alert-danger">{{texto}}</div>
     {{else}}
-
     {{/each}}
 
 
@@ -18,8 +17,10 @@
             </div>
         </div>
     </form>
+
+
 {{#each products}} 
-    <form action="/products/products/addr" class="mt-2" method="POST">
+    <form action="/products/addr" class="mt-2" method="POST">
 <div class="form-row">
         <input type="hidden" class="form-control mt-2" name="image" id="image">
 
@@ -50,7 +51,21 @@
 </div>
         <div class="form-row">
         <div class="form-group col-md-12">
-  <button type="submit" class="btn btn-success">Salvar <i class="fas fa-share"></i></button>             
+  <button type="submit" class="btn btn-success">Salvar <i class="fas fa-share"></i></button>   
+            <a href="/products/add_id/{{_id}}" class="btn btn-success btn-sm" data-toggle="tooltip"
+            data-placement="bottom" title="Criar novo produto a partir dessas informações">
+            <i class="fa fa-paper-plane" aria-hidden="true"></i>
+          </a>
+
+          <a href="/products/edit/{{_id}}" class="btn btn-secondary btn-sm" data-toggle="tooltip"
+            data-placement="bottom" title="Ediar Produto">
+            <i class="fas fa-pen"></i>
+          </a>
+
+          <a href="/products/delete/{{_id}}" class="deletar btn btn-danger btn-sm" data-toggle="tooltip"
+            data-placement="bottom" title="Deletar Produto">
+            <i class="fas fa-trash-alt"></i>
+          </a>          
             </div>
         </div>
         
@@ -61,6 +76,7 @@
 
     {{else}}
 {{/each}}
-
+ 
 </div>
+
 

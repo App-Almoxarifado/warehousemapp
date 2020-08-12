@@ -107,7 +107,7 @@ exports.getCreate = async (req, res) => {
         })
     } catch (err) {
         req.flash("error_msg", "Ops, Houve um erro interno!")
-        res.redirect("/products/products", {
+        res.redirect("/products", {
             user: req.user
         })
     }
@@ -338,11 +338,11 @@ exports.postCreate = async (req, res) => {
             })
             await products.save()
             req.flash("success_msg", "Produto criado com sucesso!")
-            res.redirect("/products/products")
+            res.redirect("/products")
 
         } catch (err) {
             req.flash("error_msg", "Ops, Houve um erro ao salvar o Produto, tente novamente!" + err)
-            res.redirect("/products/products")
+            res.redirect("/products")
 
         }
     }
@@ -355,9 +355,10 @@ exports.getDelete = async (req, res) => {
     })
     try {
         req.flash("success_msg", "Produto deletado com Sucesso!")
-        res.redirect("/products/products")
+        res.redirect("/products")
     } catch (err) {
         req.flash("error_msg", "Houve um erro interno!")
-        res.redirect("/products/products")
+        res.redirect("/products")
     }
 }
+

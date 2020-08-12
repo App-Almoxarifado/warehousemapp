@@ -1,11 +1,12 @@
 const express = require("express")
 const router = express.Router()
 const controller = require('../controllers/productUpdate-controller')
+const { eAdmin } = require("../helpers/eAdmin")
+const { eDevAdmin } = require("../helpers/eAdmin")
 
-
-//Produtos
-router.get('/products/edit/:id', controller.getUpdate)
-router.post("/products/edit", controller.postUpdate) 
+//PRODUTOS - ATUALIZANDO PRODUTOS
+router.get('/edit/:id', controller.getUpdate)
+router.post("/edit", controller.postUpdate) 
 
 
 

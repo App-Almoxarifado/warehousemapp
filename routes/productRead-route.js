@@ -4,10 +4,9 @@ const controller = require('../controllers/productRead-controller')
 const { eAdmin } = require("../helpers/eAdmin")
 const { eDevAdmin } = require("../helpers/eAdmin")
 
-
-//Produtos
-router.get("/products", controller.getList)
-router.get("/productstables", controller.getListTable)
+//PRODUTOS - VIZUALIZAÇÃO DOS PRODUTOS
+router.get("/", controller.getList)
+router.get("/table", controller.getListTable)
 
 
 
