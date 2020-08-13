@@ -132,19 +132,21 @@
                             name="kindOfEquipment" value="{{kindOfEquipment._id}}">
                         <td class="tb08">{{kindOfEquipment.description}}</td>
 
-                        <td class="tb09"><input type="text" class="hiddenTable form-control" id="inputAmount"
-                                name="inputAmount" value="{{inputAmount}}" required></td>
+                        <input type="hidden" class="hiddenTable form-control" id="inputAmount"
+                                name="inputAmount" value="{{inputAmount}}" required>
+                        <td class="tb08">{{inputAmount}}</td>
 
-                        <td class="tb09"><input type="text" class="hiddenTable localD form-control" id="requestLocation"
-                                name="requestLocation" value="{{stockQuantity}}" required></td>
+                        <input type="hidden" class="hiddenTable localD form-control" id="stockQuantity"
+                                name="stockQuantity" value="{{stockQuantity}}" required>
+                        <td class="tb08">{{stockQuantity}}</td>
 
                         <td>
-                            <button id="saveCart" type="submit" class="mt-1 mb-1 btn btn-primary btn-sm"><i
-                                    class="fas fa-cart-arrow-down"></i></button>
-
-                            <button id="updateCart" type="submit" class="mt-1 mb-1 btn btn-success btn-sm">
-                                <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-
+                            <button id="updateCart" type="submit" class="mt-1 mb-1 btn btn-primary btn-sm">
+                                <i class="fas fa-cart-arrow-down"></i></button>
+     
+                            <!--<button id="saveCart" type="submit" class="mt-1 mb-1 btn btn-success btn-sm">
+                                <i class="fa fa-paper-plane" aria-hidden="true"></i></button>-->
+                                 
                             <a href="/products/take/{{_id}}" class="mt-1 mb-1 btn btn-dark btn-sm" data-toggle="tooltip"
                                 data-placement="bottom" title="Visualizar detalhes">
                                 <i class="fas fa-align-left"></i>

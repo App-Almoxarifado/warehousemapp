@@ -42,7 +42,7 @@ exports.getRequest = async (req, res) => {
                 }
             })
             filtros.push({
-                description: {
+                fullDescription: {
                     $regex: pattern
                 }
             })
@@ -179,15 +179,13 @@ exports.postRequest = async (req, res) => {
 
                 inputAmount: req.body.inputAmount,
 
-                outputQuantity: 1,
-
-                active:"cart"
+                active:"stock"
 
 
             })
             await products.save()
             req.flash("success_msg", "Produto solicitado, enviado para pedido!")
-            res.redirect("/products/cart")
+            res.redirect("/products/request")
 
         } catch (err) {
             req.flash("error_msg", "Ops, Houve um erro ao salvar o Produto, tente novamente!" + err)
@@ -241,13 +239,13 @@ exports.updateRequest = async (req, res) => {
 
             product.requestNumber = req.body.requestNumber
 
-            product.outputQuantity = req.body.outputQuantity
+            product.outputQuantity = 1
 
-            product.active = "stock"
+            product.active = "cart"
             
             await product.save()
             req.flash("success_msg", "Produto solicitado!")
-            res.redirect("/products/request")
+            res.redirect("/products/cart")
             
 
         } catch (err) {
