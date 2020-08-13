@@ -36,8 +36,9 @@ exports.getRequest = async (req, res) => {
             }).sort({
                 description: "asc"
             }).lean()
-
+            console.log( req.user)
         return res.render("products/productorders", {
+            user:req.user,
             products: products,
             groups: groups
         })
@@ -46,7 +47,7 @@ exports.getRequest = async (req, res) => {
         res.redirect("/products", {
 
         })
-    }
+    } console.log(user)
 }
 
 //COLOCANDO PRODUTO NO CARRINHO COM UM CLIQUE
@@ -73,6 +74,8 @@ exports.postRequest = async (req, res) => {
 
 
                 description: req.body.description,
+
+                group : req.body.group,
 
                 manufacturer: req.body.manufacturer,
 

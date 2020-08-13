@@ -7,21 +7,21 @@
     {{/each}}
 
 
-    <form class="upload mt-2" method='post' enctype="multipart/form-data" action="/upload" style="display:none;">
-        <div class="row no-gutters position-relative">
-            <div class="col-12 col-md-2 mb-md-0 p-md-0 text-center">
-                <img src="/img/logo8.png" class="avatar img-fluid rounded" alt="" style="width: 10rem;">
-                <input type='submit' class='mt-1 btn btn-primary btn-sm' value='Salvar Imagem'>
-                <input type="file" accept="image/*" name="file" id="file"
-                    class="btn-file text-center center-block file-upload">
-            </div>
-        </div>
-    </form>
+<div class="form-row">
+    <div class="form-group col-md-6">
+<select class="destinationLocation custom-select" id="destinationLocation" name="destinationLocation" onchange="preencheCampo(this);">
+                    <option selected disabled value="">Selecione...</option>
+                    {{#each groups}}
+                    <option  value="{{_id}}">{{description}}</option>
+                    {{else}}
+                    <option value="0">Nenhum grupo registrado</option>
+                    {{/each}}
+                </select>
+                </div>
+</div>
 
 
-
-
-    <table class="table table-sm">
+    <table class="mt-2 table table-sm">
 
         <thead>
             <tr>
@@ -36,32 +36,19 @@
             </tr>
         </thead>
         <tbody>
-            
-<select class="custom-select" id="group" name="group">
-                    <option selected disabled value="">Selecione...</option>
-                    {{#each groups}}
-                    <option {{#if_eq ../idGroup _id}}selected{{/if_eq}} value="{{_id}}">{{description}}</option>
-                    {{else}}
-                    <option value="0">Nenhum grupo registrado</option>
-                    {{/each}}
-                </select>
             {{#each products}}
-            <form id="form_cart" class="mt-2" method="POST">
+            <form  id="form_cart" method="POST">
                 <tr>
                     <input type="hidden" class="form-control" id="id" name="id" placeholder="Id" value="{{_id}}">
                     <th><input type="text" class="hiddenTable form-control" id="description" name="description"
                             placeholder="Descrição do Produto" value="{{description}}"></th>
                     
-
               
-                    <td><input type="text" class="hiddenTable form-control" id="group" name="group"
-                    placeholder="Grupo" value="{{group}}"></td>  
+                    <td><input type="text" class="hiddenTable localE form-control" id="group" name="group"
+                    placeholder="Grupo"></td>  
 
                     <td><input type="text" class="hiddenTable form-control" id="manufacturer" name="manufacturer"
                             placeholder="Fabricante" value="{{manufacturer}}"></td>
-
-                    
-       
 
                     <td><input type="text" class="hiddenTable form-control" id="model" name="model" placeholder="Modelo"
                             value="{{model}}"></td>

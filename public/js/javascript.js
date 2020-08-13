@@ -343,3 +343,14 @@ $("#saveCart, #updateCart").click(function(){
   setTimeout(function() {
     $('.alert').fadeOut('fast');
 }, 3000); // <-- time in millisecond
+
+
+/*$('#destinationLocation').on('change', function() {
+    $('.localE').val($(this).find('option:selected').text());
+  });*/
+
+  function preencheCampo(el){
+    let value = $(el).val();
+
+    $('input[name="ATEND_USU"]').val(value);
+}
