@@ -130,7 +130,11 @@ table {
     //color: white;
     //width:200px
     //font-weight:bold;
-}
+    background-color: transparent;
+    }
+    input[readonly].hiddenTable{
+        background-color:transparent;
+    }
 
 
 
@@ -392,4 +396,9 @@ img {
     
 }
 
-
+.tb01  {
+    display: none;
+}
+.tb02 {
+    display: none;
+}

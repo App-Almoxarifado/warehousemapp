@@ -321,7 +321,7 @@ const Product = new Schema({
    },
    //ACTIVE
    active: {
-      type: Boolean,
+      type: String,
       default: "true"
    },
    //VALOR TOTAL

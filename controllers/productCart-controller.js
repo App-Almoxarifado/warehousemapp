@@ -25,22 +25,111 @@ require("../models/Collaborator")
 const Collaborator = mongoose.model("collaborators")
 
 
-//VIZUALIZANDO PRODUTOS
+//VIZUALIZANDO PRODUTOS PARA FAZER PEDIDO
 exports.getRequest = async (req, res) => {
     try {
+        var numberRequest=Date.now()
+        const filtros = [];
+        let {
+            search,
+            page
+        } = req.query;
+        if (search) {
+            const pattern = new RegExp(`.*${search}.*`)
+            filtros.push({
+                qrcode: {
+                    $regex: pattern
+                }
+            })
+            filtros.push({
+                description: {
+                    $regex: pattern
+                }
+            })
+            filtros.push({
+                user: {
+                    $regex: pattern
+                }
+            })
+            filtros.push({
+                tags: {
+                    $regex: pattern
+                }
+            })
+        }
+
+        page = page || 1;
+
+        const quant = await Product
+            .find(filtros.length > 0 ? {
+                $or: filtros
+            } : {}).estimatedDocumentCount()
+
+        const total = await Product
+            .find({}).count()
 
         var products = await Product
-            .find({}).lean()
-            var groups = await Group.find({
+            .find(filtros.length > 0 ? {
+                $or: filtros
+            } : {})
+            .sort({
+                fullDescription: "asc"
+            })
+            .limit(5)
+            .skip(page && Number(page) > 1 ? Number(page - 1) * 5 : 0)
+            .populate("group")
+            .populate("subgroup")
+            .populate("client")
+            .populate("physicalStatus")
+            .populate("kindOfEquipment")
+
+            var customers = await Client.find({
                 active: true
             }).sort({
                 description: "asc"
             }).lean()
-            console.log( req.user)
         return res.render("products/productorders", {
             user:req.user,
+            products: products.map(products => products.toJSON()),
+            customers: customers,
+            numberRequest,
+            prev: Number(page) > 1,
+            next: Number(page) * 5 < quant,
+            page
+        })
+    } catch (err) {
+        req.flash("error_msg", "Ops, Houve um erro interno!")
+        res.redirect("/products", {
+
+        })
+    } console.log(user)
+}
+
+//VIZUALIZANDO PRODUTOS CARRINHO
+exports.getCart = async (req, res) => {
+    try {
+        var numberRequest=Date.now()
+        var products = await Product
+            .find({active:"cart"}).lean()
+            .populate("group")
+            .populate("subgroup")
+            .populate("client")
+            .populate("physicalStatus")
+            .populate("kindOfEquipment")
+
+            var customers = await Client.find({
+                active: true
+            }).sort({
+                description: "asc"
+            }).lean()
+
+
+            console.log( req.user)
+        return res.render("products/cartproducts", {
+            user:req.user,
             products: products,
-            groups: groups
+            customers: customers,
+            numberRequest
         })
     } catch (err) {
         req.flash("error_msg", "Ops, Houve um erro interno!")
@@ -53,13 +142,13 @@ exports.getRequest = async (req, res) => {
 //COLOCANDO PRODUTO NO CARRINHO COM UM CLIQUE
 exports.postRequest = async (req, res) => {
     var erros = []
-    if (!req.body.description || typeof req.body.description == undefined || req.body.description == null) {
+    if (!req.body.fullDescription || typeof req.body.fullDescription == undefined || req.body.fullDescription == null) {
         erros.push({
             texto: "Descricão Inválida"
         })
     }
 
-    if (req.body.description.length < 2) {
+    if (req.body.fullDescription.length < 2) {
         erros.push({
             texto: "Descrição do produto muito pequena!"
         })
@@ -72,24 +161,33 @@ exports.postRequest = async (req, res) => {
         try {
             const products = new Product({
 
+                qrcode : req.body.qrcode,
 
-                description: req.body.description,
+                image : req.body.image,
+
+                fullDescription : req.body.fullDescription,
 
                 group : req.body.group,
 
-                manufacturer: req.body.manufacturer,
+                subgroup: req.body.subgroup,
 
-                model: req.body.model,
+                client: req.body.client,
 
-                capacityReach: req.body.capacityReach,
+                physicalStatus: req.body.physicalStatus,
 
-                serialNumber: req.body.serialNumber,
+                kindOfEquipment: req.body.kindOfEquipment,
+
+                inputAmount: req.body.inputAmount,
+
+                outputQuantity: 1,
+
+                active:"cart"
 
 
             })
             await products.save()
             req.flash("success_msg", "Produto solicitado, enviado para pedido!")
-            res.redirect("/products/request")
+            res.redirect("/products/cart")
 
         } catch (err) {
             req.flash("error_msg", "Ops, Houve um erro ao salvar o Produto, tente novamente!" + err)
@@ -104,13 +202,13 @@ exports.postRequest = async (req, res) => {
 exports.updateRequest = async (req, res) => {
     var product = await Product.findOne({ _id: req.body.id})
     var erros = []
-    if (!req.body.description || typeof req.body.description == undefined || req.body.description == null) {
+    if (!req.body.fullDescription || typeof req.body.fullDescription == undefined || req.body.fullDescription == null) {
         erros.push({
             texto: "Descricão Inválida"
         })
     }
 
-    if (req.body.description.length < 2) {
+    if (req.body.fullDescription.length < 2) {
         erros.push({
             texto: "Descrição do produto muito pequena!"
         })
@@ -121,18 +219,31 @@ exports.updateRequest = async (req, res) => {
         })
     } else {
         try {
-            
-            product.description = req.body.description
-
-            product.manufacturer = req.body.manufacturer
-
-            product.model = req.body.model
-
-            product.capacityReach = req.body.capacityReach
-
-            product.serialNumber = req.body.serialNumber
 
 
+            product.qrcode = req.body.qrcode
+
+            product.image = req.body.image
+
+            product.fullDescription = req.body.fullDescription
+
+            product.group = req.body.group
+
+            product.subgroup = req.body.subgroup
+
+            product.client = req.body.client
+
+            product.physicalStatus = req.body.physicalStatus
+
+            product.kindOfEquipment = req.body.kindOfEquipment
+
+            product.inputAmount = req.body.inputAmount
+
+            product.requestNumber = req.body.requestNumber
+
+            product.outputQuantity = req.body.outputQuantity
+
+            product.active = "stock"
             
             await product.save()
             req.flash("success_msg", "Produto solicitado!")

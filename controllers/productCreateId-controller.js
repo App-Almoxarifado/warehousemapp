@@ -330,7 +330,7 @@ exports.postCreateId = async (req, res) => {
             })
             await products.save()
             req.flash("success_msg", "Produto criado com sucesso!")
-            res.redirect("/products")
+            res.redirect("/products/request")
 
         } catch (err) {
             req.flash("error_msg", "Ops, Houve um erro ao salvar o Produto, tente novamente!" + err)

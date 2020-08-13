@@ -287,7 +287,7 @@ exports.postUpdate = async (req, res) => {
 
             await product.save()
             req.flash("success_msg", "Produto editado com Sucesso!")
-            res.redirect("/products")
+            res.redirect("/products/request")
 
         } catch (err) {
             req.flash("error_msg", "Houve um erro interno ao editar o Produto, tente Novamente!" + err)

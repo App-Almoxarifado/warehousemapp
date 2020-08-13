@@ -344,13 +344,21 @@ $("#saveCart, #updateCart").click(function(){
     $('.alert').fadeOut('fast');
 }, 3000); // <-- time in millisecond
 
-
+//PEGAR O TEXT DO OPTION DO SELECT DE ACORDO COM O OPTION
 /*$('#destinationLocation').on('change', function() {
     $('.localE').val($(this).find('option:selected').text());
   });*/
 
-  function preencheCampo(el){
-    let value = $(el).val();
+//PREENCHE O DESTINO DO PEDIDO
+//PEGA SOMENTE O VALUE DO OPTION
+$('.destinoMaterial').on('change', function() {
+    $('.localD').val($(this).val());
+});
 
-    $('input[name="ATEND_USU"]').val(value);
-}
+//PREENCHE A DATA DO PEDIDO
+$('.dateMaterial').on('change', function() {
+    $('.dateD').val($(this).val());
+});
+
+
+$('.hiddenTable').prop('readonly', true);
