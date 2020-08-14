@@ -139,6 +139,40 @@ exports.getCart = async (req, res) => {
     } console.log(user)
 }
 
+//VIZUALIZANDO PRODUTOS CARRINHO
+exports.getCart_request = async (req, res) => {
+    try {
+        var numberRequest=Date.now()
+        var products = await Product
+            .find({active:"cart"}).lean()
+            .populate("group")
+            .populate("subgroup")
+            .populate("client")
+            .populate("physicalStatus")
+            .populate("kindOfEquipment")
+
+            var customers = await Client.find({
+                active: true
+            }).sort({
+                description: "asc"
+            }).lean()
+
+
+            console.log( req.user)
+        return res.render("products/productscart", {
+            user:req.user,
+            products: products,
+            customers: customers,
+            numberRequest
+        })
+    } catch (err) {
+        req.flash("error_msg", "Ops, Houve um erro interno!")
+        res.redirect("/products", {
+
+        })
+    } console.log(user)
+}
+
 //COLOCANDO PRODUTO NO CARRINHO COM UM CLIQUE
 exports.postRequest = async (req, res) => {
     var erros = []
@@ -188,7 +222,7 @@ exports.postRequest = async (req, res) => {
 
             })
             await products.save()
-            req.flash("success_msg", "Produto solicitado, enviado para pedido!")
+            req.flash("success_msg", "Produto solicitado!")
             res.redirect("/products/request")
 
         } catch (err) {
@@ -248,7 +282,7 @@ exports.updateRequest = async (req, res) => {
             product.active = "cart"
             
             await product.save()
-            req.flash("success_msg", "Produto solicitado!")
+            req.flash("success_msg", "Produto solicitado, enviado para pedido!")
             res.redirect("/products/cart")
             
 

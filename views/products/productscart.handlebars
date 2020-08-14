@@ -1,0 +1,185 @@
+  
+    {{#each erros}}
+    <div class="alert alert-danger">{{texto}}</div>
+    {{else}}
+    {{/each}}
+<div class="container-fluid mt-2">
+        <div class="d-flex">
+        <div class="mr-auto p-2">
+        <h3>Itens Requisitados</h3>
+        </div>
+
+        <div class="d-none d-md-block">
+            <div class="p-2">
+                <a href="/products/request">
+                    <button type="button" class="btn btn-secondary">
+                        <small><strong>Voltar para Produtos</strong></small>
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row no-gutters position-relative">
+    <div class=" col-md-2 position-static p-0 pl-md-0 text-center">
+    <input type="text" class="form-control" value="{{numberRequest}}">
+        </div>
+        </div>
+    <div class="row no-gutters position-relative">
+    <div class=" col-md-12 position-static p-0 pl-md-0 text-center">
+        <div class="mt-2 form-group row">
+            <label for="client" class="col-5 col-md-2 mt-1 col-form-label">Site Solicitante:</label>
+            <div class="col-7 col-md-3">
+                <select class="destinoMaterial custom-select" id="client" name="client" required>
+                    <option selected disabled value="">Selecione...</option>
+                    {{#each customers}}
+                    <option value="{{_id}}">{{description}}</option>
+                    {{else}}
+                    <option value="0">Nenhum site registrado</option>
+                    {{/each}}
+                </select>
+            </div>
+
+            <label for="stockQuantity" class="col-6 col-md-2 mt-1 col-form-label">Data Necessidade:</label>
+            <div class="col-6 col-md-3 mt-1">
+                <input type="date" class="dateMaterial form-control" id="needDate" name="needDate" required>
+            </div>
+
+            <div class="col-12 col-md-2 mt-1">
+            <button type="submit" class="btn btn-primary btn-block">Finalizar Pedido</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="mt-2 table table-hover table-sm table-bordered">
+
+        <thead>
+            <tr>
+                <th class="tb01" scope="col">Id</th>
+                <th class="tb02" scope="col">qrCode</th>
+                <th class="tb03" scope="col">Imagem</th>
+                <th class="tb05" scope="col">Grupos</th>
+                <th class="tb06" scope="col">Subgrupos</th>
+                <th class="tb04" scope="col">Bp/Descrição/Fab./Mod./Cap./Ns</th>
+                <th class="tb07" scope="col">Localização Atual</th>
+                <th class="tb08" scope="col">Status</th>
+                <th class="tb09" scope="col">Tipo de Equipamento</th>
+                <th class="tb10" scope="col">Qtd. Disponível</th>
+                <th class="tb10" scope="col">Site Destino</th>
+                <th class="tb10" scope="col">Data Necessidade</th>
+                <th class="tb10" scope="col">Qtd. Solicitada</th>
+                <th class="tb11" scope="col">Ações</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            {{#each products}}
+            <form id="form_cart" method="POST">
+                <tr>
+                    <input type="hidden" class="mt-2 form-control" id="id" name="id" value="{{_id}}">
+                    <th class="tb01">{{_id}}</th>
+
+                    <input type="hidden" class="mt-2 form-control" id="qrcode" name="qrcode" value="{{qrcode}}">
+                    <th class="tb02">
+                        <figure class="figure">
+                            <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{qrcode}}"
+                                class="figure-img img-fluid rounded" style="max-width: 4rem;"
+                                alt="Imagem de um quadrado genérico com bordas arredondadas, em uma figure.">
+                            <!--<figcaption class="figure-caption">Uma legenda para a imagem acima.</figcaption>-->
+                        </figure>
+                    </th>
+
+                    <input type="hidden" class="mt-2 form-control" id="image" name="image" value="{{image}}">
+                    <td class="tb03">
+                        <figure class="figure">
+                            <img src="{{image}}"
+                                class="figure-img img-fluid rounded" style="max-width: 4rem;"
+                                alt="Imagem de um quadrado genérico com bordas arredondadas, em uma figure.">
+                            <!--<figcaption class="figure-caption">Uma legenda para a imagem acima.</figcaption>-->
+                        </figure>
+                    </td>
+
+                    <input type="hidden" class="hiddenTable localE form-control" id="group" name="group"
+                         value="{{group._id}}">
+                    <td class="tb05">{{group.description}}</td>   
+
+                    <input type="hidden" class="hiddenTable form-control" id="subgroup" name="subgroup"
+                        value="{{subgroup._id}}">
+                    <td class="tb06">{{subgroup.description}}</td>
+
+                    <input type="hidden" class="mt-2 form-control" id="fullDescription" name="fullDescription"
+                        value="{{fullDescription}}">
+                    <td class="tb04">{{fullDescription}}</td>
+
+                    <input type="hidden" class="hiddenTable form-control" id="client" name="client" 
+                            value="{{client._id}}">
+                    <td class="tb07">{{client.description}}</td>
+
+                    <input type="hidden" class="hiddenTable form-control" id="physicalStatus" name="physicalStatus"
+                            value="{{physicalStatus._id}}">
+                    <td class="tb08">{{physicalStatus.description}}</td>
+
+                    <input type="hidden" class="hiddenTable form-control" id="kindOfEquipment" name="kindOfEquipment"
+                            value="{{kindOfEquipment._id}}">
+                    <td class="tb08">{{kindOfEquipment.description}}</td>
+
+                    <input type="hidden" class="hiddenTable form-control" id="inputAmount" name="inputAmount"
+                            value="{{inputAmount}}" required>
+                    <td class="tb08">{{inputAmount}}</td>       
+
+                    <td class="tb09"><input type="text" class="hiddenTable localD form-control" id="requestLocation" name="requestLocation"
+                            value="{{requestLocation}}" required></td>
+
+                    <td class="tb09"><input type="date" class="hiddenTable dateD form-control" id="requestLocation" name="requestLocation"
+                            value="{{needDate}}" required></td>
+
+                    <td class="tb09"><input type="number" class="form-control" id="requestLocation" name="requestLocation"
+                            value="{{outputQuantity}}" required></td>
+
+                    <td>
+                            <!--<button id="updateCart" type="submit" class="mt-1 mb-1 btn btn-primary btn-sm">
+                                <i class="fas fa-cart-arrow-down"></i></button>-->
+     
+                            <button id="saveCart" type="submit" class="mt-1 mb-1 btn btn-success btn-sm">
+                                <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+
+                        <a href="/products/take/{{_id}}" class="mt-1 mb-1 btn btn-dark btn-sm" data-toggle="tooltip"
+                            data-placement="bottom" title="Visualizar detalhes">
+                            <i class="fas fa-align-left"></i>
+                        </a>
+
+                        <a href="/products/move/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
+                            data-placement="bottom" title="Movimentação interna">
+                            <i class="fas fa-file-signature"></i>
+                        </a>
+
+                        <a href="/products/add_id/{{_id}}" class="mt-1 mb-1 btn btn-success btn-sm"
+                            data-toggle="tooltip" data-placement="bottom"
+                            title="Criar novo produto a partir dessas informações">
+                            <i class="far fa-clone"></i>
+                        </a>
+
+                        <a href="/products/edit/{{_id}}" class="mt-1 mb-1 btn btn-secondary btn-sm"
+                            data-toggle="tooltip" data-placement="bottom" title="Ediar Produto">
+                            <i class="fas fa-pen"></i>
+                        </a>
+
+                        <a href="/products/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm"
+                            data-toggle="tooltip" data-placement="bottom" title="Deletar Produto">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </td>
+
+                </tr>
+            </form>
+            {{else}}
+                            <h4 class="mt-12 mb-2">
+                    Nenhum Produto Requisitado!
+                </h4>
+            {{/each}}
+        </tbody>
+
+    </table>
+</div>
+</div>
