@@ -1,12 +1,21 @@
-  
+  <style>
+body{background-color: rgb(39, 39, 39);
+color: aliceblue;
+}
+  tbody{color: white}    
+
+
+  </style>
     {{#each erros}}
     <div class="alert alert-danger">{{texto}}</div>
     {{else}}
     {{/each}}
-<div class="container-fluid mt-2">
+
+<form method="POST" action="/products/addItem" method="POST" class="container-fluid mt-2">
+
         <div class="d-flex">
         <div class="mr-auto p-2">
-        <h3>Itens Requisitados</h3>
+        <h3>Pedidos</h3>
         </div>
 
         <div class="d-none d-md-block">
@@ -30,7 +39,7 @@
         <div class="mt-2 form-group row">
             <label for="client" class="col-5 col-md-2 mt-1 col-form-label">Site Solicitante:</label>
             <div class="col-7 col-md-3">
-                <select class="destinoMaterial custom-select" id="client" name="client" required>
+                <select class="destinoMaterial custom-select" id="client" name="client[]" required>
                     <option selected disabled value="">Selecione...</option>
                     {{#each customers}}
                     <option value="{{_id}}">{{description}}</option>
@@ -75,7 +84,7 @@
         
         <tbody>
             {{#each products}}
-            <form id="form_cart" method="POST">
+            
                 <tr>
                     <input type="hidden" class="mt-2 form-control" id="id" name="id" value="{{_id}}">
                     <th class="tb01">{{_id}}</th>
@@ -141,8 +150,8 @@
                             <!--<button id="updateCart" type="submit" class="mt-1 mb-1 btn btn-primary btn-sm">
                                 <i class="fas fa-cart-arrow-down"></i></button>-->
      
-                            <button id="saveCart" type="submit" class="mt-1 mb-1 btn btn-success btn-sm">
-                                <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                            <!--<button id="saveCart" type="submit" class="mt-1 mb-1 btn btn-success btn-sm">
+                                <i class="fa fa-paper-plane" aria-hidden="true"></i></button>-->
 
                         <a href="/products/take/{{_id}}" class="mt-1 mb-1 btn btn-dark btn-sm" data-toggle="tooltip"
                             data-placement="bottom" title="Visualizar detalhes">
@@ -172,7 +181,7 @@
                     </td>
 
                 </tr>
-            </form>
+            
             {{else}}
                             <h4 class="mt-12 mb-2">
                     Nenhum Produto Requisitado!
@@ -182,4 +191,4 @@
 
     </table>
 </div>
-</div>
+</form>

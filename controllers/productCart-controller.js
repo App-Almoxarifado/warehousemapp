@@ -195,29 +195,7 @@ exports.postRequest = async (req, res) => {
         try {
             const products = new Product({
 
-                qrcode : req.body.qrcode,
-
-                image : req.body.image,
-
-                fullDescription : req.body.fullDescription,
-
-                group : req.body.group,
-
-                subgroup: req.body.subgroup,
-
-                client: req.body.client,
-
-                physicalStatus: req.body.physicalStatus,
-
-                kindOfEquipment: req.body.kindOfEquipment,
-
-                inputAmount: req.body.inputAmount,
-
-                outputQuantity: req.body.outputQuantity,
-
-                //stockQuantity: req.body.inputAmount - req.body.outputQuantity,
-
-                active:"stock"
+                qrcode,
 
 
             })
