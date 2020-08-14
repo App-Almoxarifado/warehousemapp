@@ -30,5 +30,4 @@ router.get("/subgroups/take/:id", controller.getViewSub)
 router.post('/subgroups/take', controller.postUpdateViewSub)
 router.post("/subgroups/new", controller.postCreateViewSub)
 
-
 module.exports = router

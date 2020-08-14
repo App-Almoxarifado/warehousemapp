@@ -329,6 +329,8 @@ exports.postCreateRequest = async (req, res) => {
 
                 responsibleMaterial: req.body.responsibleMaterial,
 
+                active: "cart",
+
                 //totalFaceValue:req.body.inputAmount * req.body.faceValue,
 
                 //totalWeightKg:req.body.inputAmount * req.body.weightKg,

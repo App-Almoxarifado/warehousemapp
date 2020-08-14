@@ -179,6 +179,10 @@ exports.postRequest = async (req, res) => {
 
                 inputAmount: req.body.inputAmount,
 
+                outputQuantity: req.body.outputQuantity,
+
+                //stockQuantity: req.body.inputAmount - req.body.outputQuantity,
+
                 active:"stock"
 
 

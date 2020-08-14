@@ -57,8 +57,8 @@ const productUpdateRoute = require('./routes/productUpdate-route')
 const productRequestRoute = require('./routes/productRequest-route')
 //Produtos Movimentação Interna
 const productMovementRoute = require('./routes/productMovement-route')
-
-
+//Transferência de Produtos
+const transferRoute = require("./routes/transfer-route");
 
 const passport = require("passport")
 require("./config/auth")(passport)
@@ -194,6 +194,7 @@ app.use('/products', productUpdateRoute)
 app.use('/products', productRequestRoute)
 app.use('/products', productMovementRoute)
 app.use('/products', productReadRoute)
+app.use("/products", transferRoute)
 
 
 
