@@ -26,9 +26,9 @@ const Collaborator = mongoose.model("collaborators")
 
 
 //VIZUALIZANDO PRODUTOS PARA FAZER PEDIDO
-exports.getRequest = async (req, res) => {
+exports.getRequest = async(req, res) => {
     try {
-        var numberRequest=Date.now()
+        var numberRequest = Date.now()
         const filtros = [];
         let {
             search,
@@ -83,13 +83,13 @@ exports.getRequest = async (req, res) => {
             .populate("physicalStatus")
             .populate("kindOfEquipment")
 
-            var customers = await Client.find({
-                active: true
-            }).sort({
-                description: "asc"
-            }).lean()
+        var customers = await Client.find({
+            active: true
+        }).sort({
+            description: "asc"
+        }).lean()
         return res.render("products/productorders", {
-            user:req.user,
+            user: req.user,
             products: products.map(products => products.toJSON()),
             customers: customers,
             numberRequest,
@@ -102,31 +102,32 @@ exports.getRequest = async (req, res) => {
         res.redirect("/products", {
 
         })
-    } console.log(user)
+    }
+    console.log(user)
 }
 
 //VIZUALIZANDO PRODUTOS CARRINHO
-exports.getCart = async (req, res) => {
+exports.getCart = async(req, res) => {
     try {
-        var numberRequest=Date.now()
+        var numberRequest = Date.now()
         var products = await Product
-            .find({active:"cart"}).lean()
+            .find({ active: "cart" }).lean()
             .populate("group")
             .populate("subgroup")
             .populate("client")
             .populate("physicalStatus")
             .populate("kindOfEquipment")
 
-            var customers = await Client.find({
-                active: true
-            }).sort({
-                description: "asc"
-            }).lean()
+        var customers = await Client.find({
+            active: true
+        }).sort({
+            description: "asc"
+        }).lean()
 
 
-            console.log( req.user)
+        console.log(req.user)
         return res.render("products/cartproducts", {
-            user:req.user,
+            user: req.user,
             products: products,
             customers: customers,
             numberRequest
@@ -136,31 +137,32 @@ exports.getCart = async (req, res) => {
         res.redirect("/products", {
 
         })
-    } console.log(user)
+    }
+    console.log(user)
 }
 
 //VIZUALIZANDO PRODUTOS CARRINHO
-exports.getCart_request = async (req, res) => {
+exports.getCart_request = async(req, res) => {
     try {
-        var numberRequest=Date.now()
+        var numberRequest = Date.now()
         var products = await Product
-            .find({active:"cart"}).lean()
+            .find({ active: "cart" }).lean()
             .populate("group")
             .populate("subgroup")
             .populate("client")
             .populate("physicalStatus")
             .populate("kindOfEquipment")
 
-            var customers = await Client.find({
-                active: true
-            }).sort({
-                description: "asc"
-            }).lean()
+        var customers = await Client.find({
+            active: true
+        }).sort({
+            description: "asc"
+        }).lean()
 
 
-            console.log( req.user)
+        console.log(req.user)
         return res.render("products/productscart", {
-            user:req.user,
+            user: req.user,
             products: products,
             customers: customers,
             numberRequest
@@ -170,11 +172,13 @@ exports.getCart_request = async (req, res) => {
         res.redirect("/products", {
 
         })
-    } console.log(user)
+    }
+    console.log(user)
 }
 
-//COLOCANDO PRODUTO NO CARRINHO COM UM CLIQUE
-exports.postRequest = async (req, res) => {
+
+//FINALIZANDO SOLICITAÇÃO POR ID
+exports.postRequest = async(req, res) => {
     var erros = []
     if (!req.body.fullDescription || typeof req.body.fullDescription == undefined || req.body.fullDescription == null) {
         erros.push({
@@ -195,12 +199,30 @@ exports.postRequest = async (req, res) => {
         try {
             const products = new Product({
 
-                qrcode,
+                qrcode: req.body.qrcode,
+
+                image: req.body.image,
+
+                fullDescription: req.body.fullDescription,
+
+                group: req.body.group,
+
+                subgroup: req.body.subgroup,
+
+                client: req.body.client,
+
+                physicalStatus: req.body.physicalStatus,
+
+                kindOfEquipment: req.body.kindOfEquipment,
+
+                inputAmount: req.body.inputAmount,
+
+                active: "stock"
 
 
             })
             await products.save()
-            req.flash("success_msg", "Produto solicitado!")
+            req.flash("success_msg", "Produto solicitado, enviado para pedido!")
             res.redirect("/products/request")
 
         } catch (err) {
@@ -212,9 +234,9 @@ exports.postRequest = async (req, res) => {
 }
 
 
-//FINALIZANDO SOLICITAÇÃO POR ID
-exports.updateRequest = async (req, res) => {
-    var product = await Product.findOne({ _id: req.body.id})
+//COLOCANDO PRODUTO NO CARRINHO COM UM CLIQUE
+exports.updateRequest = async(req, res) => {
+    var product = await Product.findOne({ _id: req.body.id })
     var erros = []
     if (!req.body.fullDescription || typeof req.body.fullDescription == undefined || req.body.fullDescription == null) {
         erros.push({
@@ -258,11 +280,11 @@ exports.updateRequest = async (req, res) => {
             product.outputQuantity = 1
 
             product.active = "cart"
-            
+
             await product.save()
-            req.flash("success_msg", "Produto solicitado, enviado para pedido!")
+            req.flash("success_msg", "Produto solicitado!")
             res.redirect("/products/cart")
-            
+
 
         } catch (err) {
             req.flash("error_msg", "Ops, Houve um erro ao salvar o Produto, tente novamente!" + err)
@@ -271,7 +293,3 @@ exports.updateRequest = async (req, res) => {
         }
     }
 }
-
-
-
-

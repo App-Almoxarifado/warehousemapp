@@ -21,43 +21,43 @@ const app = express()
 
 //Grupos
 const groupRoute = require('./routes/group-route')
-//Usuarios
+    //Usuarios
 const usuarioRoute = require("./routes/usuario-route")
-//Painel Admin
+    //Painel Admin
 const developerRoute = require("./routes/developer-route")
-//Colaboradores
+    //Colaboradores
 const collaboratorRoute = require("./routes/collaborator-route")
-//Fornecedores
+    //Fornecedores
 const providerRoute = require("./routes/provider-route")
-//Clientes
+    //Clientes
 const clientRoute = require("./routes/client-route")
-//Locações
+    //Locações
 const locationRoute = require("./routes/location-route")
-//Sublocações
+    //Sublocações
 const subleaseRoute = require("./routes/sublease-route")
-//Intervalos de Certificação/Calibração
+    //Intervalos de Certificação/Calibração
 const intervalRoute = require("./routes/interval-route")
-//Unidades
+    //Unidades
 const unityRoute = require("./routes/unity-route")
-//Status
+    //Status
 const statusRoute = require("./routes/status-route")
-//Tipos de Equipamentos
+    //Tipos de Equipamentos
 const typesRoute = require("./routes/type-route")
-//Produtos Mostar Dadod(Leitura)
+    //Produtos Mostar Dadod(Leitura)
 const productReadRoute = require('./routes/productRead-route')
-//Produtos Carrinho de Compras
+    //Produtos Carrinho de Compras
 const productCartRoute = require('./routes/productCart-route')
-//Produtos Criar e Deletar
+    //Produtos Criar e Deletar
 const productCreateAndDeleteRoute = require('./routes/productCreateAndDelete-route')
-//Produtos Criar Novo pelo Id
+    //Produtos Criar Novo pelo Id
 const productCreateIdRoute = require('./routes/productCreateId-route')
-//Produtos Update
+    //Produtos Update
 const productUpdateRoute = require('./routes/productUpdate-route')
-//Produtos Pedidos
+    //Produtos Pedidos
 const productRequestRoute = require('./routes/productRequest-route')
-//Produtos Movimentação Interna
+    //Produtos Movimentação Interna
 const productMovementRoute = require('./routes/productMovement-route')
-//Transferência de Produtos
+    //Transferência de Produtos
 const transferRoute = require("./routes/transfer-route");
 
 const passport = require("passport")
@@ -66,7 +66,7 @@ const db = require("./config/db")
 
 //Configurações
 app.use(compression())
-app.use("/favicon.ico",express.static('images/favicon.ico'))
+app.use("/favicon.ico", express.static('images/favicon.ico'))
 app.use(cors())
 app.use(cookieParser())
 
@@ -89,19 +89,19 @@ app.use((req, res, next) => {
     res.locals.error = req.flash("error")
     res.locals.user = req.user || null;
     next()
-    if(req.user) {
-        if(req.user.eAdmin == 0) {
-          res.locals.eAdmin = null
+    if (req.user) {
+        if (req.user.eAdmin == 0) {
+            res.locals.eAdmin = null
         } else {
-          res.locals.eAdmin = true
+            res.locals.eAdmin = true
         }
-      }
-    })
+    }
+})
 
 
 // Body Parser
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json({limit: '5mb'}))
+app.use(bodyParser.json({ limit: '5mb' }))
 app.use(morgan('dev'))
 
 //Handlebars
@@ -110,7 +110,7 @@ app.engine('handlebars', handlebars({
         helpers: {
             formatDate: (date) => {
                 return moment(date).format('DD/MM/YYYY')
-                
+
             }
         }
     }))
@@ -132,9 +132,9 @@ app.set('view engine', 'handlebars');
 mongoose.set("useNewUrlParser", true)
 mongoose.set("useCreateIndex", true)
 mongoose.set("useUnifiedTopology", true)
-//mongoose.connect("mongodb+srv://bdappalmoxarifado:ddapj060814@cluster0-p1olg.mongodb.net/warehouseapp?retryWrites=true&w=majority").then(() => {
-mongoose.connect(db.mongoURI).then(() => {    
-console.log("conectado ao mongo")
+    //mongoose.connect("mongodb+srv://bdappalmoxarifado:ddapj060814@cluster0-p1olg.mongodb.net/warehouseapp?retryWrites=true&w=majority").then(() => {
+mongoose.connect(db.mongoURI).then(() => {
+    console.log("conectado ao mongo")
 }).catch((err) => {
     console.log("Erro ao se conectar" + err)
 })
@@ -166,10 +166,10 @@ app.post("/upload", upload.single("file"), (_req, _res) => {
 
 
 app.get('/qrcode', (req, res) => {
-  const url = "https://warehousemapp.herokuapp.com/"
-  const code = qr.image(url, {type: 'svg'})  
-  res.type('svg')
-  code.pipe(res)
+    const url = "https://warehousemapp.herokuapp.com/"
+    const code = qr.image(url, { type: 'svg' })
+    res.type('svg')
+    code.pipe(res)
 })
 
 
@@ -203,5 +203,3 @@ const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
     console.log("Servidor rodando!")
 })
-
-
