@@ -340,17 +340,17 @@
                     value="{{product.note}}">
             </div>
         </div>
-
-        <input type="hidden" class="form-control" id="responsibleSite" name="responsibleSite"
-            placeholder="Responsável Site" value="{{user.nome}}">
+        <!--VERIFICANDO DE O ITEM É ATIVO-->
         <input type="hidden" class="form-control mt-2" name="activeStatus" id="activeStatus">
+        <!--CONTROLE DE USUÁRIOS LANÇAMENTO DO MATERIAL-->
         <input type="hidden" class="form-control mt-2" id="releaseDateOf" name="releaseDateOf" placeholder="date"
             value="{{#formatDate date}}{{/formatDate}}">
-        <input type="hidden" class="form-control mt-2" name="userLaunch" id="userLaunch" value="{{user.nome}}">
+        <input type="hidden" class="form-control mt-2" name="userLaunch" id="userLaunch" value="{{user.name}}">
         <input type="hidden" class="form-control mt-2" name="emailLaunch" id="emailLaunch" value="{{user.email}}">
+        <!--CONTROLE DE USUÁRIOS LANÇAMENTO DO MATERIAL-->
         <input type="hidden" class="form-control mt-2" id="editionDate" name="editionDate" placeholder="date"
             value="{{#formatDate date}}{{/formatDate}}">
-        <input type="hidden" class="form-control mt-2" name="userEdtion" id="userEdtion" value="{{user.nome}}">
+        <input type="hidden" class="form-control mt-2" name="userEdtion" id="userEdtion" value="{{user.name}}">
         <input type="hidden" class="form-control mt-2" name="emailEdtion" id="emailEdtion" value="{{user.email}}">
 
         <div class="form-group col-md-8">

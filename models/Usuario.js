@@ -2,10 +2,10 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const Usuario = new Schema({
-    qrcode: {
-        type: String,
-        lowercase: true,
-        required: false
+    name: {
+        type: Schema.Types.ObjectId,
+        ref: "collaborators",
+        required: true
     },
     image: {
         type: String,

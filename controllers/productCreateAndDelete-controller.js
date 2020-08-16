@@ -26,7 +26,7 @@ const Collaborator = mongoose.model("collaborators")
 
 
 //CRIANDO UM PRODUTO
-exports.getCreate = async (req, res) => {
+exports.getCreate = async(req, res) => {
     try {
         var groups = await Group.find({
             active: true
@@ -39,10 +39,10 @@ exports.getCreate = async (req, res) => {
         var subgroups = await Subgroup.find(gId ? {
             group: gId
         } : {
-                active: true
-            }).sort({
-                description: "asc"
-            })
+            active: true
+        }).sort({
+            description: "asc"
+        })
         var customers = await Client.find({
             active: true
         }).sort({
@@ -113,7 +113,7 @@ exports.getCreate = async (req, res) => {
     }
 }
 
-exports.postCreate = async (req, res) => {
+exports.postCreate = async(req, res) => {
     //let endImg = "https://warehousemapp.herokuapp.com/uploads/"
     var erros = []
     if (req.body.group == "0") {
@@ -205,30 +205,30 @@ exports.postCreate = async (req, res) => {
                     .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
                     .replace(/(^-+|-+$)/, '') +
                     req.body.description
-                        .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
-                        .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
-                        .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
-                        .replace(/(^-+|-+$)/, '') +
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, '') +
                     req.body.manufacturer
-                        .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
-                        .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
-                        .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
-                        .replace(/(^-+|-+$)/, '') +
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, '') +
                     req.body.model
-                        .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
-                        .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
-                        .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
-                        .replace(/(^-+|-+$)/, '') +
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, '') +
                     req.body.capacityReach
-                        .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
-                        .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
-                        .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
-                        .replace(/(^-+|-+$)/, '') +
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, '') +
                     req.body.serialNumber
-                        .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
-                        .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
-                        .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
-                        .replace(/(^-+|-+$)/, ''),
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, ''),
 
                 image: req.body.image,
 
@@ -243,7 +243,12 @@ exports.postCreate = async (req, res) => {
                     req.body.capacityReach + " " +
                     req.body.serialNumber,
 
+                stockCode: req.body.description + " " +
+                    req.body.capacityReach,
+
                 client: req.body.client,
+
+                localArea: req.body.localArea,
 
                 local: req.body.local,
 
@@ -268,6 +273,12 @@ exports.postCreate = async (req, res) => {
                 requiresCertificationCalibration: req.body.requiresCertificationCalibration,
 
                 inputAmount: req.body.inputAmount.replace(",", "."),
+
+                inputAmountSite: req.body.inputAmount.replace(",", "."),
+
+                outputQuantity: 0,
+
+                stockQuantity: req.body.inputAmount - req.body.outputQuantity,
 
                 unity: req.body.unity,
 
@@ -303,13 +314,13 @@ exports.postCreate = async (req, res) => {
 
                 note: req.body.note,
 
+                activeStatus: req.body.activeStatus,
+
                 releaseDateOf: req.body.releaseDateOf,
 
                 userLaunch: req.body.userLaunch,
 
                 emailLaunch: req.body.emailLaunch,
-
-                userLaunch: req.body.userLaunch,
 
                 editionDate: req.body.editionDate,
 
@@ -317,23 +328,23 @@ exports.postCreate = async (req, res) => {
 
                 emailEdtion: req.body.emailEdtion,
 
-                responsibleSite: req.body.responsibleSite,
+                //responsibleSite: req.body.client,
 
-                responsibleMaterial: req.body.responsibleMaterial,
+                //responsibleMaterial: req.body.client,
 
                 //totalFaceValue:req.body.inputAmount * req.body.faceValue,
 
                 //totalWeightKg:req.body.inputAmount * req.body.weightKg,
 
                 tags: [req.body.group,
-                req.body.subgroup,
-                req.body.client,
-                req.body.local,
-                req.body.sublease,
-                req.body.client,
-                req.body.physicalStatus,
-                req.body.kindOfEquipment,
-                req.body.provider
+                    req.body.subgroup,
+                    req.body.client,
+                    req.body.local,
+                    req.body.sublease,
+                    req.body.client,
+                    req.body.physicalStatus,
+                    req.body.kindOfEquipment,
+                    req.body.responsibleMaterial
                 ]
             })
             await products.save()
@@ -349,7 +360,7 @@ exports.postCreate = async (req, res) => {
 }
 
 //DELETANDO UM PRODUTO
-exports.getDelete = async (req, res) => {
+exports.getDelete = async(req, res) => {
     await Product.remove({
         _id: req.params.id
     })
@@ -361,4 +372,3 @@ exports.getDelete = async (req, res) => {
         res.redirect("/products")
     }
 }
-

@@ -25,7 +25,7 @@ require("../models/Collaborator")
 const Collaborator = mongoose.model("collaborators")
 
 //PRODUTOS POR LISTA
-exports.getList = async (req, res) => {
+exports.getList = async(req, res) => {
     try {
         const filtros = [];
         let {
@@ -111,9 +111,17 @@ exports.getList = async (req, res) => {
             .populate("group")
             .populate("subgroup")
             .populate("client")
+            .populate("local")
+            .populate("sublease")
             .populate("physicalStatus")
             .populate("kindOfEquipment")
-        //.populate("calibrationStatus")
+            .populate("kindOfEquipment")
+            .populate("unity")
+            .populate("frequency")
+            .populate("provider")
+            .populate("userLaunch")
+            .populate("userEdition")
+
         res.render("products/products", {
             products: products.map(products => products.toJSON()),
             prev: Number(page) > 1,
@@ -140,7 +148,7 @@ exports.getList = async (req, res) => {
 
 
 //PRODUTOS POR TABELA
-exports.getListTable = async (req, res) => {
+exports.getListTable = async(req, res) => {
     try {
         var cod = Date.now()
         const filtros = [];
@@ -196,7 +204,7 @@ exports.getListTable = async (req, res) => {
             .populate("client")
             .populate("physicalStatus")
             .populate("kindOfEquipment")
-        //.populate("calibrationStatus")
+            //.populate("calibrationStatus")
         res.render("products/productstables", {
             products: products.map(products => products.toJSON()),
             prev: Number(page) > 1,

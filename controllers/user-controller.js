@@ -1,15 +1,25 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const passport = require("passport")
-// Incluindo model Usuario
+    // Incluindo model Usuario
 require("../models/Usuario");
 const Usuario = mongoose.model("usuarios");
+require("../models/Collaborator");
+const Collaborator = mongoose.model("collaborators");
 
 
 //CADASTRANDO USUÁRIO
-exports.get = (req, res) => {
-    res.render("usuarios/registro");
+exports.get = async(req, res) => {
+    try {
+        var collaborators = await Collaborator.find({}).lean()
+        res.render("usuarios/registro", { collaborators: collaborators });
+    } catch (err) {
+        req.flash("error_msg", "Ops, Houve um erro interno!")
+        res.redirect("/")
+    }
 }
+
+
 
 //SALVANDO USUÁRIO NO BANCO DE DADOS
 exports.getCreate = (req, res) => {
@@ -54,7 +64,7 @@ exports.getCreate = (req, res) => {
                 res.redirect("/usuarios/registro");
             } else {
                 var novoUsuario = new Usuario({
-                    qrcode: req.body.qrcode,
+                    name: req.body.name,
                     image: req.body.image, //.slice(0, -1),
                     nome: req.body.nome,
                     email: req.body.email,
@@ -113,7 +123,7 @@ exports.getlogout = (req, res) => {
 }
 
 //LISTANDO USUÁRIOS CADASTRADOS - LISTA
-exports.getListFull = async (req, res) => {
+exports.getListFull = async(req, res) => {
     try {
         var usuarios = await Usuario.find({})
         res.render("usuarios/usersfull", {
@@ -127,7 +137,7 @@ exports.getListFull = async (req, res) => {
 
 
 //LISTANDO USUÁRIOS CADASTRADOS - LISTA
-exports.getList = async (req, res) => {
+exports.getList = async(req, res) => {
     try {
         var usuarios = await Usuario.find({
             active: true
@@ -142,7 +152,7 @@ exports.getList = async (req, res) => {
 }
 
 //LISTANDO USUÁRIOS CADASTRADOS - TABELA
-exports.getListTable = async (req, res) => {
+exports.getListTable = async(req, res) => {
     try {
         var usuarios = await Usuario.find({
             active: true
@@ -157,7 +167,7 @@ exports.getListTable = async (req, res) => {
 }
 
 //EDITANDO UM USUÁRIO
-exports.getUpdate = async (req, res) => {
+exports.getUpdate = async(req, res) => {
     var usuario = await Usuario.findOne({
         _id: req.params.id
     }).lean()
@@ -172,7 +182,7 @@ exports.getUpdate = async (req, res) => {
 }
 
 
-exports.postUpdate = async (req, res) => {
+exports.postUpdate = async(req, res) => {
     var usuario = await Usuario.findOne({
         _id: req.body.id
     })
@@ -200,11 +210,11 @@ exports.postUpdate = async (req, res) => {
     } else {*/
     try {
 
-        usuario.qrcode = req.body.qrcode
+        usuario.name = req.body.name
         usuario.image = req.body.image //.slice(0, -1)
-        //usuario.email = req.body.email
+            //usuario.email = req.body.email
         usuario.nome = req.body.nome
-        //usuario.senha = req.body.senha
+            //usuario.senha = req.body.senha
         usuario.eAdmin = req.body.eAdmin
         usuario.date = req.body.date
         usuario.active = req.body.active
@@ -222,7 +232,7 @@ exports.postUpdate = async (req, res) => {
 
 //DELETANDO UM USUÁRIO
 //DELETANDO UM GRUPO
-exports.getDelete = async (req, res) => {
+exports.getDelete = async(req, res) => {
     await Usuario.remove({
         _id: req.params.id
     })
@@ -235,7 +245,7 @@ exports.getDelete = async (req, res) => {
     }
 }
 
-exports.getView = async (req, res) => {
+exports.getView = async(req, res) => {
     try {
         const usuario = await Usuario.findOne({
             _id: req.params.id

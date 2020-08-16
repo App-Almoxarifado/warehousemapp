@@ -16,6 +16,11 @@ const cookieParser = require('cookie-parser')
 const path = require("path")
 const app = express()
 
+//MODELS
+//SITES
+require("./models/Client");
+const Client = mongoose.model("customers");
+
 
 //ROTAS
 
@@ -155,9 +160,20 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 //Rotas
-app.get("/", (req, res) => {
-    res.render("index")
+app.get('/', async(req, res) => {
+    try {
+        var customers = await Client.find({
+            active: true
+        }).sort({
+            description: "asc"
+        }).lean()
+        res.render("index", { customers: customers });
+    } catch (err) {
+        req.flash("error_msg", "Ops, Houve um erro interno!")
+        res.redirect("/")
+    }
 })
+
 
 //Rota de upload
 app.post("/upload", upload.single("file"), (_req, _res) => {

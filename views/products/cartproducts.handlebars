@@ -48,9 +48,12 @@
             </div>
         </div>
     </div>
+    
     <div class="table-responsive">
         <table class="mt-2 table table-hover table-sm table-bordered">
+            
             <thead>
+                
                 <tr>
                     <th class="tb01" scope="col">Id</th>
                     <th class="tb03" scope="col">Imagem</th>
@@ -62,8 +65,9 @@
                     <th class="tb11" scope="col">Ações</th>
                 </tr>
             </thead>
+            {{#each products}}
             <tbody>
-                {{#each products}}
+                
                 <tr>
                     <input type="hidden" class="mt-2 form-control" id="id"
                         name="productsId[]" value="{{_id}}">

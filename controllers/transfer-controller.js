@@ -31,6 +31,7 @@ exports.createTransfer = async(req, res) => {
         const transfer = new Transfer({
             client: client._id,
             deliveryDate,
+            productsQuantity,
             products
         })
         await transfer.save();

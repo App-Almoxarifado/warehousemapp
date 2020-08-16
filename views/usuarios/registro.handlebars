@@ -28,12 +28,17 @@
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <input type="hidden" class="form-control" id="id" name="id" placeholder="Id">
-                            <input type="hidden" class="form-control" id="qrcode" name="qrcode"
-                                placeholder="QrCode do group">
                             <input type="hidden" class="form-control mt-2" name="image" id="image">
-                            <label for="nome">Nome:</label>
-                            <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite seu nome:"
-                                required onkeyup="qrcodeFormatUser()">
+                            <input type="text" class="nomeUser form-control mt-2" name="nome" id="nome">
+            <label for="name">Nome:</label>
+                <select class="nameUser custom-select" id="name" name="name">
+                    <option selected disabled value="">Selecione...</option>
+                    {{#each collaborators}}
+                    <option value="{{_id}}">{{name}}</option>
+                    {{else}}
+                    <option value="0">Nenhum Colaborador registrado</option>
+                    {{/each}}
+                </select>
                         </div>
                         <div class="form-group col-md-12">
                             <label for="email">Email:</label>

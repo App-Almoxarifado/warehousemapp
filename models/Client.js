@@ -84,17 +84,22 @@ const Client = new Schema({
         default: Date.now()
     },
     user: {
-        type: String,   
+        type: String,
     },
     ic: {
         type: Schema.Types.ObjectId,
         ref: "collaborators",
-        required: true   
+        required: true
     },
-    administrator: {
+    pm: {
         type: Schema.Types.ObjectId,
         ref: "collaborators",
-        required: true 
+        required: true
+    },
+    responsibleMaterial: {
+        type: Schema.Types.ObjectId,
+        ref: "collaborators",
+        required: true
     },
     active: {
         type: Boolean,
@@ -102,8 +107,8 @@ const Client = new Schema({
     },
     tags: [{
         type: String
-        
-     }]
+
+    }]
 
 })
 

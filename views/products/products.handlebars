@@ -136,6 +136,55 @@
 
   <!--VIZULIZAÇÃO EM LISTA-->
   {{#each products}}
+  <!--INFORMAÇÃOES PARA ADICIONAR NA REQUISIÇÃO-->
+  <form action="/products/updateItem" method="POST">
+  <input type="hidden" class="mt-2 form-control" id="id" name="id" value="{{_id}}">
+  <input type="hidden" class="mt-2 form-control" id="qrcode" name="qrcode" value="{{qrcode}}">
+  <input type="hidden" class="mt-2 form-control" id="image" name="image" value="{{image}}">
+  <input type="hidden" class="mt-2 form-control" id="group" name="group" value="{{group._id}}">
+  <input type="hidden" class="mt-2 form-control" id="subgroup" name="subgroup" value="{{subgroup._id}}">
+  <!--<input type="hidden" class="mt-2 form-control" id="fullDescription" name="fullDescription" value="{{fullDescription}}">-->
+  <!--<input type="hidden" class="mt-2 form-control" id="stockCode" name="stockCode" value="{{stockCode}}">-->
+  <!--<input type="hidden" class="mt-2 form-control" id="localArea" name="localArea" value="{{localArea._id}}">-->
+  <input type="hidden" class="mt-2 form-control" id="local" name="local" value="{{local._id}}">
+  <input type="hidden" class="mt-2 form-control" id="sublease" name="sublease" value="{{sublease._id}}">
+  <input type="hidden" class="mt-2 form-control" id="patrimonialAsset" name="patrimonialAsset" value="{{patrimonialAsset}}">
+  <input type="hidden" class="mt-2 form-control" id="description" name="description" value="{{description}}">
+  <input type="hidden" class="mt-2 form-control" id="manufacturer" name="manufacturer" value="{{manufacturer}}">
+  <input type="hidden" class="mt-2 form-control" id="model" name="model" value="{{model}}">
+  <input type="hidden" class="mt-2 form-control" id="capacityReach" name="capacityReach" value="{{capacityReach}}">
+  <input type="hidden" class="mt-2 form-control" id="serialNumber" name="serialNumber" value="{{serialNumber}}">
+  <input type="hidden" class="mt-2 form-control" id="physicalStatus" name="physicalStatus" value="{{physicalStatus._id}}">
+  <input type="hidden" class="mt-2 form-control" id="kindOfEquipment" name="kindOfEquipment" value="{{kindOfEquipment._id}}">
+  <input type="hidden" class="mt-2 form-control" id="requiresCertificationCalibration" name="requiresCertificationCalibration" value="{{requiresCertificationCalibration}}">
+  <input type="hidden" class="mt-2 form-control" id="inputAmount" name="inputAmount" value="{{inputAmount}}">
+  <input type="hidden" class="mt-2 form-control" id="inputAmountSite" name="inputAmountSite" value="{{inputAmountSite}}">
+  <input type="hidden" class="mt-2 form-control" id="outputQuantity" name="outputQuantity" value="{{outputQuantity}}">
+  <input type="hidden" class="mt-2 form-control" id="stockQuantity" name="stockQuantity" value="{{stockQuantity}}">
+  <input type="hidden" class="mt-2 form-control" id="stockTotal" name="stockTotal" value="{{stockTotal}}">
+  <input type="hidden" class="mt-2 form-control" id="unity" name="unity" value="{{unity._id}}">
+  <input type="hidden" class="mt-2 form-control" id="weightKg" name="weightKg" value="{{weightKg}}">
+  <input type="hidden" class="mt-2 form-control" id="faceValue" name="faceValue" value="{{faceValue}}">
+  <input type="hidden" class="mt-2 form-control" id="dimensionsWxLxH" name="dimensionsWxLxH" value="{{dimensionsWxLxH}}">
+  <input type="hidden" class="mt-2 form-control" id="certificate" name="certificate" value="{{certificate}}">
+  <input type="hidden" class="mt-2 form-control" id="entityLaboratory" name="entityLaboratory" value="{{entityLaboratory}}">
+  <input type="hidden" class="mt-2 form-control" id="frequency" name="frequency" value="{{frequency._id}}">
+  <input type="hidden" class="mt-2 form-control" id="calibrationDate" name="calibrationDate" value="{{calibrationDate}}">
+  <input type="hidden" class="mt-2 form-control" id="calibrationValidity" name="calibrationValidity" value="{{calibrationValidity}}">
+  <input type="hidden" class="mt-2 form-control" id="calibrationStatus" name="calibrationStatus" value="{{calibrationStatus}}">
+  <input type="hidden" class="mt-2 form-control" id="po" name="po" value="{{po}}">
+  <input type="hidden" class="mt-2 form-control" id="sapCode" name="sapCode" value="{{sapCode}}">
+  <input type="hidden" class="mt-2 form-control" id="ncmCode" name="ncmCode" value="{{ncmCode}}">
+  <input type="hidden" class="mt-2 form-control" id="provider" name="provider" value="{{provider._id}}">
+  <input type="hidden" class="mt-2 form-control" id="note" name="note" value="{{note}}">
+  <input type="hidden" class="mt-2 form-control" id="activeStatus" name="activeStatus" value="{{activeStatus}}">
+  <!--CONTROLE DE USUÁRIOS LANÇAMENTO DO MATERIAL-->
+  <input type="hidden" class="mt-2 form-control" id="releaseDateOf" name="releaseDateOf" value="{{releaseDateOf}}">
+  <input type="text" class="mt-2 form-control" id="userLaunch" name="userLaunch" value="{{userLaunch._id}}">
+  <input type="hidden" class="mt-2 form-control" id="emailLaunch" name="emailLaunch" value="{{emailLaunch}}">
+  <!--CONTROLE DE USUÁRIOS ÚLIMO LANÇAMENTO DO MATERIAL-->
+
+
   <div class="card" style="background-color: transparent;">
     <div class="card-body">
       <div class="d-flex">
@@ -144,20 +193,29 @@
         </div>
 
         <div class="col-4 col-md-2 text-right">
-          <a href="/products/add_id/{{_id}}" class="btn btn-success btn-sm" data-toggle="tooltip"
-            data-placement="bottom" title="Criar novo produto a partir dessas informações">
-            <i class="fa fa-paper-plane" aria-hidden="true"></i>
-          </a>
 
-          <a href="/products/edit/{{_id}}" class="btn btn-secondary btn-sm" data-toggle="tooltip"
-            data-placement="bottom" title="Ediar Produto">
-            <i class="fas fa-pen"></i>
-          </a>
+                            <button type="submit" class="mt-1 mb-1 btn btn-primary btn-sm">
+                                <i class="fas fa-cart-arrow-down"></i></button>
+     
+                            <!--<button id="saveCart" type="submit" class="mt-1 mb-1 btn btn-success btn-sm">
+                                <i class="fa fa-paper-plane" aria-hidden="true"></i></button>-->
+                                
 
-          <a href="/products/delete/{{_id}}" class="deletar btn btn-danger btn-sm" data-toggle="tooltip"
-            data-placement="bottom" title="Deletar Produto">
-            <i class="fas fa-trash-alt"></i>
-          </a>
+                            <a href="/products/add_id/{{_id}}" class="mt-1 mb-1 btn btn-success btn-sm"
+                                data-toggle="tooltip" data-placement="bottom"
+                                title="Criar novo produto a partir dessas informações">
+                                <i class="far fa-clone"></i>
+                            </a>
+
+                            <a href="/products/edit/{{_id}}" class="mt-1 mb-1 btn btn-secondary btn-sm"
+                                data-toggle="tooltip" data-placement="bottom" title="Ediar Produto">
+                                <i class="fas fa-pen"></i>
+                            </a>
+
+                            <a href="/products/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm"
+                                data-toggle="tooltip" data-placement="bottom" title="Deletar Produto">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
           
         </div>
       </div>
@@ -266,6 +324,8 @@
       </div>
     </div>
   </div>
+  </form>
+
   <br />
   {{else}}
   <h4 class="mt-12 mb-2">
