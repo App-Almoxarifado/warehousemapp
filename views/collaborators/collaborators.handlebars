@@ -1,7 +1,7 @@
-
 <div class="container mt-2">
   <h2>Colaboradores</h2>
-  <a href="/providers/providers/add"><button class="btn btn-success">Cadastre um Colaborador <i class="fas fa-share"></i></button></a>
+  <a href="/providers/providers/add"><button class="btn btn-success">Cadastre um Colaborador <i
+        class="fas fa-share"></i></button></a>
 
   <hr>
   <a href="/collaborators/collaborators/"><button type="button" class="btn btn-primary">Lista <i
@@ -15,14 +15,15 @@
   <div id="card" class="card-deck mt-2" style='display: block;'>
     {{#each collaborators}}
     <div class="card-deck mt-3">
-     <img src="{{image}}" class=" img-fluid rounded" alt="Responsive image" style="width: 12rem;">
+      <img src="{{image}}" class=" img-fluid rounded" alt="Responsive image" style="width: 12rem;">
       <div id="card2" class="card-body">
         <h4>{{name}}</h4>
         <div class="form-admin col-md-6" id="qrcode2" onchange="qrcodeFormat()"></div>
         <h6 class="card-text"><small>Mátricula: {{registration}}</small></h6>
         <h6 class="card-text">Função: {{occupation}}</h6>
         <h6>Contratante: {{contractor.name}}</h6>
-        <a href="/collaborators/collaborators/take/{{_id}}" class="btn btn-dark mt-2"><i class="fas fa-align-right"></i></a>
+        <a href="/collaborators/collaborators/take/{{_id}}" class="btn btn-dark mt-2"><i
+            class="fas fa-align-right"></i></a>
         <a href="/collaborators/collaborators/edit/{{_id}}"><button class="btn btn-primary mt-2"><i
               class="fas fa-pen"></i></button></a>
         <a href="/providers/providers/deletar/{{_id}}"><button class="deletar btn btn-danger mt-2"><i
