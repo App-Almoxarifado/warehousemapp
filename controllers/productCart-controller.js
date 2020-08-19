@@ -387,11 +387,11 @@ exports.updateRequest = async(req, res) => {
 
             product.emailLaunch = req.body.emailLaunch
 
-            //product.editionDate = req.body.editionDate
+            product.editionDate = req.body.editionDate
 
-            // product.userEdtion = req.body.userEdtion
+            product.userEdtion = req.body.userEdtion
 
-            //product.emailEdtion = req.body.emailEdtion
+            product.emailEdtion = req.body.emailEdtion
 
             //product.responsibleSite= req.body.client
 
