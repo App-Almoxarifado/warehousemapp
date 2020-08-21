@@ -62,7 +62,7 @@ exports.getList = async(req, res) => {
             .find({}).count()
 
         const totalOk = await Product
-            .find({ physicalStatus: "5f01252e038643547805dbeb" }).count()
+            .find({ physicalStatus: "5f01252e038643547805dbeb" }).countDocuments()
 
         const totalBad = await Product
             .find({ physicalStatus: "5f01252e038643547805dbed" }).count()
