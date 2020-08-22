@@ -1,6 +1,6 @@
 <div class="mt-2 container-fluid">
     <!--<canvas class="line-chart"></canvas>-->
-    <h3>Produtos</h3>
+    <h3>Produtos:</h3>
     <hr>
     {{#each erros}}
     <div class="alert alert-danger">{{texto}}</div>
@@ -34,6 +34,10 @@
                 </a>
             </div>
         </div>
+
+        <div class="d-none d-md-block">
+
+        </div>
     </div>
 
     <div class="d-block d-md-none">
@@ -46,7 +50,7 @@
                 </a>
             </div>
             <div class=" p-2">
-                <a href="/products/receivement">
+                <a href="/products/request">
                     <button type="button" class="btn btn-secondary">
                         <small><strong>Meus Pedidos <i class="fas fa-dolly"></i></strong></small>
                     </button>
@@ -94,88 +98,11 @@
             <tbody>
                 {{#each products}}
                 <form id="form_cart" method="POST">
-                    <input type="hidden" class="mt-2 form-control" id="id" name="id" value="{{_id}}">
-                    <input type="hidden" class="mt-2 form-control" id="qrcode" name="qrcode" value="{{qrcode}}">
-                    <input type="hidden" class="mt-2 form-control" id="image" name="image" value="{{image}}">
-                    <input type="hidden" class="mt-2 form-control" id="group" name="group" value="{{group._id}}">
-                    <input type="hidden" class="mt-2 form-control" id="subgroup" name="subgroup"
-                        value="{{subgroup._id}}">
-                    <!--<input type="hidden" class="mt-2 form-control" id="fullDescription" name="fullDescription" value="{{fullDescription}}">-->
-                    <!--<input type="hidden" class="mt-2 form-control" id="stockCode" name="stockCode" value="{{stockCode}}">-->
-                    <!--<input type="hidden" class="mt-2 form-control" id="localArea" name="localArea" value="{{localArea._id}}">-->
-                    <input type="hidden" class="mt-2 form-control" id="local" name="local" value="{{local._id}}">
-                    <input type="hidden" class="mt-2 form-control" id="sublease" name="sublease"
-                        value="{{sublease._id}}">
-                    <input type="hidden" class="mt-2 form-control" id="patrimonialAsset" name="patrimonialAsset"
-                        value="{{patrimonialAsset}}">
-                    <input type="hidden" class="mt-2 form-control" id="description" name="description"
-                        value="{{description}}">
-                    <input type="hidden" class="mt-2 form-control" id="manufacturer" name="manufacturer"
-                        value="{{manufacturer}}">
-                    <input type="hidden" class="mt-2 form-control" id="model" name="model" value="{{model}}">
-                    <input type="hidden" class="mt-2 form-control" id="capacityReach" name="capacityReach"
-                        value="{{capacityReach}}">
-                    <input type="hidden" class="mt-2 form-control" id="serialNumber" name="serialNumber"
-                        value="{{serialNumber}}">
-                    <input type="hidden" class="mt-2 form-control" id="physicalStatus" name="physicalStatus"
-                        value="{{physicalStatus._id}}">
-                    <input type="hidden" class="mt-2 form-control" id="kindOfEquipment" name="kindOfEquipment"
-                        value="{{kindOfEquipment._id}}">
-                    <input type="hidden" class="mt-2 form-control" id="requiresCertificationCalibration"
-                        name="requiresCertificationCalibration" value="{{requiresCertificationCalibration}}">
-                    <input type="hidden" class="mt-2 form-control" id="inputAmount" name="inputAmount"
-                        value="{{inputAmount}}">
-                    <input type="hidden" class="mt-2 form-control" id="inputAmountSite" name="inputAmountSite"
-                        value="{{inputAmountSite}}">
-                    <input type="hidden" class="mt-2 form-control" id="outputQuantity" name="outputQuantity"
-                        value="{{outputQuantity}}">
-                    <input type="hidden" class="mt-2 form-control" id="stockQuantity" name="stockQuantity"
-                        value="{{stockQuantity}}">
-                    <input type="hidden" class="mt-2 form-control" id="stockTotal" name="stockTotal"
-                        value="{{stockTotal}}">
-                    <input type="hidden" class="mt-2 form-control" id="unity" name="unity" value="{{unity._id}}">
-                    <input type="hidden" class="mt-2 form-control" id="weightKg" name="weightKg" value="{{weightKg}}">
-                    <input type="hidden" class="mt-2 form-control" id="faceValue" name="faceValue"
-                        value="{{faceValue}}">
-                    <input type="hidden" class="mt-2 form-control" id="dimensionsWxLxH" name="dimensionsWxLxH"
-                        value="{{dimensionsWxLxH}}">
-                    <input type="hidden" class="mt-2 form-control" id="certificate" name="certificate"
-                        value="{{certificate}}">
-                    <input type="hidden" class="mt-2 form-control" id="entityLaboratory" name="entityLaboratory"
-                        value="{{entityLaboratory}}">
-                    <input type="hidden" class="mt-2 form-control" id="frequency" name="frequency"
-                        value="{{frequency._id}}">
-                    <input type="hidden" class="mt-2 form-control" id="calibrationDate" name="calibrationDate"
-                        value="{{calibrationDate}}">
-                    <input type="hidden" class="mt-2 form-control" id="calibrationValidity" name="calibrationValidity"
-                        value="{{calibrationValidity}}">
-                    <input type="hidden" class="mt-2 form-control" id="calibrationStatus" name="calibrationStatus"
-                        value="{{calibrationStatus}}">
-                    <input type="hidden" class="mt-2 form-control" id="po" name="po" value="{{po}}">
-                    <input type="hidden" class="mt-2 form-control" id="sapCode" name="sapCode" value="{{sapCode}}">
-                    <input type="hidden" class="mt-2 form-control" id="ncmCode" name="ncmCode" value="{{ncmCode}}">
-                    <input type="hidden" class="mt-2 form-control" id="provider" name="provider"
-                        value="{{provider._id}}">
-                    <input type="hidden" class="mt-2 form-control" id="note" name="note" value="{{note}}">
-                    <input type="hidden" class="mt-2 form-control" id="activeStatus" name="activeStatus"
-                        value="{{activeStatus}}">
-                    <!--CONTROLE DE USUÁRIOS LANÇAMENTO DO MATERIAL-->
-                    <input type="hidden" class="mt-2 form-control" id="releaseDateOf" name="releaseDateOf"
-                        value="{{releaseDateOf}}">
-                    <input type="hidden" class="mt-2 form-control" id="userLaunch" name="userLaunch"
-                        value="{{userLaunch._id}}">
-                    <input type="hidden" class="mt-2 form-control" id="emailLaunch" name="emailLaunch"
-                        value="{{emailLaunch}}">
-                    <!--CONTROLE DE USUÁRIOS ÚLTIMO LANÇAMENTO DO MATERIAL-->
-                    <input type="hidden" class="mt-2 form-control" id="editionDate" name="editionDate"
-                        value="{{editionDate}}">
-                    <input type="hidden" class="mt-2 form-control" id="userEdtion" name="userEdtion"
-                        value="{{userEdtion}}">
-                    <input type="hidden" class="mt-2 form-control" id="emailEdtion" name="emailEdtion"
-                        value="{{emailEdtionn}}">
                     <tr>
+                        <input type="hidden" class="mt-2 form-control" id="id" name="id" value="{{_id}}">
                         <th class="tb01">{{_id}}</th>
 
+                        <input type="hidden" class="mt-2 form-control" id="qrcode" name="qrcode" value="{{qrcode}}">
                         <th class="tb02">
                             <figure class="figure">
                                 <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{qrcode}}"
@@ -185,6 +112,7 @@
                             </figure>
                         </th>
 
+                        <input type="hidden" class="mt-2 form-control" id="image" name="image" value="{{image}}">
                         <td class="tb03">
                             <figure class="figure">
                                 <img src="{{image}}" class="figure-img img-fluid rounded" style="max-width: 4rem;"
@@ -193,20 +121,36 @@
                             </figure>
                         </td>
 
+                        <input type="hidden" class="hiddenTable localE form-control" id="group" name="group"
+                            value="{{group._id}}">
                         <td class="tb05">{{group.description}}</td>
 
+                        <input type="hidden" class="hiddenTable form-control" id="subgroup" name="subgroup"
+                            value="{{subgroup._id}}">
                         <td class="tb06">{{subgroup.description}}</td>
 
+                        <input type="hidden" class="mt-2 form-control" id="fullDescription" name="fullDescription"
+                            value="{{fullDescription}}">
                         <td class="tb04">{{fullDescription}}</td>
 
+                        <input type="hidden" class="hiddenTable form-control" id="client" name="client"
+                            value="{{client._id}}">
                         <td class="tb07">{{client.description}}</td>
 
+                        <input type="hidden" class="hiddenTable form-control" id="physicalStatus" name="physicalStatus"
+                            value="{{physicalStatus._id}}">
                         <td class="tb08">{{physicalStatus.description}}</td>
 
+                        <input type="hidden" class="hiddenTable form-control" id="kindOfEquipment"
+                            name="kindOfEquipment" value="{{kindOfEquipment._id}}">
                         <td class="tb08">{{kindOfEquipment.description}}</td>
 
+                        <input type="hidden" class="hiddenTable form-control" id="inputAmount" name="inputAmount"
+                            value="{{inputAmount}}" required>
                         <td class="tb08">{{inputAmount}}</td>
 
+                        <input type="hidden" class="hiddenTable localD form-control" id="stockQuantity"
+                            name="stockQuantity" value="{{stockQuantity}}" required>
                         <td class="tb08">{{stockQuantity}}</td>
 
                         <td>

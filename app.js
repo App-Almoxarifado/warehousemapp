@@ -62,6 +62,8 @@ const productUpdateRoute = require('./routes/productUpdate-route')
 const productRequestRoute = require('./routes/productRequest-route')
     //Produtos Movimentação Interna
 const productMovementRoute = require('./routes/productMovement-route')
+    //Recebimento de Produtos
+const productReceivementRoute = require('./routes/productReceivement-route')
     //Transferência de Produtos
 const transferRoute = require("./routes/transfer-route");
 
@@ -175,6 +177,7 @@ app.get('/', async(req, res) => {
 })
 
 
+
 //Rota de upload
 app.post("/upload", upload.single("file"), (_req, _res) => {
     console.log('Upload Realizado Com Sucesso!')
@@ -210,7 +213,9 @@ app.use('/products', productUpdateRoute)
 app.use('/products', productRequestRoute)
 app.use('/products', productMovementRoute)
 app.use('/products', productReadRoute)
+app.use("/products", productReceivementRoute)
 app.use("/products", transferRoute)
+
 
 
 

@@ -1,227 +1,286 @@
 <div class="mt-2 container-fluid">
     <!--<canvas class="line-chart"></canvas>-->
-    <h3>Produtos:</h3>
-    <hr>
-    {{#each erros}}
-    <div class="alert alert-danger">{{texto}}</div>
-    {{else}}
-    {{/each}}
+    <div class="d-flex justify-content-center">
+        <h3>Solicitação de Material</h3>
+        <hr>
+    </div>
 
-    <div class="d-flex">
-        <div class="mr-auto p-2">
+    <div class="d-flex justify-content-center">
+
             <a href="/products/add">
-                <button class="btn btn-success">
+                <button class="mr-2 btn btn-success btn-sm ">
                     Cadastro
                 </button>
             </a>
-        </div>
+
+            <a href="/products/cart">
+                <button type="button" class="mr-2 btn btn-secondary btn-sm ">
+                    <small><strong>Meus Pedidos <i class="fas fa-dolly"></i></strong></small>
+                </button>
+            </a>
         
-    <div class="p-2">
-      <a href="/products">
-        <button type="button" class="btn btn-primary">
-          Lista
-          <i class="fas fa-th-list"></i>
-        </button>
-      </a>
-
-      </div>
-        <div class="d-none d-md-block">
-            <div class="p-2">
-                <a href="/products/cart">
-                    <button type="button" class="btn btn-secondary">
-                        <small><strong>Meus Pedidos <i class="fas fa-dolly"></i></strong></small>
-                    </button>
-                </a>
-            </div>
-        </div>
-
-                <div class="d-none d-md-block">
-            <div class="p-2">
-                <a href="/products/cart_request">
-                    <button type="button" class="btn btn-primary">
-                        <small><strong>Meus Pedidos <i class="fas fa-dolly"></i></strong></small>
-                    </button>
-                </a>
-            </div>
-        </div>
     </div>
-
-    <div class="d-block d-md-none">
-        <div class="d-flex">
-            <div class="mr-auto p-2">
-                <a href="/products/table">
-                    <button type="button" class="btn btn-primary">
-                        <small><strong>Total Cadastrados {{total}}</strong></small>
-                    </button>
-                </a>
-            </div>
-            <div class=" p-2">
-                <a href="/products/request">
-                    <button type="button" class="btn btn-secondary">
-                        <small><strong>Meus Pedidos <i class="fas fa-dolly"></i></strong></small>
-                    </button>
-                </a>
-            </div>
-        </div>
-    </div>
-
-
     <hr>
-
-<!--TABELA DE DADOS-->
-    <div class="d-flex">
-        <div class="p-2">
-            <input type="text" class="form-control" id="search" name="search" placeholder="Pesquise aqui..."
-                onchange="this.value=this.value.toLowerCase()" />
-        </div>
-
-        <div class="p-2">
-            <button type="button" class="btn btn-primary" onclick="search()">
-                <i class="fa fa-search" aria-hidden="true"></i>
-            </button>
-        </div>
-    </div>
-
-    <div class="table-responsive">
-        <table class="mt-2 table table-hover table-sm table-bordered">
-
-            <thead>
-                <tr>
-                    <th class="tb01" scope="col">Id</th>
-                    <th class="tb02" scope="col">qrCode</th>
-                    <th class="tb03" scope="col">Imagem</th>
-                    <th class="tb05" scope="col">Grupos</th>
-                    <th class="tb06" scope="col">Subgrupos</th>
-                    <th class="tb04" scope="col">Bp/Descrição/Fab./Mod./Cap./Ns</th>
-                    <th class="tb07" scope="col">Localização Atual</th>
-                    <th class="tb08" scope="col">Status</th>
-                    <th class="tb09" scope="col">Tipo de Equipamento</th>
-                    <th class="tb10" scope="col">Qtd. em uso</th>
-                    <th class="tb10" scope="col">Qtd. Estoque</th>
-                    <th class="tb11" scope="col">Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each products}}
-                <form id="form_cart" method="POST">
-                    <tr>
-                        <input type="hidden" class="mt-2 form-control" id="id" name="id" value="{{_id}}">
-                        <th class="tb01">{{_id}}</th>
-
-                        <input type="hidden" class="mt-2 form-control" id="qrcode" name="qrcode" value="{{qrcode}}">
-                        <th class="tb02">
-                            <figure class="figure">
-                                <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{qrcode}}"
-                                    class="figure-img img-fluid rounded" style="max-width: 4rem;"
-                                    alt="Imagem de um quadrado genérico com bordas arredondadas, em uma figure.">
-                                <!--<figcaption class="figure-caption">Uma legenda para a imagem acima.</figcaption>-->
-                            </figure>
-                        </th>
-
-                        <input type="hidden" class="mt-2 form-control" id="image" name="image" value="{{image}}">
-                        <td class="tb03">
-                            <figure class="figure">
-                                <img src="{{image}}" class="figure-img img-fluid rounded" style="max-width: 4rem;"
-                                    alt="Imagem de um quadrado genérico com bordas arredondadas, em uma figure.">
-                                <!--<figcaption class="figure-caption">Uma legenda para a imagem acima.</figcaption>-->
-                            </figure>
-                        </td>
-
-                        <input type="hidden" class="hiddenTable localE form-control" id="group" name="group"
-                            value="{{group._id}}">
-                        <td class="tb05">{{group.description}}</td>
-
-                        <input type="hidden" class="hiddenTable form-control" id="subgroup" name="subgroup"
-                            value="{{subgroup._id}}">
-                        <td class="tb06">{{subgroup.description}}</td>
-
-                        <input type="hidden" class="mt-2 form-control" id="fullDescription" name="fullDescription"
-                            value="{{fullDescription}}">
-                        <td class="tb04">{{fullDescription}}</td>
-
-                        <input type="hidden" class="hiddenTable form-control" id="client" name="client"
-                            value="{{client._id}}">
-                        <td class="tb07">{{client.description}}</td>
-
-                        <input type="hidden" class="hiddenTable form-control" id="physicalStatus" name="physicalStatus"
-                            value="{{physicalStatus._id}}">
-                        <td class="tb08">{{physicalStatus.description}}</td>
-
-                        <input type="hidden" class="hiddenTable form-control" id="kindOfEquipment"
-                            name="kindOfEquipment" value="{{kindOfEquipment._id}}">
-                        <td class="tb08">{{kindOfEquipment.description}}</td>
-
-                        <input type="hidden" class="hiddenTable form-control" id="inputAmount"
-                                name="inputAmount" value="{{inputAmount}}" required>
-                        <td class="tb08">{{inputAmount}}</td>
-
-                        <input type="hidden" class="hiddenTable localD form-control" id="stockQuantity"
-                                name="stockQuantity" value="{{stockQuantity}}" required>
-                        <td class="tb08">{{stockQuantity}}</td>
-
-                        <td>
-                            <button id="updateCart" type="submit" class="mt-1 mb-1 btn btn-primary btn-sm">
-                                <i class="fas fa-cart-arrow-down"></i></button>
-     
-                            <button id="saveCart" type="submit" class="mt-1 mb-1 btn btn-success btn-sm">
-                                <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-                                 
-                            <a href="/products/take/{{_id}}" class="mt-1 mb-1 btn btn-dark btn-sm" data-toggle="tooltip"
-                                data-placement="bottom" title="Visualizar detalhes">
-                                <i class="fas fa-align-left"></i>
-                            </a>
-
-                            <a href="/products/move/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm"
-                                data-toggle="tooltip" data-placement="bottom" title="Movimentação interna">
-                                <i class="fas fa-file-signature"></i>
-                            </a>
-
-                            <a href="/products/add_id/{{_id}}" class="mt-1 mb-1 btn btn-success btn-sm"
-                                data-toggle="tooltip" data-placement="bottom"
-                                title="Criar novo produto a partir dessas informações">
-                                <i class="far fa-clone"></i>
-                            </a>
-
-                            <a href="/products/edit/{{_id}}" class="mt-1 mb-1 btn btn-secondary btn-sm"
-                                data-toggle="tooltip" data-placement="bottom" title="Ediar Produto">
-                                <i class="fas fa-pen"></i>
-                            </a>
-
-                            <a href="/products/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm"
-                                data-toggle="tooltip" data-placement="bottom" title="Deletar Produto">
-                                <i class="fas fa-trash-alt"></i>
-                            </a>
-                        </td>
-
-                    </tr>
-                </form>
+    <div class="d-none d-md-block">
+        <div class="d-flex justify-content-center">
+            <div class="p-1">
+                {{#each groups}}  
+                <a href="/products/{{_id}}">
+                    <button type="button" class="totalGroup2 btn btn-primary btn-sm">
+                        {{description}} 
+                    </button>
+                </a>
                 {{else}}
-                <h4 class="mt-12 mb-2">
-                    Nenhum Produto Registrado!
-                </h4>
+                <h6>Nenhum Grupo Registrado</h6>
                 {{/each}}
-            </tbody>
+            </div>
+            <div class="d-flex">
+                <div class="p-1">
+                    <div class="input-group input-group-sm mb-3">
+                        <input type="text-sm" class="form-control" id="search" name="search"
+                            placeholder="Pesquise aqui..." onchange="this.value=this.value.toLowerCase()" />
+                    </div>
+                </div>
 
-        </table>
-    </div>
-
-    <div class="d-flex">
-        <div class="mr-auto p-2">
-            {{#if prev}}
-            <button class="btn btn-primary btn-sm mt-2" onclick="navigate(-1)">
-                <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                Anterior
-            </button>
-            {{/if}}
-        </div>
-        <div class="p-2">
-            {{#if next}}
-            <button class="btn btn-primary btn-sm mt-2" onclick="navigate(1)">
-                Próximo
-                <i class="fa fa-arrow-right" aria-hidden="true"></i>
-            </button>
-            {{/if}}
+                <div class="p-1">
+                    <button type="button" class="btn btn-primary btn-sm" onclick="search()">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
+
+<div class="d-block d-md-none">
+    <div class="d-flex justify-content-center">
+        <div class="p-1 flex-fill bd-highlight">
+            {{#each groups}}
+            <a href="/products/{{_id}}">
+                <button type="button" class="btn btn-primary btn-sm btn-block">
+                    {{description}}
+                </button>
+            </a>
+            {{else}}
+            <h6>Nenhum Grupo Registrado</h6>
+            {{/each}}
+        </div>
+    </div>
+
+{{#each erros}}
+<div class="alert alert-danger">{{texto}}</div>
+{{else}}
+{{/each}}
+
+ <div class="d-flex justify-content-center">
+                <div class="p-1">
+                    <div class="input-group input-group-sm mb-3">
+                        <input type="text-sm" class="form-control" id="search" name="search"
+                            placeholder="Pesquise aqui..." onchange="this.value=this.value.toLowerCase()" />
+                    </div>
+                </div>
+
+                <div class="p-1">
+                    <button type="button" class="btn btn-primary btn-sm" onclick="search()">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+            </div>
+<!--TABELA DE DADOS-->
+<div class="table-responsive">
+    <table class="table table-hover table-sm table-bordered">
+
+        <thead>
+            <tr>
+                <th class="tb01" scope="col">Id</th>
+                <th class="tb02" scope="col">qrCode</th>
+                <th class="tb03" scope="col">Imagem</th>
+                <th class="tb05" scope="col">Grupos</th>
+                <th class="tb06" scope="col">Subgrupos</th>
+                <th class="tb04" scope="col">Bp/Descrição/Fab./Mod./Cap./Ns</th>
+                <th class="tb07" scope="col">Localização Atual</th>
+                <th class="tb08" scope="col">Status</th>
+                <th class="tb09" scope="col">Tipo de Equipamento</th>
+                <th class="tb10" scope="col">Qtd. em uso</th>
+                <th class="tb10" scope="col">Qtd. Estoque</th>
+                <th class="tb11" scope="col">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each products}}
+            <form id="form_cart" method="POST">
+                <input type="hidden" class="mt-2 form-control" id="id" name="id" value="{{_id}}">
+                <input type="hidden" class="mt-2 form-control" id="qrcode" name="qrcode" value="{{qrcode}}">
+                <input type="hidden" class="mt-2 form-control" id="image" name="image" value="{{image}}">
+                <input type="hidden" class="mt-2 form-control" id="group" name="group" value="{{group._id}}">
+                <input type="hidden" class="mt-2 form-control" id="subgroup" name="subgroup" value="{{subgroup._id}}">
+                <!--<input type="hidden" class="mt-2 form-control" id="fullDescription" name="fullDescription" value="{{fullDescription}}">-->
+                <!--<input type="hidden" class="mt-2 form-control" id="stockCode" name="stockCode" value="{{stockCode}}">-->
+                <!--<input type="hidden" class="mt-2 form-control" id="localArea" name="localArea" value="{{localArea._id}}">-->
+                <input type="hidden" class="mt-2 form-control" id="local" name="local" value="{{local._id}}">
+                <input type="hidden" class="mt-2 form-control" id="sublease" name="sublease" value="{{sublease._id}}">
+                <input type="hidden" class="mt-2 form-control" id="patrimonialAsset" name="patrimonialAsset"
+                    value="{{patrimonialAsset}}">
+                <input type="hidden" class="mt-2 form-control" id="description" name="description"
+                    value="{{description}}">
+                <input type="hidden" class="mt-2 form-control" id="manufacturer" name="manufacturer"
+                    value="{{manufacturer}}">
+                <input type="hidden" class="mt-2 form-control" id="model" name="model" value="{{model}}">
+                <input type="hidden" class="mt-2 form-control" id="capacityReach" name="capacityReach"
+                    value="{{capacityReach}}">
+                <input type="hidden" class="mt-2 form-control" id="serialNumber" name="serialNumber"
+                    value="{{serialNumber}}">
+                <input type="hidden" class="mt-2 form-control" id="physicalStatus" name="physicalStatus"
+                    value="{{physicalStatus._id}}">
+                <input type="hidden" class="mt-2 form-control" id="kindOfEquipment" name="kindOfEquipment"
+                    value="{{kindOfEquipment._id}}">
+                <input type="hidden" class="mt-2 form-control" id="requiresCertificationCalibration"
+                    name="requiresCertificationCalibration" value="{{requiresCertificationCalibration}}">
+                <input type="hidden" class="mt-2 form-control" id="inputAmount" name="inputAmount"
+                    value="{{inputAmount}}">
+                <input type="hidden" class="mt-2 form-control" id="inputAmountSite" name="inputAmountSite"
+                    value="{{inputAmountSite}}">
+                <input type="hidden" class="mt-2 form-control" id="outputQuantity" name="outputQuantity"
+                    value="{{outputQuantity}}">
+                <input type="hidden" class="mt-2 form-control" id="stockQuantity" name="stockQuantity"
+                    value="{{stockQuantity}}">
+                <input type="hidden" class="mt-2 form-control" id="stockTotal" name="stockTotal" value="{{stockTotal}}">
+                <input type="hidden" class="mt-2 form-control" id="unity" name="unity" value="{{unity._id}}">
+                <input type="hidden" class="mt-2 form-control" id="weightKg" name="weightKg" value="{{weightKg}}">
+                <input type="hidden" class="mt-2 form-control" id="faceValue" name="faceValue" value="{{faceValue}}">
+                <input type="hidden" class="mt-2 form-control" id="dimensionsWxLxH" name="dimensionsWxLxH"
+                    value="{{dimensionsWxLxH}}">
+                <input type="hidden" class="mt-2 form-control" id="certificate" name="certificate"
+                    value="{{certificate}}">
+                <input type="hidden" class="mt-2 form-control" id="entityLaboratory" name="entityLaboratory"
+                    value="{{entityLaboratory}}">
+                <input type="hidden" class="mt-2 form-control" id="frequency" name="frequency"
+                    value="{{frequency._id}}">
+                <input type="hidden" class="mt-2 form-control" id="calibrationDate" name="calibrationDate"
+                    value="{{calibrationDate}}">
+                <input type="hidden" class="mt-2 form-control" id="calibrationValidity" name="calibrationValidity"
+                    value="{{calibrationValidity}}">
+                <input type="hidden" class="mt-2 form-control" id="calibrationStatus" name="calibrationStatus"
+                    value="{{calibrationStatus}}">
+                <input type="hidden" class="mt-2 form-control" id="po" name="po" value="{{po}}">
+                <input type="hidden" class="mt-2 form-control" id="sapCode" name="sapCode" value="{{sapCode}}">
+                <input type="hidden" class="mt-2 form-control" id="ncmCode" name="ncmCode" value="{{ncmCode}}">
+                <input type="hidden" class="mt-2 form-control" id="provider" name="provider" value="{{provider._id}}">
+                <input type="hidden" class="mt-2 form-control" id="note" name="note" value="{{note}}">
+                <input type="hidden" class="mt-2 form-control" id="activeStatus" name="activeStatus"
+                    value="{{activeStatus}}">
+                <!--CONTROLE DE USUÁRIOS LANÇAMENTO DO MATERIAL-->
+                <input type="hidden" class="mt-2 form-control" id="releaseDateOf" name="releaseDateOf"
+                    value="{{releaseDateOf}}">
+                <input type="hidden" class="mt-2 form-control" id="userLaunch" name="userLaunch"
+                    value="{{userLaunch._id}}">
+                <input type="hidden" class="mt-2 form-control" id="emailLaunch" name="emailLaunch"
+                    value="{{emailLaunch}}">
+                <!--CONTROLE DE USUÁRIOS ÚLTIMO LANÇAMENTO DO MATERIAL-->
+                <input type="hidden" class="mt-2 form-control" id="editionDate" name="editionDate"
+                    value="{{editionDate}}">
+                <input type="hidden" class="mt-2 form-control" id="userEdtion" name="userEdtion" value="{{userEdtion}}">
+                <input type="hidden" class="mt-2 form-control" id="emailEdtion" name="emailEdtion"
+                    value="{{emailEdtionn}}">
+                <tr>
+                    <th class="tb01">{{_id}}</th>
+
+                    <th class="tb02">
+                        <figure class="figure">
+                            <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{qrcode}}"
+                                class="figure-img img-fluid rounded" style="max-width: 4rem;"
+                                alt="Imagem de um quadrado genérico com bordas arredondadas, em uma figure.">
+                            <!--<figcaption class="figure-caption">Uma legenda para a imagem acima.</figcaption>-->
+                        </figure>
+                    </th>
+
+                    <td class="tb03">
+                        <figure class="figure">
+                            <img src="{{image}}" class="figure-img img-fluid rounded" style="max-width: 4rem;"
+                                alt="Imagem de um quadrado genérico com bordas arredondadas, em uma figure.">
+                            <!--<figcaption class="figure-caption">Uma legenda para a imagem acima.</figcaption>-->
+                        </figure>
+                    </td>
+
+                    <td class="tb05">{{group.description}}</td>
+
+                    <td class="tb06">{{subgroup.description}}</td>
+
+                    <td class="tb04">{{fullDescription}}</td>
+
+                    <td class="tb07">{{client.description}}</td>
+
+                    <td class="tb08">{{physicalStatus.description}}</td>
+
+                    <td class="tb08">{{kindOfEquipment.description}}</td>
+
+                    <td class="tb08">{{inputAmount}}</td>
+
+                    <td class="tb08">{{stockQuantity}}</td>
+
+                    <td>
+                        <button id="updateCart" type="submit" class="mt-1 mb-1 btn btn-primary btn-sm">
+                            <i class="fas fa-cart-arrow-down"></i></button>
+
+                        <button id="saveCart" type="submit" class="mt-1 mb-1 btn btn-success btn-sm">
+                            <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+
+                        <a href="/products/take/{{_id}}" class="mt-1 mb-1 btn btn-dark btn-sm" data-toggle="tooltip"
+                            data-placement="bottom" title="Visualizar detalhes">
+                            <i class="fas fa-align-left"></i>
+                        </a>
+
+                        <a href="/products/move/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
+                            data-placement="bottom" title="Movimentação interna">
+                            <i class="fas fa-file-signature"></i>
+                        </a>
+
+                        <a href="/products/add_id/{{_id}}" class="mt-1 mb-1 btn btn-success btn-sm"
+                            data-toggle="tooltip" data-placement="bottom"
+                            title="Criar novo produto a partir dessas informações">
+                            <i class="far fa-clone"></i>
+                        </a>
+
+                        <a href="/products/edit/{{_id}}" class="mt-1 mb-1 btn btn-secondary btn-sm"
+                            data-toggle="tooltip" data-placement="bottom" title="Ediar Produto">
+                            <i class="fas fa-pen"></i>
+                        </a>
+
+                        <a href="/products/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm"
+                            data-toggle="tooltip" data-placement="bottom" title="Deletar Produto">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </td>
+
+                </tr>
+            </form>
+            {{else}}
+            <h4 class="mt-12 mb-2">
+                Nenhum Produto Registrado!
+            </h4>
+            {{/each}}
+        </tbody>
+
+    </table>
+</div>
+
+<div class="d-flex">
+    <div class="mr-auto p-2">
+        {{#if prev}}
+        <button class="btn btn-primary btn-sm mt-2" onclick="navigate(-1)">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            Anterior
+        </button>
+        {{/if}}
+    </div>
+    <div class="p-2">
+        {{#if next}}
+        <button class="btn btn-primary btn-sm mt-2" onclick="navigate(1)">
+            Próximo
+            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+        </button>
+        {{/if}}
+    </div>
+</div>
 </div>
 </div>

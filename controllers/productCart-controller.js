@@ -28,7 +28,18 @@ const Collaborator = mongoose.model("collaborators")
 //VIZUALIZANDO PRODUTOS PARA FAZER PEDIDO
 exports.getRequest = async(req, res) => {
     try {
-        var numberRequest = Date.now()
+        var customers = await Client.find({
+            active: true
+        }).sort({
+            description: "asc"
+        }).lean()
+
+        var groups = await Group.find({
+            active: true
+        }).sort({
+            description: "asc"
+        }).lean()
+
         const filtros = [];
         let {
             search,
@@ -42,7 +53,7 @@ exports.getRequest = async(req, res) => {
                 }
             })
             filtros.push({
-                fullDescription: {
+                description: {
                     $regex: pattern
                 }
             })
@@ -65,45 +76,41 @@ exports.getRequest = async(req, res) => {
                 $or: filtros
             } : {}).estimatedDocumentCount()
 
-        const total = await Product
-            .find({}).count()
-
         var products = await Product
             .find(filtros.length > 0 ? {
                 $or: filtros
             } : {})
             .sort({
-                fullDescription: "asc"
+                editionDate: "desc"
             })
-            .limit(5)
-            .skip(page && Number(page) > 1 ? Number(page - 1) * 5 : 0)
+            .limit(100)
+            .skip(page && Number(page) > 1 ? Number(page - 1) * 100 : 0)
             .populate("group")
             .populate("subgroup")
             .populate("client")
+            .populate("local")
+            .populate("sublease")
             .populate("physicalStatus")
             .populate("kindOfEquipment")
+            .populate("kindOfEquipment")
+            .populate("unity")
+            .populate("frequency")
+            .populate("provider")
+            .populate("userLaunch")
+            .populate("userEdition")
 
-        var customers = await Client.find({
-            active: true
-        }).sort({
-            description: "asc"
-        }).lean()
-        return res.render("products/productorders", {
-            user: req.user,
+        res.render("products/productorders", {
             products: products.map(products => products.toJSON()),
-            customers: customers,
-            numberRequest,
             prev: Number(page) > 1,
-            next: Number(page) * 5 < quant,
-            page
+            next: Number(page) * 3 < quant,
+            customers:customers,
+            groups:groups,
+            page,
         })
     } catch (err) {
         req.flash("error_msg", "Ops, Houve um erro interno!")
-        res.redirect("/products", {
-
-        })
+        res.redirect("/products/products")
     }
-    console.log(user)
 }
 
 //VIZUALIZANDO PRODUTOS CARRINHO
