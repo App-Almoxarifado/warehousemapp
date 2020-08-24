@@ -6,6 +6,21 @@ const Transfer = mongoose.model("transfers")
 require("../models/Client")
 const Client = mongoose.model("customers")
 
+//VIZUALIZANDO PRODUTOS PARA FAZER PEDIDO
+exports.getTransfer = async(req, res) => {
+    try {
+        var transfers = await Transfer.find({
+        }).lean()
+
+        res.render("products/transfers", {
+            transfers:transfers
+        })
+    } catch (err) {
+        req.flash("error_msg", "Ops, Houve um erro interno!")
+        res.redirect("/products/products")
+    }
+}
+
 
 exports.createTransfer = async(req, res) => {
     try {

@@ -244,16 +244,17 @@ exports.postCreateMove = async (req, res, next) => {
                     req.body.capacityReach + " " +
                     req.body.serialNumber,
 
-                stockCode: req.body.description
-                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
-                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
-                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
-                    .replace(/(^-+|-+$)/, '') +
-                    req.body.capacityReach
-                        .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
-                        .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
-                        .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
-                        .replace(/(^-+|-+$)/, ''),
+                stockCode:             
+                req.body.description
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                .replace(/(^-+|-+$)/, '') +
+                req.body.capacityReach
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                .replace(/(^-+|-+$)/, ''),
 
                 client: req.body.client,
 

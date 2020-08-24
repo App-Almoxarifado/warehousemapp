@@ -396,9 +396,21 @@ img {
     
 }
 
-.tb01  {
+//OCULTAR MOSTRAR COLUNAS TABLE
+.tb01,.tb02,.tb03,.tb07,.tb09,.tb10,.tb11,.tb12,.tb13,.tb14,
+.tb15,.tb16,.tb17,.tb20,.tb21,.tb23,.tb24,.tb25,.tb26,.tb27,
+.tb28,.tb29,.tb30,.tb31,.tb32,.tb33,.tb34,.tb36,.tb37,
+.tb38,.tb39,.tb40,.tb41,.tb42,.tb43,.tb44,.tb45
+{
     display: none;
 }
-.tb02 {
+
+//OCULTAR MOSTRAR DETALHES LIST
+.li01,.li02,.li03,.li07,.li09,.li10,.li11,.li12,.li13,.li14,
+.li15,.li16,.li17,.li20,.li21,.li23,.li24,.li25,.li26,.li27,
+.li28,.li29,.li30,.li31,.li32,.li33,.li34,.li36,.li37,.li38,
+.li39,.li40,.li41,.li42,.li43,.li44,.li45
+{
     display: none;
 }
+

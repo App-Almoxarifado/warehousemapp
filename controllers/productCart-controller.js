@@ -44,6 +44,7 @@ exports.getRequest = async(req, res) => {
         let {
             search,
             page
+
         } = req.query;
         if (search) {
             const pattern = new RegExp(`.*${search}.*`)
@@ -71,6 +72,7 @@ exports.getRequest = async(req, res) => {
 
         page = page || 1;
 
+
         const quant = await Product
             .find(filtros.length > 0 ? {
                 $or: filtros
@@ -83,8 +85,8 @@ exports.getRequest = async(req, res) => {
             .sort({
                 editionDate: "desc"
             })
-            .limit(100)
-            .skip(page && Number(page) > 1 ? Number(page - 1) * 100 : 0)
+            .limit(15)
+            .skip(page && Number(page) > 1 ? Number(page - 1) * 15 : 0)
             .populate("group")
             .populate("subgroup")
             .populate("client")
@@ -98,13 +100,16 @@ exports.getRequest = async(req, res) => {
             .populate("provider")
             .populate("userLaunch")
             .populate("userEdition")
+            .populate("unity")
+            .populate("frequency")
+            .populate("provider")
 
         res.render("products/productorders", {
             products: products.map(products => products.toJSON()),
             prev: Number(page) > 1,
-            next: Number(page) * 3 < quant,
-            customers:customers,
-            groups:groups,
+            next: Number(page) * 15 < quant,
+            customers: customers,
+            groups: groups,
             page,
         })
     } catch (err) {
@@ -161,6 +166,9 @@ exports.getCart_request = async(req, res) => {
             .populate("group")
             .populate("subgroup")
             .populate("client")
+            //.populate("localArea")
+            .populate("local")
+            .populate("sublease")
             .populate("physicalStatus")
             .populate("kindOfEquipment")
             .populate("unity")
@@ -196,13 +204,13 @@ exports.getCart_request = async(req, res) => {
 //FINALIZANDO SOLICITAÇÃO POR ID
 exports.postRequest = async(req, res) => {
     var erros = []
-    if (!req.body.fullDescription || typeof req.body.fullDescription == undefined || req.body.fullDescription == null) {
+    if (!req.body.description || typeof req.body.description == undefined || req.body.description == null) {
         erros.push({
             texto: "Descricão Inválida"
         })
     }
 
-    if (req.body.fullDescription.length < 2) {
+    if (req.body.description.length < 2) {
         erros.push({
             texto: "Descrição do produto muito pequena!"
         })
@@ -214,28 +222,162 @@ exports.postRequest = async(req, res) => {
     } else {
         try {
             const products = new Product({
-
-                qrcode: req.body.qrcode,
+                qrcode: req.body.patrimonialAsset
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, '') +
+                    req.body.description
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, '') +
+                    req.body.manufacturer
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, '') +
+                    req.body.model
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, '') +
+                    req.body.capacityReach
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, '') +
+                    req.body.serialNumber
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, ''),
 
                 image: req.body.image,
-
-                fullDescription: req.body.fullDescription,
 
                 group: req.body.group,
 
                 subgroup: req.body.subgroup,
 
+                fullDescription: req.body.patrimonialAsset + " " +
+                    req.body.description + " " +
+                    req.body.manufacturer + " " +
+                    req.body.model + " " +
+                    req.body.capacityReach + " " +
+                    req.body.serialNumber,
+
+                stockCode:             
+                req.body.description
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                .replace(/(^-+|-+$)/, '') +
+                req.body.capacityReach
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                .replace(/(^-+|-+$)/, ''),
+
                 client: req.body.client,
+
+                localArea: req.body.localArea,
+
+                local: req.body.local,
+
+                sublease: req.body.sublease,
+
+                patrimonialAsset: req.body.patrimonialAsset,
+
+                description: req.body.description,
+
+                manufacturer: req.body.manufacturer,
+
+                model: req.body.model,
+
+                capacityReach: req.body.capacityReach,
+
+                serialNumber: req.body.serialNumber,
 
                 physicalStatus: req.body.physicalStatus,
 
                 kindOfEquipment: req.body.kindOfEquipment,
 
-                inputAmount: req.body.inputAmount,
+                requiresCertificationCalibration: req.body.requiresCertificationCalibration,
 
-                active: "stock",
+                inputAmount: req.body.inputAmount.replace(",", "."),
 
+                inputAmountSite: req.body.inputAmount.replace(",", "."),
 
+                outputQuantity: 0,
+
+                stockQuantity: req.body.inputAmount - req.body.outputQuantity,
+
+                unity: req.body.unity,
+
+                weightKg: req.body.weightKg,
+
+                faceValue: req.body.faceValue.replace(",", "."),
+
+                dimensionsWxLxH: req.body.dimensionsWxLxH,
+
+                certificate: req.body.certificate,
+
+                entityLaboratory: req.body.entityLaboratory,
+
+                frequency: req.body.frequency,
+
+                calibrationDate: req.body.calibrationDate,
+
+                calibrationValidity: req.body.calibrationValidity,
+
+                calibrationStatus: req.body.calibrationStatus,
+
+                po: req.body.po,
+
+                sapCode: req.body.sapCode,
+
+                ncmCode: req.body.ncmCode,
+
+                provider: req.body.provider,
+
+                invoce: req.body.invoce,
+
+                receivingDate: req.body.receivingDate,
+
+                note: req.body.note,
+
+                activeStatus: req.body.activeStatus,
+
+                releaseDateOf: req.body.releaseDateOf,
+
+                userLaunch: req.body.userLaunch,
+
+                emailLaunch: req.body.emailLaunch,
+
+                editionDate: req.body.editionDate,
+
+                userEdtion: req.body.userEdtion,
+
+                emailEdtion: req.body.emailEdtion,
+
+                //responsibleSite: req.body.client,
+
+                //responsibleMaterial: req.body.client,
+
+                //totalFaceValue:req.body.inputAmount * req.body.faceValue,
+
+                //totalWeightKg:req.body.inputAmount * req.body.weightKg,
+
+                tags: [req.body.group,
+                    req.body.subgroup,
+                    req.body.client,
+                    req.body.local,
+                    req.body.sublease,
+                    req.body.client,
+                    req.body.physicalStatus,
+                    req.body.kindOfEquipment,
+                    req.body.responsibleMaterial
+                ]
             })
             await products.save()
             req.flash("success_msg", "Produto solicitado, enviado para pedido!")
@@ -300,7 +442,7 @@ exports.updateRequest = async(req, res) => {
                 .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
                 .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
                 .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
-                .replace(/(^-+|-+$)/, ''),
+                .replace(/(^-+|-+$)/, '')
 
                 product.image = req.body.image
 
@@ -315,8 +457,17 @@ exports.updateRequest = async(req, res) => {
                 req.body.capacityReach + " " +
                 req.body.serialNumber
 
-            product.stockCode = req.body.description + " " +
-                req.body.capacityReach
+            product.stockCode = 
+            req.body.description
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+            .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+            .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+            .replace(/(^-+|-+$)/, '') +
+            req.body.capacityReach
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+            .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+            .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+            .replace(/(^-+|-+$)/, '')
 
             product.client = req.body.client
 
@@ -348,9 +499,9 @@ exports.updateRequest = async(req, res) => {
 
             product.inputAmountSite = req.body.inputAmount.replace(",", ".")
 
-            product.outputQuantity = 0
+            product.outputQuantity = req.body.outputQuantity.replace(",", ".")
 
-            product.stockQuantity = req.body.inputAmount - req.body.outputQuantity
+            //product.stockQuantity = req.body.inputAmount - req.body.outputQuantity
 
             product.unity = req.body.unity
 

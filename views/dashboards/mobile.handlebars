@@ -1,0 +1,588 @@
+<div class="mt-2 container">
+    
+        {{#each erros}}
+        <div class="alert alert-danger">{{texto}}</div>
+        {{else}}
+        {{/each}}
+    <!--<canvas class="line-chart"></canvas>-->
+    <div class="d-none d-md-none d-print-block">
+        <div class="d-flex justify-content-center">
+
+            <h3>Dashboard</h3>
+        </div>
+    </div>
+    <div class="d-none d-md-block d-print-none">
+        <div class="d-flex justify-content-center">
+            <div class="p-1 mr-auto">
+                <h3>Dashboard</h3>
+            </div>
+
+            <a href="/products/add">
+                <button class="mr-2 btn btn-success btn-sm">
+                    Cadastro <i class="fas fa-paper-plane"></i>
+                </button>
+            </a>
+
+            <a href="/products/cart">
+                <button type="button" class="mr-2 btn btn-primary btn-sm ">
+                    <small><strong>Itens Requisitados <i class="fas fa-dolly"></i></strong></small>
+                </button>
+            </a>
+
+            <a href="/products/cart">
+                <button type="button" class="mr-2 btn btn-dark btn-sm ">
+                    <small><strong>Meus Pedidos <i class="fas fa-truck"></i></strong></small>
+                </button>
+            </a>
+        </div>
+
+
+        <div class="d-flex justify-content-center">
+            <div class="p-1">
+                {{#each groups}}
+                <a href="/products/{{_id}}">
+                    <button type="button" class="totalGroup2 btn btn-secondary btn-sm">
+                        {{description}}
+                    </button>
+                </a>
+                {{else}}
+                <h6>Nenhum Grupo Registrado</h6>
+                {{/each}}
+            </div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <div class="p-1 mr-auto">
+                <div class="form-group row">
+                    <label for="client" class="col-sm-7 col-form-label col-form-label-sm">Itens p/ página</label>
+                    <div class="col-sm-5">
+                        <select class="custom-select custom-select-sm" id="itensPage" name="itensPage">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+
+                    </div>
+                </div>
+            </div>
+            <div class="p-1 ">
+                <p><small>Mais Detalhes</small></p>
+            </div>
+            <div class="p-1 ">
+
+                <select class="custom-select custom-select-sm" name="SelectList" id="SelectList">
+                    <option selected>Escolher...</option>
+                    <option value="li01">Id</option>
+                    <option value="li02">imagem</option>
+                    <option value="li03">QrCode</option>
+                    <option value="li04">Grupo</option>
+                    <option value="li05">Subgrupo</option>
+                    <option value="li06">Bp/Descrição/Fab./Mod./Cap./Ns</option>
+                    <option value="li07">Código Estoque</option>
+                    <option value="li08">Localização Atual</option>
+                    <option value="li09">Localização no Site</option>
+                    <option value="li10">Locação</option>
+                    <option value="li11">SubLocação</option>
+                    <option value="li12">B.P.</option>
+                    <option value="li13">Descrição</option>
+                    <option value="li14">Fabricante</option>
+                    <option value="li15">Modelo</option>
+                    <option value="li16">Cap./Alcance</option>
+                    <option value="li17">N° de Série</option>
+                    <option value="li18">Status</option>
+                    <option value="li19">Tipo de Equipamento</option>
+                    <option value="li20">Requer Calib./Cert.</option>
+                    <option value="li21">Qtd. Entrada</option>
+                    <option value="li22">Qtd. em Uso</option>
+                    <option value="li23">Qtd. Saída</option>
+                    <option value="li24">Qtd. Estoque</option>
+                    <option value="li25">Qtd. Total</option>
+                    <option value="li26">Unidade</option>
+                    <option value="li27">Peso Kg</option>
+                    <option value="li28">Valor de Face</option>
+                    <option value="li29">Dimensões mm</option>
+                    <option value="li30">Certificado</option>
+                    <option value="li31">Lab./Ent.</option>
+                    <option value="li32">Periodicidade</option>
+                    <option value="li33">Data Cert./Cal.</option>
+                    <option value="li34">Validade Cert./Cal.</option>
+                    <option value="li35">Status Cert./Cal.</option>
+                    <option value="li36">PO</option>
+                    <option value="li37">Cód. Sap</option>
+                    <option value="li38">Cód. Ncm</option>
+                    <option value="li39">Fornecedor</option>
+                    <option value="li40">Nota Fiscal</option>
+                    <option value="li41">Dt. Recebimento</option>
+                    <option value="li42">Obs</option>
+                    <option value="li43">Status Ativo</option>
+                    <option value="li44">Dt. Lançamento</option>
+                    <option value="li45">Usuário Lançam.</option>
+                    <option value="li46">Ações</option>
+                </select>
+            </div>
+
+            <div class="p-1">
+                <div class="input-group input-group-sm mb-3">
+                    <input type="text-sm" class="form-control" id="search" name="search" placeholder="Pesquise aqui..."
+                        onchange="this.value=this.value.toLowerCase()" />
+                </div>
+            </div>
+
+            <div class="p-1">
+                <button type="button" class="btn btn-primary btn-sm" onclick="search()">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div class="d-block d-md-none d-print-none">
+        <div class="d-flex justify-content-center">
+            <h3>DashBoard</h3>
+            <hr>
+        </div>
+
+        <div class="d-flex justify-content-center">
+
+            <a href="/products/add">
+                <button class="mr-2 btn btn-success btn-sm">
+                    Cadastro <i class="fas fa-paper-plane"></i>
+                </button>
+            </a>
+
+            <a href="/products/cart">
+                <button type="button" class="mr-2 btn btn-primary btn-sm ">
+                    <small><strong>Itens Requisitados <i class="fas fa-dolly"></i></strong></small>
+                </button>
+            </a>
+
+            <a href="/products/cart">
+                <button type="button" class="mr-2 btn btn-dark btn-sm ">
+                    <small><strong>Meus Pedidos <i class="fas fa-truck"></i></strong></small>
+                </button>
+            </a>
+
+        </div>
+        <div class="d-flex justify-content-center">
+            <div class="p-1 flex-fill bd-highlight">
+                {{#each groups}}
+                <a href="/products/{{_id}}">
+                    <button type="button" class="btn btn-primary btn-sm btn-block">
+                        {{description}}
+                    </button>
+                </a>
+                {{else}}
+                <h6>Nenhum Grupo Registrado</h6>
+                {{/each}}
+            </div>
+        </div>
+
+
+        <div class="d-flex justify-content-center">
+            <div class="p-1">
+                <div class="input-group input-group-sm mb-3">
+                    <input type="text-sm" class="search form-control" id="searchMobile" name="searchMobile"
+                        placeholder="Pesquise aqui..." onchange="this.value=this.value.toLowerCase()" />
+                </div>
+            </div>
+
+            <div class="p-1 ">
+                <button type="button" class="btn btn-primary btn-sm" onclick="search()">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+
+
+        <div class="d-flex justify-content-center">
+            <div class="p-1">
+
+                <select class="custom-select custom-select-sm" id="itensPage" name="itensPage">
+                    <option selected>Itens por Página</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <div class="p-1 ">
+                <select class="custom-select custom-select-sm" name="SelectListMobile" id="SelectListMobile">
+                    <option selected>Mostrar Colunas</option>
+                    <option value="li01">Id</option>
+                    <option value="li02">imagem</option>
+                    <option value="li03">QrCode</option>
+                    <option value="li04">Grupo</option>
+                    <option value="li05">Subgrupo</option>
+                    <option value="li06">Bp/Descrição/Fab./Mod./Cap./Ns</option>
+                    <option value="li07">Código Estoque</option>
+                    <option value="li08">Localização Atual</option>
+                    <option value="li09">Localização no Site</option>
+                    <option value="li10">Locação</option>
+                    <option value="li11">SubLocação</option>
+                    <option value="li12">B.P.</option>
+                    <option value="li13">Descrição</option>
+                    <option value="li14">Fabricante</option>
+                    <option value="li15">Modelo</option>
+                    <option value="li16">Cap./Alcance</option>
+                    <option value="li17">N° de Série</option>
+                    <option value="li18">Status</option>
+                    <option value="li19">Tipo de Equipamento</option>
+                    <option value="li20">Requer Calib./Cert.</option>
+                    <option value="li21">Qtd. Entrada</option>
+                    <option value="li22">Qtd. em Uso</option>
+                    <option value="li23">Qtd. Saída</option>
+                    <option value="li24">Qtd. Estoque</option>
+                    <option value="li25">Qtd. Total</option>
+                    <option value="li26">Unidade</option>
+                    <option value="li27">Peso Kg</option>
+                    <option value="li28">Valor de Face</option>
+                    <option value="li29">Dimensões mm</option>
+                    <option value="li30">Certificado</option>
+                    <option value="li31">Lab./Ent.</option>
+                    <option value="li32">Periodicidade</option>
+                    <option value="li33">Data Cert./Cal.</option>
+                    <option value="li34">Validade Cert./Cal.</option>
+                    <option value="li35">Status Cert./Cal.</option>
+                    <option value="li36">PO</option>
+                    <option value="li37">Cód. Sap</option>
+                    <option value="li38">Cód. Ncm</option>
+                    <option value="li39">Fornecedor</option>
+                    <option value="li40">Nota Fiscal</option>
+                    <option value="li41">Dt. Recebimento</option>
+                    <option value="li42">Obs</option>
+                    <option value="li43">Status Ativo</option>
+                    <option value="li44">Dt. Lançamento</option>
+                    <option value="li45">Usuário Lançam.</option>
+                    <option value="li46">Ações</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!--VIZULIZAÇÃO EM LISTA-->
+    {{#each products}}
+    <!--INFORMAÇÃOES PARA ADICIONAR NA REQUISIÇÃO-->
+    <form id="form_cart" method="POST">
+        <input type="hidden" class="mt-2 form-control" id="id" name="id" value="{{_id}}">
+        <input type="hidden" class="mt-2 form-control" id="qrcode" name="qrcode" value="{{qrcode}}">
+        <input type="hidden" class="mt-2 form-control" id="image" name="image" value="{{image}}">
+        <input type="hidden" class="mt-2 form-control" id="group" name="group" value="{{group._id}}">
+        <input type="hidden" class="mt-2 form-control" id="subgroup" name="subgroup" value="{{subgroup._id}}">
+        <!--<input type="hidden" class="mt-2 form-control" id="fullDescription" name="fullDescription" value="{{fullDescription}}">-->
+        <!--<input type="hidden" class="mt-2 form-control" id="stockCode" name="stockCode" value="{{stockCode}}">-->
+        <!--<input type="hidden" class="mt-2 form-control" id="localArea" name="localArea" value="{{localArea._id}}">-->
+        <input type="hidden" class="mt-2 form-control" id="client" name="client" value="{{client._id}}">
+        <input type="hidden" class="mt-2 form-control" id="local" name="local" value="{{local._id}}">
+        <input type="hidden" class="mt-2 form-control" id="sublease" name="sublease" value="{{sublease._id}}">
+        <input type="hidden" class="mt-2 form-control" id="patrimonialAsset" name="patrimonialAsset"
+            value="{{patrimonialAsset}}">
+        <input type="hidden" class="mt-2 form-control" id="description" name="description" value="{{description}}">
+        <input type="hidden" class="mt-2 form-control" id="manufacturer" name="manufacturer" value="{{manufacturer}}">
+        <input type="hidden" class="mt-2 form-control" id="model" name="model" value="{{model}}">
+        <input type="hidden" class="mt-2 form-control" id="capacityReach" name="capacityReach"
+            value="{{capacityReach}}">
+        <input type="hidden" class="mt-2 form-control" id="serialNumber" name="serialNumber" value="{{serialNumber}}">
+        <input type="hidden" class="mt-2 form-control" id="physicalStatus" name="physicalStatus"
+            value="{{physicalStatus._id}}">
+        <input type="hidden" class="mt-2 form-control" id="kindOfEquipment" name="kindOfEquipment"
+            value="{{kindOfEquipment._id}}">
+        <input type="hidden" class="mt-2 form-control" id="requiresCertificationCalibration"
+            name="requiresCertificationCalibration" value="{{requiresCertificationCalibration}}">
+        <input type="hidden" class="mt-2 form-control" id="inputAmount" name="inputAmount" value="{{inputAmount}}">
+        <input type="hidden" class="mt-2 form-control" id="inputAmountSite" name="inputAmountSite"
+            value="{{inputAmountSite}}">
+        <!--<input type="hidden" class="mt-2 form-control" id="outputQuantity" name="outputQuantity"
+            value="{{outputQuantity}}">-->
+        <input type="hidden" class="mt-2 form-control" id="stockQuantity" name="stockQuantity"
+            value="{{stockQuantity}}">
+        <input type="hidden" class="mt-2 form-control" id="stockTotal" name="stockTotal" value="{{stockTotal}}">
+        <input type="hidden" class="mt-2 form-control" id="unity" name="unity" value="{{unity._id}}">
+        <input type="hidden" class="mt-2 form-control" id="weightKg" name="weightKg" value="{{weightKg}}">
+        <input type="hidden" class="mt-2 form-control" id="faceValue" name="faceValue" value="{{faceValue}}">
+        <input type="hidden" class="mt-2 form-control" id="dimensionsWxLxH" name="dimensionsWxLxH"
+            value="{{dimensionsWxLxH}}">
+        <input type="hidden" class="mt-2 form-control" id="certificate" name="certificate" value="{{certificate}}">
+        <input type="hidden" class="mt-2 form-control" id="entityLaboratory" name="entityLaboratory"
+            value="{{entityLaboratory}}">
+        <input type="hidden" class="mt-2 form-control" id="frequency" name="frequency" value="{{frequency._id}}">
+        <input type="hidden" class="mt-2 form-control" id="calibrationDate" name="calibrationDate"
+            value="{{calibrationDate}}">
+        <input type="hidden" class="mt-2 form-control" id="calibrationValidity" name="calibrationValidity"
+            value="{{calibrationValidity}}">
+        <input type="hidden" class="mt-2 form-control" id="calibrationStatus" name="calibrationStatus"
+            value="{{calibrationStatus}}">
+        <input type="hidden" class="mt-2 form-control" id="po" name="po" value="{{po}}">
+        <input type="hidden" class="mt-2 form-control" id="sapCode" name="sapCode" value="{{sapCode}}">
+        <input type="hidden" class="mt-2 form-control" id="ncmCode" name="ncmCode" value="{{ncmCode}}">
+        <input type="hidden" class="mt-2 form-control" id="provider" name="provider" value="{{provider._id}}">
+        <input type="hidden" class="mt-2 form-control" id="note" name="note" value="{{note}}">
+        <input type="hidden" class="mt-2 form-control" id="activeStatus" name="activeStatus" value="{{activeStatus}}">
+        <!--CONTROLE DE USUÁRIOS LANÇAMENTO DO MATERIAL-->
+        <input type="hidden" class="mt-2 form-control" id="releaseDateOf" name="releaseDateOf"
+            value="{{releaseDateOf}}">
+        <input type="hidden" class="mt-2 form-control" id="userLaunch" name="userLaunch" value="{{userLaunch._id}}">
+        <input type="hidden" class="mt-2 form-control" id="emailLaunch" name="emailLaunch" value="{{emailLaunch}}">
+        <!--CONTROLE DE USUÁRIOS ÚLTIMO LANÇAMENTO DO MATERIAL-->
+        <input type="hidden" class="mt-2 form-control" id="editionDate" name="editionDate" value="{{editionDate}}">
+        <input type="hidden" class="mt-2 form-control" id="userEdtion" name="userEdtion" value="{{userEdtion}}">
+        <input type="hidden" class="mt-2 form-control" id="emailEdtion" name="emailEdtion" value="{{emailEdtionn}}">
+
+        <div class="card" style="background-color: transparent;">
+            <div class="card-body">
+                <div class="d-none d-md-block d-print-block">
+                    
+                    <div class="d-flex justify-content-center">
+                        <div class="li06 mr-auto p-0">
+                            <h5 class="li06">{{fullDescription}}</h5>
+                        </div>
+
+                        <div class="li46 p-0 mr-1">
+                            <button id="updateCart" type="submit" class="mt-1 mb-1 btn btn-primary btn-sm"
+                                data-toggle="tooltip" data-placement="bottom"
+                                title="Inserir produto na solicitação atual">
+                                <i class="fas fa-cart-arrow-down"></i></button>
+                        </div>
+
+                        <div class="li46 p-0 mr-1">
+                            <button id="saveCart" type="submit" class="mt-1 mb-1 btn btn-success btn-sm"
+                                data-toggle="tooltip" data-placement="bottom" title="Dar entrada no Material">
+                                <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                        </div>
+
+                        <div class="li46 p-0 mr-1">
+                            <a href="/products/take/{{_id}}" class="mt-1 mb-1 btn btn-dark btn-sm" data-toggle="tooltip"
+                                data-placement="bottom" title="Visualizar detalhes">
+                                <i class="fas fa-align-left"></i>
+                            </a>
+                        </div>
+
+                        <div class="li46 p-0 mr-1">
+                            <a href="/products/move/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm"
+                                data-toggle="tooltip" data-placement="bottom" title="Movimentação interna">
+                                <i class="fas fa-file-signature"></i>
+                            </a>
+                        </div>
+
+                        <div class="li46 p-0 mr-1">
+                            <a href="/products/add_id/{{_id}}" class="mt-1 mb-1 btn btn-success btn-sm"
+                                data-toggle="tooltip" data-placement="bottom"
+                                title="Criar novo produto a partir dessas informações">
+                                <i class="far fa-clone"></i>
+                            </a>
+                        </div>
+
+                        <div class="li46 p-0 mr-1">
+                            <a href="/products/edit/{{_id}}" class="mt-1 mb-1 btn btn-secondary btn-sm"
+                                data-toggle="tooltip" data-placement="bottom" title="Ediar Produto">
+                                <i class="fas fa-pen"></i>
+                            </a>
+                        </div>
+                        <div class="li46 p-0">
+                            <a href="/products/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm"
+                                data-toggle="tooltip" data-placement="bottom" title="Deletar Produto">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                       
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-block d-md-none d-print-block">
+                    <div class="d-flex justify-content-center">
+                        <div class="mr-auto p-0">
+                            <h6 class="li06">{{fullDescription}}</h6>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+
+                <div class="row no-gutters position-relative">
+                    
+                    <div class="d-flex col-md-3 justify-content-center">
+<div class="li02 mr-2 p-0">
+                        <img src="{{image}}" style="width: 5rem;" class="rounded " alt="..." />
+                        </div>
+<div class="li03 p-0">
+                        <img id="qrcode" name="qrcode"
+                            src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{qrcode}}"
+                            style="width: 5rem;" class="rounded mr-3" />
+                            </div>
+                    </div>
+
+
+                    <div class="col-md-3 position-static p-0 pl-md-0 text-center">
+                        <p class="li04 mt-0 mb-1"><small><b>Grupo: </b>{{group.description}}</small></p>
+                        <p class="li05 mt-0 mb-1"><small><b>Subgrupo: </b>{{subgroup.description}}</small></p>
+                        <p class="li08 mt-0 mb-1"><small><b>Localização: </b>{{client.description}}</small></p>
+                        
+
+                    </div>
+
+                    <div class="col-md-3 position-static p-0 pl-md-0 text-center">
+                        <p class="li18 mt-0 mb-1"><small><b>Status Físico: </b>{{physicalStatus.description}}</small></p>
+                        <p class="li19 mt-0 mb-1"><small><b>Tipo de Equipamento: </b>{{kindOfEquipment.description}}</small>
+                        </p>
+                        <p class="li35 mt-0 mb-1"><small><b>Calibração/Certificação: </b>{{calibrationStatus}}</small></p>
+
+</div>
+
+                    <div class="col-md-3 position-static p-0 pl-md-0 text-center">
+                        <p class="mt-0 mb-1"><small><b>Última Movimentação: </b>{{editionDate}}</small></p>
+                        <p class="22 mt-0 mb-1"><small><b>Quantidade em Uso: </b>{{inputAmountSite}}</small></p>
+
+                        <div class="d-flex justify-content-center">
+                            <label for="outputQuantity"
+                                class="col-6 col-sm-6  col-form-label col-form-label-sm text-right"><b>
+                                    Solicitaçao:</b></label>
+                            <div class="col-4 col-sm-4  text-left">
+                                <input type="number" class="form-control form-control-sm" id="outputQuantity"
+                                    name="outputQuantity" value="1" min="1" max="{{inputAmountSite}}">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-3 position-static p-0 pl-md-0 text-center">
+                        <p class="li01 mt-0 mb-1"><small><b>Id: </b>{{_id}}</small></p>
+                        <p class="li07 mt-0 mb-1"><small><b>Código Estoque: </b>{{stockCode}}</small></p>
+                        <p class="li09 mt-0 mb-1"><small><b>Local no Site: </b>{{localArea.description}}</small></p>
+                        <p class="li10 mt-0 mb-1"><small><b>Locação: </b>{{local.description}}</small></p>
+                        <p class="li11 mt-0 mb-1"><small><b>Sublocação: </b>{{sublease.description}}</small></p>
+                        <p class="li27 mt-0 mb-1"><small><b>Peso Kg: </b>{{weightKg}}</small></p>
+                        <p class="li28 mt-0 mb-1"><small><b>Valor de Face: </b>{{faceValue}}</small></p>
+                        <p class="li29 mt-0 mb-1"><small><b>Dimensões mm: </b>{{dimensionsWxLxH}}</small></p>
+                    </div>
+
+                    <div class="col-md-3 position-static p-0 pl-md-0 text-center">
+                        <p class="li12 mt-0 mb-1"><small><b>B.P.: </b>{{patrimonialAsset}}</small></p>
+                        <p class="li13 mt-0 mb-1"><small><b>Descrição: </b>{{description}}</small></p>
+                        <p class="li14 mt-0 mb-1"><small><b>Fabricante: </b>{{manufacturer}}</small></p>
+                        <p class="li15 mt-0 mb-1"><small><b>Modelo: </b>{{model}}</small></p>
+                        <p class="li16 mt-0 mb-1"><small><b>Cap./ Alc.: </b>{{capacityReach}}</small></p>
+                        <p class="li17 mt-0 mb-1"><small><b>N° de Série: </b>{{serialNumber}}</small></p>
+                        <p class="li37 mt-0 mb-1"><small><b>Código Sap: </b>{{sapCode}}</small></p>
+                        <p class="li38 mt-0 mb-1"><small><b>Código Ncm: </b>{{ncmCode}}</small></p>
+                        <p class="li38 mt-0 mb-1"><small><b>Obs: </b>{{note}}</small></p>
+                    </div>
+                        
+                    <div class="col-md-3 position-static p-0 pl-md-0 text-center">
+                        <p class="li20 mt-0 mb-1"><small><b>Requer Cal./ Cert.: </b>{{requiresCertificationCalibration}}</small></p>
+                        <p class="li30 mt-0 mb-1"><small><b>Certificado: </b>{{certificate}}</small></p>
+                        <p class="li31 mt-0 mb-1"><small><b>Lab./ Entid.: </b>{{entityLaboratory}}</small></p>
+                        <p class="li32 mt-0 mb-1"><small><b>Periodicidade: </b>{{frequency.description}}</small></p>
+                        <p class="li33 mt-0 mb-1"><small><b>Data Cal./ Cert.: </b>{{calibrationDate}}</small></p>
+                        <p class="li34 mt-0 mb-1"><small><b>Validade Cal./ Cert.: </b>{{calibrationValidity}}</small></p>
+                        <p class="li43 mt-0 mb-1"><small><b>Status Ativo: </b>{{activeStatus}}</small></p>
+                        <p class="li44 mt-0 mb-1"><small><b>Data de Lançamento: </b>{{releaseDateOf}}</small></p>
+                    </div>
+
+                    <div class="col-md-3 position-static p-0 pl-md-0 text-center">
+                        <p class="li25 mt-0 mb-1"><small><b>Qtd. Total: </b>{{stockTotal}}</small></p>
+                        <p class="li24 mt-0 mb-1"><small><b>Qtd. Estoque: </b>{{stockQuantity}}</small></p>
+                        <p class="li21 mt-0 mb-1"><small><b>Qtd. Entrada: </b>{{inputAmount}}</small></p>
+                        <p class="li26 mt-0 mb-1"><small><b>Unidade: </b>{{unity.description}}</small></p>
+                        <p class="li36 mt-0 mb-1"><small><b>PO: </b>{{po}}</small></p>
+                        <p class="li39 mt-0 mb-1"><small><b>Fornecedor: </b>{{provider.name}}</small></p>
+                        <p class="li40 mt-0 mb-1"><small><b>Nota Fiscal: </b>{{invoce}}</small></p>
+                        <p class="li41 mt-0 mb-1"><small><b>Data Recebiemento: </b>{{receivingDate}}</small></p>
+                        <p class="li45 mt-0 mb-1"><small><b>Usuário Lançamento: </b>{{userLaunch.name}}</small></p>
+                        </p>
+                    </div>
+
+                        <div class="d-block d-md-none d-print-block">
+                            <div class="d-flex justify-content-center">
+
+                               <div class="li46 p-0 mr-1">
+                            <button id="updateCart" type="submit" class="mt-1 mb-1 btn btn-primary btn-sm"
+                                data-toggle="tooltip" data-placement="bottom"
+                                title="Inserir produto na solicitação atual">
+                                <i class="fas fa-cart-arrow-down"></i></button>
+                        </div>
+
+                        <div class="li46 p-0 mr-1">
+                            <button id="saveCart" type="submit" class="mt-1 mb-1 btn btn-success btn-sm"
+                                data-toggle="tooltip" data-placement="bottom" title="Dar entrada no Material">
+                                <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                        </div>
+
+                        <div class="li46 p-0 mr-1">
+                            <a href="/products/take/{{_id}}" class="mt-1 mb-1 btn btn-dark btn-sm" data-toggle="tooltip"
+                                data-placement="bottom" title="Visualizar detalhes">
+                                <i class="fas fa-align-left"></i>
+                            </a>
+                        </div>
+
+                        <div class="li46 p-0 mr-1">
+                            <a href="/products/move/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm"
+                                data-toggle="tooltip" data-placement="bottom" title="Movimentação interna">
+                                <i class="fas fa-file-signature"></i>
+                            </a>
+                        </div>
+
+                        <div class="li46 p-0 mr-1">
+                            <a href="/products/add_id/{{_id}}" class="mt-1 mb-1 btn btn-success btn-sm"
+                                data-toggle="tooltip" data-placement="bottom"
+                                title="Criar novo produto a partir dessas informações">
+                                <i class="far fa-clone"></i>
+                            </a>
+                        </div>
+
+                        <div class="li46 p-0 mr-1">
+                            <a href="/products/edit/{{_id}}" class="mt-1 mb-1 btn btn-secondary btn-sm"
+                                data-toggle="tooltip" data-placement="bottom" title="Ediar Produto">
+                                <i class="fas fa-pen"></i>
+                            </a>
+                        </div>
+                        <div class="li46 p-0">
+                            <a href="/products/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm"
+                                data-toggle="tooltip" data-placement="bottom" title="Deletar Produto">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                                </div>
+                            </div>
+                        </div>
+                    
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+</form>
+
+<br />
+{{else}}
+<h4 class="mt-12 mb-2">
+    Nenhum Produto Registrado!
+</h4>
+{{/each}}
+
+<div class="d-flex">
+    <div class="mr-auto p-2">
+        {{#if prev}}
+        <button class="btn btn-primary btn-sm mt-2" onclick="navigate(-1)">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            Anterior
+        </button>
+        {{/if}}
+    </div>
+    <div class="p-2">
+        {{#if next}}
+        <button class="btn btn-primary btn-sm mt-2" onclick="navigate(1)">
+            Próximo
+            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+        </button>
+        {{/if}}
+    </div>
+</div>
+</div>

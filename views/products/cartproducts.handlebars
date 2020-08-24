@@ -50,19 +50,18 @@
     </div>
     
     <div class="table-responsive">
-        <table class="mt-2 table table-hover table-sm table-bordered">
-            
+        <table class="mt-2 table table-hover table-sm table-bordered">  
             <thead>
-                
                 <tr>
                     <th class="tb01" scope="col">Id</th>
-                    <th class="tb03" scope="col">Imagem</th>
-                    <th class="tb04" scope="col">Bp/Descrição/Fab./Mod./Cap./Ns</th>
-                    <th class="tb08" scope="col">Status</th>
-                    <th class="tb09" scope="col">Tipo de Equipamento</th>
-                    <th class="tb10" scope="col">Qtd. Disponível</th>
-                    <th class="tb10" scope="col">Qtd. Solicitada</th>
-                    <th class="tb11" scope="col">Ações</th>
+                    <th class="tb02" scope="col">Imagem</th>
+                    <th class="tb" scope="col">Bp/Descrição/Fab./Mod./Cap./Ns</th>
+                    <th class="tb" scope="col">Status</th>
+                    <th class="tb" scope="col">Tipo de Equipamento</th>
+                    <th class="tb" scope="col">Site Origem</th>
+                    <th class="tb" scope="col">Qtd. Disponível</th>
+                    <th class="tb" scope="col">Qtd. Solicitada</th>
+                    <th class="tb" scope="col">Ações</th>
                 </tr>
             </thead>
             {{#each products}}
@@ -81,12 +80,13 @@
                             <!--<figcaption class="figure-caption">Uma legenda para a imagem acima.</figcaption>-->
                         </figure>
                     </td>
-                    <td class="tb08">{{fullDescription}}</td>
-                    <td class="tb08">{{physicalStatus.description}}</td>
-                    <td class="tb08">{{kindOfEquipment.description}}</td>
-                    <td class="tb08">{{inputAmount}}</td>
-                    <td class="tb09">
-                        <input type="number" value="1" min="1" max="{{inputAmount}}" class="form-control"
+                    <td class="tb">{{fullDescription}}</td>
+                    <td class="tb">{{physicalStatus.description}}</td>
+                    <td class="tb">{{kindOfEquipment.description}}</td>
+                    <td class="tb">{{client.description}}</td>
+                    <td class="tb">{{inputAmount}}</td>
+                    <td class="tb">
+                        <input type="number" value={{outputQuantity}} min="1" max="{{inputAmount}}" class="form-control form-control-sm"
                             name="productsQuantity[]" required>
                     </td>
                     <td>

@@ -313,16 +313,14 @@ function navigate(offset) {
 
 function search() {
     var searchParams = new URLSearchParams(location.search);
-    const search = document.getElementById('search').value;
-    searchParams.set("search", search);
+    const search = document.getElementById('search').value || document.getElementById('searchMobile').value
+    
+    searchParams.set("search", search );
     location.search = searchParams.toString();
 }
 
-function stock() {
-    const input = document.getElementById('inputAmount').value
-    const exit = document.getElementById('outputQuantity').value
-    document.getElementById('stockQuantity').value = input - exit
-}
+
+
 
 //MUDA O ATRIBUTO DO FORM CARRINHO DE COMPRAS
 $("#saveCart, #updateCart").click(function() {
@@ -364,3 +362,48 @@ $('.hiddenTable').prop('readonly', true);
 $('.nameUser').on('change', function() {
     $('.nomeUser').val($(this).find('option:selected').text());
 });
+
+
+//MOSTRAR OCULTAR COLUNAS
+$(document).ready(function() {
+    //Select para mostrar e esconder divs
+    $('#SelectOptions').on('change',function(){
+        var SelectValue='.'+$(this).val();
+        $('.DivPai div').hide();
+        $(SelectValue).toggle();
+    });
+});
+
+//MOSTRAR OCULTAR COLUNAS MOBILE
+$(document).ready(function() {
+    //Select para mostrar e esconder divs
+    $('#SelectOptionsMobile').on('change',function(){
+        var SelectValue='.'+$(this).val();
+        $('.DivPai div').hide();
+        $(SelectValue).toggle();
+    });
+});
+
+//MOSTRAR OCULTAR DETALHES LISTA
+$(document).ready(function() {
+    //Select para mostrar e esconder divs
+    $('#SelectList').on('change',function(){
+        var SelectValue='.'+$(this).val();
+        $('.DivPai div').hide();
+        $(SelectValue).toggle();
+    });
+});
+
+//MOSTRAR OCULTAR DETALHES LISTA MOBILE
+$(document).ready(function() {
+    //Select para mostrar e esconder divs
+    $('#SelectListMobile').on('change',function(){
+        var SelectValue='.'+$(this).val();
+        $('.DivPai div').hide();
+        $(SelectValue).toggle();
+    });
+});
+
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })

@@ -65,7 +65,9 @@ const productMovementRoute = require('./routes/productMovement-route')
     //Recebimento de Produtos
 const productReceivementRoute = require('./routes/productReceivement-route')
     //Transferência de Produtos
-const transferRoute = require("./routes/transfer-route");
+const transferRoute = require("./routes/transfer-route")
+    //Dashboards
+const dashboardRoute = require("./routes/dashboard-route")
 
 const passport = require("passport")
 require("./config/auth")(passport)
@@ -215,6 +217,7 @@ app.use('/products', productMovementRoute)
 app.use('/products', productReadRoute)
 app.use("/products", productReceivementRoute)
 app.use("/products", transferRoute)
+app.use("/dashboards", dashboardRoute)
 
 
 
