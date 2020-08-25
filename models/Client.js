@@ -83,9 +83,6 @@ const Client = new Schema({
         type: String,
         default: Date.now()
     },
-    user: {
-        type: String,
-    },
     ic: {
         type: Schema.Types.ObjectId,
         ref: "collaborators",
@@ -97,6 +94,11 @@ const Client = new Schema({
         required: true
     },
     responsibleMaterial: {
+        type: Schema.Types.ObjectId,
+        ref: "collaborators",
+        required: true
+    },
+    user: {
         type: Schema.Types.ObjectId,
         ref: "collaborators",
         required: true

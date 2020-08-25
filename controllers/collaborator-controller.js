@@ -2,6 +2,8 @@ const mongoose = require("mongoose")
 const qr = require('qr-image')
 require("../models/Collaborator")
 const Collaborator = mongoose.model("collaborators")
+require("../models/Client")
+const Client = mongoose.model("customers")
 
 //LISTANDO OS FORNECEDORES POR LISTA
 exports.getList = async (req, res) => {
@@ -9,8 +11,8 @@ exports.getList = async (req, res) => {
     var collaborators = await Collaborator
     .find({active: true})
     .sort({ name: "asc" })
-    .populate("contractor")
-        res.render("collaborators/collaborators", {collaborators:collaborators.map(collaborators => collaborators.toJSON())})
+    .populate("contractor").lean()
+        res.render("collaborators/collaborators", {collaborators:collaborators})
     } catch (err) {
         req.flash("error_msg", "Ops, Houve um erro interno!")
         res.redirect("/collaborators/collaborators")

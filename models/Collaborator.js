@@ -25,7 +25,7 @@ const Collaborator = new Schema({
     },
     contractor: {
         type: Schema.Types.ObjectId,
-        ref: "providers",
+        ref: "customers",
         required: true
     },
     email: {
@@ -73,8 +73,9 @@ const Collaborator = new Schema({
         default: Date.now()
     },
     user: {
-        type: String,
-        default: "Daniel Soares de Albuquerque"
+        type: Schema.Types.ObjectId,
+        ref: "collaborators",
+        required: true
     },
     active: {
         type: Boolean,
