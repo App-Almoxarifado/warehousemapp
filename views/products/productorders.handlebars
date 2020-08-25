@@ -13,19 +13,22 @@
             </div>
 
             <a href="/products/add">
-                <button class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom" title="Cadastre um novo produto">
+                <button class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom"
+                    title="Cadastre um novo produto">
                     Cadastro <i class="fas fa-paper-plane"></i>
                 </button>
             </a>
 
             <a href="/products/cart">
-                <button type="button" class="mr-2 btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Vizualize os produtos requisitados, e quando quiser feche seu pedido">
+                <button type="button" class="mr-2 btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom"
+                    title="Vizualize os produtos requisitados, e quando quiser feche seu pedido">
                     <small><strong>Itens Requisitados <i class="fas fa-dolly"></i></strong></small>
                 </button>
             </a>
 
             <a href="/products/cart">
-                <button type="button" class="mr-2 btn btn-dark btn-sm " data-toggle="tooltip" data-placement="bottom" title="Vizualize o histórico dos seus pedidos">
+                <button type="button" class="mr-2 btn btn-dark btn-sm " data-toggle="tooltip" data-placement="bottom"
+                    title="Vizualize o histórico dos seus pedidos">
                     <small><strong>Meus Pedidos <i class="fas fa-truck"></i></strong></small>
                 </button>
             </a>
@@ -35,7 +38,7 @@
         <div class="d-flex justify-content-center">
             <div class="p-1">
                 {{#each groups}}
-                <a href="/products/{{_id}}">
+                <a href="/products/request/{{_id}}">
                     <button type="button" class="totalGroup2 btn btn-secondary btn-sm">
                         {{description}}
                     </button>
@@ -50,14 +53,13 @@
                 <div class="form-group row">
                     <label for="client" class="col-sm-7 col-form-label col-form-label-sm">Itens p/ página</label>
                     <div class="col-sm-5">
-                        <select class="custom-select custom-select-sm" id="itensPage" name="itensPage">
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
+                        <select class="custom-select custom-select-sm" id="limit" name="limit" onchange="setLimit()">
+                            <option value="5" {{#if_eq limit 5}}selected{{/if_eq}}>5</option>
+                            <option value="10" {{#if_eq limit 10}}selected{{/if_eq}}>10</option>
+                            <option value="25" {{#if_eq limit 25}}selected{{/if_eq}}>25</option>
+                            <option value="50" {{#if_eq limit 50}}selected{{/if_eq}}>50</option>
+                            <option value="100" {{#if_eq limit 100}}selected{{/if_eq}}>100</option>
                         </select>
-
                     </div>
                 </div>
             </div>
@@ -116,11 +118,21 @@
                     <option value="tb46">Ações</option>
                 </select>
             </div>
+            <div class="p-1">
+                <select class="custom-select custom-select-sm" id="site" name="site" onchange="setSite()">
+                    <option selected disabled value="">Pesquise um Site</option>
+                    {{#each customers}}
+                    <option value="{{_id}}" {{#if_eq _id site}}selected{{/if_eq}}>{{description}}</option>
+                    {{else}}
+                    <option value="0">Nenhum site registrado</option>
+                    {{/each}}
+                </select>
+            </div>
 
             <div class="p-1">
                 <div class="input-group input-group-sm mb-3">
                     <input type="text-sm" class="form-control" id="search" name="search" placeholder="Pesquise aqui..."
-                        onchange="this.value=this.value.toLowerCase()" />
+                         >
                 </div>
             </div>
 
@@ -143,19 +155,22 @@
 
         <div class="d-flex justify-content-center">
             <a href="/products/add">
-                <button class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom" title="Cadastre um novo produto">
+                <button class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom"
+                    title="Cadastre um novo produto">
                     Cadastro <i class="fas fa-paper-plane"></i>
                 </button>
             </a>
 
             <a href="/products/cart">
-                <button type="button" class="mr-2 btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Vizualize os produtos requisitados, e quando quiser feche seu pedido">
+                <button type="button" class="mr-2 btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom"
+                    title="Vizualize os produtos requisitados, e quando quiser feche seu pedido">
                     <small><strong>Itens Requisitados <i class="fas fa-dolly"></i></strong></small>
                 </button>
             </a>
 
             <a href="/products/cart">
-                <button type="button" class="mr-2 btn btn-dark btn-sm " data-toggle="tooltip" data-placement="bottom" title="Vizualize o histórico dos seus pedidos">
+                <button type="button" class="mr-2 btn btn-dark btn-sm " data-toggle="tooltip" data-placement="bottom"
+                    title="Vizualize o histórico dos seus pedidos">
                     <small><strong>Meus Pedidos <i class="fas fa-truck"></i></strong></small>
                 </button>
             </a>
@@ -198,7 +213,6 @@
 
         <div class="d-flex justify-content-center">
             <div class="p-1">
-
                 <select class="custom-select custom-select-sm" id="itensPage" name="itensPage">
                     <option selected>Itens por Página</option>
                     <option value="5">5</option>
@@ -388,6 +402,9 @@
                     <input type="hidden" class="mt-2 form-control" id="ncmCode" name="ncmCode" value="{{ncmCode}}">
                     <input type="hidden" class="mt-2 form-control" id="provider" name="provider"
                         value="{{provider._id}}">
+                    <input type="hidden" class="mt-2 form-control" id="invoce" name="invoce" value="{{invoce}}">
+                    <input type="hidden" class="mt-2 form-control" id="receivingDate" name="receivingDate"
+                        value="{{receivingDate}}">
                     <input type="hidden" class="mt-2 form-control" id="note" name="note" value="{{note}}">
                     <input type="hidden" class="mt-2 form-control" id="activeStatus" name="activeStatus"
                         value="{{activeStatus}}">
@@ -443,8 +460,9 @@
                         <td class="tb20 d-print-block">{{requiresCertificationCalibration}}</td>
                         <td class="tb21 d-print-block">{{inputAmount}}</td>
                         <td class="tb22 d-print-block">{{inputAmountSite}}</td>
-                        <td class="tb23 d-block d-print-block"> <input type="number" value="1" min="1" max="{{inputAmountSite}}" class="form-control form-control-sm"
-                            name="outputQuantity" required></td>
+                        <td class="tb23 d-block d-print-block"> <input type="number" value="1" min="1"
+                                max="{{inputAmountSite}}" class="form-control form-control-sm" name="outputQuantity"
+                                required></td>
                         <td class="tb24 d-print-block">{{stockQuantity}}</td>
                         <td class="tb25 d-print-block">{{stockTotal}}</td>
                         <td class="tb26 d-print-block">{{unity.description}}</td>
@@ -471,12 +489,15 @@
                         <td class="tb46 d-print-none">
                             <div class="d-flex justify-content-center">
                                 <div class="p-0 mr-1">
-                                    <button id="updateCart" type="submit" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip" data-placement="right" title="Inserir produto na solicitação atual">
+                                    <button id="updateCart" type="submit" class="mt-1 mb-1 btn btn-primary btn-sm"
+                                        data-toggle="tooltip" data-placement="right"
+                                        title="Inserir produto na solicitação atual">
                                         <i class="fas fa-cart-arrow-down"></i></button>
                                 </div>
 
                                 <div class="p-0 mr-1">
-                                    <button id="saveCart" type="submit" class="mt-1 mb-1 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom" title="Dar entrada no Material">
+                                    <button id="saveCart" type="submit" class="mt-1 mb-1 btn btn-success btn-sm"
+                                        data-toggle="tooltip" data-placement="bottom" title="Dar entrada no Material">
                                         <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
                                 </div>
 

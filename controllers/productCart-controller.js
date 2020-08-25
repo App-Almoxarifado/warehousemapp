@@ -43,35 +43,41 @@ exports.getRequest = async(req, res) => {
         const filtros = [];
         let {
             search,
-            page
-
+            page,
+            site,
+            limit
         } = req.query;
-        if (search) {
+        if (!!search) {
             const pattern = new RegExp(`.*${search}.*`)
             filtros.push({
                 qrcode: {
                     $regex: pattern
                 }
-            })
-            filtros.push({
+            },
+            {
                 description: {
                     $regex: pattern
                 }
-            })
-            filtros.push({
+            },
+            {
                 user: {
                     $regex: pattern
                 }
-            })
-            filtros.push({
+            },
+            {
                 tags: {
                     $regex: pattern
                 }
             })
         }
+        if(!!site) {
+            filtros.push({
+                client: site
+            })
+        }
 
-        page = page || 1;
-
+        page = Number(page || 1);
+        limit = limit ? Number(limit) : 10;
 
         const quant = await Product
             .find(filtros.length > 0 ? {
@@ -85,8 +91,8 @@ exports.getRequest = async(req, res) => {
             .sort({
                 editionDate: "desc"
             })
-            .limit(15)
-            .skip(page && Number(page) > 1 ? Number(page - 1) * 15 : 0)
+            .limit(limit)
+            .skip(page > 1 ? (page - 1) * limit : 0)
             .populate("group")
             .populate("subgroup")
             .populate("client")
@@ -107,16 +113,20 @@ exports.getRequest = async(req, res) => {
         res.render("products/productorders", {
             products: products.map(products => products.toJSON()),
             prev: Number(page) > 1,
-            next: Number(page) * 15 < quant,
+            next: Number(page) * limit < quant,
             customers: customers,
             groups: groups,
             page,
+            limit,
+            site
         })
     } catch (err) {
+        console.log(err);
         req.flash("error_msg", "Ops, Houve um erro interno!")
         res.redirect("/products/products")
     }
 }
+
 
 //VIZUALIZANDO PRODUTOS CARRINHO
 exports.getCart = async(req, res) => {
@@ -584,3 +594,5 @@ exports.updateRequest = async(req, res) => {
         }
     }
 }
+
+

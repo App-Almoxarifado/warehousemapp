@@ -1,3 +1,35 @@
+
+//PAGINAÇÃO E PESQUISA
+function navigate(offset) {
+    var searchParams = new URLSearchParams(location.search);
+    const page = Number(searchParams.get("page")) || 1;
+    searchParams.set("page", page + offset);
+    window.location.search = searchParams.toString();
+}
+
+function search() {
+    var searchParams = new URLSearchParams(location.search);
+    const search = document.getElementById('search').value || document.getElementById('search').value
+    searchParams.set("search", search );
+    window.location.search = searchParams.toString();
+}
+
+function setSite() {
+    var searchParams = new URLSearchParams(location.search);
+    const site = document.getElementById('site').value || document.getElementById('site').value
+    searchParams.set("site", site );
+    window.location.search = searchParams.toString();
+}
+
+function setLimit() {
+    var searchParams = new URLSearchParams(location.search);
+    const limit = document.getElementById('limit').value || document.getElementById('limit').value
+    searchParams.set("limit", limit );
+    window.location.search = searchParams.toString();
+}
+
+
+
 //CONFIRMAÇÃO AO DELETAR 
 $(document).ready(function() {
     $(".deletar").click(function(event) {
@@ -9,6 +41,8 @@ $(document).ready(function() {
         }
     })
 })
+
+
 
 //FUNÇÃO PARA AUTOMATIZAR O CÓDIGO QRCODE
 function qrcodeFormat() {
@@ -302,25 +336,6 @@ function statusCalibration() {
  var chartGraph = new Chart(ctx, {
    type: 'bar',
 })*/
-
-
-function navigate(offset) {
-    var searchParams = new URLSearchParams(location.search);
-    const page = Number(searchParams.get("page")) || 1;
-    searchParams.set("page", page + offset);
-    location.search = searchParams.toString();
-}
-
-function search() {
-    var searchParams = new URLSearchParams(location.search);
-    const search = document.getElementById('search').value || document.getElementById('searchMobile').value
-    
-    searchParams.set("search", search );
-    location.search = searchParams.toString();
-}
-
-
-
 
 //MUDA O ATRIBUTO DO FORM CARRINHO DE COMPRAS
 $("#saveCart, #updateCart").click(function() {
