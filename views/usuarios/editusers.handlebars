@@ -1,84 +1,71 @@
 <div class="bgRegister">
     <div class="user container">
-    <h3>Editar Conta:</h3>
-    {{#each erros}}
-    <div class="alert alert-danger">{{texto}}</div>
-    {{else}}
+        
+        {{#each erros}}
+        <div class="alert alert-danger">{{texto}}</div>
+        {{else}}
 
-    {{/each}}
-            <form class="mt-5" method='post' enctype="multipart/form-data" action="/upload">
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <div class="text-center">
-                         <img  src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{usuario.qrcode}}" class=" img-fluid rounded" alt="Responsive image">
-                                </div>
-                                </div>
-                    <div class="form-group col-md-6">
-                        <div class="text-center">
-                            <img src="{{usuario.image}}" style="width: 150px;" class="avatar img-fluid rounded"
-                                 alt="Responsive image">
-                            <input type="file" accept="image/*" name="file" id="file"
-                                class="custom-file-input btn-file text-center center-block file-upload">
-                            <input type='submit' class='btn btn-primary' value='Upload de imagem'>
+        {{/each}}
+                <div class="cardLogin card">
+            <div class="card-body">
+                <h3>Editar Conta:</h3>
+        <form class="mt-1" method='post' enctype="multipart/form-data" action="/upload">
+                <div class="d-flex justify-content-center">
+                    <div class="text-center">
+                        <img src="{{usuario.image}}" style="width: 150px;" class="avatar img-fluid rounded"
+                            alt="Responsive image">
+                        <input type="file" accept="image/*" name="file" id="file"
+                            class="custom-file-input btn-file text-center center-block file-upload">
+                            <div class="d-flex mt-2 justify-content-center">
+                        <input type='submit' class='btn btn-primary' value='Upload de imagem'>
                         </div>
                     </div>
                 </div>
-            </form>
-    <form action="/usuarios/users/edit/" method="POST">
-        <div class="form-row">
-            <div class="form-group col-md-12">
-                        <input type="hidden" class="form-control" id="id" name="id" placeholder="Id" value ="{{usuario._id}}">
-                        <input type="hidden" class="form-control" id="qrcode" name="qrcode"
-                            placeholder="QrCode do group" value ="{{usuario.qrcode}}">
-                        <input type="text" class="form-control mt-2" name="image" id="image" value ="{{usuario.image}}">
-                <label for="nome">Nome:</label>
-                <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite seu nome:" required
-                    onkeyup="qrcodeFormatUser()" value ="{{usuario.nome}}">
+            
+        </form>
+        <form action="/usuarios/users/edit/" method="POST">
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <input type="hidden" class="form-control" id="id" name="id" placeholder="Id"
+                        value="{{usuario._id}}">
+                    <input type="hidden" class="form-control" id="qrcode" name="qrcode" placeholder="QrCode do group"
+                        value="{{usuario.qrcode}}">
+                    <input type="hidden" class="form-control mt-2" name="image" id="image" value="{{usuario.image}}">
+                    <label for="nome">Nome:</label>
+                    <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite seu nome:"
+                     value="{{usuario.nome}}">
+                    <input type="hidden" class="form-control" id="name" name="name" placeholder="Digite seu nome:"
+                        required value="{{usuario.name}}">
+                </div>
             </div>
-            <!--<div class="form-group col-md-12">
-                <label for="email">Email:</label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="Digite o seu email"
-                    required value ="{{usuario.email}}">
-            </div>-->
-            <!--<div class="form-group col-md-12">
-                <label for="senha">Senha:</label>
-                <input type="hidden" class="form-control" id="senha" name="senha" placeholder="Digite a sua senha:"
-                    required value ="{{usuario.senha}}">
-            </div>-->
-            <!--<div class="form-group col-md-12">
-                <!--<label for="descricao">Repita a sua senha:</label>
-                <input type="password" class="form-control" id="senha2" name="senha2" placeholder="Repita a sua senha:"
-                    required value ="{{usuario.senha}}">
-            </div>-->
-
-        </div>
-                <input type="hidden" class="form-control" id="date" name="date" placeholder="date"
-                    value="{{#formatDate date}}{{/formatDate}}">
-       <div class="form-row">
-        <div class="form-group col-md-6">
-                <label for="active">Bloquear Usuário:</label>
-                <select class="custom-select mr-sm-2" id="active" name="active">
-                    <option Disabled selected>Ativar...</option>
-                    <option value="true">Não</option>
-                    <option value="false">Sim</option>
-                </select>
-            </div> 
-        <div class="form-group col-md-6">
-                <label for="group">Permissões:</label>
-                <select class="custom-select mr-sm-2" id="eAdmin" name="eAdmin">
-                    <option Disabled selected>Ativar...</option>
-                    <option value = 0 >Usuário</option>
-                    <option value = 1 >Admin</option>
-                    <option value = 2 >Desenvolvedor</option>
-                </select>
-            </div>
+            <input type="hidden" class="form-control" id="date" name="date" placeholder="date"
+                value="{{#formatDate date}}{{/formatDate}}">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="active">Bloquear Usuário:</label>
+                    <select class="custom-select mr-sm-2" id="active" name="active">
+                        <option Disabled selected>Selecione...</option>
+                        <option value="true">Não</option>
+                        <option value="false">Sim</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="group">Permissões:</label>
+                    <select class="custom-select mr-sm-2" id="eAdmin" name="eAdmin">
+                        <option Disabled selected>Selecione...</option>
+                        <option value=0>Usuário</option>
+                        <option value=1>Admin</option>
+                        <option value=2>Desenvolvedor</option>
+                    </select>
+                </div>
             </div>
             <div class="form-row">
-            <div class="form-group col-md-12">
-                <button type="submit" class="btn btn-success mt-2">Salvar <i class="fas fa-share"></i></button>
+                <div class="form-group col-md-12">
+                    <button type="submit" class="btn btn-success mt-2">Salvar <i class="fas fa-share"></i></button>
+                </div>
             </div>
-            </div>
-            </form>
-        </div>
-    
+        </form>
+    </div>
+
+</div>
 </div>
