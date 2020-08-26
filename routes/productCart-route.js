@@ -5,7 +5,7 @@ const { eAdmin } = require("../helpers/eAdmin")
 const { eDevAdmin } = require("../helpers/eAdmin")
 
 //PRODUTOS - ROTA CARRINHO DE COMPRAS
-router.get("/request/:id?",controller.getRequest) 
+router.get("/request",controller.getRequest) 
 router.get("/cart/:id?",controller.getCart) 
 router.post("/addItem", controller.postRequest)
 router.post("/updateItem", controller.updateRequest)

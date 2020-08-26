@@ -63,14 +63,9 @@ exports.getRequest = async(req, res) => {
                 user: {
                     $regex: pattern
                 }
-            },
-            {
-                tags: {
-                    $regex: pattern
-                }
             })
         }
-        if(!!site) {
+        if (!!site) {
             filtros.push({
                 client: site
             })
@@ -79,12 +74,12 @@ exports.getRequest = async(req, res) => {
         page = Number(page || 1);
         limit = limit ? Number(limit) : 10;
 
-        const quant = await Product
+            const quant = await Product
             .find(filtros.length > 0 ? {
                 $or: filtros
             } : {}).estimatedDocumentCount()
 
-        var products = await Product
+            var products = await Product
             .find(filtros.length > 0 ? {
                 $or: filtros
             } : {})
@@ -109,7 +104,7 @@ exports.getRequest = async(req, res) => {
             .populate("unity")
             .populate("frequency")
             .populate("provider")
-
+            console.log(quant)
         res.render("products/productorders", {
             products: products.map(products => products.toJSON()),
             prev: Number(page) > 1,

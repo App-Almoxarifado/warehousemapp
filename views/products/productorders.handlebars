@@ -124,7 +124,7 @@
                 <select class="custom-select custom-select-sm" id="site" name="site" onchange="setSite()">
                     <option selected disabled value="">Pesquise um Site</option>
                     {{#each customers}}
-                    <option value="{{_id}}" {{#if_eq _id site}}selected{{/if_eq}}>{{description}}</option>
+                    <option value="{{_id}}" {{#if_eq ../site _id}}selected{{/if_eq}}>{{description}}</option>
                     {{else}}
                     <option value="0">Nenhum site registrado</option>
                     {{/each}}
@@ -133,8 +133,7 @@
 
             <div class="p-1">
                 <div class="input-group input-group-sm mb-3">
-                    <input type="text-sm" class="form-control" id="search" name="search" placeholder="Pesquise aqui..."
-                         >
+                    <input type="text-sm" class="form-control" id="search" name="search" placeholder="Pesquise aqui...">  
                 </div>
             </div>
 
@@ -423,7 +422,7 @@
                     <input type="hidden" class="mt-2 form-control" id="userEdtion" name="userEdtion"
                         value="{{userEdtion}}">
                     <input type="hidden" class="mt-2 form-control" id="emailEdtion" name="emailEdtion"
-                        value="{{emailEdtionn}}">
+                        value="{{emailEdtion}}">
                     <tr>
                         <th class="tb01 d-print-block">{{_id}}</th>
                         <td class="tb02 d-print-block">
