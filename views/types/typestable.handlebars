@@ -16,14 +16,31 @@
         <h3>Tipos de Equipamento</h3>
       </div>
 
-      <a href="/types/add">
-        <button class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom"
-          title="Cadastre ">
-          Cadastre um novo tipo <i class="fas fa-paper-plane"></i>
-        </button>
-      </a>
-
+      <div class="p-0 mr-1">
+        <a href="/types">
+          <button type="button" class="btn btn-primary btn-sm">
+            Lista
+            <i class="fas fa-th-list"></i>
+          </button>
+        </a>
+      </div>
+      <div class="p-0 mr-1">
+        <a href="/types/table">
+          <button type="button" class="btn btn-primary btn-sm">
+            Tabela
+            <i class="fas fa-table"></i>
+          </button>
+        </a>
+      </div>
+      <div class="p-0">
+        <a href="/types/add">
+          <button class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom" title="Cadastre ">
+            Cadastre um novo tipo <i class="fas fa-paper-plane"></i>
+          </button>
+        </a>
+      </div>
     </div>
+
 
     <div class="d-flex justify-content-center">
       <div class="p-1 mr-auto">
@@ -158,9 +175,9 @@
           <th class="tbTypes05 d-print-block" scope="col">Data de Lançamento</th>
           <th class="tbTypes06 d-print-block" scope="col">Usuário Lançamento</th>
           <th class="tbTypes07 d-print-block" scope="col">Email Lançamento</th>
-          <th class="tbTypes08 d-print-block" scope="col">Data Edição</th>
-          <th class="tbTypes09 d-print-block" scope="col">Usuário Edição</th>
-          <th class="tbTypes10 d-print-block" scope="col">Email Edição</th>
+          <th class="tbTypes08 d-print-block" scope="col" style="display: none;">Última Modificação</th>
+          <th class="tbTypes09 d-print-block" scope="col" style="display: none;">Usuário Edição</th>
+          <th class="tbTypes10 d-print-block" scope="col" style="display: none;">Email Edição</th>
           <th class="tbTypes11 d-print-block" scope="col">Ações</th>
         </tr>
       </thead>
@@ -203,9 +220,9 @@
             <td class="tbTypes05 d-print-block">{{releaseDateOf}}</td>
             <td class="tbTypes06 d-print-block">{{userLaunch.name}}</td>
             <td class="tbTypes07 d-print-block">{{emailLaunch}}</td>
-            <td class="tbTypes08 d-print-block">{{editionDate}}</td>
-            <td class="tbTypes09 d-print-block">{{userEdtion}}</td>
-            <td class="tbTypes10 d-print-block">{{emailEdtion}}</td>
+            <td class="tbTypes08 d-print-block" style="display: none;">{{editionDate}}</td>
+            <td class="tbTypes09 d-print-block" style="display: none;">{{userEdtion.name}}</td>
+            <td class="tbTypes10 d-print-block" style="display: none;">{{emailEdtion}}</td>
 
             <td class="tbTypes03 d-print-none">
               <div class="d-flex justify-content-center">

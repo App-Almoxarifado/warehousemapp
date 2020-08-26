@@ -3,13 +3,14 @@ require("../models/Type")
 const Type = mongoose.model("types")
 require("../models/Client")
 const Client = mongoose.model("customers")
+require("../models/Collaborator")
+const Collaborator = mongoose.model("collaborators")
 
 
 //EXIBINDO TIPOS POR LISTA
 exports.getList = async(req, res) => {
     try {
         var customers = await Client.find({ active: true}).sort({description: "asc"}).lean()
-
         const filtros = [];
         let { search, page, site, limit} = req.query;
         if (!!search) {
@@ -18,18 +19,15 @@ exports.getList = async(req, res) => {
               {qrcode: { $regex: pattern }},
               {description: {$regex: pattern}},
               {user: { $regex: pattern}})}
-
         page = Number(page || 1);
         limit = limit ? Number(limit) : 10;
-
         const quant = await Type.find(filtros.length > 0 ? {$or: filtros} : {}).estimatedDocumentCount()
+        var types = await Type.find(filtros.length > 0 ? {$or: filtros} : {}).sort({description: "asc"})
+        .limit(limit).skip(page > 1 ? (page - 1) * limit : 0).lean()
+        .populate(['userLaunch','userEdition'])
 
-        var types = await Type.find(filtros.length > 0 ? {$or: filtros} : {}).sort({description: "asc"}).limit(limit).skip(page > 1 ? (page - 1) * limit : 0)
-        .populate("userLaunch")
-        .populate("userEdition")
-            console.log(quant)
         res.render("types/types", {
-            types: types.map(types => types.toJSON()),
+            types: types,
             customers: customers,
             prev: Number(page) > 1,
             next: Number(page) * limit < quant,
@@ -40,7 +38,7 @@ exports.getList = async(req, res) => {
     } catch (err) {
         console.log(err);
         req.flash("error_msg", "Ops, Houve um erro interno!")
-        res.redirect("/types/types")
+        res.redirect("/types")
     }
 }
 
@@ -64,9 +62,9 @@ exports.getTable = async(req, res) => {
         const quant = await Type.find(filtros.length > 0 ? {$or: filtros} : {}).estimatedDocumentCount()
 
         var types = await Type.find(filtros.length > 0 ? {$or: filtros} : {}).sort({description: "asc"}).limit(limit).skip(page > 1 ? (page - 1) * limit : 0)
-        .populate("userLaunch")
-        .populate("userEdition")
-            console.log(quant)
+        
+        .populate('userEdition')
+        .populate('userLaunch')
         res.render("types/typestable", {
             types: types.map(types => types.toJSON()),
             customers: customers,
@@ -79,7 +77,7 @@ exports.getTable = async(req, res) => {
     } catch (err) {
         console.log(err);
         req.flash("error_msg", "Ops, Houve um erro interno!")
-        res.redirect("/types/types")
+        res.redirect("/types")
     }
 }
 
@@ -89,7 +87,7 @@ exports.getCreate = async(req, res) => {
         res.render("types/addtypes")
     } catch (err) {
         req.flash("error_msg", "Ops, Houve um erro interno!")
-        res.redirect("/types/types")
+        res.redirect("/types")
     }
 }
 
@@ -102,7 +100,7 @@ exports.postCreate = async(req, res) => {
     }
     if (req.body.description.length < 2) {
         erros.push({
-            texto: "Descrição do Grupo Muito Pequeno!"
+            texto: "Descrição do Tipo Muito Pequeno!"
         })
     }
     if (erros.length > 0) {
@@ -111,7 +109,7 @@ exports.postCreate = async(req, res) => {
         })
     } else {
         try {
-            const groups = new Group({
+            const types = new Type({
                 qrcode: req.body.description
                     .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
                     .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
@@ -119,19 +117,21 @@ exports.postCreate = async(req, res) => {
                     .replace(/(^-+|-+$)/, ''), // Remove hífens extras do final ou do inicio da string
                 image: req.body.image, //.slice(0, -1),
                 description: req.body.description,
-                date: req.body.date,
-                //user: req.body.user,
-                //active: req.body.active,
-                //tags: [req.body.qrcode,req.body.description]
+                releaseDateOf: req.body.releaseDateOf,
+                userLaunch: req.body.userLaunch,
+                emailLaunch: req.body.emailLaunch,
+                editionDate: req.body.editionDate,
+                userEdtion: req.body.userEdtion,
+                emailEdtion: req.body.emailEdtion
 
             })
-            await groups.save()
-            req.flash("success_msg", "Grupo criado com sucesso!")
-            res.redirect("/types/types")
+            await types.save()
+            req.flash("success_msg", "Tipo criado com sucesso!")
+            res.redirect("/types")
             console.log("Tipo criado com sucesso!")
         } catch (err) {
             req.flash("error_msg", "Ops, Houve um erro ao salvar o tipo, tente novamente!")
-            res.redirect("/types/types")
+            res.redirect("/types")
         }
     }
 }
