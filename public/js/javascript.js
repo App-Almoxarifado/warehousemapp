@@ -349,6 +349,19 @@ $("#saveCart, #updateCart").click(function() {
     }
 });
 
+
+//SALVA E EDITA DIRETO NA TABELA
+$("#saveDev, #updateDev").click(function() {
+    //Recebe o id do botão clicado
+    var id = $(this).attr('id');
+    //Verifica qual foi o botão clicado através do id do mesmo e seta o action correspondente
+    if (id == 'saveDev') {
+        $('#form_dev').attr('action', '/types/addItem');
+    } else {
+        $('#form_dev').attr('action', '/types/updateItem');
+    }
+});
+
 //FECHA O ALERT APÓS SEGUNDOS
 setTimeout(function() {
     $('.alert').fadeOut('fast');

@@ -23,6 +23,10 @@ const Usuario = new Schema({
         type: Number,
         default: 0
     },
+    eDevAdmin: {
+        type: Number,
+        default: 0
+    },
     senha: {
         type: String,
         require: true
