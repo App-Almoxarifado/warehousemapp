@@ -68,24 +68,43 @@ const Collaborator = new Schema({
         type: Number,
         required: true
     },
-    date: {
+    //DATA DE LANÇAMENTO
+    releaseDateOf: {
         type: String,
-        default: Date.now()
+        //default: Date.now()
     },
-    user: {
+    //USUARIO LANÇAMENTO
+    userLaunch: {
         type: Schema.Types.ObjectId,
         ref: "collaborators",
-        required: true
+        //required: true 
+    },
+    //EMAIL LANÇAMENTO
+    emailLaunch: {
+        type: String,
+        //default: Date.now()
+    },
+    //DATA DE EDIÇÃO
+    editionDate: {
+        type: String,
+        //default: Date.now()
+    },
+    //USUARIO DE EDIÇÃO
+    userEdtion: {
+        type: Schema.Types.ObjectId,
+        ref: "collaborators",
+        //required: true 
+    },
+    //EMAIL DE EDIÇÃO
+    emailEdtion: {
+        type: String,
+        //required: true,
     },
     active: {
         type: Boolean,
         default: "true"
-    },
-    tags: [{
-        type: String
-        
-     }]
 
+    }
 })
 
 mongoose.model("collaborators", Collaborator)

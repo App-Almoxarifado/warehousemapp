@@ -6,13 +6,13 @@ const { eDevAdmin } = require("../helpers/eAdmin")
 
 
 
-router.get('/',eAdmin || eDevAdmin,controller.getList)
+router.get('/',eDevAdmin,controller.getList)
 router.get('/table',eAdmin || eDevAdmin,controller.getTable)
 router.get('/add',eAdmin || eDevAdmin,controller.getCreate)
 router.post('/add',eAdmin || eDevAdmin, controller.postCreate)
-//router.get('/edit/:id', eAdmin || eDevAdmin, controller.getUpdate)
-//router.post('/edit', eAdmin || eDevAdmin, controller.postUpdate)
-//router.get("/delete/:id",eAdmin || eDevAdmin, controller.getDelete)
+router.post("/addItem", eDevAdmin,controller.postCreateDevAdmin)
+router.post("/updateItem",eDevAdmin, controller.postUpdateDevAdmin)
+
 
 
 module.exports = router

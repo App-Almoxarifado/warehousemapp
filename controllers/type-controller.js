@@ -3,8 +3,6 @@ require("../models/Type")
 const Type = mongoose.model("types")
 require("../models/Client")
 const Client = mongoose.model("customers")
-require("../models/Collaborator")
-const Collaborator = mongoose.model("collaborators")
 
 
 //EXIBINDO TIPOS POR LISTA
@@ -129,6 +127,97 @@ exports.postCreate = async(req, res) => {
             req.flash("success_msg", "Tipo criado com sucesso!")
             res.redirect("/types")
             console.log("Tipo criado com sucesso!")
+        } catch (err) {
+            req.flash("error_msg", "Ops, Houve um erro ao salvar o tipo, tente novamente!")
+            res.redirect("/types")
+        }
+    }
+}
+
+//CRIA UM NOVO PRODUDO COM UM CLIQUE
+exports.postCreateDevAdmin = async(req, res) => {
+    var erros = []
+    if (!req.body.description || typeof req.body.description == undefined || req.body.description == null) {
+        erros.push({
+            texto: "Descricão Inválida"
+        })
+    }
+    if (req.body.description.length < 2) {
+        erros.push({
+            texto: "Descrição do Tipo Muito Pequeno!"
+        })
+    }
+    if (erros.length > 0) {
+        res.render("types/addtypes", {
+            erros: erros
+        })
+    } else {
+        try {
+            const types = new Type({
+                qrcode: req.body.description
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, ''), // Remove hífens extras do final ou do inicio da string
+                image: req.body.image, //.slice(0, -1),
+                description: req.body.description,
+                releaseDateOf: req.body.releaseDateOf,
+                userLaunch: req.body.userLaunch,
+                emailLaunch: req.body.emailLaunch,
+                editionDate: req.body.editionDate,
+                userEdtion: req.body.userEdtion,
+                emailEdtion: req.body.emailEdtion
+
+            })
+            await types.save()
+            req.flash("success_msg", "Tipo criado com sucesso!")
+            res.redirect("/types")
+            console.log("Tipo criado com sucesso!")
+        } catch (err) {
+            req.flash("error_msg", "Ops, Houve um erro ao salvar o tipo, tente novamente!")
+            res.redirect("/types")
+        }
+    }
+}
+
+//EDITA UM NOVO PRODUTO COM UM CLIQUE
+exports.postUpdateDevAdmin = async(req, res) => {
+    var erros = []
+    if (!req.body.description || typeof req.body.description == undefined || req.body.description == null) {
+        erros.push({
+            texto: "Descricão Inválida"
+        })
+    }
+    if (req.body.description.length < 2) {
+        erros.push({
+            texto: "Descrição do Tipo Muito Pequeno!"
+        })
+    }
+    if (erros.length > 0) {
+        res.render("types/addtypes", {
+            erros: erros
+        })
+    } else {
+        try {
+                qrcode = req.body.description
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/([^\w]+|\s+)/g, '') // Retira espaço e outros caracteres 
+                    .replace(/\-\-+/g, '') // Retira multiplos hífens por um único hífen
+                    .replace(/(^-+|-+$)/, ''), // Remove hífens extras do final ou do inicio da string
+                image = req.body.image, //.slice(0, -1),
+                description = req.body.description,
+                releaseDateOf = req.body.releaseDateOf,
+                userLaunch = req.body.userLaunch,
+                emailLaunch = req.body.emailLaunch,
+                editionDate = req.body.editionDate,
+                userEdtion = req.body.userEdtion,
+                emailEdtion = req.body.emailEdtion
+
+            
+            await types.save()
+            req.flash("success_msg", "Tipo editado com sucesso!")
+            res.redirect("/types")
+            console.log("Tipo editado com sucesso!")
         } catch (err) {
             req.flash("error_msg", "Ops, Houve um erro ao salvar o tipo, tente novamente!")
             res.redirect("/types")
