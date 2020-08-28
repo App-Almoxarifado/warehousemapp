@@ -7,6 +7,8 @@ const Usuario = mongoose.model("usuarios");
 require("../models/Collaborator");
 const Collaborator = mongoose.model("collaborators");
 
+//SERVIÇO DE EMAIL
+const emailService = require('../services/email-service');
 
 //CADASTRANDO USUÁRIO
 exports.get = async(req, res) => {
@@ -82,6 +84,10 @@ exports.getCreate = (req, res) => {
                             novoUsuario.senha = hash;
                             novoUsuario.save().then(() => {
                                 req.flash("success_msg", "Usuário cadastrado com sucesso!");
+                                emailService.send(
+                                    req.body.email,
+                                    'Bem vindo ao Warehouseapp',
+                                    global.EMAIL_TMPL.replace('{0}', req.body.nome));
                                 res.redirect("/");
                             }).catch((err) => {
                                 req.flash("error_msg", "Houve um erro na criação do usuário" + err);

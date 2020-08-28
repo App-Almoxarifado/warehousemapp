@@ -9,30 +9,58 @@ function navigate(offset) {
 
 function search() {
     var searchParams = new URLSearchParams(location.search);
-    const search = document.getElementById('search').value || document.getElementById('search').value
-    searchParams.set("search", search );
+    const search = document.getElementById('search').value
+    searchParams.set("search", search);
     window.location.search = searchParams.toString();
 }
 
 function setSite() {
     var searchParams = new URLSearchParams(location.search);
-    const site = document.getElementById('site').value || document.getElementById('site').value
-    searchParams.set("site", site );
+    const site = document.getElementById('site').value
+    searchParams.set("site", site);
+    window.location.search = searchParams.toString();
+}
+
+function setSearchGroup() {
+    var searchParams = new URLSearchParams(location.search);
+    const searchgroup = document.getElementById('group').value
+    searchParams.set("group", searchgroup);
+    window.location.search = searchParams.toString();
+}
+
+function setSearchSubgroup() {
+    var searchParams = new URLSearchParams(location.search);
+    const searchsubgroup = document.getElementById('subgroup').value
+    searchParams.set("subgroup", searchsubgroup);
+    window.location.search = searchParams.toString();
+}
+
+function setSearchType() {
+    var searchParams = new URLSearchParams(location.search);
+    const searchtype = document.getElementById('type').value
+    searchParams.set("type", searchtype);
+    window.location.search = searchParams.toString();
+}
+
+function setSearchStatus() {
+    var searchParams = new URLSearchParams(location.search);
+    const searchstatus = document.getElementById('status').value
+    searchParams.set("status", searchstatus);
     window.location.search = searchParams.toString();
 }
 
 function setLimit() {
     var searchParams = new URLSearchParams(location.search);
-    const limit = document.getElementById('limit').value || document.getElementById('limit').value
-    searchParams.set("limit", limit );
+    const limit = document.getElementById('limit').value
+    searchParams.set("limit", limit);
     window.location.search = searchParams.toString();
 }
 
 
 
 //CONFIRMAÇÃO AO DELETAR 
-$(document).ready(function() {
-    $(".deletar").click(function(event) {
+$(document).ready(function () {
+    $(".deletar").click(function (event) {
         var apagar = confirm('Deseja realmente excluir este registro?');
         if (apagar) {
             // aqui vai a instrução para apagar registro			
@@ -92,9 +120,9 @@ function makeCode() {
 }*/
 
 //CARREGANDO IMAGEM
-$(document).ready(function() {
+$(document).ready(function () {
 
-    var readUrl = function(input) {
+    var readUrl = function (input) {
 
         if (input.files && input.files[0]) {
 
@@ -102,7 +130,7 @@ $(document).ready(function() {
 
             reader.readAsDataURL(input.files[0]);
 
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 $(".avatar").attr('src', e.target.result);
 
                 var url = (e.target.result);
@@ -115,11 +143,11 @@ $(document).ready(function() {
         }
     }
 
-    $(".file-upload").on('change', function() {
+    $(".file-upload").on('change', function () {
         readUrl(this);
     });
 
-    $(".avatar").click(function() {
+    $(".avatar").click(function () {
         var btn = $(".file-upload");
         btn.trigger('click');
     });
@@ -181,12 +209,12 @@ $('#fone').blur(function(event) {
 }*/
 
 //ARREDONDA SEMPRE DUAS CASAS DECIMAIS INPUT NUMBER
-$(".number").on("change", function() {
+$(".number").on("change", function () {
     $(this).val(parseFloat($(this).val()).toFixed(2));
 });
 
 //MOSTAR SEMPRE DUAS CASAS DECIMAIS AO MOSTRAR TELA
-$(".number").each(function() {
+$(".number").each(function () {
     var help = $(this).val().split(".");
     if (help.length == 1) {
         $(this).val($(this).val() + ".00");
@@ -209,8 +237,8 @@ function muda() {
 
 
 //SIDEBAR   
-$(document).ready(function() {
-    $('[data-toggle="offcanvas"], #navToggle').on('click', function() {
+$(document).ready(function () {
+    $('[data-toggle="offcanvas"], #navToggle').on('click', function () {
         $('.offcanvas-collapse').toggleClass('open')
     })
 });
@@ -306,7 +334,7 @@ function calculater() {
     var dataformatada = y + '-' + mm + '-' + dd;
     document.getElementById('calibrationValidity').value = dataformatada;
     var calibrationValidity = document.getElementById('calibrationValidity').valueAsDate
-        //var today = document.getElementById('today').valueAsDate = new Date();
+    //var today = document.getElementById('today').valueAsDate = new Date();
     var today = new Date();
     if (calibrationValidity > today) {
         calibrationStatus = "Ok"
@@ -319,7 +347,7 @@ function calculater() {
 
 function statusCalibration() {
     var calibrationValidity = document.getElementById('calibrationValidity').valueAsDate
-        //var today = document.getElementById('today').valueAsDate = new Date();
+    //var today = document.getElementById('today').valueAsDate = new Date();
     var today = new Date();
 
     if (calibrationValidity > today) {
@@ -338,7 +366,7 @@ function statusCalibration() {
 })*/
 
 //MUDA O ATRIBUTO DO FORM CARRINHO DE COMPRAS
-$("#saveCart, #updateCart").click(function() {
+$("#saveCart, #updateCart").click(function () {
     //Recebe o id do botão clicado
     var id = $(this).attr('id');
     //Verifica qual foi o botão clicado através do id do mesmo e seta o action correspondente
@@ -351,7 +379,7 @@ $("#saveCart, #updateCart").click(function() {
 
 
 //SALVA E EDITA DIRETO NA TABELA
-$("#saveDev, #updateDev").click(function() {
+$("#saveDev, #updateDev").click(function () {
     //Recebe o id do botão clicado
     var id = $(this).attr('id');
     //Verifica qual foi o botão clicado através do id do mesmo e seta o action correspondente
@@ -363,7 +391,7 @@ $("#saveDev, #updateDev").click(function() {
 });
 
 //FECHA O ALERT APÓS SEGUNDOS
-setTimeout(function() {
+setTimeout(function () {
     $('.alert').fadeOut('fast');
 }, 3000); // <-- time in millisecond
 
@@ -374,12 +402,12 @@ setTimeout(function() {
 
 //PREENCHE O DESTINO DO PEDIDO
 //PEGA SOMENTE O VALUE DO OPTION
-$('.destinoMaterial').on('change', function() {
+$('.destinoMaterial').on('change', function () {
     $('.localD').val($(this).val());
 });
 
 //PREENCHE A DATA DO PEDIDO
-$('.dateMaterial').on('change', function() {
+$('.dateMaterial').on('change', function () {
     $('.dateD').val($(this).val());
 });
 
@@ -387,46 +415,46 @@ $('.dateMaterial').on('change', function() {
 $('.hiddenTable').prop('readonly', true);
 
 //PEGAR O TEXT DO OPTION DO SELECT DE ACORDO COM O OPTION - NOME DO USUÁRIO
-$('.nameUser').on('change', function() {
+$('.nameUser').on('change', function () {
     $('.nomeUser').val($(this).find('option:selected').text());
 });
 
 
 //MOSTRAR OCULTAR COLUNAS
-$(document).ready(function() {
+$(document).ready(function () {
     //Select para mostrar e esconder divs
-    $('#SelectOptions').on('change',function(){
-        var SelectValue='.'+$(this).val();
+    $('#SelectOptions').on('change', function () {
+        var SelectValue = '.' + $(this).val();
         $('.DivPai div').hide();
         $(SelectValue).toggle();
     });
 });
 
 //MOSTRAR OCULTAR COLUNAS MOBILE
-$(document).ready(function() {
+$(document).ready(function () {
     //Select para mostrar e esconder divs
-    $('#SelectOptionsMobile').on('change',function(){
-        var SelectValue='.'+$(this).val();
+    $('#SelectOptionsMobile').on('change', function () {
+        var SelectValue = '.' + $(this).val();
         $('.DivPai div').hide();
         $(SelectValue).toggle();
     });
 });
 
 //MOSTRAR OCULTAR DETALHES LISTA
-$(document).ready(function() {
+$(document).ready(function () {
     //Select para mostrar e esconder divs
-    $('#SelectList').on('change',function(){
-        var SelectValue='.'+$(this).val();
+    $('#SelectList').on('change', function () {
+        var SelectValue = '.' + $(this).val();
         $('.DivPai div').hide();
         $(SelectValue).toggle();
     });
 });
 
 //MOSTRAR OCULTAR DETALHES LISTA MOBILE
-$(document).ready(function() {
+$(document).ready(function () {
     //Select para mostrar e esconder divs
-    $('#SelectListMobile').on('change',function(){
-        var SelectValue='.'+$(this).val();
+    $('#SelectListMobile').on('change', function () {
+        var SelectValue = '.' + $(this).val();
         $('.DivPai div').hide();
         $(SelectValue).toggle();
     });
@@ -434,7 +462,6 @@ $(document).ready(function() {
 
 $(function () {
     $('[data-toggle="tooltip"]').tooltip()
-  })
+})
 
 
-  

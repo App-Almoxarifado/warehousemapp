@@ -24,71 +24,62 @@ const Provider = mongoose.model("providers");
 require("../models/Collaborator");
 const Collaborator = mongoose.model("collaborators");
 
+//VIZUALIZANDO PRODUTOS POR GRUPO
+exports.getGroup = async (req, res) => {
+  try {
+  var group = await Group.findOne({ _id: req.params.id }).lean()
+  if(group){
+    var products = await Product.find({ group: group._id }).lean()
+  }
+  console.log(group)
+      res.render("products/productorders", { group: group, products:products })
+  } catch (_err) {
+      req.flash("error_msg", "Ops, Houve um erro interno!" + err)
+      res.redirect("/products")
+  }
+}
+
+
 //VIZUALIZANDO PRODUTOS PARA FAZER PEDIDO
 exports.getRequest = async (req, res) => {
   try {
-    var customers = await Client.find({
-      active: true,
-    })
-      .sort({
-        description: "asc",
-      })
-      .lean();
+    var customers = await Client.find({active: true,}).sort({description: "asc",}).lean();
+    var groups = await Group.find({active: true,}).sort({description: "asc",}).lean();
+    var subgroups = await Subgroup.find({active: true,}).sort({description: "asc",}).lean();
+    var types = await Type.find({active: true,}).sort({description: "asc",}).lean();
+    var statuses = await Status.find({active: true,}).sort({description: "asc",}).lean();
+    
+    const filtros= {
+      $or: [],
+      $and: []
+    };
 
-    var groups = await Group.find({
-      active: true,
-    })
-      .sort({
-        description: "asc",
-      })
-      .lean();
+    let { search, page, site, group, subgroup, type, status, limit } = req.query;
 
-    const filtros = [];
-    let { search, page, site, limit } = req.query;
     if (!!search) {
       const pattern = new RegExp(`.*${search}.*`);
-      filtros.push(
-        {
-          qrcode: {
-            $regex: pattern,
-          },
-        },
-        {
-          description: {
-            $regex: pattern,
-          },
-        },
-        {
-          user: {
-            $regex: pattern,
-          },
-        }
+      filtros["$or"].push(
+        {qrcode: {$regex: pattern }},
+        {description: {$regex: pattern }},
+        {user: {$regex: pattern }}
       );
     }
-    if (!!site) {
-      filtros.push({
-        client: site,
-      });
-    }
+
+    !!site && filtros["$and"].push({ client: site });
+    if (!!group) filtros["$and"].push({ group: group });
+    if (!!subgroup) filtros["$and"].push({ subgroup: subgroup });
+    if (!!type) filtros["$and"].push({ kindOfEquipment: type });
+    if (!!status) filtros["$and"].push({ physicalStatus: status });
 
     page = Number(page || 1);
     limit = limit ? Number(limit) : 10;
 
-    const quant = await Product.find(
-      filtros.length > 0
-        ? {
-            $or: filtros,
-          }
-        : {}
-    ).estimatedDocumentCount();
+    if(filtros["$and"].length === 0) delete filtros["$and"];
+    if(filtros["$or"].length === 0) delete filtros["$or"];
 
-    var products = await Product.find(
-      filtros.length > 0
-        ? {
-            $or: filtros,
-          }
-        : {}
-    )
+    const quant = await Product.find(filtros).estimatedDocumentCount();
+
+    var products = await Product.find(filtros)
       .sort({
         editionDate: "desc",
       })
@@ -110,16 +101,23 @@ exports.getRequest = async (req, res) => {
       .populate("unity")
       .populate("frequency")
       .populate("provider");
-    console.log(quant);
     res.render("products/productorders", {
       products: products.map((products) => products.toJSON()),
       prev: Number(page) > 1,
       next: Number(page) * limit < quant,
-      customers: customers,
-      groups: groups,
+      customers,
+      groups,
+      subgroups,
+      types,
+      statuses,
       page,
+      search,
       limit,
       site,
+      group,
+      subgroup,
+      type,
+      status
     });
   } catch (err) {
     console.log(err);

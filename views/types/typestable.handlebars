@@ -185,7 +185,7 @@
 
       <tbody>
         {{#each types}}
-        <form id="form_cart" method="POST">
+        <form id="form_dev" method="POST">
           <input type="hidden" class="mt-2 form-control" id="id" name="id" value="{{_id}}">
           <input type="hidden" class="mt-2 form-control" id="qrcode" name="qrcode" value="{{qrcode}}">
           <input type="hidden" class="mt-2 form-control" id="image" name="image" value="{{image}}">
@@ -227,14 +227,14 @@
 
             <td class="tbTypes03 d-print-none">
               <div class="d-flex justify-content-center">
-                <div class="p-0 mr-1">
-                  <button id="updateDevAdmin" type="submit" class="mt-1 mb-1 btn btn-secondary btn-sm" data-toggle="tooltip"
+                <div class="liTypes11 p-0 mr-1">
+                  <button id="updateDev" type="submit" class="mt-1 mb-1 btn btn-secondary btn-sm" data-toggle="tooltip"
                     data-placement="right" title="Inserir produto na solicitação atual">
                     <i class="fas fa-cart-arrow-down"></i></button>
                 </div>
 
-                <div class="p-0 mr-1">
-                  <button id="saveDevAdmin" type="submit" class="mt-1 mb-1 btn btn-success btn-sm" data-toggle="tooltip"
+                <div class="liTypes11 p-0 mr-1">
+                  <button id="saveDev" type="submit" class="mt-1 mb-1 btn btn-success btn-sm" data-toggle="tooltip"
                     data-placement="bottom" title="Dar entrada no Material">
                     <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
                 </div>
@@ -294,16 +294,3 @@
   </div>
 </div>
 
-<script type="text/javascript">
-  //MUDA O ATRIBUTO DO FORM CARRINHO DE COMPRAS
-$("#saveDevAdmin, #updateDevAdmin").click(function() {
-    //Recebe o id do botão clicado
-    var id = $(this).attr('id');
-    //Verifica qual foi o botão clicado através do id do mesmo e seta o action correspondente
-    if (id == 'saveDevAdmin') {
-        $('#form_devAdmin').attr('action', '/types/addItem');
-    } else {
-        $('#form_devAdmin').attr('action', '/types/updateItem');
-    }
-});
-</script>

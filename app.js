@@ -178,7 +178,9 @@ app.get('/', async(req, res) => {
     }
 })
 
-
+app.get("/404", (req, res) => {
+    res.send('Erro 404!')
+})
 
 //Rota de upload
 app.post("/upload", upload.single("file"), (_req, _res) => {
