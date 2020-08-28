@@ -1,26 +1,28 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const Transfer = new Schema({
-    createdAt: {
-        type: String,
-        default: Date.now()
-    },
-    deliveryDate: {
-        type: String,
-        default: Date.now()
-    },
-    client: {
+  createdAt: {
+    type: String,
+    default: Date.now(),
+  },
+  deliveryDate: {
+    type: String,
+    default: Date.now(),
+  },
+  client: {
+    type: Schema.Types.ObjectId,
+    ref: "customers",
+  },
+  products: [
+    {
+      product: {
         type: Schema.Types.ObjectId,
-        ref: "customers"
+        ref: "products",
+      },
+      quant: Number,
     },
-    products: [{
-        product: { 
-            type: Schema.Types.ObjectId,
-            ref: "products" 
-        },
-        quant: Number
-    }]
+  ],
 });
 
-mongoose.model("transfers", Transfer)
+mongoose.model("transfers", Transfer);

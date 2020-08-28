@@ -61,8 +61,7 @@
                 </select>
             </div>
             <div class="p-1">
-                <select class="custom-select custom-select-sm" id="group" name="group"
-                    onchange="setSearchGroup()">
+                <select class="custom-select custom-select-sm" id="group" name="group" onchange="setSearchGroup()">
                     <option selected disabled hidden>Grupos</option>
                     <option value="">Nenhum(a)</option>
                     {{#each groups}}
@@ -85,8 +84,7 @@
                 </select>
             </div>
             <div class="p-1">
-                <select class="custom-select custom-select-sm" id="type" name="type"
-                    onchange="setSearchType()">
+                <select class="custom-select custom-select-sm" id="type" name="type" onchange="setSearchType()">
                     <option selected disabled hidden>Tipos de Equipamento</option>
                     <option value="">Nenhum(a)</option>
                     {{#each types}}
@@ -97,9 +95,7 @@
                 </select>
             </div>
             <div class="p-1">
-                <select class="custom-select custom-select-sm" id="status" name="status"
-
-                    onchange="setSearchStatus()">
+                <select class="custom-select custom-select-sm" id="status" name="status" onchange="setSearchStatus()">
                     <option selected disabled hidden>Status do Produto</option>
                     <option value="">Nenhum(a)</option>
                     {{#each statuses}}
@@ -112,11 +108,8 @@
 
             <div class="p-1">
                 <div class="input-group input-group-sm mb-3">
-                    <input type="text-sm" class="form-control" 
-                        id="search" name="search" 
-                        placeholder="Pesquise aqui..."
-                        value="{{search}}"
-                    >
+                    <input type="text-sm" class="form-control" id="search" name="search" placeholder="Pesquise aqui..."
+                        value="{{search}}">
                 </div>
             </div>
 
@@ -512,9 +505,9 @@
                         <td class="tb20 d-print-block">{{requiresCertificationCalibration}}</td>
                         <td class="tb21 d-print-block">{{inputAmount}}</td>
                         <td class="tb22 d-print-block">{{inputAmountSite}}</td>
-                        <td class="bg-secondary text-white" ><input type="number" value="1" min="1"
-                                max="{{inputAmountSite}}" class="inputTake form-control form-control-sm" name="outputQuantity"
-                                required></td>
+                        <td class="bg-secondary text-white"><input type="number" value="1" min="1"
+                                max="{{inputAmountSite}}" class="inputTake form-control form-control-sm"
+                                name="outputQuantity" required></td>
                         <td class="tb24 d-print-block">{{stockQuantity}}</td>
                         <td class="tb25 d-print-block">{{stockTotal}}</td>
                         <td class="tb26 d-print-block">{{unity.description}}</td>

@@ -7,13 +7,14 @@
 
     {{/each}}
 
-    <form class="mt-2" method='post'  action="/upload">
+    <form class="mt-2" method='post' action="/upload">
         <div class="row align-items-center">
             <!--<div class="form-group col-md-6" id="qrcode2" onchange="qrcodeFormat()">
             </div>-->
             <div class="form-group col-auto">
                 <div class="text-center">
-                    <img src="/img/logo8.png" class="avatar img-fluid rounded" alt="Responsive image" style="width: 8rem;">
+                    <img src="/img/logo8.png" class="avatar img-fluid rounded" alt="Responsive image"
+                        style="width: 8rem;">
                     <input type="file" accept="image/*" name="file" id="f"
                         class="custom-file-input btn-file text-center center-block file-upload" multiple="multiplique">
                     <input type='submit' class='btn btn-primary' value='Upload'>
@@ -36,14 +37,14 @@
         <input type="hidden" class="form-control" id="date" name="date" placeholder="date"
             value="{{#formatDate date}}{{/formatDate}}">
         <div class="form-row align-items-center">
-           <!-- <div class="col-auto my-1">
+            <!-- <div class="col-auto my-1">
                 <select class="custom-select mr-sm-2" id="active" name="active">
                     <option Disabled selected>Ativar...</option>
                     <option value="true">Sim</option>
                     <option value="false">Não</option>
                 </select>
             </div> -->
-            
+
             <div class="col-auto my-1">
                 <input type="hidden" class="form-control mt-2" name="tags" id="tags">
                 <button type="submit" class="btn btn-success">Salvar <i class="fas fa-share"></i></button>
@@ -52,4 +53,3 @@
         <hr>
     </form>
 </div>
-

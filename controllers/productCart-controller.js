@@ -27,41 +27,59 @@ const Collaborator = mongoose.model("collaborators");
 //VIZUALIZANDO PRODUTOS POR GRUPO
 exports.getGroup = async (req, res) => {
   try {
-  var group = await Group.findOne({ _id: req.params.id }).lean()
-  if(group){
-    var products = await Product.find({ group: group._id }).lean()
-  }
-  console.log(group)
-      res.render("products/productorders", { group: group, products:products })
+    var group = await Group.findOne({ _id: req.params.id }).lean();
+    if (group) {
+      var products = await Product.find({ group: group._id }).lean();
+    }
+    console.log(group);
+    res.render("products/productorders", { group: group, products: products });
   } catch (_err) {
-      req.flash("error_msg", "Ops, Houve um erro interno!" + err)
-      res.redirect("/products")
+    req.flash("error_msg", "Ops, Houve um erro interno!" + err);
+    res.redirect("/products");
   }
-}
-
+};
 
 //VIZUALIZANDO PRODUTOS PARA FAZER PEDIDO
 exports.getRequest = async (req, res) => {
   try {
-    var customers = await Client.find({active: true,}).sort({description: "asc",}).lean();
-    var groups = await Group.find({active: true,}).sort({description: "asc",}).lean();
-    var subgroups = await Subgroup.find({active: true,}).sort({description: "asc",}).lean();
-    var types = await Type.find({active: true,}).sort({description: "asc",}).lean();
-    var statuses = await Status.find({active: true,}).sort({description: "asc",}).lean();
-    
-    const filtros= {
+    var customers = await Client.find({ active: true })
+      .sort({ description: "asc" })
+      .lean();
+    var groups = await Group.find({ active: true })
+      .sort({ description: "asc" })
+      .lean();
+    var subgroups = await Subgroup.find({ active: true })
+      .sort({ description: "asc" })
+      .lean();
+    var types = await Type.find({ active: true })
+      .sort({ description: "asc" })
+      .lean();
+    var statuses = await Status.find({ active: true })
+      .sort({ description: "asc" })
+      .lean();
+
+    const filtros = {
       $or: [],
-      $and: []
+      $and: [],
     };
 
-    let { search, page, site, group, subgroup, type, status, limit } = req.query;
+    let {
+      search,
+      page,
+      site,
+      group,
+      subgroup,
+      type,
+      status,
+      limit,
+    } = req.query;
 
     if (!!search) {
       const pattern = new RegExp(`.*${search}.*`);
       filtros["$or"].push(
-        {qrcode: {$regex: pattern }},
-        {description: {$regex: pattern }},
-        {user: {$regex: pattern }}
+        { qrcode: { $regex: pattern } },
+        { description: { $regex: pattern } },
+        { user: { $regex: pattern } }
       );
     }
 
@@ -74,8 +92,8 @@ exports.getRequest = async (req, res) => {
     page = Number(page || 1);
     limit = limit ? Number(limit) : 10;
 
-    if(filtros["$and"].length === 0) delete filtros["$and"];
-    if(filtros["$or"].length === 0) delete filtros["$or"];
+    if (filtros["$and"].length === 0) delete filtros["$and"];
+    if (filtros["$or"].length === 0) delete filtros["$or"];
 
     const quant = await Product.find(filtros).estimatedDocumentCount();
 
@@ -117,7 +135,7 @@ exports.getRequest = async (req, res) => {
       group,
       subgroup,
       type,
-      status
+      status,
     });
   } catch (err) {
     console.log(err);
@@ -625,7 +643,7 @@ exports.updateRequest = async (req, res) => {
     } catch (err) {
       req.flash(
         "error_msg",
-        "Ops, Houve um erro ao salvar o Produto, tente novamente!" 
+        "Ops, Houve um erro ao salvar o Produto, tente novamente!"
       );
       res.redirect("/products");
     }

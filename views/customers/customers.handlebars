@@ -1,7 +1,7 @@
-
 <div class="container mt-2">
   <h2>Clientes</h2>
-  <a href="/providers/providers/add"><button class="btn btn-success">Cadastre um Cliente <i class="fas fa-share"></i></button></a>
+  <a href="/providers/providers/add"><button class="btn btn-success">Cadastre um Cliente <i
+        class="fas fa-share"></i></button></a>
 
   <hr>
   <a href="/customers/customers/"><button type="button" class="btn btn-primary">Lista <i
@@ -15,7 +15,7 @@
   <div id="card" class="card-deck mt-2" style='display: block;'>
     {{#each customers}}
     <div class="card-deck mt-3">
-     <img src="{{image}}" class=" img-fluid rounded" alt="Responsive image" style="width: 18rem;">
+      <img src="{{image}}" class=" img-fluid rounded" alt="Responsive image" style="width: 18rem;">
       <div id="card2" class="card-body">
         <h4>{{description}}</h4>
         <div class="form-admin col-md-6" id="qrcode2" onchange="qrcodeFormat()"></div>

@@ -1,9 +1,9 @@
 <div class="mt-2 container">
-    
-        {{#each erros}}
-        <div class="alert alert-danger">{{texto}}</div>
-        {{else}}
-        {{/each}}
+
+    {{#each erros}}
+    <div class="alert alert-danger">{{texto}}</div>
+    {{else}}
+    {{/each}}
     <!--<canvas class="line-chart"></canvas>-->
     <div class="d-none d-md-none d-print-block">
         <div class="d-flex justify-content-center">
@@ -339,7 +339,7 @@
         <div class="card" style="background-color: transparent;">
             <div class="card-body">
                 <div class="d-none d-md-block d-print-block">
-                    
+
                     <div class="d-flex justify-content-center">
                         <div class="li06 mr-auto p-0">
                             <h5 class="li06">{{fullDescription}}</h5>
@@ -391,7 +391,7 @@
                                 data-toggle="tooltip" data-placement="bottom" title="Deletar Produto">
                                 <i class="fas fa-trash-alt"></i>
                             </a>
-                       
+
                         </div>
                     </div>
                 </div>
@@ -406,16 +406,16 @@
                 <hr />
 
                 <div class="row no-gutters position-relative">
-                    
+
                     <div class="d-flex col-md-3 justify-content-center">
-<div class="li02 mr-2 p-0">
-                        <img src="{{image}}" style="width: 5rem;" class="rounded " alt="..." />
+                        <div class="li02 mr-2 p-0">
+                            <img src="{{image}}" style="width: 5rem;" class="rounded " alt="..." />
                         </div>
-<div class="li03 p-0">
-                        <img id="qrcode" name="qrcode"
-                            src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{qrcode}}"
-                            style="width: 5rem;" class="rounded mr-3" />
-                            </div>
+                        <div class="li03 p-0">
+                            <img id="qrcode" name="qrcode"
+                                src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{qrcode}}"
+                                style="width: 5rem;" class="rounded mr-3" />
+                        </div>
                     </div>
 
 
@@ -423,17 +423,20 @@
                         <p class="li04 mt-0 mb-1"><small><b>Grupo: </b>{{group.description}}</small></p>
                         <p class="li05 mt-0 mb-1"><small><b>Subgrupo: </b>{{subgroup.description}}</small></p>
                         <p class="li08 mt-0 mb-1"><small><b>Localização: </b>{{client.description}}</small></p>
-                        
+
 
                     </div>
 
                     <div class="col-md-3 position-static p-0 pl-md-0 text-center">
-                        <p class="li18 mt-0 mb-1"><small><b>Status Físico: </b>{{physicalStatus.description}}</small></p>
-                        <p class="li19 mt-0 mb-1"><small><b>Tipo de Equipamento: </b>{{kindOfEquipment.description}}</small>
+                        <p class="li18 mt-0 mb-1"><small><b>Status Físico: </b>{{physicalStatus.description}}</small>
                         </p>
-                        <p class="li35 mt-0 mb-1"><small><b>Calibração/Certificação: </b>{{calibrationStatus}}</small></p>
+                        <p class="li19 mt-0 mb-1"><small><b>Tipo de Equipamento:
+                                </b>{{kindOfEquipment.description}}</small>
+                        </p>
+                        <p class="li35 mt-0 mb-1"><small><b>Calibração/Certificação: </b>{{calibrationStatus}}</small>
+                        </p>
 
-</div>
+                    </div>
 
                     <div class="col-md-3 position-static p-0 pl-md-0 text-center">
                         <p class="mt-0 mb-1"><small><b>Última Movimentação: </b>{{editionDate}}</small></p>
@@ -472,14 +475,16 @@
                         <p class="li38 mt-0 mb-1"><small><b>Código Ncm: </b>{{ncmCode}}</small></p>
                         <p class="li38 mt-0 mb-1"><small><b>Obs: </b>{{note}}</small></p>
                     </div>
-                        
+
                     <div class="col-md-3 position-static p-0 pl-md-0 text-center">
-                        <p class="li20 mt-0 mb-1"><small><b>Requer Cal./ Cert.: </b>{{requiresCertificationCalibration}}</small></p>
+                        <p class="li20 mt-0 mb-1"><small><b>Requer Cal./ Cert.:
+                                </b>{{requiresCertificationCalibration}}</small></p>
                         <p class="li30 mt-0 mb-1"><small><b>Certificado: </b>{{certificate}}</small></p>
                         <p class="li31 mt-0 mb-1"><small><b>Lab./ Entid.: </b>{{entityLaboratory}}</small></p>
                         <p class="li32 mt-0 mb-1"><small><b>Periodicidade: </b>{{frequency.description}}</small></p>
                         <p class="li33 mt-0 mb-1"><small><b>Data Cal./ Cert.: </b>{{calibrationDate}}</small></p>
-                        <p class="li34 mt-0 mb-1"><small><b>Validade Cal./ Cert.: </b>{{calibrationValidity}}</small></p>
+                        <p class="li34 mt-0 mb-1"><small><b>Validade Cal./ Cert.: </b>{{calibrationValidity}}</small>
+                        </p>
                         <p class="li43 mt-0 mb-1"><small><b>Status Ativo: </b>{{activeStatus}}</small></p>
                         <p class="li44 mt-0 mb-1"><small><b>Data de Lançamento: </b>{{releaseDateOf}}</small></p>
                     </div>
@@ -496,11 +501,11 @@
                         <p class="li45 mt-0 mb-1"><small><b>Usuário Lançamento: </b>{{userLaunch.name}}</small></p>
                         </p>
                     </div>
-</div>
-                        <div class="d-block d-md-none d-print-block">
-                            <div class="d-flex justify-content-center">
+                </div>
+                <div class="d-block d-md-none d-print-block">
+                    <div class="d-flex justify-content-center">
 
-                               <div class="li46 p-0 mr-1">
+                        <div class="li46 p-0 mr-1">
                             <button id="updateCart" type="submit" class="mt-1 mb-1 btn btn-primary btn-sm"
                                 data-toggle="tooltip" data-placement="bottom"
                                 title="Inserir produto na solicitação atual">
@@ -546,43 +551,43 @@
                                 data-toggle="tooltip" data-placement="bottom" title="Deletar Produto">
                                 <i class="fas fa-trash-alt"></i>
                             </a>
-                                </div>
-                            </div>
                         </div>
-                    
+                    </div>
+                </div>
 
 
-                
+
+
 
             </div>
 
         </div>
 
-</form>
+    </form>
 
-<br />
-{{else}}
-<h4 class="mt-12 mb-2">
-    Nenhum Produto Registrado!
-</h4>
-{{/each}}
+    <br />
+    {{else}}
+    <h4 class="mt-12 mb-2">
+        Nenhum Produto Registrado!
+    </h4>
+    {{/each}}
 
-<div class="d-flex">
-    <div class="mr-auto p-2">
-        {{#if prev}}
-        <button class="btn btn-primary btn-sm mt-2" onclick="navigate(-1)">
-            <i class="fa fa-arrow-left" aria-hidden="true"></i>
-            Anterior
-        </button>
-        {{/if}}
+    <div class="d-flex">
+        <div class="mr-auto p-2">
+            {{#if prev}}
+            <button class="btn btn-primary btn-sm mt-2" onclick="navigate(-1)">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                Anterior
+            </button>
+            {{/if}}
+        </div>
+        <div class="p-2">
+            {{#if next}}
+            <button class="btn btn-primary btn-sm mt-2" onclick="navigate(1)">
+                Próximo
+                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+            </button>
+            {{/if}}
+        </div>
     </div>
-    <div class="p-2">
-        {{#if next}}
-        <button class="btn btn-primary btn-sm mt-2" onclick="navigate(1)">
-            Próximo
-            <i class="fa fa-arrow-right" aria-hidden="true"></i>
-        </button>
-        {{/if}}
-    </div>
-</div>
 </div>

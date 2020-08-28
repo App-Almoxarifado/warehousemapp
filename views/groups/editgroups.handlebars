@@ -6,42 +6,43 @@
     {{else}}
 
     {{/each}}
-<!--<div class="card">
+    <!--<div class="card">
         <div class="card-body">-->
-            <form class="mt-5" method='post' enctype="multipart/form-data" action="/upload">
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <div class="text-center">
-                        <img  src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl={{group.qrcode}}" width="200px"  class="img-fluid rounded" alt="Responsive image">
-                                </div>
-                                </div>
-                    <div class="form-group col-md-6">
-                        <div class="text-center">
-                            <img src="{{group.image}}"  width="200px"  class="avatar img-fluid rounded" alt="Responsive image">
-                            <input type="file" accept="image/*" name="file" id="file"
-                                class="custom-file-input btn-file text-center center-block file-upload">
-                            <input type='submit' class='btn btn-primary' value='Upload de imagem'>
-                        </div>
-                    </div>
+    <form class="mt-5" method='post' enctype="multipart/form-data" action="/upload">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <div class="text-center">
+                    <img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl={{group.qrcode}}" width="200px"
+                        class="img-fluid rounded" alt="Responsive image">
                 </div>
-                <hr>
-            </form>
-            <form action="/groups/groups/edit/" method="POST">
-                <div class="form-group col-md-12">
-                    <div class="form-row">
-                        <input type="hidden" class="form-control" id="id" name="id" placeholder="Id" value="{{group._id}}">
-                        <input type="hidden" class="form-control" id="qrcode" name="qrcode" onkeyup="qrcodeFormat()"
-                            placeholder="QrCode do group"  value="{{group.qrcode}}">
-                        <input type="hidden" class="form-control mt-2" name="image" id="image" value="{{group.image}}">
-                        <label for="description">Descrição:</label>
-                        <input type="text" class="form-control" id="description" name="description"
-                            placeholder="Descrição do group" value="{{group.description}}" onkeyup="qrcodeFormat()">
-                    </div>
+            </div>
+            <div class="form-group col-md-6">
+                <div class="text-center">
+                    <img src="{{group.image}}" width="200px" class="avatar img-fluid rounded" alt="Responsive image">
+                    <input type="file" accept="image/*" name="file" id="file"
+                        class="custom-file-input btn-file text-center center-block file-upload">
+                    <input type='submit' class='btn btn-primary' value='Upload de imagem'>
                 </div>
-                <input type="hidden" class="form-control" id="date" name="date" placeholder="date"
-                    value="{{#formatDate date}}{{/formatDate}}">
+            </div>
+        </div>
+        <hr>
+    </form>
+    <form action="/groups/groups/edit/" method="POST">
+        <div class="form-group col-md-12">
+            <div class="form-row">
+                <input type="hidden" class="form-control" id="id" name="id" placeholder="Id" value="{{group._id}}">
+                <input type="hidden" class="form-control" id="qrcode" name="qrcode" onkeyup="qrcodeFormat()"
+                    placeholder="QrCode do group" value="{{group.qrcode}}">
+                <input type="hidden" class="form-control mt-2" name="image" id="image" value="{{group.image}}">
+                <label for="description">Descrição:</label>
+                <input type="text" class="form-control" id="description" name="description"
+                    placeholder="Descrição do group" value="{{group.description}}" onkeyup="qrcodeFormat()">
+            </div>
+        </div>
+        <input type="hidden" class="form-control" id="date" name="date" placeholder="date"
+            value="{{#formatDate date}}{{/formatDate}}">
         <div class="form-row align-items-center">
-           <!-- <div class="col-auto my-1">
+            <!-- <div class="col-auto my-1">
                 <select class="custom-select mr-sm-2" id="active" name="active">
                     <option Disabled selected>Ativar...</option>
                     <option value="true">Sim</option>

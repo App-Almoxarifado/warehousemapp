@@ -23,8 +23,7 @@
                 <label for="client" class="col-5 col-md-2 mt-1 col-form-label">Site
                     Solicitante:</label>
                 <div class="col-7 col-md-3">
-                    <select class="destinoMaterial custom-select"
-                        name="clientId" required>
+                    <select class="destinoMaterial custom-select" name="clientId" required>
                         <option selected disabled value="">Selecione...</option>
                         {{#each customers}}
                         <option value="{{_id}}">{{description}}</option>
@@ -37,8 +36,7 @@
                 <label for="stockQuantity" class="col-6 col-md-2 mt-1
                     col-form-label">Data Necessidade:</label>
                 <div class="col-6 col-md-3 mt-1">
-                    <input type="date" class="dateMaterial form-control"
-                        name="deliveryDate" required>
+                    <input type="date" class="dateMaterial form-control" name="deliveryDate" required>
                 </div>
 
                 <div class="col-12 col-md-2 mt-1">
@@ -48,9 +46,9 @@
             </div>
         </div>
     </div>
-    
+
     <div class="table-responsive">
-        <table class="mt-2 table table-hover table-sm table-bordered">  
+        <table class="mt-2 table table-hover table-sm table-bordered">
             <thead>
                 <tr>
                     <th class="tb01" scope="col">Id</th>
@@ -66,16 +64,14 @@
             </thead>
             {{#each products}}
             <tbody>
-                
+
                 <tr>
-                    <input type="hidden" class="mt-2 form-control" id="id"
-                        name="productsId[]" value="{{_id}}">
+                    <input type="hidden" class="mt-2 form-control" id="id" name="productsId[]" value="{{_id}}">
                     <th class="tb01">{{_id}}</th>
                     <td class="tb03">
                         <figure class="figure">
                             <img src="{{image}}" class="figure-img img-fluid
-                                rounded" style="max-width: 4rem;"
-                                alt="Imagem de um quadrado genérico com bordas
+                                rounded" style="max-width: 4rem;" alt="Imagem de um quadrado genérico com bordas
                                 arredondadas, em uma figure.">
                             <!--<figcaption class="figure-caption">Uma legenda para a imagem acima.</figcaption>-->
                         </figure>
@@ -86,41 +82,34 @@
                     <td class="tb">{{client.description}}</td>
                     <td class="tb">{{inputAmount}}</td>
                     <td class="tb">
-                        <input type="number" value={{outputQuantity}} min="1" max="{{inputAmount}}" class="form-control form-control-sm"
-                            name="productsQuantity[]" required>
+                        <input type="number" value={{outputQuantity}} min="1" max="{{inputAmount}}"
+                            class="form-control form-control-sm" name="productsQuantity[]" required>
                     </td>
                     <td>
                         <a href="/products/take/{{_id}}" class="mt-1 mb-1 btn
-                            btn-dark btn-sm" data-toggle="tooltip"
-                            data-placement="bottom" title="Visualizar detalhes">
+                            btn-dark btn-sm" data-toggle="tooltip" data-placement="bottom" title="Visualizar detalhes">
                             <i class="fas fa-align-left"></i>
                         </a>
 
                         <a href="/products/move/{{_id}}" class="mt-1 mb-1 btn
-                            btn-primary btn-sm"
-                            data-toggle="tooltip" data-placement="bottom"
+                            btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom"
                             title="Movimentação interna">
                             <i class="fas fa-file-signature"></i>
                         </a>
 
                         <a href="/products/add_id/{{_id}}" class="mt-1 mb-1 btn
-                            btn-success btn-sm"
-                            data-toggle="tooltip" data-placement="bottom"
-                            title="Criar novo produto a partir dessas
+                            btn-success btn-sm" data-toggle="tooltip" data-placement="bottom" title="Criar novo produto a partir dessas
                             informações">
                             <i class="far fa-clone"></i>
                         </a>
 
                         <a href="/products/edit/{{_id}}" class="mt-1 mb-1 btn
-                            btn-secondary btn-sm"
-                            data-toggle="tooltip" data-placement="bottom"
-                            title="Ediar Produto">
+                            btn-secondary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Ediar Produto">
                             <i class="fas fa-pen"></i>
                         </a>
 
                         <a href="/products/delete/{{_id}}" class="mt-1 mb-1
-                            deletar btn btn-danger btn-sm"
-                            data-toggle="tooltip" data-placement="bottom"
+                            deletar btn btn-danger btn-sm" data-toggle="tooltip" data-placement="bottom"
                             title="Deletar Produto">
                             <i class="fas fa-trash-alt"></i>
                         </a>

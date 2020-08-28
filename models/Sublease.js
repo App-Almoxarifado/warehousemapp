@@ -1,36 +1,37 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const Sublease = new Schema({
-    qrcode: {
-        type: String,
-        lowercase: true,
-        required: false
+  qrcode: {
+    type: String,
+    lowercase: true,
+    required: false,
+  },
+  image: {
+    type: String,
+    require: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  date: {
+    type: String,
+    default: Date.now(),
+  },
+  user: {
+    type: String,
+    default: "Daniel Soares de Albuquerque",
+  },
+  active: {
+    type: Boolean,
+    default: "true",
+  },
+  tags: [
+    {
+      type: String,
     },
-    image: {
-        type: String,
-        require: true
-    },
-    description: {
-        type: String,
-        required: true
-    },
-    date: {
-        type: String,
-        default: Date.now()
-    },
-    user: {
-        type: String,
-        default: "Daniel Soares de Albuquerque"
-    },
-    active: {
-        type: Boolean,
-        default: "true"
-    },
-    tags: [{
-        type: String
-        
-     }]
-})
+  ],
+});
 
-mongoose.model("subleases", Sublease)
+mongoose.model("subleases", Sublease);

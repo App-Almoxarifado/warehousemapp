@@ -1,48 +1,50 @@
 <style>
-    body {
-        color: aliceblue;
-        background-image: url("/img/ferramentas11.jpg");
-        width: 100%;
-        height: 100%;
-        background-position: 50% 50%;
-        background-color: black;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        background-size: cover;
-        -o-background-size: cover;
-        background-repeat: no-repeat;
-    }
-    hr{
-      border-color: #4b4b4bcc; 
-    }
+  body {
+    color: aliceblue;
+    background-image: url("/img/ferramentas11.jpg");
+    width: 100%;
+    height: 100%;
+    background-position: 50% 50%;
+    background-color: black;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  hr {
+    border-color: #4b4b4bcc;
+  }
 </style>
- 
+
 <div class="takegroups container mt-2">
 
-<h3>{{usuario.nome}}</h3>
-<hr>
-<div class="form-row">
-<div class="form-group col-md-3 text-center">
-<img  src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl={{usuario.qrcode}}" width="200px"  class="img-fluid rounded" alt="Responsive image">
-</div>
-<div class="form-group col-md-3 text-center">
+  <h3>{{usuario.nome}}</h3>
+  <hr>
+  <div class="form-row">
+    <div class="form-group col-md-3 text-center">
+      <img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl={{usuario.qrcode}}" width="200px"
+        class="img-fluid rounded" alt="Responsive image">
+    </div>
+    <div class="form-group col-md-3 text-center">
 
-<img src="{{usuario.image}}" width="200px"  class=" img-fluid rounded" alt="Responsive image">
+      <img src="{{usuario.image}}" width="200px" class=" img-fluid rounded" alt="Responsive image">
 
-</div>
-<form action="" >
-  <br>
-  <br>
-<h5 class="card-text">Email: {{usuario.email}}</h5>
-<h6 class="card-text">Código QrCode: {{usuario.qrcode}}</h6>
-<h6 class="card-text">Data de Registro: {{usuario.date}}</h6>
-<h6 class="card-text"><small>Ativo: {{usuario.active}}</small></h6>
-<h6 class="card-text"><small>Nível de Acesso: {{usuario.eAdmin}}</small></h6>
-</form>
-
-
+    </div>
+    <form action="">
+      <br>
+      <br>
+      <h5 class="card-text">Email: {{usuario.email}}</h5>
+      <h6 class="card-text">Código QrCode: {{usuario.qrcode}}</h6>
+      <h6 class="card-text">Data de Registro: {{usuario.date}}</h6>
+      <h6 class="card-text"><small>Ativo: {{usuario.active}}</small></h6>
+      <h6 class="card-text"><small>Nível de Acesso: {{usuario.eAdmin}}</small></h6>
+    </form>
 
 
-</div>
-<hr>
+
+
+  </div>
+  <hr>
 </div>

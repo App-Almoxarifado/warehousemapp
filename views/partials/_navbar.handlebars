@@ -1,25 +1,25 @@
-
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark " style="background-color: #0075be;">
-        <a class="navbar-brand mr-auto" href="/"><!--<h3>WarehouseApp</h3>-->
-        <img src="/img/logo6.png" width="200" alt="">
-        </a>
-{{#if user}}
-      <button type="button" class="btn btn-primary" onclick="muda();" ><i class="fas fa-adjust"></i></button></a>
+  <a class="navbar-brand mr-auto" href="/">
+    <!--<h3>WarehouseApp</h3>-->
+    <img src="/img/logo6.png" width="200" alt="">
+  </a>
+  {{#if user}}
+  <button type="button" class="btn btn-primary" onclick="muda();"><i class="fas fa-adjust"></i></button></a>
 
-        <button class="navbar-toggler d-block" type="button" id="navToggle">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        
-  
-        <div class="navbar-collapse offcanvas-collapse">
-        
- <ul class="navbar-nav ">
-   <div class="row no-gutters position-relative">
-   <div class="col-12 col-md-12 mb-md-0 p-md-0 text-center">
-   <img src="{{user.image}}" style="width: 8rem;" alt="" class="rounded-circle">
-   <h6 style="color: white;">{{user.nome}}</h6>
-   </div>
-   </div>
+  <button class="navbar-toggler d-block" type="button" id="navToggle">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+
+  <div class="navbar-collapse offcanvas-collapse">
+
+    <ul class="navbar-nav ">
+      <div class="row no-gutters position-relative">
+        <div class="col-12 col-md-12 mb-md-0 p-md-0 text-center">
+          <img src="{{user.image}}" style="width: 8rem;" alt="" class="rounded-circle">
+          <h6 style="color: white;">{{user.nome}}</h6>
+        </div>
+      </div>
       <li class="nav-item active">
         <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
       </li>
@@ -29,11 +29,11 @@
           Sites / Obras
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    {{#each customers}}
-                    <a class="dropdown-item" value="{{_id}}" href="/products/{{_id}}"><small>{{description}}</small></a>
-                    {{else}}
-                    <option value="0">Nenhum Site registrado</option>
-                    {{/each}}
+          {{#each customers}}
+          <a class="dropdown-item" value="{{_id}}" href="/products/{{_id}}"><small>{{description}}</small></a>
+          {{else}}
+          <option value="0">Nenhum Site registrado</option>
+          {{/each}}
         </div>
       </li>
       <li class="nav-item">
@@ -59,9 +59,9 @@
           <a class="dropdown-item" href="/groups/groups">Grupos</a>
           <a class="dropdown-item" href="/groups/subgroups">Subgrupos</a>
           <a class="dropdown-item" href="/leases/leases">Locações</a>
-          <a class="dropdown-item" href="/subleases/subleases">Sublocações</a>  
-          <a class="dropdown-item" href="/status/status">Status</a> 
-          <a class="dropdown-item" href="/types">Tipos</a>      
+          <a class="dropdown-item" href="/subleases/subleases">Sublocações</a>
+          <a class="dropdown-item" href="/status/status">Status</a>
+          <a class="dropdown-item" href="/types">Tipos</a>
           <a class="dropdown-item" href="/breaks/breaks">Intervalos</a>
           <a class="dropdown-item" href="/units/units">Unidades</a>
           <a class="dropdown-item" href="/usuarios/users">Usuários</a>
@@ -82,22 +82,21 @@
       </li>
       {{#if user}}
 
-        <a class="nav-link"  href="/usuarios/logout">Sair</a>
+      <a class="nav-link" href="/usuarios/logout">Sair</a>
 
       {{else}}
 
-        <a class="nav-link"  href="/usuarios/login">Login</a>
+      <a class="nav-link" href="/usuarios/login">Login</a>
 
-  
-        <a class="nav-link"  href="/usuarios/registro">Registro</a>
+
+      <a class="nav-link" href="/usuarios/registro">Registro</a>
 
       {{/if}}
-      
+
     </ul>
 
 
-        </div>
-        {{else}}
-        {{/if}}
-    </nav>
-    
+  </div>
+  {{else}}
+  {{/if}}
+</nav>

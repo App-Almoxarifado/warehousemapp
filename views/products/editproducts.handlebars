@@ -8,10 +8,9 @@
     {{/each}}
 
     <form class="upload mt-2" method='post' enctype="multipart/form-data" action="/upload" style="display:block;">
-                <div class="row no-gutters position-relative">
-                    <div class="col-12 col-md-2 mb-md-0 p-md-0 text-center">
-                <img src="{{product.image}}" class="avatar img-fluid rounded" alt=""
-                    style="width: 10rem;">
+        <div class="row no-gutters position-relative">
+            <div class="col-12 col-md-2 mb-md-0 p-md-0 text-center">
+                <img src="{{product.image}}" class="avatar img-fluid rounded" alt="" style="width: 10rem;">
                 <input type='submit' class='mt-1 btn btn-primary btn-sm' value='Salvar Imagem'>
                 <input type="file" accept="image/*" name="file" id="file"
                     class="btn-file text-center center-block file-upload">
@@ -348,7 +347,8 @@
         <input type="hidden" class="form-control mt-2" id="releaseDateOf" name="releaseDateOf" placeholder="date"
             value="{{product.releaseDateOf}}">
         <input type="hidden" class="form-control mt-2" name="userLaunch" id="userLaunch" value="{{product.userLaunch}}">
-        <input type="hidden" class="form-control mt-2" name="emailLaunch" id="emailLaunch" value="{{product.mailLaunch}}">
+        <input type="hidden" class="form-control mt-2" name="emailLaunch" id="emailLaunch"
+            value="{{product.mailLaunch}}">
         <!--CONTROLE DE USUÁRIOS LANÇAMENTO DO MATERIAL-->
         <input type="hidden" class="form-control mt-2" id="editionDate" name="editionDate" placeholder="date"
             value="{{#formatDate date}}{{/formatDate}}">

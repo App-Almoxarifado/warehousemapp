@@ -8,8 +8,8 @@
                 class="fas fa-th-list"></i></button></a>
     <a href="/usuarios/userstables"><button type="button" class="btn btn-primary">Tabela <i
                 class="fas fa-table"></i></button></a>
-  <a href="/usuarios/usersfull"><button type="button" class="btn btn-primary">Área Restrita <i
-        class="fas fa-table"></i></button></a>
+    <a href="/usuarios/usersfull"><button type="button" class="btn btn-primary">Área Restrita <i
+                class="fas fa-table"></i></button></a>
     <hr>
 
     <table id="example" class="table table-bordered text-center" style="width:100%">
@@ -25,10 +25,12 @@
         <tbody>
             {{#each usuarios}}
             <tr>
-                <th scope="row"><img src="{{image}}" style="max-width: 6rem;" class=" img-fluid rounded" alt="Responsive image"></th>
+                <th scope="row"><img src="{{image}}" style="max-width: 6rem;" class=" img-fluid rounded"
+                        alt="Responsive image"></th>
                 <td>{{nome}}</td>
                 <td>{{email}}</td>
-                <td><img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{qrcode}}" style="width: 6rem;" class=" img-fluid rounded" alt="Responsive image" ></td>
+                <td><img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{qrcode}}" style="width: 6rem;"
+                        class=" img-fluid rounded" alt="Responsive image"></td>
                 <td>{{date}}</td>
             </tr>
             {{else}}
@@ -37,16 +39,16 @@
         </tbody>
     </table>
 
-<nav class="mt-2" aria-label="Navegação de página exemplo">
-    <ul class="pagination">
-        {{#if prev}}
-        <li class="page-item"><a class="page-link" href="{{prev}}">Anterior</a></li>
-        {{/if}}
-        {{#paginate}}
-        <li class="page-item"><a class="page-link" href="{{link}}">{{number}}</a></li>
-        {{/paginate}}
-        <li class="page-item"><a class="page-link" href="{{next}}">Próximo</a></li>
-    </ul>
-</nav>
+    <nav class="mt-2" aria-label="Navegação de página exemplo">
+        <ul class="pagination">
+            {{#if prev}}
+            <li class="page-item"><a class="page-link" href="{{prev}}">Anterior</a></li>
+            {{/if}}
+            {{#paginate}}
+            <li class="page-item"><a class="page-link" href="{{link}}">{{number}}</a></li>
+            {{/paginate}}
+            <li class="page-item"><a class="page-link" href="{{next}}">Próximo</a></li>
+        </ul>
+    </nav>
 
 </div>

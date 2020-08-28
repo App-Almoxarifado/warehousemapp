@@ -18,23 +18,23 @@
           <i class="fas fa-th-list"></i>
         </button>
       </a>
-      </div>
-      <div class="p-2">
+    </div>
+    <div class="p-2">
       <a href="/products/table">
         <button type="button" class="btn btn-primary">
           Tabela
           <i class="fas fa-table"></i>
         </button>
       </a>
-     </div>
-      <div class="d-none d-md-block">
-        <div class="p-2">
-          <a href="/products/cart">
-            <button type="button" class="btn btn-secondary">
-              <small><strong>Meus Pedidos <i class="fas fa-dolly"></i></strong></small>
-            </button>
-          </a>
-        </div>
+    </div>
+    <div class="d-none d-md-block">
+      <div class="p-2">
+        <a href="/products/cart">
+          <button type="button" class="btn btn-secondary">
+            <small><strong>Meus Pedidos <i class="fas fa-dolly"></i></strong></small>
+          </button>
+        </a>
+      </div>
     </div>
   </div>
 
@@ -138,194 +138,203 @@
   {{#each products}}
   <!--INFORMAÇÃOES PARA ADICIONAR NA REQUISIÇÃO-->
   <form action="/products/updateItem" method="POST">
-  <input type="hidden" class="mt-2 form-control" id="id" name="id" value="{{_id}}">
-  <input type="hidden" class="mt-2 form-control" id="qrcode" name="qrcode" value="{{qrcode}}">
-  <input type="hidden" class="mt-2 form-control" id="image" name="image" value="{{image}}">
-  <input type="hidden" class="mt-2 form-control" id="group" name="group" value="{{group._id}}">
-  <input type="hidden" class="mt-2 form-control" id="subgroup" name="subgroup" value="{{subgroup._id}}">
-  <!--<input type="hidden" class="mt-2 form-control" id="fullDescription" name="fullDescription" value="{{fullDescription}}">-->
-  <!--<input type="hidden" class="mt-2 form-control" id="stockCode" name="stockCode" value="{{stockCode}}">-->
-  <!--<input type="hidden" class="mt-2 form-control" id="localArea" name="localArea" value="{{localArea._id}}">-->
-  <input type="hidden" class="mt-2 form-control" id="local" name="local" value="{{local._id}}">
-  <input type="hidden" class="mt-2 form-control" id="sublease" name="sublease" value="{{sublease._id}}">
-  <input type="hidden" class="mt-2 form-control" id="patrimonialAsset" name="patrimonialAsset" value="{{patrimonialAsset}}">
-  <input type="hidden" class="mt-2 form-control" id="description" name="description" value="{{description}}">
-  <input type="hidden" class="mt-2 form-control" id="manufacturer" name="manufacturer" value="{{manufacturer}}">
-  <input type="hidden" class="mt-2 form-control" id="model" name="model" value="{{model}}">
-  <input type="hidden" class="mt-2 form-control" id="capacityReach" name="capacityReach" value="{{capacityReach}}">
-  <input type="hidden" class="mt-2 form-control" id="serialNumber" name="serialNumber" value="{{serialNumber}}">
-  <input type="hidden" class="mt-2 form-control" id="physicalStatus" name="physicalStatus" value="{{physicalStatus._id}}">
-  <input type="hidden" class="mt-2 form-control" id="kindOfEquipment" name="kindOfEquipment" value="{{kindOfEquipment._id}}">
-  <input type="hidden" class="mt-2 form-control" id="requiresCertificationCalibration" name="requiresCertificationCalibration" value="{{requiresCertificationCalibration}}">
-  <input type="hidden" class="mt-2 form-control" id="inputAmount" name="inputAmount" value="{{inputAmount}}">
-  <input type="hidden" class="mt-2 form-control" id="inputAmountSite" name="inputAmountSite" value="{{inputAmountSite}}">
-  <input type="hidden" class="mt-2 form-control" id="outputQuantity" name="outputQuantity" value="{{outputQuantity}}">
-  <input type="hidden" class="mt-2 form-control" id="stockQuantity" name="stockQuantity" value="{{stockQuantity}}">
-  <input type="hidden" class="mt-2 form-control" id="stockTotal" name="stockTotal" value="{{stockTotal}}">
-  <input type="hidden" class="mt-2 form-control" id="unity" name="unity" value="{{unity._id}}">
-  <input type="hidden" class="mt-2 form-control" id="weightKg" name="weightKg" value="{{weightKg}}">
-  <input type="hidden" class="mt-2 form-control" id="faceValue" name="faceValue" value="{{faceValue}}">
-  <input type="hidden" class="mt-2 form-control" id="dimensionsWxLxH" name="dimensionsWxLxH" value="{{dimensionsWxLxH}}">
-  <input type="hidden" class="mt-2 form-control" id="certificate" name="certificate" value="{{certificate}}">
-  <input type="hidden" class="mt-2 form-control" id="entityLaboratory" name="entityLaboratory" value="{{entityLaboratory}}">
-  <input type="hidden" class="mt-2 form-control" id="frequency" name="frequency" value="{{frequency._id}}">
-  <input type="hidden" class="mt-2 form-control" id="calibrationDate" name="calibrationDate" value="{{calibrationDate}}">
-  <input type="hidden" class="mt-2 form-control" id="calibrationValidity" name="calibrationValidity" value="{{calibrationValidity}}">
-  <input type="hidden" class="mt-2 form-control" id="calibrationStatus" name="calibrationStatus" value="{{calibrationStatus}}">
-  <input type="hidden" class="mt-2 form-control" id="po" name="po" value="{{po}}">
-  <input type="hidden" class="mt-2 form-control" id="sapCode" name="sapCode" value="{{sapCode}}">
-  <input type="hidden" class="mt-2 form-control" id="ncmCode" name="ncmCode" value="{{ncmCode}}">
-  <input type="hidden" class="mt-2 form-control" id="provider" name="provider" value="{{provider._id}}">
-  <input type="hidden" class="mt-2 form-control" id="note" name="note" value="{{note}}">
-  <input type="hidden" class="mt-2 form-control" id="activeStatus" name="activeStatus" value="{{activeStatus}}">
-  <!--CONTROLE DE USUÁRIOS LANÇAMENTO DO MATERIAL-->
-  <input type="hidden" class="mt-2 form-control" id="releaseDateOf" name="releaseDateOf" value="{{releaseDateOf}}">
-  <input type="hidden" class="mt-2 form-control" id="userLaunch" name="userLaunch" value="{{userLaunch._id}}">
-  <input type="hidden" class="mt-2 form-control" id="emailLaunch" name="emailLaunch" value="{{emailLaunch}}">
-  <!--CONTROLE DE USUÁRIOS ÚLTIMO LANÇAMENTO DO MATERIAL-->
-  <input type="hidden" class="mt-2 form-control" id="editionDate" name="editionDate" value="{{editionDate}}">
-  <input type="hidden" class="mt-2 form-control" id="userEdtion" name="userEdtion" value="{{userEdtion}}">
-  <input type="hidden" class="mt-2 form-control" id="emailEdtion" name="emailEdtion" value="{{emailEdtionn}}">
+    <input type="hidden" class="mt-2 form-control" id="id" name="id" value="{{_id}}">
+    <input type="hidden" class="mt-2 form-control" id="qrcode" name="qrcode" value="{{qrcode}}">
+    <input type="hidden" class="mt-2 form-control" id="image" name="image" value="{{image}}">
+    <input type="hidden" class="mt-2 form-control" id="group" name="group" value="{{group._id}}">
+    <input type="hidden" class="mt-2 form-control" id="subgroup" name="subgroup" value="{{subgroup._id}}">
+    <!--<input type="hidden" class="mt-2 form-control" id="fullDescription" name="fullDescription" value="{{fullDescription}}">-->
+    <!--<input type="hidden" class="mt-2 form-control" id="stockCode" name="stockCode" value="{{stockCode}}">-->
+    <!--<input type="hidden" class="mt-2 form-control" id="localArea" name="localArea" value="{{localArea._id}}">-->
+    <input type="hidden" class="mt-2 form-control" id="local" name="local" value="{{local._id}}">
+    <input type="hidden" class="mt-2 form-control" id="sublease" name="sublease" value="{{sublease._id}}">
+    <input type="hidden" class="mt-2 form-control" id="patrimonialAsset" name="patrimonialAsset"
+      value="{{patrimonialAsset}}">
+    <input type="hidden" class="mt-2 form-control" id="description" name="description" value="{{description}}">
+    <input type="hidden" class="mt-2 form-control" id="manufacturer" name="manufacturer" value="{{manufacturer}}">
+    <input type="hidden" class="mt-2 form-control" id="model" name="model" value="{{model}}">
+    <input type="hidden" class="mt-2 form-control" id="capacityReach" name="capacityReach" value="{{capacityReach}}">
+    <input type="hidden" class="mt-2 form-control" id="serialNumber" name="serialNumber" value="{{serialNumber}}">
+    <input type="hidden" class="mt-2 form-control" id="physicalStatus" name="physicalStatus"
+      value="{{physicalStatus._id}}">
+    <input type="hidden" class="mt-2 form-control" id="kindOfEquipment" name="kindOfEquipment"
+      value="{{kindOfEquipment._id}}">
+    <input type="hidden" class="mt-2 form-control" id="requiresCertificationCalibration"
+      name="requiresCertificationCalibration" value="{{requiresCertificationCalibration}}">
+    <input type="hidden" class="mt-2 form-control" id="inputAmount" name="inputAmount" value="{{inputAmount}}">
+    <input type="hidden" class="mt-2 form-control" id="inputAmountSite" name="inputAmountSite"
+      value="{{inputAmountSite}}">
+    <input type="hidden" class="mt-2 form-control" id="outputQuantity" name="outputQuantity" value="{{outputQuantity}}">
+    <input type="hidden" class="mt-2 form-control" id="stockQuantity" name="stockQuantity" value="{{stockQuantity}}">
+    <input type="hidden" class="mt-2 form-control" id="stockTotal" name="stockTotal" value="{{stockTotal}}">
+    <input type="hidden" class="mt-2 form-control" id="unity" name="unity" value="{{unity._id}}">
+    <input type="hidden" class="mt-2 form-control" id="weightKg" name="weightKg" value="{{weightKg}}">
+    <input type="hidden" class="mt-2 form-control" id="faceValue" name="faceValue" value="{{faceValue}}">
+    <input type="hidden" class="mt-2 form-control" id="dimensionsWxLxH" name="dimensionsWxLxH"
+      value="{{dimensionsWxLxH}}">
+    <input type="hidden" class="mt-2 form-control" id="certificate" name="certificate" value="{{certificate}}">
+    <input type="hidden" class="mt-2 form-control" id="entityLaboratory" name="entityLaboratory"
+      value="{{entityLaboratory}}">
+    <input type="hidden" class="mt-2 form-control" id="frequency" name="frequency" value="{{frequency._id}}">
+    <input type="hidden" class="mt-2 form-control" id="calibrationDate" name="calibrationDate"
+      value="{{calibrationDate}}">
+    <input type="hidden" class="mt-2 form-control" id="calibrationValidity" name="calibrationValidity"
+      value="{{calibrationValidity}}">
+    <input type="hidden" class="mt-2 form-control" id="calibrationStatus" name="calibrationStatus"
+      value="{{calibrationStatus}}">
+    <input type="hidden" class="mt-2 form-control" id="po" name="po" value="{{po}}">
+    <input type="hidden" class="mt-2 form-control" id="sapCode" name="sapCode" value="{{sapCode}}">
+    <input type="hidden" class="mt-2 form-control" id="ncmCode" name="ncmCode" value="{{ncmCode}}">
+    <input type="hidden" class="mt-2 form-control" id="provider" name="provider" value="{{provider._id}}">
+    <input type="hidden" class="mt-2 form-control" id="note" name="note" value="{{note}}">
+    <input type="hidden" class="mt-2 form-control" id="activeStatus" name="activeStatus" value="{{activeStatus}}">
+    <!--CONTROLE DE USUÁRIOS LANÇAMENTO DO MATERIAL-->
+    <input type="hidden" class="mt-2 form-control" id="releaseDateOf" name="releaseDateOf" value="{{releaseDateOf}}">
+    <input type="hidden" class="mt-2 form-control" id="userLaunch" name="userLaunch" value="{{userLaunch._id}}">
+    <input type="hidden" class="mt-2 form-control" id="emailLaunch" name="emailLaunch" value="{{emailLaunch}}">
+    <!--CONTROLE DE USUÁRIOS ÚLTIMO LANÇAMENTO DO MATERIAL-->
+    <input type="hidden" class="mt-2 form-control" id="editionDate" name="editionDate" value="{{editionDate}}">
+    <input type="hidden" class="mt-2 form-control" id="userEdtion" name="userEdtion" value="{{userEdtion}}">
+    <input type="hidden" class="mt-2 form-control" id="emailEdtion" name="emailEdtion" value="{{emailEdtionn}}">
 
-  <div class="card" style="background-color: transparent;">
-    <div class="card-body">
-      <div class="d-flex">
-        <div class="mr-auto p-2">
-          <h6>{{fullDescription}}</h6>
-        </div>
+    <div class="card" style="background-color: transparent;">
+      <div class="card-body">
+        <div class="d-flex">
+          <div class="mr-auto p-2">
+            <h6>{{fullDescription}}</h6>
+          </div>
 
-        <div class="col-4 col-md-2 text-right">
+          <div class="col-4 col-md-2 text-right">
 
-                            <button type="submit" class="mt-1 mb-1 btn btn-primary btn-sm">
-                                <i class="fas fa-cart-arrow-down"></i></button>
-     
-                            <!--<button id="saveCart" type="submit" class="mt-1 mb-1 btn btn-success btn-sm">
+            <button type="submit" class="mt-1 mb-1 btn btn-primary btn-sm">
+              <i class="fas fa-cart-arrow-down"></i></button>
+
+            <!--<button id="saveCart" type="submit" class="mt-1 mb-1 btn btn-success btn-sm">
                                 <i class="fa fa-paper-plane" aria-hidden="true"></i></button>-->
-                                
 
-                            <a href="/products/add_id/{{_id}}" class="mt-1 mb-1 btn btn-success btn-sm"
-                                data-toggle="tooltip" data-placement="bottom"
-                                title="Criar novo produto a partir dessas informações">
-                                <i class="far fa-clone"></i>
-                            </a>
 
-                            <a href="/products/edit/{{_id}}" class="mt-1 mb-1 btn btn-secondary btn-sm"
-                                data-toggle="tooltip" data-placement="bottom" title="Editar Produto">
-                                <i class="fas fa-pen"></i>
-                            </a>
+            <a href="/products/add_id/{{_id}}" class="mt-1 mb-1 btn btn-success btn-sm" data-toggle="tooltip"
+              data-placement="bottom" title="Criar novo produto a partir dessas informações">
+              <i class="far fa-clone"></i>
+            </a>
 
-                            <a href="/products/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm"
-                                data-toggle="tooltip" data-placement="bottom" title="Deletar Produto">
-                                <i class="fas fa-trash-alt"></i>
-                            </a>
-          
+            <a href="/products/edit/{{_id}}" class="mt-1 mb-1 btn btn-secondary btn-sm" data-toggle="tooltip"
+              data-placement="bottom" title="Editar Produto">
+              <i class="fas fa-pen"></i>
+            </a>
+
+            <a href="/products/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
+              data-placement="bottom" title="Deletar Produto">
+              <i class="fas fa-trash-alt"></i>
+            </a>
+
+          </div>
         </div>
-      </div>
-      <hr />
-      <div class="row no-gutters position-relative">
-        <div class="col-6 col-md-2 mb-md-0 p-md-0 text-center">
-          <img src="{{image}}" style="width: 8rem;" class="rounded " alt="..." />
-        </div>
-        <div class="col-6 col-md-2 mb-md-0 p-md-0 text-center">
-          <img id="qrcode" name="qrcode" src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{
+        <hr />
+        <div class="row no-gutters position-relative">
+          <div class="col-6 col-md-2 mb-md-0 p-md-0 text-center">
+            <img src="{{image}}" style="width: 8rem;" class="rounded " alt="..." />
+          </div>
+          <div class="col-6 col-md-2 mb-md-0 p-md-0 text-center">
+            <img id="qrcode" name="qrcode" src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{
                 qrcode
               }}" style="width: 8rem;" class="rounded mr-3" />
-        </div>
+          </div>
 
-        <div class="col-md-4 position-static p-0 pl-md-0 text-center">
-          <p class="mt-0 mb-1">
-            <small>
-              <b>
-                Grupo:
-              </b>
-              {{group.description}}
-            </small>
-          </p>
-          <p class="mt-0 mb-1">
-            <small>
-              <b>
-                Subgrupo:
-              </b>
-              {{subgroup.description}}
-            </small>
-          </p>
-          <p class="mt-0 mb-1">
-            <small>
-              <b>
-                Localização:
-              </b>
-              {{client.description}}
-            </small>
-          </p>
-          <p class="mt-0 mb-1">
-            <small>
-              <b>
-                Status Físico:
-              </b>
-              {{physicalStatus.description}}
-            </small>
-          </p>
-          <p class="mt-0 mb-1">
-            <small>
-              <b>
-                Tipo de Equipamento:
-              </b>
-              {{kindOfEquipment.description}}
-            </small>
-          </p>
-        </div>
+          <div class="col-md-4 position-static p-0 pl-md-0 text-center">
+            <p class="mt-0 mb-1">
+              <small>
+                <b>
+                  Grupo:
+                </b>
+                {{group.description}}
+              </small>
+            </p>
+            <p class="mt-0 mb-1">
+              <small>
+                <b>
+                  Subgrupo:
+                </b>
+                {{subgroup.description}}
+              </small>
+            </p>
+            <p class="mt-0 mb-1">
+              <small>
+                <b>
+                  Localização:
+                </b>
+                {{client.description}}
+              </small>
+            </p>
+            <p class="mt-0 mb-1">
+              <small>
+                <b>
+                  Status Físico:
+                </b>
+                {{physicalStatus.description}}
+              </small>
+            </p>
+            <p class="mt-0 mb-1">
+              <small>
+                <b>
+                  Tipo de Equipamento:
+                </b>
+                {{kindOfEquipment.description}}
+              </small>
+            </p>
+          </div>
 
-        <div class="col-md-4 position-static p-0 pl-md-0 text-center">
-          <p class="mt-0 mb-1">
-            <small>
-              <b>
-                Calibração/Certificação:
-              </b>
-              {{calibrationStatus}}
-            </small>
-          </p>
-          <p class="mt-0 mb-1">
-            <small>
-              <b>
-                Quantidade Entrada:
-              </b>
-              {{inputAmount}}
-            </small>
-          </p>
-          <p class="mt-0 mb-1">
-            <small>
-              <b>
-                Quantidade Estoque:
-              </b>
-              {{stockQuantity}}
-            </small>
-          </p>
-          <p class="mt-0 mb-1">
-            <small>
-              <b>
-                Ultima Movimentação:
-              </b>
-              {{editionDate}}
-            </small>
-          </p>
+          <div class="col-md-4 position-static p-0 pl-md-0 text-center">
+            <p class="mt-0 mb-1">
+              <small>
+                <b>
+                  Calibração/Certificação:
+                </b>
+                {{calibrationStatus}}
+              </small>
+            </p>
+            <p class="mt-0 mb-1">
+              <small>
+                <b>
+                  Quantidade Entrada:
+                </b>
+                {{inputAmount}}
+              </small>
+            </p>
+            <p class="mt-0 mb-1">
+              <small>
+                <b>
+                  Quantidade Estoque:
+                </b>
+                {{stockQuantity}}
+              </small>
+            </p>
+            <p class="mt-0 mb-1">
+              <small>
+                <b>
+                  Ultima Movimentação:
+                </b>
+                {{editionDate}}
+              </small>
+            </p>
 
-          <a href="/products/move/{{_id}}" class="mt-0 mb-1 btn btn-secondary btn-sm" data-toggle="tooltip"
-            data-placement="bottom" title="Visualizar detalhes">
-            <small>
-              Movimentação Interna
-            </small>
-          </a>
+            <a href="/products/move/{{_id}}" class="mt-0 mb-1 btn btn-secondary btn-sm" data-toggle="tooltip"
+              data-placement="bottom" title="Visualizar detalhes">
+              <small>
+                Movimentação Interna
+              </small>
+            </a>
 
-          <a href="/products/take/{{_id}}" class="mt-0 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
-            data-placement="bottom" title="Visualizar detalhes">
-            <small>
-              Envio - Solicitação
-            </small>
-          </a>
+            <a href="/products/take/{{_id}}" class="mt-0 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
+              data-placement="bottom" title="Visualizar detalhes">
+              <small>
+                Envio - Solicitação
+              </small>
+            </a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
   </form>
 
   <br />
