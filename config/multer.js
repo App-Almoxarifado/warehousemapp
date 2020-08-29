@@ -19,6 +19,7 @@ const storageTypes = {
             });
         }
     }),
+
     s3: multerS3({
         s3: new aws.S3(),
         bucket: process.env.BUCKET_NAME,
@@ -37,37 +38,9 @@ const storageTypes = {
 };
 
 
-  if (process.env.NODE_ENV == "production") {  
-module.exports = {
-    dest: path.resolve(__dirname, "..", "tmp", "uploads"),
-    storage: storageTypes[process.env.STORAGE_TYPE_S3],
-    limits: {
-        fileSize: 2 * 1024 * 1024
-    },
-    fileFilter: (req, file, cb) => {
-        const allowedMimes = [
-            "image/jpeg",
-            "image/pjpeg",
-            "image/png",
-            "application/zip",
-            "application/vnd.ms-excel",
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-
-        ];
-
-        if (allowedMimes.includes(file.mimetype)) {
-            cb(null, true);
-        } else {
-            cb(new Error("Invalid file type."));
-        }
-    }
-}
-
-} else {
-
     module.exports = {
         dest: path.resolve(__dirname, "..", "tmp", "uploads"),
-        storage: storageTypes[process.env.STORAGE_TYPE_LOCAL],
+        storage: storageTypes[process.env.STORAGE_TYPE],
         limits: {
             fileSize: 2 * 1024 * 1024
         },
@@ -78,10 +51,18 @@ module.exports = {
                 "image/png",
                 "application/zip",
                 "application/vnd.ms-excel",
-                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-    
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                "application/pdf",
+                "application/vnd.ms-powerpoint",
+                "text/csv",
+                "application/msword",
+                "application/json",
+                "application/javascript",
+                "text/html",
+                "text/css"
+
             ];
-    
+
             if (allowedMimes.includes(file.mimetype)) {
                 cb(null, true);
             } else {
@@ -89,4 +70,4 @@ module.exports = {
             }
         }
     }
-}
+
