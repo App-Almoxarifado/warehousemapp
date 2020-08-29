@@ -121,12 +121,9 @@ $(document).ready(function () {
   var readUrl = function (input) {
     if (input.files && input.files[0]) {
       var reader = new FileReader();
-
       reader.readAsDataURL(input.files[0]);
-
       reader.onload = function (e) {
         $(".avatar").attr("src", e.target.result);
-
         var url = e.target.result;
         console.log(url);
         var nameimg = document.getElementById("file").files[0].name;

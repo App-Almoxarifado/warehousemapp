@@ -13,30 +13,26 @@
                     <h3>Cadastre um Tipo</h3>
                 </div>
                 <hr>
-                <form method='post' enctype="multipart/form-data" action="/upload">
+                <form action="/types/add" enctype="multipart/form-data" method="POST">
                     <div class="d-flex justify-content-center">
                         <img src="/img/logo8.png" class="avatar img-fluid rounded" alt="" style="width: 10rem;">
                     </div>
                     <div class="d-flex p-1 justify-content-center">
-                        <input type='submit' class='mt-1 btn btn-primary btn-sm' value='Salvar Imagem'>
+
                         <input type="file" accept="image/*" name="file" id="file"
                             class="btn-file text-center center-block file-upload">
-
                     </div>
-                </form>
-                <form action="/types/add" method="POST">
                     <div class="d-flex justify-content-center">
                         <div class="form-group col-md-12">
                             <input type="hidden" class="form-control" id="id" name="id" placeholder="Id">
                             <input type="hidden" class="form-control" id="qrcode" name="qrcode"
                                 placeholder="Código Qr code">
-                            <input type="hidden" class="form-control mt-2" name="image" id="image">
+                            <input type="text" class="form-control mt-2" name="image" id="image">
                             <label for="description">Descrição:</label>
                             <input type="text" class="form-control" id="description" name="description"
                                 placeholder="Descrição do tipo">
                         </div>
                     </div>
-
                     <!--CONTROLE DE USUÁRIOS LANÇAMENTO -->
                     <input type="hidden" class="form-control mt-2" id="releaseDateOf" name="releaseDateOf"
                         placeholder="date" value="{{#formatDate date}}{{/formatDate}}">
@@ -54,9 +50,7 @@
 
                     <div class="d-flex justify-content-center">
                         <div class="form-group col-md-12 text-center">
-                            <button type="submit" class="btn btn-success" data-toggle="tooltip" data-placement="bottom"
-                                title="Salva os dados do formulário no banco de dados">Salvar <i
-                                    class="fas fa-share"></i></button>
+                            <input type='submit' class='mt-1 btn btn-success btn-sm' value='Salvar'>
                         </div>
                     </div>
                 </form>

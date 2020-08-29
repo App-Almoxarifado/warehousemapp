@@ -7,6 +7,7 @@ const Client = mongoose.model("customers");
 //EXIBINDO TIPOS POR LISTA
 exports.getList = async (req, res) => {
   try {
+    const file = req.file
     var customers = await Client.find({ active: true })
       .sort({ description: "asc" })
       .lean();
@@ -40,6 +41,7 @@ exports.getList = async (req, res) => {
       page,
       limit,
       site,
+      file
     });
   } catch (err) {
     console.log(err);
@@ -98,8 +100,10 @@ exports.getTable = async (req, res) => {
 
 //CRIANDO UM TIPO
 exports.getCreate = async (req, res) => {
+  const file = req.file
+  console.log(file)
   try {
-    res.render("types/addtypes");
+    res.render("types/addtypes",{file});
   } catch (err) {
     req.flash("error_msg", "Ops, Houve um erro interno!");
     res.redirect("/types");
@@ -107,6 +111,7 @@ exports.getCreate = async (req, res) => {
 };
 
 exports.postCreate = async (req, res) => {
+  const file = req.file
   var erros = [];
   if (
     !req.body.description ||
@@ -123,7 +128,7 @@ exports.postCreate = async (req, res) => {
     });
   }
   if (erros.length > 0) {
-    res.render("types/addtypes", {
+    res.render("types/addtypes", {file,
       erros: erros,
     });
   } else {
@@ -135,7 +140,8 @@ exports.postCreate = async (req, res) => {
           .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
           .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
           .replace(/(^-+|-+$)/, ""), // Remove hífens extras do final ou do inicio da string
-        image: req.body.image, //.slice(0, -1),
+        image: req.file.location, //.slice(0, -1),
+        key: req.file.key,
         description: req.body.description,
         releaseDateOf: req.body.releaseDateOf,
         userLaunch: req.body.userLaunch,

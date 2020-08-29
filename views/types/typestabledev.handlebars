@@ -1,0 +1,295 @@
+<div class="mt-2 container-fluid">
+  {{#each erros}}
+  <div class="alert alert-danger">{{texto}}</div>
+  {{else}}
+  {{/each}}
+  <!--<canvas class="line-chart"></canvas>-->
+  <div class="d-none d-md-none d-print-block">
+    <div class="d-flex justify-content-center">
+
+      <h3>Tipos de Equipamento</h3>
+    </div>
+  </div>
+  <div class="d-none d-md-block d-print-none">
+    <div class="d-flex justify-content-center">
+      <div class="p-1 mr-auto">
+        <h3>Tipos de Equipamento</h3>
+      </div>
+
+      <div class="p-0 mr-1">
+        <a href="/types">
+          <button type="button" class="btn btn-primary btn-sm">
+            Lista
+            <i class="fas fa-th-list"></i>
+          </button>
+        </a>
+      </div>
+      <div class="p-0 mr-1">
+        <a href="/types/table">
+          <button type="button" class="btn btn-primary btn-sm">
+            Tabela
+            <i class="fas fa-table"></i>
+          </button>
+        </a>
+      </div>
+      <div class="p-0">
+        <a href="/types/add">
+          <button class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom" title="Cadastre ">
+            Cadastre um novo tipo <i class="fas fa-paper-plane"></i>
+          </button>
+        </a>
+      </div>
+    </div>
+
+
+    <div class="d-flex justify-content-center">
+      <div class="p-1 mr-auto">
+        <div class="form-group row">
+          <label for="client" class="col-sm-7 col-form-label col-form-label-sm">Itens p/ página</label>
+          <div class="col-sm-5">
+            <select class="custom-select custom-select-sm" id="limit" name="limit" onchange="setLimit()">
+              <option value="5" {{#if_eq limit 5}}selected{{/if_eq}}>5</option>
+              <option value="10" {{#if_eq limit 10}}selected{{/if_eq}}>10</option>
+              <option value="25" {{#if_eq limit 25}}selected{{/if_eq}}>25</option>
+              <option value="50" {{#if_eq limit 50}}selected{{/if_eq}}>50</option>
+              <option value="100" {{#if_eq limit 100}}selected{{/if_eq}}>100</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="p-1 ">
+        <p><small>Visualizar Colunas</small></p>
+      </div>
+      <div class="p-1 ">
+
+        <select class="custom-select custom-select-sm" name="SelectOptions" id="SelectOptions">
+          <option selected>Escolher...</option>
+          <option selected>Mostrar Colunas</option>
+          <option value="tbTypes01">Id</option>
+          <option value="tbTypes02">imagem</option>
+          <option value="tbTypes03">QrCode</option>
+          <option value="tbTypes04">Descrição</option>
+          <option value="tbTypes05">Data de Lançamento</option>
+          <option value="tbTypes06">Usuário Lançamento</option>
+          <option value="tbTypes07">Email Lançamento</option>
+          <option value="tbTypes08">Data Edição</option>
+          <option value="tbTypes09">ID Usuário Edição</option>
+          <option value="tbTypes10">Email Edição</option>
+          <option value="tbTypes11">Ações</option>
+        </select>
+      </div>
+
+      <div class="p-1">
+        <div class="input-group input-group-sm mb-3">
+          <input type="text-sm" class="form-control" id="search" name="search" placeholder="Pesquise aqui...">
+        </div>
+      </div>
+
+      <div class="p-1">
+        <button type="button" class="btn btn-primary btn-sm" onclick="search()">
+          <i class="fa fa-search" aria-hidden="true"></i>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+
+
+  <div class="d-block d-md-none d-print-none">
+    <div class="d-flex justify-content-center">
+      <h3>Tipos de Equipamento</h3>
+      <hr>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <a href="/types/add">
+        <button class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom"
+          title="Cadastre um novo tipo">
+          Cadastre um novo tipo <i class="fas fa-paper-plane"></i>
+        </button>
+      </a>
+    </div>
+
+
+    <div class="d-flex justify-content-center">
+      <div class="p-1">
+        <div class="input-group input-group-sm mb-3">
+          <input type="text-sm" class="search form-control" id="searchMobile" name="searchMobile"
+            placeholder="Pesquise aqui..." onchange="this.value=this.value.toLowerCase()" />
+        </div>
+      </div>
+
+      <div class="p-1 ">
+        <button type="button" class="btn btn-primary btn-sm" onclick="search()">
+          <i class="fa fa-search" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+
+
+    <div class="d-flex justify-content-center">
+      <div class="p-1">
+        <label for="client" class="col-sm-7 col-form-label col-form-label-sm">Itens p/ página</label>
+        <div class="col-sm-5">
+          <select class="custom-select custom-select-sm" id="limitMobile" name="limitMobile" onchange="setLimit()">
+            <option value="5" {{#if_eq limit 5}}selected{{/if_eq}}>5</option>
+            <option value="10" {{#if_eq limit 10}}selected{{/if_eq}}>10</option>
+            <option value="25" {{#if_eq limit 25}}selected{{/if_eq}}>25</option>
+            <option value="50" {{#if_eq limit 50}}selected{{/if_eq}}>50</option>
+            <option value="100" {{#if_eq limit 100}}selected{{/if_eq}}>100</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <div class="p-1 ">
+        <select class="custom-select custom-select-sm" name="SelectOptionsMobile" id="SelectOptionsMobile">
+          <option selected>Mostrar Colunas</option>
+          <option value="tbTypes01">Id</option>
+          <option value="tbTypes02">imagem</option>
+          <option value="tbTypes03">QrCode</option>
+          <option value="tbTypes04">Descrição</option>
+          <option value="tbTypes05">Data de Lançamento</option>
+          <option value="tbTypes06">Usuário Lançamento</option>
+          <option value="tbTypes07">Email Lançamento</option>
+          <option value="tbTypes08">Data Edição</option>
+          <option value="tbTypes09">ID Usuário Edição</option>
+          <option value="tbTypes10">Email Edição</option>
+          <option value="tbTypes11">Ações</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!--TABELA DE DADOS-->
+  <div class="table-responsive">
+    <table id="tblExport" class="table table-hover table-sm table-bordered">
+
+      <thead>
+        <tr>
+          <th class="tbTypes01 d-print-block" scope="col">Id</th>
+          <th class="tbTypes02 d-print-block" scope="col">Imagem</th>
+          <th class="tbTypes03 d-print-block" scope="col">qrCode</th>
+          <th class="tbTypes04 d-print-block" scope="col">Descrição</th>
+          <th class="tbTypes05 d-print-block" scope="col">Data de Lançamento</th>
+          <th class="tbTypes06 d-print-block" scope="col">Usuário Lançamento</th>
+          <th class="tbTypes07 d-print-block" scope="col">Email Lançamento</th>
+          <th class="tbTypes08 d-print-block" scope="col" style="display: none;">Última Modificação</th>
+          <th class="tbTypes09 d-print-block" scope="col" style="display: none;">Usuário Edição</th>
+          <th class="tbTypes10 d-print-block" scope="col" style="display: none;">Email Edição</th>
+          <th class="tbTypes11 d-print-block" scope="col">Ações</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {{#each types}}
+        <form id="form_dev" method="POST">
+          <input type="hidden" class="mt-2 form-control" id="id" name="id" value="{{_id}}">
+          <input type="hidden" class="mt-2 form-control" id="qrcode" name="qrcode" value="{{qrcode}}">
+          <input type="hidden" class="mt-2 form-control" id="image" name="image" value="{{image}}">
+          <input type="hidden" class="mt-2 form-control" id="description" name="description" value="{{description}}">
+          <!--CONTROLE DE USUÁRIOS LANÇAMENTO DO MATERIAL-->
+          <input type="hidden" class="mt-2 form-control" id="releaseDateOf" name="releaseDateOf"
+            value="{{releaseDateOf}}">
+          <input type="hidden" class="mt-2 form-control" id="userLaunch" name="userLaunch" value="{{userLaunch._id}}">
+          <input type="hidden" class="mt-2 form-control" id="emailLaunch" name="emailLaunch" value="{{emailLaunch}}">
+          <!--CONTROLE DE USUÁRIOS ÚLTIMO LANÇAMENTO DO MATERIAL-->
+          <input type="hidden" class="mt-2 form-control" id="editionDate" name="editionDate" value="{{editionDate}}">
+          <input type="hidden" class="mt-2 form-control" id="userEdtion" name="userEdtion" value="{{userEdtion}}">
+          <input type="hidden" class="mt-2 form-control" id="emailEdtion" name="emailEdtion" value="{{emailEdtion}}">
+          <tr>
+            <th class="tbTypes01 d-print-block">{{_id}}</th>
+            <td class="tbTypes02 d-print-block">
+              <figure class="figure">
+                <img src="{{image}}" class="figure-img img-fluid rounded" style="max-width: 4rem;"
+                  alt="Imagem de um quadrado genérico com bordas arredondadas, em uma figure.">
+                <!--<figcaption class="figure-caption">Uma legenda para a imagem acima.</figcaption>-->
+              </figure>
+            </td>
+
+            <td class="tbTypes03 d-print-block">
+              <figure class="figure">
+                <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{qrcode}}"
+                  class="figure-img img-fluid rounded" style="max-width: 4rem;"
+                  alt="Imagem de um quadrado genérico com bordas arredondadas, em uma figure.">
+                <!--<figcaption class="figure-caption">Uma legenda para a imagem acima.</figcaption>-->
+              </figure>
+            </td>
+            <td class="tbTypes04 d-print-block">{{description}}</td>
+            <td class="tbTypes05 d-print-block">{{releaseDateOf}}</td>
+            <td class="tbTypes06 d-print-block">{{userLaunch.name}}</td>
+            <td class="tbTypes07 d-print-block">{{emailLaunch}}</td>
+            <td class="tbTypes08 d-print-block" style="display: none;">{{editionDate}}</td>
+            <td class="tbTypes09 d-print-block" style="display: none;">{{userEdtion}}</td>
+            <td class="tbTypes10 d-print-block" style="display: none;">{{emailEdtion}}</td>
+
+            <td class="tbTypes03 d-print-none">
+              <div class="d-flex justify-content-center">
+                <div class="liTypes11 p-0 mr-1">
+                  <button id="updateDev" type="submit" class="mt-1 mb-1 btn btn-secondary btn-sm" data-toggle="tooltip"
+                    data-placement="right" title="Inserir produto na solicitação atual">
+                    <i class="fas fa-cart-arrow-down"></i></button>
+                </div>
+
+                <div class="liTypes11 p-0 mr-1">
+                  <button id="saveDev" type="submit" class="mt-1 mb-1 btn btn-success btn-sm" data-toggle="tooltip"
+                    data-placement="bottom" title="Dar entrada no Material">
+                    <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                </div>
+
+                <div class="p-0 mr-1">
+                  <a href="/types/add_id/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
+                    data-placement="left" title="Criar novo produto a partir dessas informações">
+                    <i class="far fa-clone"></i>
+                  </a>
+                </div>
+
+                <div class="p-0 mr-1">
+                  <a href="/types/edit/{{_id}}" class="mt-1 mb-1 btn btn-dark btn-sm" data-toggle="tooltip"
+                    data-placement="bottom" title="Editar Produto">
+                    <i class="fas fa-pen"></i>
+                  </a>
+                </div>
+
+                <div class="p-0">
+                  <a href="/types/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
+                    data-placement="bottom" title="Deletar Produto">
+                    <i class="fas fa-trash-alt"></i>
+                  </a>
+                </div>
+              </div>
+            </td>
+
+          </tr>
+        </form>
+        {{else}}
+        <h4 class="mt-12 mb-2">
+          Nenhum Tipo Registrado!
+        </h4>
+        {{/each}}
+      </tbody>
+
+    </table>
+  </div>
+
+  <div class="d-flex d-print-none">
+    <div class="mr-auto p-2">
+      {{#if prev}}
+      <button class="btn btn-primary btn-sm mt-2" onclick="navigate(-1)">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        Anterior
+      </button>
+      {{/if}}
+    </div>
+    <div class="p-2">
+      {{#if next}}
+      <button class="btn btn-primary btn-sm mt-2" onclick="navigate(1)">
+        Próximo
+        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+      </button>
+      {{/if}}
+    </div>
+  </div>
+</div>

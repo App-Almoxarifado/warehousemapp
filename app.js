@@ -7,7 +7,6 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const flash = require("connect-flash");
-const multer = require("multer");
 const qr = require("qr-image");
 const moment = require("moment");
 const morgan = require("morgan");
@@ -78,7 +77,7 @@ app.use("/favicon.ico", express.static("images/favicon.ico"));
 app.use(cors());
 app.use(cookieParser());
 
-//Sessões
+//SESSÕES
 app.use(
   session({
     secret: "warehousemapp",
@@ -91,7 +90,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-//Middleware
+//MIDDLEWARE
 app.use((req, res, next) => {
   res.locals.success_msg = req.flash("success_msg");
   res.locals.error_msg = req.flash("error_msg");
@@ -107,12 +106,19 @@ app.use((req, res, next) => {
   }
 });
 
-// Body Parser
+//BODY PARSER - EXPRESS LIDAR LIDAR COM REQUISIÇÕES URLENCODED, FACILITAR O ENVIO DE ARQUIVOS
 app.use(bodyParser.urlencoded({ extended: true }));
+//BODY PARSER - EXPRESS LIDAR COM REQUISIÇÕES FORMATO JSON
 app.use(bodyParser.json({ limit: "5mb" }));
+//LIB DE LOG
 app.use(morgan("dev"));
+//SALVAR AS IMAGENS EM AMBIENTE DE PRODUÇÃO
+app.use(
+  "/files",
+  express.static(path.resolve(__dirname, "tmp", "uploads"))
+);
 
-//Handlebars
+//HANDLEBARS
 app.engine(
   "handlebars",
   handlebars({
@@ -156,7 +162,7 @@ mongoose
 app.use(express.static(path.join(__dirname, "public")));
 
 //Carregando arquivo de upload
-const storage = multer.diskStorage({
+/*const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "public/uploads/");
   },
@@ -164,7 +170,7 @@ const storage = multer.diskStorage({
     cb(null, file.originalname);
   },
 });
-const upload = multer({ storage });
+const upload = multer({ storage });*/
 
 //Rotas
 app.get("/", async (req, res) => {
@@ -187,10 +193,11 @@ app.get("/404", (req, res) => {
   res.send("Erro 404!");
 });
 
-//Rota de upload
-app.post("/upload", upload.single("file"), (_req, _res) => {
-  console.log("Upload Realizado Com Sucesso!");
-});
+//ROTA DE UPLOAD
+/*app.post("/upload", upload.single("file"), (_req, _res) => {
+    console.log("Upload Realizado Com Sucesso!");
+  });*/
+
 
 app.get("/qrcode", (req, res) => {
   const url = "https://warehousemapp.herokuapp.com/";
@@ -199,7 +206,7 @@ app.get("/qrcode", (req, res) => {
   code.pipe(res);
 });
 
-//app.use('/group', group)
+app.use(require("./routes"));
 app.use("/groups", groupRoute);
 app.use("/usuarios", usuarioRoute);
 app.use("/developers", developerRoute);
