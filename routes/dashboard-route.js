@@ -5,7 +5,7 @@ const { eAdmin } = require("../helpers/eAdmin");
 const { eDevAdmin } = require("../helpers/eAdmin");
 
 //DASHBOARDS
-router.get("/", eAdmin || eDevAdmin, controller.getDashboard);
+router.get("/",controller.getDashboard);
 router.get("/mobile", eAdmin || eDevAdmin, controller.getDashboardMobile);
 
 module.exports = router;

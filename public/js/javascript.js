@@ -347,12 +347,6 @@ function statusCalibration() {
   document.getElementById("calibrationStatus").value = calibrationStatus;
 }
 
-/*var ctx = document.getElementsByClassName("line-chart");
-
- var chartGraph = new Chart(ctx, {
-   type: 'bar',
-})*/
-
 //MUDA O ATRIBUTO DO FORM CARRINHO DE COMPRAS
 $("#saveCart, #updateCart").click(function () {
   //Recebe o id do botão clicado

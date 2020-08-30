@@ -140,7 +140,7 @@ exports.getRequest = async (req, res) => {
   } catch (err) {
     console.log(err);
     req.flash("error_msg", "Ops, Houve um erro interno!");
-    res.redirect("/products/products");
+    res.redirect("/products");
   }
 };
 

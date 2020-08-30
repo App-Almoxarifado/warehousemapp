@@ -27,70 +27,67 @@ const Collaborator = mongoose.model("collaborators");
 //VIZUALIZANDO DASHBOARD
 exports.getDashboard = async (req, res) => {
   try {
-    var customers = await Client.find({
-      active: true,
-    })
-      .sort({
-        description: "asc",
-      })
+    var customers = await Client.find({ active: true })
+      .sort({ description: "asc" })
+      .lean();
+    var groups = await Group.find({ active: true })
+      .sort({ description: "asc" })
+      .lean();
+    var subgroups = await Subgroup.find({ active: true })
+      .sort({ description: "asc" })
+      .lean();
+    var types = await Type.find({ active: true })
+      .sort({ description: "asc" })
+      .lean();
+    var statuses = await Status.find({ active: true })
+      .sort({ description: "asc" })
       .lean();
 
-    var groups = await Group.find({
-      active: true,
-    })
-      .sort({
-        description: "asc",
-      })
-      .lean();
+    const filtros = {
+      $or: [],
+      $and: [],
+    };
 
-    const filtros = [];
-    let { search, page } = req.query;
-    if (search) {
+    let {
+      search,
+      page,
+      site,
+      group,
+      subgroup,
+      type,
+      status,
+      limit,
+    } = req.query;
+
+    if (!!search) {
       const pattern = new RegExp(`.*${search}.*`);
-      filtros.push({
-        qrcode: {
-          $regex: pattern,
-        },
-      });
-      filtros.push({
-        description: {
-          $regex: pattern,
-        },
-      });
-      filtros.push({
-        user: {
-          $regex: pattern,
-        },
-      });
-      filtros.push({
-        tags: {
-          $regex: pattern,
-        },
-      });
+      filtros["$or"].push(
+        { qrcode: { $regex: pattern } },
+        { description: { $regex: pattern } },
+        { user: { $regex: pattern } }
+      );
     }
 
-    page = page || 1;
+    !!site && filtros["$and"].push({ client: site });
+    if (!!group) filtros["$and"].push({ group: group });
+    if (!!subgroup) filtros["$and"].push({ subgroup: subgroup });
+    if (!!type) filtros["$and"].push({ kindOfEquipment: type });
+    if (!!status) filtros["$and"].push({ physicalStatus: status });
 
-    const quant = await Product.find(
-      filtros.length > 0
-        ? {
-            $or: filtros,
-          }
-        : {}
-    ).estimatedDocumentCount();
+    page = Number(page || 1);
+    limit = limit ? Number(limit) : 5;
 
-    var products = await Product.find(
-      filtros.length > 0
-        ? {
-            $or: filtros,
-          }
-        : {}
-    )
+    if (filtros["$and"].length === 0) delete filtros["$and"];
+    if (filtros["$or"].length === 0) delete filtros["$or"];
+
+    const quant = await Product.find(filtros).estimatedDocumentCount();
+
+    var products = await Product.find(filtros)
       .sort({
         editionDate: "desc",
       })
-      .limit(15)
-      .skip(page && Number(page) > 1 ? Number(page - 1) * 15 : 0)
+      .limit(limit)
+      .skip(page > 1 ? (page - 1) * limit : 0)
       .populate("group")
       .populate("subgroup")
       .populate("client")
@@ -107,18 +104,28 @@ exports.getDashboard = async (req, res) => {
       .populate("unity")
       .populate("frequency")
       .populate("provider");
-
     res.render("dashboards/dashboards", {
       products: products.map((products) => products.toJSON()),
       prev: Number(page) > 1,
-      next: Number(page) * 15 < quant,
-      customers: customers,
-      groups: groups,
+      next: Number(page) * limit < quant,
+      customers,
+      groups,
+      subgroups,
+      types,
+      statuses,
       page,
+      search,
+      limit,
+      site,
+      group,
+      subgroup,
+      type,
+      status,
     });
   } catch (err) {
+    console.log(err);
     req.flash("error_msg", "Ops, Houve um erro interno!");
-    res.redirect("/products/products");
+    res.redirect("/products");
   }
 };
 

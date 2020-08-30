@@ -11,7 +11,7 @@ const Post = mongoose.model("posts");
 routes.get("/uploads", async (req, res) => {
     try {
         var posts = await Post.find().lean();
-        res.render("uploads/posts", {posts}
+        res.render("uploads/posts", { posts }
         );
     } catch (err) {
         req.flash("error_msg", "Ops, Houve um erro interno!");
@@ -44,16 +44,16 @@ routes.post("/upload", multer(multerConfig).single("file"), async (req, res) => 
 
 //DELETANDO UM PRODUTO
 routes.get("/uploads/delete/:id", async (req, res) => {
-    const post=await Post.findById( req.params.id,);
+    const post = await Post.findById(req.params.id,);
     await post.remove()
     try {
-      req.flash("success_msg", "Post deletado com Sucesso!");
-      res.redirect("/");
+        req.flash("success_msg", "Post deletado com Sucesso!");
+        res.redirect("/");
     } catch (err) {
-      req.flash("error_msg", "Houve um erro interno!");
-      res.redirect("/");
+        req.flash("error_msg", "Houve um erro interno!");
+        res.redirect("/");
     }
-  })
+})
 
 
 module.exports = routes;
