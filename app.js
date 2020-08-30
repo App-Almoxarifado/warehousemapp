@@ -141,6 +141,16 @@ hbs.handlebars.registerHelper("if_eq", function (a, b, opts) {
   }
 });
 
+hbs.handlebars.registerHelper("json",(value,opts) => {
+  return opts.fn(JSON.stringify(value))
+});
+
+hbs.handlebars.registerHelper("find_by_id",(list,_id,opts) => {
+  const item = list.find(element => element._id === _id);
+  return opts.fn(item)
+});
+
+
 app.set("view engine", "handlebars");
 
 // Moongoose

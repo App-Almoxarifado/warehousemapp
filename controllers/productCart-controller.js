@@ -31,7 +31,6 @@ exports.getGroup = async (req, res) => {
     if (group) {
       var products = await Product.find({ group: group._id }).lean();
     }
-    console.log(group);
     res.render("products/productorders", { group: group, products: products });
   } catch (_err) {
     req.flash("error_msg", "Ops, Houve um erro interno!" + err);
@@ -79,7 +78,8 @@ exports.getRequest = async (req, res) => {
       filtros["$or"].push(
         { qrcode: { $regex: pattern } },
         { description: { $regex: pattern } },
-        { user: { $regex: pattern } }
+        { user: { $regex: pattern } },
+        { stockCode: { $regex: pattern }}
       );
     }
 
@@ -97,11 +97,30 @@ exports.getRequest = async (req, res) => {
 
     const quant = await Product.find(filtros).estimatedDocumentCount();
 
+    const stock = await Product.aggregate([
+      {
+        $match: filtros
+      },
+      {
+        $group: {
+          _id: "$stockCode",
+          quant: {
+            $sum: 1
+          },
+          quantity: {
+            $sum: "$stockQuantity"
+          }
+        }
+      }
+    ])
+  
+    console.log(stock)
+
     var products = await Product.find(filtros)
       .sort({
         editionDate: "desc",
       })
-      .limit(limit)
+      .limit(limit).lean()
       .skip(page > 1 ? (page - 1) * limit : 0)
       .populate("group")
       .populate("subgroup")
@@ -120,7 +139,7 @@ exports.getRequest = async (req, res) => {
       .populate("frequency")
       .populate("provider");
     res.render("products/productorders", {
-      products: products.map((products) => products.toJSON()),
+      products,
       prev: Number(page) > 1,
       next: Number(page) * limit < quant,
       customers,
@@ -136,6 +155,7 @@ exports.getRequest = async (req, res) => {
       subgroup,
       type,
       status,
+      stock
     });
   } catch (err) {
     console.log(err);

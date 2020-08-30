@@ -1,5 +1,5 @@
 
-google.charts.load("current", { packages: ["corechart"] });
+/* google.charts.load("current", { packages: ["corechart"] });
 google.charts.setOnLoadCallback(drawChart_1);
 function drawChart_1() {
     var data = google.visualization.arrayToDataTable([
@@ -71,36 +71,37 @@ function drawMultSeries() {
 
       var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
       chart.draw(data, options);
-    }
-
-    
+}
+*/
 
     
 //CHART JS
 // Bar chart
-new Chart(document.getElementById("bar-chart"), {
+window.barChart = new Chart(document.getElementById("bar-chart"), {
     type: 'horizontalBar',
     data: {
-      labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
-      datasets: [
-        {
-          label: "Population (millions)",
-          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-          data: [2478,5267,734,784,433]
-        }
-      ]
+      labels: [],
+      datasets: []
     },
     options: {
+      responsive: true,
+      scales: {
+          xAxes: [{
+              ticks: {
+                  beginAtZero: true
+              }
+          }]
+      },
       legend: { display: false },
       title: {
         display: true,
-        text: 'Predicted world population (millions) in 2050'
+        text: 'Estoque por produto'
       }
     }
 });
 
 //pie chart
-new Chart(document.getElementById("pie-chart"), {
+/*window.pieChart = new Chart(document.getElementById("pie-chart"), {
     type: 'pie',
     data: {
       labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
@@ -116,10 +117,10 @@ new Chart(document.getElementById("pie-chart"), {
         text: 'Predicted world population (millions) in 2050'
       }
     }
-});
+});*/
 
 
-new Chart(document.getElementById("doughnut-chart"), {
+/* window.doughnutChart = new Chart(document.getElementById("doughnut-chart"), {
     type: 'doughnut',
     data: {
       labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
@@ -137,4 +138,4 @@ new Chart(document.getElementById("doughnut-chart"), {
         text: 'Predicted world population (millions) in 2050'
       }
     }
-});
+});*/
