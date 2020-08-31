@@ -113,8 +113,26 @@ exports.getRequest = async (req, res) => {
         }
       }
     ])
+
+    const groupChart = await Product.aggregate([
+      {
+        $match: filtros
+      },
+      {
+        $group: {
+          _id: "$group",
+          quant: {
+            $sum: 1
+          },
+          quantity: {
+            $sum: "$stockQuantity"
+          }
+        }
+      }
+    ])
   
     console.log(stock)
+    console.log(groupChart)
 
     var products = await Product.find(filtros)
       .sort({
@@ -155,7 +173,8 @@ exports.getRequest = async (req, res) => {
       subgroup,
       type,
       status,
-      stock
+      stock,
+      groupChart
     });
   } catch (err) {
     console.log(err);
