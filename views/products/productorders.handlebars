@@ -53,13 +53,13 @@
         <!--CHART JS-->
         <div class="d-flex justify-content-center">
             <div class="p-1 ">
-                <canvas id="doughnut-chart" width="600" height="400"></canvas>
+                <canvas id="doughnut-chart" ></canvas>
             </div>
             <div class=" p-1 ">
-                <canvas id="bar-chart" width="600" height="400"></canvas>
+                <canvas id="bar-chart" ></canvas>
             </div>
             <div class="p-1">
-                <canvas id="pie-chart" width="400" height="400"></canvas>
+                <canvas id="pie-chart" ></canvas>
             </div>
         </div>
 
@@ -654,9 +654,9 @@
             labels2.push(groupChart._id);
             values2.push(groupChart.quantity);
         });
-        window.pieChart.config.data.labels2= labels;
-        window.pieChart.config.data.datasets2.pop();
-        window.pieChart.config.data.datasets2.push({
+        window.pieChart.config.data.labels= labels2;
+        window.pieChart.config.data.datasets.pop();
+        window.pieChart.config.data.datasets.push({
             label: "Quantidade (unidade)",
             data: values2,
             backgroundColor: [
@@ -671,7 +671,7 @@
                 '#4169e1'
             ],
         });
-        window.pieChart.update();
+        pieChart.update();
 
 
 

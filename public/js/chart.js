@@ -92,7 +92,9 @@ window.barChart = new Chart(document.getElementById("bar-chart"), {
               }
           }]
       },
-      legend: { display: false },
+      legend: {
+        //position:'right',
+        display: true },
       title: {
         display: true,
         text: 'Estoque por produto'
