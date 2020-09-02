@@ -27,6 +27,19 @@
                 <form action="" method="POST">
                     <div class="form-row">
                         <div class="form-group col-md-12">
+                            <label for="client">Site:</label>
+                            <select class="custom-select" id="sites" name="sites" required>
+                                <option selected disabled value="">Selecione...</option>
+                                {{#each customers}}
+                                <option value="{{_id}}">{{description}}</option>
+                                {{else}}
+                                <option value="0">Nenhum site registrado</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
                             <input type="hidden" class="form-control" id="id" name="id" placeholder="Id">
                             <input type="hidden" class="form-control mt-2" name="image" id="image">
                             <input type="hidden" class="nomeUser form-control mt-2" name="nome" id="nome">

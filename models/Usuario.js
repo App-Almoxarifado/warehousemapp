@@ -19,14 +19,6 @@ const Usuario = new Schema({
     type: String,
     require: true,
   },
-  eAdmin: {
-    type: Number,
-    default: 0,
-  },
-  eDevAdmin: {
-    type: Number,
-    default: 0,
-  },
   senha: {
     type: String,
     require: true,
@@ -39,5 +31,13 @@ const Usuario = new Schema({
     type: Boolean,
     default: "true",
   },
+  admin: {
+    type: Boolean,
+    default: false
+  },
+  sites: [{
+    type: Schema.Types.ObjectId,
+    ref: "customers"
+  }]
 });
 mongoose.model("usuarios", Usuario);

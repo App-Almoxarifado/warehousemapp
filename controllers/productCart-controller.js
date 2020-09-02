@@ -31,7 +31,7 @@ exports.getGroup = async (req, res) => {
     if (group) {
       var products = await Product.find({ group: group._id }).lean();
     }
-    res.render("products/productorders", { group: group, products: products });
+    res.render("dashboards/dashboards", { group: group, products: products });
   } catch (_err) {
     req.flash("error_msg", "Ops, Houve um erro interno!" + err);
     res.redirect("/products");
@@ -41,18 +41,28 @@ exports.getGroup = async (req, res) => {
 //VIZUALIZANDO PRODUTOS PARA FAZER PEDIDO
 exports.getRequest = async (req, res) => {
   try {
-    var customers = await Client.find({ active: true })
+    let customers = await Client.find({ active: true })
       .sort({ description: "asc" })
       .lean();
+    /*
+    if(req.user.admin)
+      customers = await Client.find({ active: true })
+      .sort({ description: "asc" })
+      .lean();
+    else customers = req.user.sites;
+    */
     var groups = await Group.find({ active: true })
       .sort({ description: "asc" })
       .lean();
+
     var subgroups = await Subgroup.find({ active: true })
       .sort({ description: "asc" })
       .lean();
+
     var types = await Type.find({ active: true })
       .sort({ description: "asc" })
       .lean();
+
     var statuses = await Status.find({ active: true })
       .sort({ description: "asc" })
       .lean();
@@ -76,14 +86,14 @@ exports.getRequest = async (req, res) => {
     if (!!search) {
       const pattern = new RegExp(`.*${search}.*`);
       filtros["$or"].push(
-        { qrcode: { $regex: pattern } },
         { description: { $regex: pattern } },
-        { user: { $regex: pattern } },
-        { stockCode: { $regex: pattern }}
+        { stockCode: { $regex: pattern }},
+        { qrcode: { $regex: pattern } },
+        { user: { $regex: pattern } }
       );
     }
 
-    !!site && filtros["$and"].push({ client: site });
+    if(!!site) filtros["$and"].push({ client: site });
     if (!!group) filtros["$and"].push({ group: group });
     if (!!subgroup) filtros["$and"].push({ subgroup: subgroup });
     if (!!type) filtros["$and"].push({ kindOfEquipment: type });
@@ -128,11 +138,15 @@ exports.getRequest = async (req, res) => {
             $sum: "$stockQuantity"
           }
         }
-      }
+      },
+      { $lookup:
+        {
+          from: "groups",
+          localField: "_id",
+          foreignField: "_id",
+          as: "group"
+        }}
     ])
-  
-    console.log(stock)
-    console.log(groupChart)
 
     var products = await Product.find(filtros)
       .sort({

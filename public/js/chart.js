@@ -79,22 +79,18 @@ function drawMultSeries() {
 // Bar chart
 window.barChart = new Chart(document.getElementById("bar-chart"), {
     type: 'horizontalBar',
-    data: {
-      labels: [],
-      datasets: []
-    },
     options: {
       responsive: true,
       scales: {
           xAxes: [{
               ticks: {
-                  beginAtZero: true
+                  beginAtZero: true,
               }
           }]
       },
       legend: {
-        //position:'right',
-        display: true },
+        position:'top',
+        display: false },
       title: {
         display: true,
         text: 'Estoque por produto'
@@ -104,24 +100,25 @@ window.barChart = new Chart(document.getElementById("bar-chart"), {
 
 //pie chart
 window.pieChart = new Chart(document.getElementById("pie-chart"), {
-    type: 'pie',
-    data: {
-      labels: [],
-      datasets: []
-    },
+    type: 'doughnut',
+
     options: {
-      responsive: true,
-      scales: {
-          xAxes: [{
-              ticks: {
-                  beginAtZero: true
-              }
-          }]
+      animation: {
+          tension: {
+              duration: 1000,
+              easing: 'linear',
+              from: 1,
+              to: 0,
+              loop: true
+          }
       },
-      legend: { display: false },
+    
+      legend: {
+        position:'right',
+        display: true },
       title: {
         display: true,
-        text: 'Estoque por produto'
+        text: 'Estoque por Grupo'
       }
     }
 });

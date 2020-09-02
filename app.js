@@ -95,15 +95,16 @@ app.use((req, res, next) => {
   res.locals.success_msg = req.flash("success_msg");
   res.locals.error_msg = req.flash("error_msg");
   res.locals.error = req.flash("error");
-  res.locals.user = req.user || null;
-  next();
   if (req.user) {
+    res.locals.user = req.user;
+    res.locals.sites = req.user.sites;
     if (req.user.eAdmin == 0) {
       res.locals.eAdmin = null;
     } else {
       res.locals.eAdmin = true;
     }
   }
+  next();
 });
 
 //BODY PARSER - EXPRESS LIDAR LIDAR COM REQUISIÇÕES URLENCODED, FACILITAR O ENVIO DE ARQUIVOS

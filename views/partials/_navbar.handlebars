@@ -10,7 +10,6 @@
     <span class="navbar-toggler-icon"></span>
   </button>
 
-
   <div class="navbar-collapse offcanvas-collapse">
 
     <ul class="navbar-nav ">
@@ -29,7 +28,7 @@
           Sites / Obras
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          {{#each customers}}
+          {{#each sites}}
           <a class="dropdown-item" value="{{_id}}" href="/products/{{_id}}"><small>{{description}}</small></a>
           {{else}}
           <option value="0">Nenhum Site registrado</option>

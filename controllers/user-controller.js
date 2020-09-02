@@ -6,15 +6,18 @@ require("../models/Usuario");
 const Usuario = mongoose.model("usuarios");
 require("../models/Collaborator");
 const Collaborator = mongoose.model("collaborators");
-
+require("../models/Client");
+const Client = mongoose.model("customers");
 //SERVIÇO DE EMAIL
 const emailService = require("../services/email-service");
 
 //CADASTRANDO USUÁRIO
 exports.get = async (req, res) => {
   try {
+    var customers = await Client.find({}).lean();
     var collaborators = await Collaborator.find({}).lean();
-    res.render("usuarios/registro", { collaborators: collaborators });
+    var usuarios = await Usuario.find({}).lean().populate("sites")
+    res.render("usuarios/registro", { collaborators: collaborators, customers:customers, usuarios });
   } catch (err) {
     req.flash("error_msg", "Ops, Houve um erro interno!");
     res.redirect("/");
@@ -85,6 +88,9 @@ exports.getCreate = (req, res) => {
             nome: req.body.nome,
             email: req.body.email,
             eadmin: req.body.eadmin,
+            sites: [
+              req.body.sites
+            ],
             senha: req.body.senha,
             date: req.body.date,
           });

@@ -13,7 +13,7 @@
             <input type="hidden" id="stock" value="{{this}}">
             {{/json}}
 
-            {{#json groupChart}}
+            {{#json groupChart}}  
             <input type="hidden" id="groupChart" value="{{this}}">
             {{/json}}
 
@@ -52,14 +52,12 @@
         </div>
         <!--CHART JS-->
         <div class="d-flex justify-content-center">
-            <div class="p-1 ">
-                <canvas id="doughnut-chart" ></canvas>
-            </div>
+
             <div class=" p-1 ">
-                <canvas id="bar-chart" ></canvas>
+                <canvas id="bar-chart" width="600" height="300" ></canvas>
             </div>
             <div class="p-1">
-                <canvas id="pie-chart" ></canvas>
+                <canvas id="pie-chart" width="600" height="300"></canvas>
             </div>
         </div>
 
@@ -114,11 +112,15 @@
             <div class="p-1">
                 <select class="custom-select custom-select-sm" id="type" name="type" onchange="setSearchType()">
                     <option selected disabled hidden>Tipos de Equipamento</option>
+                    {{#if_eq customer.length 0}}
                     <option value="">Nenhum(a)</option>
+                    {{else}}
+                    <option value="0">Nenhum tipo de equipamento registrado</option>
+                    {{/if_eq}}
+
                     {{#each types}}
                     <option value="{{_id}}" {{#if_eq ../type _id}}selected{{/if_eq}}>{{description}}</option>
                     {{else}}
-                    <option value="0">Nenhum tipo de equipamento registrado</option>
                     {{/each}}
                 </select>
             </div>
@@ -651,7 +653,7 @@
         const labels2 = [];
         const values2 = [];
         data2.forEach(groupChart => {
-            labels2.push(groupChart._id);
+            labels2.push(groupChart.group[0].description);
             values2.push(groupChart.quantity);
         });
         window.pieChart.config.data.labels= labels2;
