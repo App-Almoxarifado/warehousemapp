@@ -86,7 +86,7 @@ exports.getRequest = async (req, res) => {
     if (!!search) {
       const pattern = new RegExp(`.*${search}.*`);
       filtros["$or"].push(
-        { description: { $regex: pattern,$options: 'i' } },
+        { description: { $regex: pattern,$options: 'i',$options: 'x' } },
         { stockCode: { $regex: pattern,$options: 'i' }},
         { qrcode: { $regex: pattern ,$options: 'i'} },
         { user: { $regex: pattern ,$options: 'i'} }
