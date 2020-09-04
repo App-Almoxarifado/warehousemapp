@@ -86,14 +86,14 @@ exports.getRequest = async (req, res) => {
     if (!!search) {
       const pattern = new RegExp(`.*${search}.*`);
       filtros["$or"].push(
-        { description: { $regex: pattern } },
-        { stockCode: { $regex: pattern }},
-        { qrcode: { $regex: pattern } },
-        { user: { $regex: pattern } }
+        { description: { $regex: pattern,$options: 'i' } },
+        { stockCode: { $regex: pattern,$options: 'i' }},
+        { qrcode: { $regex: pattern ,$options: 'i'} },
+        { user: { $regex: pattern ,$options: 'i'} }
       );
     }
 
-    if(!!site) filtros["$and"].push({ client: site });
+    if (!!site) filtros["$and"].push({ client: site });
     if (!!group) filtros["$and"].push({ group: group });
     if (!!subgroup) filtros["$and"].push({ subgroup: subgroup });
     if (!!type) filtros["$and"].push({ kindOfEquipment: type });
