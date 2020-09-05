@@ -41,7 +41,7 @@ exports.getGroup = async (req, res) => {
 //VIZUALIZANDO PRODUTOS PARA FAZER PEDIDO
 exports.getRequest = async (req, res) => {
   try {
-    let customers = await Client.find({ active: true })
+    const customers = await Client.find({ active: true })
       .sort({ description: "asc" })
       .lean();
     /*
@@ -51,19 +51,19 @@ exports.getRequest = async (req, res) => {
       .lean();
     else customers = req.user.sites;
     */
-    var groups = await Group.find({ active: true })
+    const groups = await Group.find({ active: true })
       .sort({ description: "asc" })
       .lean();
 
-    var subgroups = await Subgroup.find({ active: true })
+    const subgroups = await Subgroup.find({ active: true })
       .sort({ description: "asc" })
       .lean();
 
-    var types = await Type.find({ active: true })
+    const types = await Type.find({ active: true })
       .sort({ description: "asc" })
       .lean();
 
-    var statuses = await Status.find({ active: true })
+    const statuses = await Status.find({ active: true })
       .sort({ description: "asc" })
       .lean();
 
@@ -86,7 +86,7 @@ exports.getRequest = async (req, res) => {
     if (!!search) {
       const pattern = new RegExp(`.*${search}.*`);
       filtros["$or"].push(
-        { description: { $regex: pattern,$options: 'i',$options: 'x' } },
+        { description: { $regex: pattern,$options: 'i' } },
         { stockCode: { $regex: pattern,$options: 'i' }},
         { qrcode: { $regex: pattern ,$options: 'i'} },
         { user: { $regex: pattern ,$options: 'i'} }
@@ -170,6 +170,7 @@ exports.getRequest = async (req, res) => {
       .populate("unity")
       .populate("frequency")
       .populate("provider");
+      console.log(groupChart)
     res.render("products/productorders", {
       products,
       prev: Number(page) > 1,

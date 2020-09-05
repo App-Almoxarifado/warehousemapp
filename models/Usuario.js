@@ -31,9 +31,9 @@ const Usuario = new Schema({
     type: Boolean,
     default: "true",
   },
-  admin: {
-    type: Boolean,
-    default: false
+  eAdmin: {
+    type: Number,
+    default: 0
   },
   sites: [{
     type: Schema.Types.ObjectId,

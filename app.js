@@ -126,7 +126,7 @@ app.engine(
     defaultLayout: "main",
     helpers: {
       formatDate: (date) => {
-        return moment(date).format("DD/MM/YYYY");
+        return moment(date).format("DD/MM/YYYY HH:mm:ss");
       },
     },
   })

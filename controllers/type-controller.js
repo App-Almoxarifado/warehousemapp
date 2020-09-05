@@ -8,9 +8,6 @@ const Client = mongoose.model("customers");
 exports.getList = async (req, res) => {
   try {
     const file = req.file
-    var customers = await Client.find({ active: true })
-      .sort({ description: "asc" })
-      .lean();
     const filtros = [];
     let { search, page, site, limit } = req.query;
     if (!!search) {
@@ -26,16 +23,30 @@ exports.getList = async (req, res) => {
     const quant = await Type.find(
       filtros.length > 0 ? { $or: filtros } : {}
     ).estimatedDocumentCount();
-    var types = await Type.find(filtros.length > 0 ? { $or: filtros } : {})
+    
+    const types = await Type.aggregate([
+      {$sort: {description:1}},
+      {$limit: limit},
+      {$skip: page > 1 ? (page - 1) * limit : 0},
+      { $lookup:
+        {
+          from: "collaborators",
+          localField: "userEdtion",
+          foreignField: "_id",
+          as: "us"
+        }}
+    ])
+
+    console.log(types)
+    /*const types = await Type.find(filtros.length > 0 ? { $or: filtros } : {})
       .sort({ description: "asc" })
       .limit(limit)
       .skip(page > 1 ? (page - 1) * limit : 0)
       .lean()
-      .populate(["userLaunch", "userEdition"]);
+      .populate(["userLaunch", "userEdition"]);*/
 
     res.render("types/types", {
       types: types,
-      customers: customers,
       prev: Number(page) > 1,
       next: Number(page) * limit < quant,
       page,
@@ -101,7 +112,6 @@ exports.getTable = async (req, res) => {
 //CRIANDO UM TIPO
 exports.getCreate = async (req, res) => {
   const file = req.file
-  console.log(file)
   try {
     res.render("types/addtypes",{file});
   } catch (err) {
@@ -157,7 +167,7 @@ exports.postCreate = async (req, res) => {
     } catch (err) {
       req.flash(
         "error_msg",
-        "Ops, Houve um erro ao salvar o tipo, tente novamente!"
+        "Ops, Houve um erro ao salvar o tipo, tente novamente!" + err
       );
       res.redirect("/types");
     }
