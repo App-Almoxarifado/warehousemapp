@@ -10,7 +10,7 @@
     <form class="upload mt-2" method='post' enctype="multipart/form-data" action="/upload" style="display:none;">
         <div class="row no-gutters position-relative">
             <div class="col-12 col-md-2 mb-md-0 p-md-0 text-center">
-                <img src="https://warehousemapp.s3.amazonaws.com/logo8.png" class="avatar img-fluid rounded" alt="" style="width: 10rem;">
+                <img src="/img/logo8.png" class="avatar img-fluid rounded" alt="" style="width: 10rem;">
                 <input type='submit' class='mt-1 btn btn-primary btn-sm' value='Salvar Imagem'>
                 <input type="file" accept="image/*" name="file" id="file"
                     class="btn-file text-center center-block file-upload">
@@ -191,7 +191,7 @@
                 <label for="unity">Unidade:</label>
                 <select class="custom-select" id="unity" name="unity">
                     <option selected disabled value="">Selecione...</option>
-                    {{#each unitys}}
+                    {{#each units}}
                     <option value="{{_id}}">{{description}}</option>
                     {{else}}
                     <option value="0">Nenhuma unidade de equipamento registrada</option>

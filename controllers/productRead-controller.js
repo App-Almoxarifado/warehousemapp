@@ -16,7 +16,7 @@ const Status = mongoose.model("status");
 require("../models/Type");
 const Type = mongoose.model("types");
 require("../models/Unity");
-const Unity = mongoose.model("unitys");
+const Unity = mongoose.model("units");
 require("../models/Interval");
 const Interval = mongoose.model("breaks");
 require("../models/Provider");

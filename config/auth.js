@@ -6,18 +6,18 @@ require("../models/Usuario");
 const Usuario = mongoose.model("usuarios");
 
 module.exports = function (passport) {
-  passport.serializeUser((usuario, done) => {
+   passport.serializeUser((usuario, done) => {
     done(null, usuario.id);
   });
 
   passport.deserializeUser(async (id, done) => {
     let usuario;
     try {
-      usuario = await Usuario.findById(id).populate("sites", "_id description").lean();
-      done(false, usuario);
+      usuario = await Usuario.findById(id).populate("sites","_id description").lean();
+      done(false,usuario);
     }
-    catch (e) {
-      done(e, usuario);
+    catch(e){
+      done(e,usuario);
     }
   });
 

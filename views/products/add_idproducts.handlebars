@@ -205,7 +205,7 @@
                 <label for="unity">Unidade:</label>
                 <select class="custom-select" id="unity" name="unity" value="{{product.unity}}">
                     <option selected disabled value="">Selecione...</option>
-                    {{#each unitys}}
+                    {{#each units}}
                     <option {{#if_eq ../product.unity _id}}selected{{/if_eq}} value="{{_id}}">{{description}}
                     </option>
                     {{else}}

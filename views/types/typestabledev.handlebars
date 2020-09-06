@@ -7,17 +7,17 @@
   <div class="d-none d-md-none d-print-block">
     <div class="d-flex justify-content-center">
 
-      <h3>Unidades</h3>
+      <h3>Tipos de Equipamento</h3>
     </div>
   </div>
   <div class="d-none d-md-block d-print-none">
     <div class="d-flex justify-content-center">
       <div class="p-1 mr-auto">
-        <h3>Unidades</h3>
+        <h3>Tipos de Equipamento</h3>
       </div>
 
       <div class="p-0 mr-1">
-        <a href="/unitys">
+        <a href="/types">
           <button type="button" class="btn btn-primary btn-sm">
             Lista
             <i class="fas fa-th-list"></i>
@@ -25,7 +25,7 @@
         </a>
       </div>
       <div class="p-0 mr-1">
-        <a href="/unitys/table">
+        <a href="/types/table">
           <button type="button" class="btn btn-primary btn-sm">
             Tabela
             <i class="fas fa-table"></i>
@@ -33,9 +33,9 @@
         </a>
       </div>
       <div class="p-0">
-        <a href="/unitys/add">
+        <a href="/types/add">
           <button class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom" title="Cadastre ">
-            Cadastre uma Nova Unidade <i class="fas fa-paper-plane"></i>
+            Cadastre um novo tipo <i class="fas fa-paper-plane"></i>
           </button>
         </a>
       </div>
@@ -98,15 +98,15 @@
 
   <div class="d-block d-md-none d-print-none">
     <div class="d-flex justify-content-center">
-      <h3>Unidades</h3>
+      <h3>Tipos de Equipamento</h3>
       <hr>
     </div>
 
     <div class="d-flex justify-content-center">
-      <a href="/unitys/add">
+      <a href="/types/add">
         <button class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom"
           title="Cadastre um novo tipo">
-          Cadastre uma Nova Unidade <i class="fas fa-paper-plane"></i>
+          Cadastre um novo tipo <i class="fas fa-paper-plane"></i>
         </button>
       </a>
     </div>
@@ -155,7 +155,7 @@
           <option value="tbTypes06">Usuário Lançamento</option>
           <option value="tbTypes07">Email Lançamento</option>
           <option value="tbTypes08">Data Edição</option>
-          <option value="tbTypes09">Usuário Edição</option>
+          <option value="tbTypes09">ID Usuário Edição</option>
           <option value="tbTypes10">Email Edição</option>
           <option value="tbTypes11">Ações</option>
         </select>
@@ -184,24 +184,21 @@
       </thead>
 
       <tbody>
-        {{#each unitys}}
-
-  <!--INFORMAÇÃOES PARA ADICIONAR NA REQUISIÇÃO-->
-  <!--<form id="form_dev" method="POST">
-    <input type="hidden" class="mt-2 form-control"  name="id" value="{{_id}}">
-    <input type="hidden" class="mt-2 form-control"  name="qrcode" value="{{qrcode}}">
-    <input type="hidden" class="mt-2 form-control"  name="image" value="{{image}}">
-    <input type="hidden" class="mt-2 form-control"  name="description" value="{{description}}">
-    <!--CONTROLE DE USUÁRIOS LANÇAMENTO DO MATERIAL-->
-  <!--<input type="hidden" class="mt-2 form-control"  name="releaseDateOf"
-      value="{{#formatDate date}}{{/formatDate}}">
-    <input type="hidden" class="mt-2 form-control"  name="userLaunch" value="{{user._id}}">
-    <input type="hidden" class="mt-2 form-control"  name="emailLaunch" value="{{emailLaunch}}">
-    <!--CONTROLE DE USUÁRIOS ÚLTIMO LANÇAMENTO DO MATERIAL-->
-  <!--<input type="hidden" class="mt-2 form-control"  name="editionDate"
-      value="{{#formatDate date}}{{/formatDate}}">
-    <input type="hidden" class="mt-2 form-control"  name="userEdtion" value="{{user._id}}">
-    <input type="hidden" class="mt-2 form-control"  name="emailEdtion" value="{{emailEdtion}}">-->
+        {{#each types}}
+        <form id="form_dev" method="POST">
+          <input type="hidden" class="mt-2 form-control" id="id" name="id" value="{{_id}}">
+          <input type="hidden" class="mt-2 form-control" id="qrcode" name="qrcode" value="{{qrcode}}">
+          <input type="hidden" class="mt-2 form-control" id="image" name="image" value="{{image}}">
+          <input type="hidden" class="mt-2 form-control" id="description" name="description" value="{{description}}">
+          <!--CONTROLE DE USUÁRIOS LANÇAMENTO DO MATERIAL-->
+          <input type="hidden" class="mt-2 form-control" id="releaseDateOf" name="releaseDateOf"
+            value="{{releaseDateOf}}">
+          <input type="hidden" class="mt-2 form-control" id="userLaunch" name="userLaunch" value="{{userLaunch._id}}">
+          <input type="hidden" class="mt-2 form-control" id="emailLaunch" name="emailLaunch" value="{{emailLaunch}}">
+          <!--CONTROLE DE USUÁRIOS ÚLTIMO LANÇAMENTO DO MATERIAL-->
+          <input type="hidden" class="mt-2 form-control" id="editionDate" name="editionDate" value="{{editionDate}}">
+          <input type="hidden" class="mt-2 form-control" id="userEdtion" name="userEdtion" value="{{userEdtion}}">
+          <input type="hidden" class="mt-2 form-control" id="emailEdtion" name="emailEdtion" value="{{emailEdtion}}">
           <tr>
             <th class="tbTypes01 d-print-block">{{_id}}</th>
             <td class="tbTypes02 d-print-block">
@@ -222,15 +219,14 @@
             </td>
             <td class="tbTypes04 d-print-block">{{description}}</td>
             <td class="tbTypes05 d-print-block">{{releaseDateOf}}</td>
-            <td class="tbTypes06 d-print-block">{{user.name}}</td>
+            <td class="tbTypes06 d-print-block">{{userLaunch.name}}</td>
             <td class="tbTypes07 d-print-block">{{emailLaunch}}</td>
             <td class="tbTypes08 d-print-block" style="display: none;">{{editionDate}}</td>
-            <td class="tbTypes09 d-print-block" style="display: none;">{{user.name}}</td>
+            <td class="tbTypes09 d-print-block" style="display: none;">{{userEdtion}}</td>
             <td class="tbTypes10 d-print-block" style="display: none;">{{emailEdtion}}</td>
 
             <td class="tbTypes03 d-print-none">
               <div class="d-flex justify-content-center">
-                {{#if ../ user.eDevAdmin}}
                 <div class="liTypes11 p-0 mr-1">
                   <button id="updateDev" type="submit" class="mt-1 mb-1 btn btn-secondary btn-sm" data-toggle="tooltip"
                     data-placement="right" title="Inserir produto na solicitação atual">
@@ -243,43 +239,27 @@
                     <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
                 </div>
 
-                <div class="liTypes11 p-0 mr-1">
-                  <a href="/unitys/add_id/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
-                    data-placement="left" title="Criar novo a partir dessas informações">
+                <div class="p-0 mr-1">
+                  <a href="/types/add_id/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
+                    data-placement="left" title="Criar novo produto a partir dessas informações">
                     <i class="far fa-clone"></i>
                   </a>
                 </div>
 
-                <div class="liTypes11 p-0 mr-1">
-                  <a href="/unitys/edit/{{_id}}" class="mt-1 mb-1 btn btn-dark btn-sm" data-toggle="tooltip"
+                <div class="p-0 mr-1">
+                  <a href="/types/edit/{{_id}}" class="mt-1 mb-1 btn btn-dark btn-sm" data-toggle="tooltip"
                     data-placement="bottom" title="Editar Produto">
                     <i class="fas fa-pen"></i>
                   </a>
                 </div>
 
-                <div class="liTypes11 p-0">
-                  <a href="/unitys/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
+                <div class="p-0">
+                  <a href="/types/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
                     data-placement="bottom" title="Deletar Produto">
                     <i class="fas fa-trash-alt"></i>
                   </a>
                 </div>
-                {{else}}
-                <div class="liTypes11 p-0 mr-1">
-                  <a href="/unitys/edit/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
-                    data-placement="bottom" title="Editar Produto">
-                    <i class="fas fa-pen"></i>
-                  </a>
-                </div>
-
-                <div class="liTypes11 p-0">
-                  <a href="/unitys/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
-                    data-placement="bottom" title="Deletar Produto">
-                    <i class="fas fa-trash-alt"></i>
-                  </a>
-                </div>
-                {{/if}}
               </div>
-
             </td>
 
           </tr>
