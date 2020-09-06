@@ -57,18 +57,31 @@
           <a class="dropdown-item" href="/products">Produtos</a>
           <a class="dropdown-item" href="/groups/groups">Grupos</a>
           <a class="dropdown-item" href="/groups/subgroups">Subgrupos</a>
+          <a class="dropdown-item" href="/rentalareas/rentalareas">Áreas de Locações</a>
           <a class="dropdown-item" href="/leases/leases">Locações</a>
           <a class="dropdown-item" href="/subleases/subleases">Sublocações</a>
           <a class="dropdown-item" href="/status/status">Status</a>
-          <a class="dropdown-item" href="/types">Tipos</a>
+          <a class="dropdown-item" href="/types">Tipos de Equipamento</a>
           <a class="dropdown-item" href="/breaks/breaks">Intervalos</a>
-          <a class="dropdown-item" href="/units/units">Unidades</a>
+          <a class="dropdown-item" href="/unitys">Unidades</a>
           <a class="dropdown-item" href="/usuarios/users">Usuários</a>
           <a class="dropdown-item" href="/providers/providers">Fornecedores</a>
           <a class="dropdown-item" href="/customers/customers">Clientes</a>
           <a class="dropdown-item" href="/collaborators/collaborators">Colaboradores</a>
         </div>
       </li>
+{{#if ./ user.eDevAdmin}}
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          Área Restrita
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="/types/tabledev">Tipos de Equipamentos</a>
+          <a class="dropdown-item" href="/unitys/tabledev">Unidades</a>
+        </div>
+      </li>
+{{/if}}
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">

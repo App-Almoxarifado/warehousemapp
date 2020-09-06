@@ -1,0 +1,60 @@
+<div class="bgType">
+    <div class="type container">
+
+        {{#each erros}}
+        <div class="alert alert-danger">{{texto}}</div>
+        {{else}}
+
+        {{/each}}
+
+        <div class="cardLogin card ">
+            <div class="card-body">
+                <div class="d-flex justify-content-center">
+                    <h3>Editando uma Unidade</h3>
+                </div>
+                <hr>
+                <form action="/unitys/edit" enctype="multipart/form-data" method="POST">
+                    <div class="d-flex justify-content-center">
+                        <img src="{{unity.image}}" class="avatar img-fluid rounded" alt="" style="width: 10rem;">
+                    </div>
+                    <div class="d-flex p-1 justify-content-center">
+
+                        <input type="file" accept="image/*" name="file" id="file"
+                            class="btn-file text-center center-block file-upload">
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="form-group col-md-12">
+                            <input type="hidden" class="form-control" id="id" name="id" placeholder="Id" value="{{unity._id}}">
+                            <input type="hidden" class="form-control" id="qrcode" name="qrcode"
+                            placeholder="Código Qr code" value="{{unity.qrcode}}">
+                            <input type="hidden" class="form-control mt-2" name="image" id="image">
+                            <label for="description">Descrição:</label>
+                            <input type="text" class="form-control" id="description" name="description"
+                                placeholder="Descrição do tipo" value="{{unity.description}}">
+                        </div>
+                    </div>
+                    <!--CONTROLE DE USUÁRIOS LANÇAMENTO -->
+                    <input type="hidden" class="form-control mt-2" id="releaseDateOf" name="releaseDateOf"
+                        placeholder="date" value="{{#formatDate date}}{{/formatDate}}">
+                    <input type="hidden" class="form-control mt-2" name="userLaunch" id="userLaunch"
+                        value="{{user.name}}">
+                    <input type="hidden" class="form-control mt-2" name="emailLaunch" id="emailLaunch"
+                        value="{{user.email}}">
+                    <!--CONTROLE DE USUÁRIOS -->
+                    <input type="hidden" class="form-control mt-2" id="editionDate" name="editionDate"
+                        placeholder="date" value="{{#formatDate date}}{{/formatDate}}">
+                    <input type="hidden" class="form-control mt-2" name="userEdtion" id="userEdtion"
+                        value="{{user.name}}">
+                    <input type="hidden" class="form-control mt-2" name="emailEdtion" id="emailEdtion"
+                        value="{{user.email}}">
+
+                    <div class="d-flex justify-content-center">
+                        <div class="form-group col-md-12 text-center">
+                            <input type='submit' class='mt-1 btn btn-success btn-sm' value='Salvar'>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
