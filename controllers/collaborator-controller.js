@@ -2,8 +2,7 @@ const mongoose = require("mongoose");
 const qr = require("qr-image");
 require("../models/Collaborator");
 const Collaborator = mongoose.model("collaborators");
-require("../models/Client");
-const Client = mongoose.model("customers");
+
 
 //LISTANDO OS FORNECEDORES POR LISTA
 exports.getList = async (req, res) => {
