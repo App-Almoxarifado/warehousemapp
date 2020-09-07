@@ -34,4 +34,4 @@ const Unity = new Schema({
   ],
 });
 
-mongoose.model("unitys", Unity);
+mongoose.model("units", Unity);

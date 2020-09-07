@@ -227,7 +227,7 @@ app.use("/customers", clientRoute);
 app.use("/leases", locationRoute);
 app.use("/subleases", subleaseRoute);
 app.use("/breaks", intervalRoute);
-app.use("/unitys", unityRoute);
+app.use("/units", unityRoute);
 app.use("/status", statusRoute);
 app.use("/types", typesRoute);
 app.use("/products", productCartRoute);
