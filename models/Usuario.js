@@ -35,10 +35,6 @@ const Usuario = new Schema({
     type: Number,
     default: 0
   },
-  eDevAdmin: {
-    type: Number,
-    default: 0
-  },
   sites: [{
     type: Schema.Types.ObjectId,
     ref: "customers"

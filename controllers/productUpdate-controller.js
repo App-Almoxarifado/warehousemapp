@@ -16,7 +16,7 @@ const Status = mongoose.model("status");
 require("../models/Type");
 const Type = mongoose.model("types");
 require("../models/Unity");
-const Unity = mongoose.model("unitys");
+const Unity = mongoose.model("units");
 require("../models/Interval");
 const Interval = mongoose.model("breaks");
 require("../models/Provider");
@@ -79,7 +79,7 @@ exports.getUpdate = async (req, res) => {
         description: "asc",
       })
       .lean();
-    var unitys = await Unity.find({
+    var units = await Unity.find({
       active: true,
     })
       .sort({
@@ -116,7 +116,7 @@ exports.getUpdate = async (req, res) => {
       subleases: subleases,
       status: status,
       types: types,
-      unitys: unitys,
+      units: units,
       breaks: breaks,
       providers: providers,
       product: product,

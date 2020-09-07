@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const qr = require("qr-image");
 require("../models/Sublease");
 const Sublease = mongoose.model("subleases");
 
@@ -17,4 +18,10 @@ exports.getList = async (req, res) => {
   }
 };
 
-
+//QRCODE
+exports.getQrcode = (req, res) => {
+  var url = "https://warehousemapp.herokuapp.com/";
+  const code = qr.image(url, { type: "svg" });
+  res.type("svg");
+  code.pipe(res);
+};

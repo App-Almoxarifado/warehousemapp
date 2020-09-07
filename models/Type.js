@@ -38,7 +38,6 @@ const Type = new Schema({
   userLaunch: {
     type: Schema.Types.ObjectId,
     ref: "collaborators",
-    index: true
     //required: true
   },
   //EMAIL LANÇAMENTO
@@ -55,7 +54,6 @@ const Type = new Schema({
   userEdtion: {
     type: Schema.Types.ObjectId,
     ref: "collaborators",
-    index: true
     //required: true
   },
   //EMAIL DE EDIÇÃO
@@ -95,6 +93,5 @@ Type.pre("remove", function () {
     );
   }
 });
-
 
 mongoose.model("types", Type);
