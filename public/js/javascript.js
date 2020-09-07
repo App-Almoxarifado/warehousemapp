@@ -8,49 +8,49 @@ function navigate(offset) {
 
 function search() {
   var searchParams = new URLSearchParams(location.search);
-  const search = document.getElementById("search").value;
+  const search = document.getElementById("search").value ||  document.getElementById("searchMb").value;
   searchParams.set("search", search);
   window.location.search = searchParams.toString();
 }
 
 function setSite() {
-  var searchParams = new URLSearchParams(location.search);
-  const site = document.getElementById("site").value;
+  var searchParams = new URLSearchParams(location.search) ;
+  const site = document.getElementById("site").value || document.getElementById("siteMb").value;
   searchParams.set("site", site);
   window.location.search = searchParams.toString();
 }
 
 function setSearchGroup() {
   var searchParams = new URLSearchParams(location.search);
-  const searchgroup = document.getElementById("group").value;
+  const searchgroup = document.getElementById("group").value || document.getElementById("groupMb").value;
   searchParams.set("group", searchgroup);
   window.location.search = searchParams.toString();
 }
 
 function setSearchSubgroup() {
   var searchParams = new URLSearchParams(location.search);
-  const searchsubgroup = document.getElementById("subgroup").value;
+  const searchsubgroup = document.getElementById("subgroup").value || document.getElementById("subgroupMb").value;
   searchParams.set("subgroup", searchsubgroup);
   window.location.search = searchParams.toString();
 }
 
 function setSearchType() {
   var searchParams = new URLSearchParams(location.search);
-  const searchtype = document.getElementById("type").value;
+  const searchtype = document.getElementById("type").value || document.getElementById("typeMb").value;
   searchParams.set("type", searchtype);
   window.location.search = searchParams.toString();
 }
 
 function setSearchStatus() {
   var searchParams = new URLSearchParams(location.search);
-  const searchstatus = document.getElementById("status").value;
+  const searchstatus = document.getElementById("status").value || document.getElementById("statusMb").value;
   searchParams.set("status", searchstatus);
   window.location.search = searchParams.toString();
 }
 
 function setLimit() {
   var searchParams = new URLSearchParams(location.search);
-  const limit = document.getElementById("limit").value;
+  const limit = document.getElementById("limit").value || document.getElementById("limitMb").value;
   searchParams.set("limit", limit);
   window.location.search = searchParams.toString();
 }
@@ -370,6 +370,8 @@ $("#saveDev, #updateDev").click(function () {
     $("#form_dev").attr("action", "/types/updateItem");
   }
 });
+
+
 
 //FECHA O ALERT APÓS SEGUNDOS
 setTimeout(function () {
