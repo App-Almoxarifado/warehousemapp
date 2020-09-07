@@ -34,6 +34,8 @@ const collaboratorRoute = require("./routes/collaborator-route");
 const providerRoute = require("./routes/provider-route");
 //Clientes
 const clientRoute = require("./routes/client-route");
+//áres de locação
+const locationAreaRoute = require("./routes/locationArea-route");
 //Locações
 const locationRoute = require("./routes/location-route");
 //Sublocações
@@ -224,10 +226,11 @@ app.use("/developers", developerRoute);
 app.use("/providers", providerRoute);
 app.use("/collaborators", collaboratorRoute);
 app.use("/customers", clientRoute);
+app.use("/rentalareas", locationAreaRoute);
 app.use("/leases", locationRoute);
 app.use("/subleases", subleaseRoute);
 app.use("/breaks", intervalRoute);
-app.use("/units", unityRoute);
+app.use("/unitys", unityRoute);
 app.use("/status", statusRoute);
 app.use("/types", typesRoute);
 app.use("/products", productCartRoute);
