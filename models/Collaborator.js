@@ -12,33 +12,33 @@ const Collaborator = new Schema({
     type: String,
     lowercase: true,
     required: false,
-    trim:true
+    trim: true
   },
   image: {
     type: String,
     required: false,
-    trim:true
+    trim: true
   },
-    //IMAGEM
-    key: {
-      type: String,
-      require: true,
-      trim:true
-    },
+  //IMAGEM
+  key: {
+    type: String,
+    require: true,
+    trim: true
+  },
   name: {
     type: String,
     required: true,
-    trim:true
+    trim: true
   },
   registration: {
     type: String,
     required: true,
-    trim:true
+    trim: true
   },
   occupation: {
     type: String,
     required: true,
-    trim:true
+    trim: true
   },
   contractor: {
     type: Schema.Types.ObjectId,
@@ -48,22 +48,22 @@ const Collaborator = new Schema({
   email: {
     type: String,
     required: true,
-    trim:true
+    trim: true
   },
   phone: {
     type: String,
     required: true,
-    trim:true
+    trim: true
   },
   cpfCnpj: {
     type: String,
     required: true,
-    trim:true
+    trim: true
   },
   address: {
     type: String,
     required: true,
-    trim:true
+    trim: true
   },
   cep: {
     type: String,
