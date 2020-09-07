@@ -1,9 +1,7 @@
 const mongoose = require("mongoose");
-const { types } = require("node-sass");
 require("../models/Type");
 const Type = mongoose.model("types");
-require("../models/Client");
-const Client = mongoose.model("customers");
+
 
 //EXIBINDO TIPOS POR LISTA
 exports.getList = async (req, res) => {

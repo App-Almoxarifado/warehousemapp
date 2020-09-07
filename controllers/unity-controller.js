@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
 require("../models/Unity");
 const Unity = mongoose.model("unitys");
-require("../models/Client");
-const Client = mongoose.model("customers");
+
 
 //EXIBINDO TIPOS POR LISTA
 exports.getList = async (req, res) => {
