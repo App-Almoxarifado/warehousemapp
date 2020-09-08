@@ -1,32 +1,42 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const aws = require("aws-sdk");
+const fs = require("fs");
+const path = require("path");
+const { promisify } = require("util");
+
+const s3 = new aws.S3();
 
 //CRIANDO O DOCUMENTO - ANÁLOGIA A TABELA NO BANCO DE DADOS
 const Product = new Schema({
   //QRCODE
   qrcode: {
     type: String,
-    required: false,
     lowercase: true,
-    trim: true,
+    required: false,
   },
   //IMAGEM
   image: {
     type: String,
-    required: false,
-    trim: true,
-    default: "https://warehousemapp.herokuapp.com/img/logo8.png",
+    require: true,
+  },
+  //IMAGEM
+  key: {
+    type: String,
+    require: true,
   },
   //GRUPO
   group: {
     type: Schema.Types.ObjectId,
     ref: "groups",
+    index: true
     //required: true
   },
   //SUBGRUPO
   subgroup: {
     type: Schema.Types.ObjectId,
     ref: "subgroups",
+    index: true
     //required: true
   },
   //DESCRIÇÃO COMPLETA
@@ -45,30 +55,33 @@ const Product = new Schema({
   client: {
     type: Schema.Types.ObjectId,
     ref: "customers",
+    index: true
     //required: true
   },
   //ÁREA DE LOCAÇÃO LOCAÇÃO
   localArea: {
     type: Schema.Types.ObjectId,
     ref: "rentalAreas",
+    index: true
     //required: true
   },
   //LOCAÇÃO
   local: {
     type: Schema.Types.ObjectId,
     ref: "leases",
+    index: true
     //required: true
   },
   //SUBLOCAÇÃO
   sublease: {
     type: Schema.Types.ObjectId,
     ref: "subleases",
+    index: true
     //required: true
   },
   //BEM PATRIMONIAL
   patrimonialAsset: {
     type: String,
-    required: false,
     trim: true,
   },
   //DESCRIÇÃO
@@ -80,169 +93,155 @@ const Product = new Schema({
   //FABRICANTE
   manufacturer: {
     type: String,
-    required: false,
     trim: true,
   },
   //MODELO
   model: {
     type: String,
-    required: false,
     trim: true,
   },
   //CAPACIDADE / ALCANCE
   capacityReach: {
     type: String,
-    required: false,
     trim: true,
   },
   //N DE SERIE
   serialNumber: {
     type: String,
-    required: false,
     trim: true,
   },
   //STATUS FISICO
   physicalStatus: {
     type: Schema.Types.ObjectId,
     ref: "status",
+    index: true
     //required: true
   },
   //TIPO DE EQUIPAMENTO
   kindOfEquipment: {
     type: Schema.Types.ObjectId,
     ref: "types",
+    index: true
     //required: true
   },
   //REQUER CERTIFICAÇÃO / CALIBRAÇÃO
   requiresCertificationCalibration: {
     type: String,
-    required: false,
     trim: true,
   },
   //QUANTIDADE ENTRADA
   inputAmount: {
     type: Number,
-    required: false,
   },
   //QUANTIDADE ENTRADA NO SITE
   inputAmountSite: {
     type: Number,
-    required: false,
   },
   //QUANTIDADE SAIDA
   outputQuantity: {
     type: Number,
-    required: false,
   },
   //QUANTIDADE ESTOQUE
   stockQuantity: {
     type: Number,
-    required: false,
   },
   //QUANTIDADE ESTOQUE TOTAL
   stockTotal: {
     type: Number,
-    required: false,
   },
   //UNIDADE
   unity: {
     type: Schema.Types.ObjectId,
-    ref: "units",
+    ref: "unitys",
+    index: true
     //required: true
   },
   //PESO KG
   weightKg: {
     type: Number,
-    required: false,
   },
   //VALOR DE FACE
   faceValue: {
     type: Number,
-    required: false,
   },
   //DIMENSÕES AXLXC
   dimensionsWxLxH: {
     type: String,
-    required: false,
     trim: true,
   },
   //CERTIFICADO
   certificate: {
     type: String,
-    required: false,
     trim: true,
   },
   //LABORATORIO / ENTIDADE
   entityLaboratory: {
     type: String,
-    required: false,
     trim: true,
   },
   //PERIODICIDADE
   frequency: {
     type: Schema.Types.ObjectId,
     ref: "breaks",
+    index: true
     //required: true
   },
   //DATA DE CALIBRAÇÃO
   calibrationDate: {
     type: String,
-    required: false,
     trim: true,
   },
   //VALIDADE CALIBRAÇÃO
   calibrationValidity: {
     type: String,
-    required: false,
     trim: true,
   },
   //STATUS DE CALIBRAÇÃO
   calibrationStatus: {
     type: String,
-    required: false,
     trim: true,
   },
   //PO - PEDIDO DE COMPRA
   po: {
     type: String,
-    required: false,
     trim: true,
   },
   //CODIGO SAP
   sapCode: {
     type: String,
-    required: false,
     trim: true,
   },
   //CODIGO NCM
   ncmCode: {
     type: String,
-    required: false,
     trim: true,
   },
   //FORNECEDOR
   provider: {
     type: Schema.Types.ObjectId,
     ref: "providers",
+    index: true
     //required: true
   },
   //NOTA FISCAL
   invoce: {
     type: String,
-    required: false,
     trim: true,
   },
   //DATA DE RECEBIMENTO
   receivingDate: {
     type: String,
-    required: false,
     trim: true,
   },
   //OBSERVAÇÃO
   note: {
     type: String,
-    required: false,
     trim: true,
+  },
+  //STATUS ATIVO
+  activeStatus: {
+    type: String,
+    //default: Date.now()
   },
   //DATA DE LANÇAMENTO
   releaseDateOf: {
@@ -253,6 +252,7 @@ const Product = new Schema({
   userLaunch: {
     type: Schema.Types.ObjectId,
     ref: "collaborators",
+    index: true
     //required: true
   },
   //EMAIL LANÇAMENTO
@@ -269,6 +269,7 @@ const Product = new Schema({
   userEdtion: {
     type: Schema.Types.ObjectId,
     ref: "collaborators",
+    index: true
     //required: true
   },
   //EMAIL DE EDIÇÃO
@@ -276,76 +277,10 @@ const Product = new Schema({
     type: String,
     //required: true,
   },
-  //N DO PEDIDO
-  requestNumber: {
-    type: String,
-    //required: true,
-  },
-  //LOCAL SOLICITANTE
-  requestLocation: {
-    type: String,
-    //required: true,
-  },
-  //USUARIO PEDIDO
-  requestUser: {
-    type: Schema.Types.ObjectId,
-    ref: "collaborators",
-    //required: true
-  },
-  //EMAIL PEDIDO
-  requestEmail: {
-    type: String,
-    //required: true,
-  },
-  //ORIGEM PEDIDO
-  requestOrigin: {
-    type: String,
-    //required: true,
-  },
-  //DATA NECESSIDADE
-  needDate: {
-    type: String,
-    //required: true,
-  },
-  //DISPONIBILIDADE
-  availability: {
-    type: String,
-    //required: true,
-  },
-  //DATA DISPONIVEL
-  availableDate: {
-    type: String,
-    //required: true,
-  },
-  //RESPONSÁVEL
-  responsibleSite: {
-    type: Schema.Types.ObjectId,
-    ref: "collaborators",
-    //required: true
-  },
-  //RESPONSÁVEL PELO MATERIAL
-  responsibleMaterial: {
-    type: Schema.Types.ObjectId,
-    ref: "collaborators",
-    //required: true
-  },
-  //STATUS ATIVO
-  activeStatus: {
-    type: String,
-    //default: Date.now()
-  },
   //ACTIVE
   active: {
     type: String,
-    default: "stock",
-  },
-  //VALOR TOTAL
-  totalFaceValue: {
-    type: Number,
-  },
-  //PESO TOTAL
-  totalWeightKg: {
-    type: Number,
+    default: "true",
   },
   //TAGS
   tags: [
@@ -354,5 +289,33 @@ const Product = new Schema({
     },
   ],
 });
+
+Product.pre("save", function () {
+  if (!this.image) {
+    this.image = `${process.env.APP_URL}/files/${this.key}`;
+  }
+});
+
+Product.pre("remove", function () {
+  if (process.env.STORAGE_TYPE === "s3") {
+    return s3
+      .deleteObject({
+        Bucket: process.env.BUCKET_NAME,
+        Key: this.key
+      })
+      .promise()
+      .then(response => {
+        console.log(response.status);
+      })
+      .catch(response => {
+        console.log(response.status);
+      });
+  } else {
+    return promisify(fs.unlink)(
+      path.resolve(__dirname, "..", "tmp", "uploads", this.key)
+    );
+  }
+});
+
 
 mongoose.model("products", Product);
