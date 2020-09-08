@@ -128,7 +128,7 @@ exports.getList = async (req, res) => {
       .populate("sublease")
       .populate("physicalStatus")
       .populate("kindOfEquipment")
-      .populate("kindOfEquipment")
+      //.populate("kindOfEquipment")
       .populate("unity")
       .populate("frequency")
       .populate("provider")
