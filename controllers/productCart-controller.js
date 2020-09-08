@@ -113,7 +113,7 @@ exports.getRequest = async (req, res) => {
       },
       {
         $group: {
-          _id: "$stockCode",
+          _id: "$client",
           quant: {
             $sum: 1
           },

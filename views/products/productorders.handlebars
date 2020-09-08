@@ -13,7 +13,7 @@
             <input type="hidden" id="stock" value="{{this}}">
             {{/json}}
 
-            {{#json groupChart}}  
+            {{#json groupChart}}
             <input type="hidden" id="groupChart" value="{{this}}">
             {{/json}}
 
@@ -54,7 +54,7 @@
         <div class="d-flex justify-content-center">
 
             <div class=" p-1 ">
-                <canvas id="bar-chart" width="600" height="300" ></canvas>
+                <canvas id="bar-chart" width="600" height="300"></canvas>
             </div>
             <div class="p-1">
                 <canvas id="pie-chart" width="600" height="300"></canvas>
@@ -628,7 +628,8 @@
         const values = [];
         data.forEach(stock => {
             labels.push(stock._id);
-            values.push(stock.quantity);
+            //values.push(stock.quantity);
+            values.push(stock.quant);
         });
         window.barChart.config.data.labels = labels;
         window.barChart.config.data.datasets.pop();
@@ -636,15 +637,17 @@
             label: "Quantidade (unidade)",
             data: values,
             backgroundColor: [
-                '#000080',
-                '#ff0000',
+                '#000000',
+                '#1C1C1C',
+                '#363636',
+                '#4F4F4F',
+                '#696969',
                 '#808080',
-                '#cd853f',
-                '#228b22',
-                '#ff4500',
-                '#663399',
-                '#00ff00',
-                '#4169e1'
+                '#A9A9A9',
+                '#C0C0C0',
+                '#D3D3D3',
+                '#DCDCDC',
+
             ],
         });
         window.barChart.update();
@@ -654,16 +657,17 @@
         const values2 = [];
         data2.forEach(groupChart => {
             labels2.push(groupChart.group[0].description);
-            values2.push(groupChart.quantity);
+            //values2.push(groupChart.quantity);
+            values2.push(groupChart.quant);
         });
-        window.pieChart.config.data.labels= labels2;
+        window.pieChart.config.data.labels = labels2;
         window.pieChart.config.data.datasets.pop();
         window.pieChart.config.data.datasets.push({
             label: "Quantidade (unidade)",
             data: values2,
             backgroundColor: [
                 '#000080',
-                '#ff0000',
+                '#2F4F4F',
                 '#808080',
                 '#cd853f',
                 '#228b22',
