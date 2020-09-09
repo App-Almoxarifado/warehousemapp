@@ -5,7 +5,7 @@ const { eAdmin } = require("../helpers/eAdmin");
 const { eDevAdmin } = require("../helpers/eAdmin");
 
 //PRODUTOS - CRIAR PRODUTO PELO ID
-router.get("/add_id/:id", eAdmin || eDevAdmin, controller.getCreateId);
-router.post("/add_id", eAdmin || eDevAdmin, controller.postCreateId);
+router.get("/add_id/:id",  controller.getCreateId);
+router.post("/add_id",  controller.postCreateId);
 
 module.exports = router;

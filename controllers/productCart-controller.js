@@ -170,7 +170,7 @@ exports.getRequest = async (req, res) => {
       .populate("unity")
       .populate("frequency")
       .populate("provider");
-      console.log(groupChart)
+      //console.log(groupChart)
     res.render("products/productorders", {
       products,
       prev: Number(page) > 1,

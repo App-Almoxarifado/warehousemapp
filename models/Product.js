@@ -61,7 +61,7 @@ const Product = new Schema({
   //ÁREA DE LOCAÇÃO LOCAÇÃO
   localArea: {
     type: Schema.Types.ObjectId,
-    ref: "rentalAreas",
+    ref: "rentalareas",
     index: true
     //required: true
   },

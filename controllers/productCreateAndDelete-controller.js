@@ -34,13 +34,7 @@ exports.getCreate = async (req, res) => {
     });
     const { gId } = req.query;
     var subgroups = await Subgroup.find(
-      gId
-        ? {
-            group: gId,
-          }
-        : {
-            active: true,
-          }
+      gId? {group: gId, } : {active: true,}
     ).sort({
       description: "asc",
     });

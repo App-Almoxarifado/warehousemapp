@@ -7,6 +7,8 @@ require("../models/Subgroup");
 const Subgroup = mongoose.model("subgroups");
 require("../models/Client");
 const Client = mongoose.model("customers");
+require("../models/LocationArea");
+const LocationArea = mongoose.model("rentalareas");
 require("../models/Location");
 const Location = mongoose.model("leases");
 require("../models/Sublease");
@@ -25,7 +27,102 @@ require("../models/Collaborator");
 const Collaborator = mongoose.model("collaborators");
 
 //CRIANDOPRODUTOPELO ID
+//EXIBINDO TIPOS POR LISTA
 exports.getCreateId = async (req, res) => {
+  try {
+    var product = await Product.findOne({ _id: req.params.id }).lean();
+    const groups = await Group.aggregate([
+      { $match: { active: true } },
+      { $sort: { description: 1 } },
+    ])
+    const { gId } = req.query;
+    var subgroups = await Subgroup.find(
+      gId? {group: gId, } : {active: true,}
+    ).sort({
+      description: 1,
+    }).lean()
+
+    const customers = await Client.aggregate([
+      { $match: { active: true } },
+      { $sort: { description: 1 } },
+    ])
+
+    const rentalareas = await LocationArea.aggregate([
+      { $match: { active: true } },
+      { $sort: { description: 1 } },
+    ])
+
+    const leases = await Location.aggregate([
+      { $match: { active: true } },
+      { $sort: { description: 1 } },
+    ])
+
+    const subleases = await Sublease.aggregate([
+      { $match: { active: true } },
+      { $sort: { description: 1 } },
+    ])
+
+    const status = await Status.aggregate([
+      { $match: { active: true } },
+      { $sort: { description: 1 } },
+    ])
+
+    const types = await Type.aggregate([
+      { $match: { active: true } },
+      { $sort: { description: 1 } },
+    ])
+
+    const unitys = await Unity.aggregate([
+      { $match: { active: true } },
+      { $sort: { description: 1 } },
+    ])
+
+    const breaks = await Interval.aggregate([
+      { $match: { active: true } },
+      { $sort: { description: 1 } },
+    ])
+
+    const providers = await Provider.aggregate([
+      { $match: { active: true } },
+      { $sort: { description: 1 } },
+    ])
+
+    const collaborators = await Collaborator.aggregate([
+      { $match: { active: true } },
+      { $sort: { description: 1 } },
+    ])
+
+
+    res.render("products/add_id", {
+      user: req.user,
+      idGroup: gId,
+      product,
+      groups,
+      subgroups,
+      customers,
+      rentalareas,
+      leases,
+      subleases,
+      status,
+      types,
+      unitys,
+      breaks,
+      providers,
+      collaborators
+    });
+  } catch (err) {
+    console.log(err);
+    req.flash("error_msg", "Ops, Houve um erro interno!");
+    res.redirect("/products");
+  }
+};
+
+
+
+
+
+
+/*exports.getCreateId = async (req, res) => {
   try {
     var product = await Product.findOne({
       _id: req.params.id,
@@ -126,7 +223,7 @@ exports.getCreateId = async (req, res) => {
     req.flash("error_msg", "Ops, Houve um erro interno!");
     res.redirect("/products");
   }
-};
+};*/
 
 exports.postCreateId = async (req, res) => {
   //let endImg = "https://warehousemapp.herokuapp.com/uploads/"
