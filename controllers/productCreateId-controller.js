@@ -30,7 +30,9 @@ const Collaborator = mongoose.model("collaborators");
 //EXIBINDO TIPOS POR LISTA
 exports.getCreateId = async (req, res) => {
   try {
+
     var product = await Product.findOne({ _id: req.params.id }).lean();
+
     const groups = await Group.aggregate([
       { $match: { active: true } },
       { $sort: { description: 1 } },
@@ -92,9 +94,13 @@ exports.getCreateId = async (req, res) => {
       { $sort: { description: 1 } },
     ])
 
+    const file = req.file
+    const user = req.user
 
+   console.log(file)
     res.render("products/add_id", {
-      user: req.user,
+      user,
+      file,
       idGroup: gId,
       product,
       groups,
@@ -226,6 +232,7 @@ exports.getCreateId = async (req, res) => {
 };*/
 
 exports.postCreateId = async (req, res) => {
+  const file = req.file
   //let endImg = "https://warehousemapp.herokuapp.com/uploads/"
   var erros = [];
   if (req.body.group == "0") {
@@ -309,6 +316,7 @@ exports.postCreateId = async (req, res) => {
   }
   if (erros.length > 0) {
     res.render("products/add_idproducts", {
+      file,
       erros: erros,
     });
   } else {
@@ -352,7 +360,8 @@ exports.postCreateId = async (req, res) => {
             .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
             .replace(/(^-+|-+$)/, ""),
 
-        image: req.body.image,
+            image: req.file.location, //.slice(0, -1),
+            key: req.file.key,
 
         group: req.body.group,
 
