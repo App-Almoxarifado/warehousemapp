@@ -29,10 +29,12 @@ const Collaborator = mongoose.model("collaborators");
 //CRIANDOPRODUTOPELO ID
 //EXIBINDO TIPOS POR LISTA
 exports.getCreateId = async (req, res) => {
+
   try {
 
     var product = await Product.findOne({ _id: req.params.id }).lean();
-
+    const file = req.file
+    const user = req.user
     const groups = await Group.aggregate([
       { $match: { active: true } },
       { $sort: { description: 1 } },
@@ -94,10 +96,6 @@ exports.getCreateId = async (req, res) => {
       { $sort: { description: 1 } },
     ])
 
-    const file = req.file
-    const user = req.user
-
-   console.log(file)
     res.render("products/add_id", {
       user,
       file,
