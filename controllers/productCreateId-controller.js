@@ -41,7 +41,7 @@ exports.getCreateId = async (req, res) => {
     ])
     const { gId } = req.query;
     var subgroups = await Subgroup.find(
-      gId? {group: gId, } : {active: true,}
+      gId ? { group: gId, } : { active: true, }
     ).sort({
       description: 1,
     }).lean()
@@ -121,113 +121,6 @@ exports.getCreateId = async (req, res) => {
   }
 };
 
-
-
-
-
-
-/*exports.getCreateId = async (req, res) => {
-  try {
-    var product = await Product.findOne({
-      _id: req.params.id,
-    }).lean();
-    var groups = await Group.find({
-      active: true,
-    })
-      .sort({
-        description: "asc",
-      })
-      .lean();
-    var subgroups = await Subgroup.find({
-      active: true,
-    })
-      .sort({
-        description: "asc",
-      })
-      .lean();
-    var customers = await Client.find({
-      active: true,
-    })
-      .sort({
-        description: "asc",
-      })
-      .lean();
-    var leases = await Location.find({
-      active: true,
-    })
-      .sort({
-        description: "asc",
-      })
-      .lean();
-    var subleases = await Sublease.find({
-      active: true,
-    })
-      .sort({
-        description: "asc",
-      })
-      .lean();
-    var status = await Status.find({
-      active: true,
-    })
-      .sort({
-        description: "asc",
-      })
-      .lean();
-    var types = await Type.find({
-      active: true,
-    })
-      .sort({
-        description: "asc",
-      })
-      .lean();
-    var unitys = await Unity.find({
-      active: true
-    })
-      .sort({
-        description: "asc",
-      })
-      .lean();
-    var breaks = await Interval.find({
-      active: true,
-    })
-      .sort({
-        description: "asc",
-      })
-      .lean();
-    var providers = await Provider.find({
-      active: true,
-    })
-      .sort({
-        name: "asc",
-      })
-      .lean();
-    var collaborators = await Collaborator.find({
-      active: true,
-    })
-      .sort({
-        name: "asc",
-      })
-      .lean();
-    res.render("products/add_idproducts", {
-      user: req.user,
-      groups: groups,
-      subgroups: subgroups,
-      customers: customers,
-      leases: leases,
-      subleases: subleases,
-      status: status,
-      types: types,
-      unitys: unitys,
-      breaks: breaks,
-      providers: providers,
-      product: product,
-      collaborators: collaborators,
-    });
-  } catch (_err) {
-    req.flash("error_msg", "Ops, Houve um erro interno!");
-    res.redirect("/products");
-  }
-};*/
 
 exports.postCreateId = async (req, res) => {
   const file = req.file
@@ -357,14 +250,10 @@ exports.postCreateId = async (req, res) => {
             .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
             .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
             .replace(/(^-+|-+$)/, ""),
-
-            image: req.file.location, //.slice(0, -1),
-            key: req.file.key,
-
+        image: req.file.location, //.slice(0, -1),
+        key: req.file.key,
         group: req.body.group,
-
         subgroup: req.body.subgroup,
-
         fullDescription:
           req.body.patrimonialAsset +
           " " +
@@ -377,7 +266,6 @@ exports.postCreateId = async (req, res) => {
           req.body.capacityReach +
           " " +
           req.body.serialNumber,
-
         stockCode:
           req.body.description
             .normalize("NFD")
@@ -391,98 +279,48 @@ exports.postCreateId = async (req, res) => {
             .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
             .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
             .replace(/(^-+|-+$)/, ""),
-
         client: req.body.client,
-
         localArea: req.body.localArea,
-
         local: req.body.local,
-
         sublease: req.body.sublease,
-
         patrimonialAsset: req.body.patrimonialAsset,
-
         description: req.body.description,
-
         manufacturer: req.body.manufacturer,
-
         model: req.body.model,
-
         capacityReach: req.body.capacityReach,
-
         serialNumber: req.body.serialNumber,
-
         physicalStatus: req.body.physicalStatus,
-
         kindOfEquipment: req.body.kindOfEquipment,
-
         requiresCertificationCalibration:
           req.body.requiresCertificationCalibration,
-
         inputAmount: req.body.inputAmount.replace(",", "."),
-
         inputAmountSite: req.body.inputAmount.replace(",", "."),
-
         outputQuantity: 0,
-
         stockQuantity: req.body.inputAmount - req.body.outputQuantity,
-
         unity: req.body.unity,
-
         weightKg: req.body.weightKg,
-
         faceValue: req.body.faceValue.replace(",", "."),
-
         dimensionsWxLxH: req.body.dimensionsWxLxH,
-
         certificate: req.body.certificate,
-
         entityLaboratory: req.body.entityLaboratory,
-
         frequency: req.body.frequency,
-
         calibrationDate: req.body.calibrationDate,
-
         calibrationValidity: req.body.calibrationValidity,
-
         calibrationStatus: req.body.calibrationStatus,
-
         po: req.body.po,
-
         sapCode: req.body.sapCode,
-
         ncmCode: req.body.ncmCode,
-
         provider: req.body.provider,
-
         invoce: req.body.invoce,
-
         receivingDate: req.body.receivingDate,
-
         note: req.body.note,
-
         activeStatus: req.body.activeStatus,
-
         releaseDateOf: req.body.releaseDateOf,
-
         userLaunch: req.body.userLaunch,
-
         emailLaunch: req.body.emailLaunch,
-
         editionDate: req.body.editionDate,
-
         userEdtion: req.body.userEdtion,
-
         emailEdtion: req.body.emailEdtion,
-
-        //responsibleSite: req.body.client,
-
-        //responsibleMaterial: req.body.client,
-
-        //totalFaceValue:req.body.inputAmount * req.body.faceValue,
-
-        //totalWeightKg:req.body.inputAmount * req.body.weightKg,
-
         tags: [
           req.body.group,
           req.body.subgroup,

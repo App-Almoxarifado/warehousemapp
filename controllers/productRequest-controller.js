@@ -262,13 +262,10 @@ exports.postCreateRequest = async (req, res) => {
             .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
             .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
             .replace(/(^-+|-+$)/, ""),
-
-        image: req.body.image,
-
+        image: req.body.image, //.slice(0, -1),
+        key: req.body.key,
         group: req.body.group,
-
         subgroup: req.body.subgroup,
-
         fullDescription:
           req.body.patrimonialAsset +
           " " +
@@ -281,100 +278,61 @@ exports.postCreateRequest = async (req, res) => {
           req.body.capacityReach +
           " " +
           req.body.serialNumber,
-
+        stockCode:
+          req.body.description
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "") // Remove acentos
+            .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
+            .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
+            .replace(/(^-+|-+$)/, "") +
+          req.body.capacityReach
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "") // Remove acentos
+            .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
+            .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
+            .replace(/(^-+|-+$)/, ""),
         client: req.body.client,
-
+        localArea: req.body.localArea,
         local: req.body.local,
-
         sublease: req.body.sublease,
-
         patrimonialAsset: req.body.patrimonialAsset,
-
         description: req.body.description,
-
         manufacturer: req.body.manufacturer,
-
         model: req.body.model,
-
         capacityReach: req.body.capacityReach,
-
         serialNumber: req.body.serialNumber,
-
         physicalStatus: req.body.physicalStatus,
-
         kindOfEquipment: req.body.kindOfEquipment,
-
         requiresCertificationCalibration:
           req.body.requiresCertificationCalibration,
-
         inputAmount: req.body.inputAmount.replace(",", "."),
-
-        outputQuantity: req.body.outputQuantity.replace(",", "."),
-
+        inputAmountSite: req.body.inputAmount.replace(",", "."),
+        outputQuantity: req.body.inputAmount.replace(",", "."),
         stockQuantity: req.body.inputAmount - req.body.outputQuantity,
-
         unity: req.body.unity,
-
         weightKg: req.body.weightKg,
-
         faceValue: req.body.faceValue.replace(",", "."),
-
         dimensionsWxLxH: req.body.dimensionsWxLxH,
-
         certificate: req.body.certificate,
-
         entityLaboratory: req.body.entityLaboratory,
-
         frequency: req.body.frequency,
-
         calibrationDate: req.body.calibrationDate,
-
         calibrationValidity: req.body.calibrationValidity,
-
         calibrationStatus: req.body.calibrationStatus,
-
         po: req.body.po,
-
         sapCode: req.body.sapCode,
-
         ncmCode: req.body.ncmCode,
-
         provider: req.body.provider,
-
         invoce: req.body.invoce,
-
         receivingDate: req.body.receivingDate,
-
         note: req.body.note,
-
+        activeStatus: req.body.activeStatus,
         releaseDateOf: req.body.releaseDateOf,
-
         userLaunch: req.body.userLaunch,
-
         emailLaunch: req.body.emailLaunch,
-
-        userLaunch: req.body.userLaunch,
-
         editionDate: req.body.editionDate,
-
         userEdtion: req.body.userEdtion,
-
         emailEdtion: req.body.emailEdtion,
-
-        requestUser: req.body.requestUser,
-
-        requestOrigin: req.body.requestOrigin,
-
-        needDate: req.body.needDate,
-
-        responsibleMaterial: req.body.responsibleMaterial,
-
-        active: "cart",
-
-        //totalFaceValue:req.body.inputAmount * req.body.faceValue,
-
-        //totalWeightKg:req.body.inputAmount * req.body.weightKg,
-
         tags: [
           req.body.group,
           req.body.subgroup,
@@ -384,7 +342,7 @@ exports.postCreateRequest = async (req, res) => {
           req.body.client,
           req.body.physicalStatus,
           req.body.kindOfEquipment,
-          req.body.provider,
+          req.body.responsibleMaterial,
         ],
       });
 
