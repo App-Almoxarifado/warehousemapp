@@ -8,72 +8,195 @@
     {{/each}}
 
     <form action="/products/newRequest" class="mt-2" method="POST">
+        <div id="hiddenDiv">
+            <input type="text" class="mt-2 form-control" id="id" name="id" value="{{product._id}}">
+            <input type="text" class="mt-2 form-control" id="qrcode" name="qrcode" value="{{product.qrcode}}">
+            <input type="text" class="mt-2 form-control" id="image" name="image" value="{{product.image}}">
+            <input type="text" class="mt-2 form-control" id="group" name="group" value="{{product.group._id}}">
+            <input type="text" class="mt-2 form-control" id="subgroup" name="subgroup" value="{{product.subgroup._id}}">
+            <!--<input type="text" class="mt-2 form-control" id="fullDescription" name="fullDescription" value="{{product.fullDescription}}">-->
+            <!--<input type="text" class="mt-2 form-control" id="stockCode" name="stockCode" value="{{product.stockCode}}">-->
+            <input type="text" class="mt-2 form-control" id="localArea" name="localArea"
+                value="{{product.localArea._id}}">
+            <input type="text" class="mt-2 form-control" id="client" name="client" value="{{product.client._id}}">
+            <input type="text" class="mt-2 form-control" id="local" name="local" value="{{product.local._id}}">
+            <input type="text" class="mt-2 form-control" id="sublease" name="sublease" value="{{product.sublease._id}}">
+            <input type="text" class="mt-2 form-control" id="patrimonialAsset" name="patrimonialAsset"
+                value="{{product.patrimonialAsset}}">
+            <input type="text" class="mt-2 form-control" id="description" name="description"
+                value="{{product.description}}">
+            <input type="text" class="mt-2 form-control" id="manufacturer" name="manufacturer"
+                value="{{product.manufacturer}}">
+            <input type="text" class="mt-2 form-control" id="model" name="model" value="{{product.model}}">
+            <input type="text" class="mt-2 form-control" id="capacityReach" name="capacityReach"
+                value="{{product.capacityReach}}">
+            <input type="text" class="mt-2 form-control" id="serialNumber" name="serialNumber"
+                value="{{product.serialNumber}}">
+            <input type="text" class="mt-2 form-control" id="physicalStatus" name="physicalStatus"
+                value="{{product.physicalStatus._id}}">
+            <input type="text" class="mt-2 form-control" id="kindOfEquipment" name="kindOfEquipment"
+                value="{{product.kindOfEquipment._id}}">
+            <input type="text" class="mt-2 form-control" id="requiresCertificationCalibration"
+                name="requiresCertificationCalibration" value="{{product.requiresCertificationCalibration}}">
+            <input type="text" class="mt-2 form-control" id="inputAmount" name="inputAmount"
+                value="{{product.inputAmount}}">
+            <input type="text" class="mt-2 form-control" id="inputAmountSite" name="inputAmountSite"
+                value="{{product.inputAmountSite}}">
+            <!--<input type="text" class="mt-2 form-control" id="outputQuantity" name="outputQuantity" value=0>-->
+            <input type="text" class="mt-2 form-control" id="stockQuantity" name="stockQuantity"
+                value="{{product.stockQuantity}}">
+            <input type="text" class="mt-2 form-control" id="stockTotal" name="stockTotal"
+                value="{{product.stockTotal}}">
+            <input type="text" class="mt-2 form-control" id="unity" name="unity" value="{{product.unity._id}}">
+            <input type="text" class="mt-2 form-control" id="weightKg" name="weightKg" value="{{product.weightKg}}">
+            <input type="text" class="mt-2 form-control" id="faceValue" name="faceValue" value="{{product.faceValue}}">
+            <input type="text" class="mt-2 form-control" id="dimensionsWxLxH" name="dimensionsWxLxH"
+                value="{{product.dimensionsWxLxH}}">
+            <input type="text" class="mt-2 form-control" id="certificate" name="certificate"
+                value="{{product.certificate}}">
+            <input type="text" class="mt-2 form-control" id="entityLaboratory" name="entityLaboratory"
+                value="{{product.entityLaboratory}}">
+            <input type="text" class="mt-2 form-control" id="frequency" name="frequency"
+                value="{{product.frequency._id}}">
+            <input type="text" class="mt-2 form-control" id="calibrationDate" name="calibrationDate"
+                value="{{product.calibrationDate}}">
+            <input type="text" class="mt-2 form-control" id="calibrationValidity" name="calibrationValidity"
+                value="{{product.calibrationValidity}}">
+            <input type="text" class="mt-2 form-control" id="calibrationStatus" name="calibrationStatus"
+                value="{{product.calibrationStatus}}">
+            <input type="text" class="mt-2 form-control" id="po" name="po" value="{{product.po}}">
+            <input type="text" class="mt-2 form-control" id="sapCode" name="sapCode" value="{{product.sapCode}}">
+            <input type="text" class="mt-2 form-control" id="ncmCode" name="ncmCode" value="{{product.ncmCode}}">
+            <input type="text" class="mt-2 form-control" id="provider" name="provider" value="{{product.provider}}">
+            <input type="text" class="mt-2 form-control" id="note" name="note" value="{{product.note}}">
+            <input type="text" class="mt-2 form-control" id="activeStatus" name="activeStatus"
+                value="{{product.activeStatus}}">
+            <!--CONTROLE DE USUÁRIOS LANÇAMENTO DO MATERIAL-->
+            <input type="text" class="mt-2 form-control" id="releaseDateOf" name="releaseDateOf"
+                value="{{product.releaseDateOf}}">
+            <input type="text" class="mt-2 form-control" id="userLaunch" name="userLaunch"
+                value="{{product.userLaunch}}">
+            <input type="text" class="mt-2 form-control" id="emailLaunch" name="emailLaunch"
+                value="{{product.emailLaunch}}">
+            <!--CONTROLE DE USUÁRIOS ÚLTIMO LANÇAMENTO DO MATERIAL-->
+            <input type="text" class="mt-2 form-control" id="editionDate" name="editionDate"
+                value="{{product.editionDate}}">
+            <input type="text" class="mt-2 form-control" id="userEdtion" name="userEdtion"
+                value="{{product.userEdtion}}">
+            <input type="text" class="mt-2 form-control" id="emailEdtion" name="emailEdtion"
+                value="{{product.emailEdtion}}">
+        </div>
 
-        <input type="text" class="mt-2 form-control" id="id" name="id" value="{{product._id}}">
-        <input type="text" class="mt-2 form-control" id="qrcode" name="qrcode" value="{{product.qrcode}}">
-        <input type="text" class="mt-2 form-control" id="image" name="image" value="{{product.image}}">
-        <input type="text" class="mt-2 form-control" id="group" name="group" value="{{product.group}}">
-        <input type="text" class="mt-2 form-control" id="subgroup" name="subgroup" value="{{product.subgroup}}">
-        <!--<input type="text" class="mt-2 form-control" id="fullDescription" name="fullDescription" value="{{product.fullDescription}}">-->
-        <!--<input type="text" class="mt-2 form-control" id="stockCode" name="stockCode" value="{{product.stockCode}}">-->
-        <input type="text" class="mt-2 form-control" id="localArea" name="localArea" value="{{product.localArea}}">
-        <input type="text" class="mt-2 form-control" id="client" name="client" value="{{product.client}}">
-        <input type="text" class="mt-2 form-control" id="local" name="local" value="{{product.local}}">
-        <input type="text" class="mt-2 form-control" id="sublease" name="sublease" value="{{product.sublease}}">
-        <input type="text" class="mt-2 form-control" id="patrimonialAsset" name="patrimonialAsset"
-            value="{{product.patrimonialAsset}}">
-        <input type="text" class="mt-2 form-control" id="description" name="description" value="{{product.description}}">
-        <input type="text" class="mt-2 form-control" id="manufacturer" name="manufacturer" value="{{product.manufacturer}}">
-        <input type="text" class="mt-2 form-control" id="model" name="model" value="{{product.model}}">
-        <input type="text" class="mt-2 form-control" id="capacityReach" name="capacityReach"
-            value="{{product.capacityReach}}">
-        <input type="text" class="mt-2 form-control" id="serialNumber" name="serialNumber" value="{{product.serialNumber}}">
-        <input type="text" class="mt-2 form-control" id="physicalStatus" name="physicalStatus"
-            value="{{product.physicalStatus}}">
-        <input type="text" class="mt-2 form-control" id="kindOfEquipment" name="kindOfEquipment"
-            value="{{product.kindOfEquipment}}">
-        <input type="text" class="mt-2 form-control" id="requiresCertificationCalibration"
-            name="requiresCertificationCalibration" value="{{product.requiresCertificationCalibration}}">
-        <input type="text" class="mt-2 form-control" id="inputAmount" name="inputAmount" value="{{product.inputAmount}}">
-        <input type="text" class="mt-2 form-control" id="inputAmountSite" name="inputAmountSite"
-            value="{{product.inputAmountSite}}">
-        <input type="text" class="mt-2 form-control" id="outputQuantity" name="outputQuantity"
-            value= 0>
-        <input type="text" class="mt-2 form-control" id="stockQuantity" name="stockQuantity"
-            value="{{product.stockQuantity}}">
-        <input type="text" class="mt-2 form-control" id="stockTotal" name="stockTotal" value="{{product.stockTotal}}">
-        <input type="text" class="mt-2 form-control" id="unity" name="unity" value="{{product.unity}}">
-        <input type="text" class="mt-2 form-control" id="weightKg" name="weightKg" value="{{product.weightKg}}">
-        <input type="text" class="mt-2 form-control" id="faceValue" name="faceValue" value="{{product.faceValue}}">
-        <input type="text" class="mt-2 form-control" id="dimensionsWxLxH" name="dimensionsWxLxH"
-            value="{{product.dimensionsWxLxH}}">
-        <input type="text" class="mt-2 form-control" id="certificate" name="certificate" value="{{product.certificate}}">
-        <input type="text" class="mt-2 form-control" id="entityLaboratory" name="entityLaboratory"
-            value="{{product.entityLaboratory}}">
-        <input type="text" class="mt-2 form-control" id="frequency" name="frequency" value="{{product.frequency}}">
-        <input type="text" class="mt-2 form-control" id="calibrationDate" name="calibrationDate"
-            value="{{product.calibrationDate}}">
-        <input type="text" class="mt-2 form-control" id="calibrationValidity" name="calibrationValidity"
-            value="{{product.calibrationValidity}}">
-        <input type="text" class="mt-2 form-control" id="calibrationStatus" name="calibrationStatus"
-            value="{{product.calibrationStatus}}">
-        <input type="text" class="mt-2 form-control" id="po" name="po" value="{{product.po}}">
-        <input type="text" class="mt-2 form-control" id="sapCode" name="sapCode" value="{{product.sapCode}}">
-        <input type="text" class="mt-2 form-control" id="ncmCode" name="ncmCode" value="{{product.ncmCode}}">
-        <input type="text" class="mt-2 form-control" id="provider" name="provider" value="{{product.provider}}">
-        <input type="text" class="mt-2 form-control" id="note" name="note" value="{{product.note}}">
-        <input type="text" class="mt-2 form-control" id="activeStatus" name="activeStatus" value="{{product.activeStatus}}">
-        <!--CONTROLE DE USUÁRIOS LANÇAMENTO DO MATERIAL-->
-        <input type="text" class="mt-2 form-control" id="releaseDateOf" name="releaseDateOf"
-            value="{{product.releaseDateOf}}">
-        <input type="text" class="mt-2 form-control" id="userLaunch" name="userLaunch" value="{{product.userLaunch}}">
-        <input type="text" class="mt-2 form-control" id="emailLaunch" name="emailLaunch" value="{{product.emailLaunch}}">
-        <!--CONTROLE DE USUÁRIOS ÚLTIMO LANÇAMENTO DO MATERIAL-->
-        <input type="text" class="mt-2 form-control" id="editionDate" name="editionDate" value="{{product.editionDate}}">
-        <input type="text" class="mt-2 form-control" id="userEdtion" name="userEdtion" value="{{product.userEdtion}}">
-        <input type="text" class="mt-2 form-control" id="emailEdtion" name="emailEdtion" value="{{product.emailEdtion}}">
-<button type="submit" class="btn btn-success">Salvar <i class="fas fa-share"></i></button>
+        <div class="card bg-transparent">
+            <div class="card-body" >
+                <div class="d-flex justify-content-center">
+                    <div class="mr-auto p-0 mt-2">
+                        <h3 class="li06">{{product.fullDescription}}</h3>
+                    </div>
+                </div>
+                <hr>
+                <div class="row no-gutters position-relative">
+                    <div class="d-flex col-md-4 justify-content-center">
+                        <div class="mr-2 p-0">
+                            <img src="{{product.image}}" style="width: 15rem;" class="rounded " alt="..." />
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4 position-static p-0 pl-md-0 text-center">
+
+                        <div class="p-0">
+                            <img id="qrcode" name="qrcode"
+                                src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{product.qrcode}}"
+                                style="width: 15rem;" class="rounded mr-3" />
+                        </div>
+
+
+                    </div>
+
+                    <div class="col-md-4 position-static p-0 pl-md-0 text-center">
+                        <p class="mt-1 mb-1"><small><b>Grupo: </b>{{product.group.description}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>Subgrupo: </b>{{product.subgroup.description}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>Localização: </b>{{product.client.description}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>Status Físico: </b>{{product.physicalStatus.description}}</small>
+                        </p>
+                        <p class="mt-1 mb-1"><small><b>Tipo de Equipamento:
+                                </b>{{product.kindOfEquipment.description}}</small>
+                        </p>
+                        <p class="mt-1 mb-1"><small><b>Quantidade em Uso: </b>{{product.inputAmountSite}}</small></p>
+                        <div class="d-flex justify-content-center">
+                            <label for="outputQuantity"
+                                class="col-4 col-sm-4  col-form-label col-form-label-sm text-right"><b>
+                                    Solicitar:</b></label>
+                            <div class="col-4 col-sm-4  text-left">
+                                <input type="number" class="form-control form-control-sm" id="outputQuantity"
+                                    name="outputQuantity" value="1" min="1" max="{{product.inputAmountSite}}">
+                            </div>
+                            <div class="col-4 col-sm-4  text-left">
+                                <button type="submit" class="btn btn-success btn-sm"><i
+                                        class="fas fa-share"></i></button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4 position-static p-0 pl-md-0 text-center">
+                        <p class="mt-1 mb-1"><small><b>B.P.: </b>{{product.patrimonialAsset}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>Descrição: </b>{{product.description}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>Fabricante: </b>{{product.manufacturer}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>Modelo: </b>{{product.model}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>Cap./ Alc.: </b>{{product.capacityReach}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>N° de Série: </b>{{product.serialNumber}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>Código Sap: </b>{{product.sapCode}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>Código Ncm: </b>{{product.ncmCode}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>Requer Cal./ Cert.:
+                                </b>{{product.requiresCertificationCalibration}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>Id: </b>{{product._id}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>Código Estoque: </b>{{product.stockCode}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>Qtd. Total em todo estoque: </b>{{product.stockTotal}}</small>
+                        </p>
+                    </div>
+
+                    <div class="col-md-4 position-static p-0 pl-md-0 text-center">
+                        <p class="mt-1 mb-1"><small><b>Local no Site: </b>{{product.localArea.description}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>Locação: </b>{{product.local.description}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>Sublocação: </b>{{product.sublease.description}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>Peso Kg: </b>{{product.weightKg}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>Valor de Face: </b>{{product.faceValue}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>Dimensões mm: </b>{{product.dimensionsWxLxH}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>PO: </b>{{product.po}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>Cod. Sap: </b>{{product.sapCode}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>Fornecedor: </b>{{product.provider.name}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>Nota Fiscal: </b>{{product.invoce}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>Data Recebimento: </b>{{product.receivingDate}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>Qtd. Estoque: </b>{{product.stockQuantity}}</small></p>
+                    </div>
+
+                    <div class="col-md-4 position-static p-0 pl-md-0 text-center">
+                        <p class="mt-1 mb-1"><small><b>Certificado: </b>{{product.certificate}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>Lab./ Entid.: </b>{{product.entityLaboratory}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>Periodicidade: </b>{{product.frequency.description}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>Data Cal./ Cert.: </b>{{product.calibrationDate}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>Validade Cal./ Cert.: </b>{{product.calibrationValidity}}</small>
+                        </p>
+                        <p class="mt-1 mb-1"><small><b>Calibração/Certificação:
+                                </b>{{product.calibrationStatus}}</small>
+                        </p>
+                        <p class="mt-1 mb-1"><small><b>Status Ativo: </b>{{product.activeStatus}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>Data de Lançamento: </b>{{product.releaseDateOf}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>Usuário Lançamento: </b>{{product.userLaunch.name}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>Última Movimentação: </b>{{product.editionDate}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>Qtd. Entrada: </b>{{product.inputAmount}}</small></p>
+                        <p class="mt-1 mb-1"><small><b>Unidade: </b>{{product.unity.description}}</small></p>
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                        <p class="mt-1 mb-1"><small><b>Obs: </b>{{product.note}}</small></p>
+                    </div>
+                </div>
     </form>
+</div>
+</div>
 </div>
 
 <div class="mt-2"></div>

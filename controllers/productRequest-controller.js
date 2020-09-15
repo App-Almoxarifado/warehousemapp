@@ -29,107 +29,14 @@ exports.getCreateRequest = async (req, res) => {
   try {
     var product = await Product.findOne({
       _id: req.params.id,
-    }).lean();
-    var products = await Product.find({
-      active: true,
-    })
-      .sort({
-        description: "asc",
-      })
-      .lean();
-    var groups = await Group.find({
-      active: true,
-    })
-      .sort({
-        description: "asc",
-      })
-      .lean();
-    var subgroups = await Subgroup.find({
-      active: true,
-    })
-      .sort({
-        description: "asc",
-      })
-      .lean();
-    var customers = await Client.find({
-      active: true,
-    })
-      .sort({
-        description: "asc",
-      })
-      .lean();
-    var leases = await Location.find({
-      active: true,
-    })
-      .sort({
-        description: "asc",
-      })
-      .lean();
-    var subleases = await Sublease.find({
-      active: true,
-    })
-      .sort({
-        description: "asc",
-      })
-      .lean();
-    var status = await Status.find({
-      active: true,
-    })
-      .sort({
-        description: "asc",
-      })
-      .lean();
-    var types = await Type.find({
-      active: true,
-    })
-      .sort({
-        description: "asc",
-      })
-      .lean();
-    var unitys = await Unity.find({
-      active: true,
-    })
-      .sort({
-        description: "asc",
-      })
-      .lean();
-    var breaks = await Interval.find({
-      active: true,
-    })
-      .sort({
-        description: "asc",
-      })
-      .lean();
-    var providers = await Provider.find({
-      active: true,
-    })
-      .sort({
-        name: "asc",
-      })
-      .lean();
-    var collaborators = await Collaborator.find({
-      active: true,
-    })
-      .sort({
-        name: "asc",
-      })
-      .lean();
+    }).lean().populate(["group","subgroup","client","localArea","local","sublease","physicalStatus","kindOfEquipment","unity","frequency"])
+
+
     res.render("products/takeproducts", {
       user: req.user,
-      products: products,
-      groups: groups,
-      subgroups: subgroups,
-      customers: customers,
-      leases: leases,
-      subleases: subleases,
-      status: status,
-      types: types,
-      unitys: unitys,
-      breaks: breaks,
-      providers: providers,
-      product: product,
-      collaborators: collaborators,
+      product,
     });
+    
   } catch (_err) {
     req.flash("error_msg", "Ops, Houve um erro interno!");
     res.redirect("/products");
