@@ -59,7 +59,7 @@ const productCreateIdRoute = require("./routes/productCreateId-route");
 //Produtos Update
 const productUpdateRoute = require("./routes/productUpdate-route");
 //Produtos Pedidos
-const productRequestRoute = require("./routes/productRequest-route");
+const productTakeRoute = require("./routes/productTake-route");
 //Produtos Movimentação Interna
 const productMovementRoute = require("./routes/productMovement-route");
 //Recebimento de Produtos
@@ -238,7 +238,7 @@ app.use("/products", productReadRoute);
 app.use("/products", productCreateAndDeleteRoute);
 app.use("/products", productCreateIdRoute);
 app.use("/products", productUpdateRoute);
-app.use("/products", productRequestRoute);
+app.use("/products", productTakeRoute);
 app.use("/products", productMovementRoute);
 app.use("/products", productReadRoute);
 app.use("/products", productReceivementRoute);

@@ -7,7 +7,7 @@
 
     {{/each}}
 
-    <form action="/products/newRequest" class="mt-2" method="POST">
+    <form action="/products/take" class="mt-2" method="POST">
         <div id="hiddenDiv">
             <input type="text" class="mt-2 form-control" id="id" name="id" value="{{product._id}}">
             <input type="text" class="mt-2 form-control" id="qrcode" name="qrcode" value="{{product.qrcode}}">

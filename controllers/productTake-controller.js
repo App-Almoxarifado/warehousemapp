@@ -1,49 +1,27 @@
 const mongoose = require("mongoose");
 require("../models/Product");
 const Product = mongoose.model("products");
-require("../models/Group");
-const Group = mongoose.model("groups");
-require("../models/Subgroup");
-const Subgroup = mongoose.model("subgroups");
-require("../models/Client");
-const Client = mongoose.model("customers");
-require("../models/Location");
-const Location = mongoose.model("leases");
-require("../models/Sublease");
-const Sublease = mongoose.model("subleases");
-require("../models/Status");
-const Status = mongoose.model("status");
-require("../models/Type");
-const Type = mongoose.model("types");
-require("../models/Unity");
-const Unity = mongoose.model("unitys");
-require("../models/Interval");
-const Interval = mongoose.model("breaks");
-require("../models/Provider");
-const Provider = mongoose.model("providers");
-require("../models/Collaborator");
-const Collaborator = mongoose.model("collaborators");
 
 //ENVIAR PRODUTO SITES
-exports.getCreateRequest = async (req, res) => {
+exports.getCreateTake = async (req, res) => {
   try {
     var product = await Product.findOne({
       _id: req.params.id,
-    }).lean().populate(["group","subgroup","client","localArea","local","sublease","physicalStatus","kindOfEquipment","unity","frequency"])
+    }).lean().populate(["group", "subgroup", "client", "localArea", "local", "sublease", "physicalStatus", "kindOfEquipment", "unity", "frequency"])
 
 
-    res.render("products/takeproducts", {
+    res.render("products/take", {
       user: req.user,
       product,
     });
-    
+
   } catch (_err) {
     req.flash("error_msg", "Ops, Houve um erro interno!");
     res.redirect("/products");
   }
 };
 
-exports.postCreateRequest = async (req, res) => {
+exports.postCreateTake = async (req, res) => {
   //let endImg = "https://warehousemapp.herokuapp.com/uploads/"
   var erros = [];
   if (req.body.group == "0") {
