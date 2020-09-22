@@ -8,7 +8,8 @@ exports.getCreateTake = async (req, res) => {
     var product = await Product.findOne({
       _id: req.params.id,
     }).lean()
-      .populate(["group", "subgroup", "client", "localArea", "local", "sublease", "physicalStatus", "kindOfEquipment", "unity", "frequency"])
+      .populate(["group", "subgroup", "client", "localArea", "local", "sublease",
+       "physicalStatus", "kindOfEquipment", "unity", "frequency","userLaunch","userEdition"])
 
 
     res.render("products/take", {
