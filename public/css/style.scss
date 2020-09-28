@@ -20,8 +20,8 @@ body {
     top: 56px;
     bottom: 0;
     right: 100%;
-    left: -220px;
-    width: 220px;
+    left: -240px;
+    width: 240px;
     padding-right: 1rem;
     padding-left: 1rem;
     overflow-y: auto;
@@ -32,7 +32,7 @@ body {
         #0075be;
     transition-timing-function: ease-in-out;
     transition-duration: .3s;
-    transition-property: left, visibility;
+    transition-property: right, visibility;
 }
 
 .offcanvas-collapse {
@@ -443,3 +443,46 @@ img {
 #hiddenDiv{
     display:none;
 }
+
+#menuPlanning{
+    display:none;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+}
+
+#menuSite{
+    display:none;
+    background-color: #0075be ;
+    border-radius: 0px;
+}
+
+#menuSearch{
+    display:none;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+}
+
+#menuWarehouse{
+    display:none;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+}
+
+#menuSiteWarehouse{
+    display:none;
+    background-color: #0075be ;
+    border-radius: 0px;
+}
+
+#menuSiteDashboard{
+    display:none;
+    background-color: #0075be ;
+    border-radius: 0px;
+}
+
+#menuSiteRegister{
+    display:none;
+    background-color: #0075be ;
+    border-radius: 0px;
+}
+

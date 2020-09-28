@@ -68,6 +68,8 @@ const productReceivementRoute = require("./routes/productReceivement-route");
 const transferRoute = require("./routes/transfer-route");
 //Dashboards
 const dashboardRoute = require("./routes/dashboard-route");
+//Planejamento
+const planningRoute = require("./routes/planning-route");
 
 const passport = require("passport");
 require("./config/auth")(passport);
@@ -243,6 +245,7 @@ app.use("/products", productMovementRoute);
 app.use("/products", productReadRoute);
 app.use("/products", productReceivementRoute);
 app.use("/products", transferRoute);
+app.use("/products", planningRoute);
 app.use("/dashboards", dashboardRoute);
 
 //Server
