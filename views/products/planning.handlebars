@@ -38,19 +38,9 @@
                 </button>
             </a>
         </div>
-        <!--GOOGLE CHART JS-->
-        <div class="d-flex justify-content-center">
-            <div class=" p-1 mr-auto">
-                <div id="donutchart"></div>
-            </div>
-            <div class="p-1">
-                <div id="chart_div"></div>
-            </div>
-            <div class="p-1 ">
-                <div id="piechart_3d"></div>
-            </div>
-        </div>
+
         <!--CHART JS-->
+        <div class="d-none">
         <div class="d-flex justify-content-center">
 
             <div class=" p-1 ">
@@ -59,6 +49,7 @@
             <div class="p-1">
                 <canvas id="pie-chart" width="600" height="300"></canvas>
             </div>
+        </div>
         </div>
 
         <div class="d-flex justify-content-center">
@@ -507,8 +498,8 @@
                         <td class="tb20 d-print-block">{{requiresCertificationCalibration}}</td>
                         <td class="tb21 d-print-block">{{inputAmount}}</td>
                         <td class="tb22 d-print-block">{{inputAmountSite}}</td>
-                        <td class="bg-secondary text-white"><input type="number" value="1" min="1"
-                                max="{{inputAmountSite}}" class="inputTake form-control form-control-sm"
+                        <td><input type="number" value="1" min="1"
+                                max="{{inputAmountSite}}" class=" form-control form-control-sm"
                                 name="outputQuantity" required></td>
                         <td class="tb24 d-print-block">{{stockQuantity}}</td>
                         <td class="tb25 d-print-block">
