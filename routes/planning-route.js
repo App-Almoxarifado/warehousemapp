@@ -3,7 +3,7 @@ const router = express.Router();
 const controller = require("../controllers/planning-controller");
 
 //PRODUTOS - ROTA CARRINHO DE COMPRAS
-router.get("/planning", controller.getRequest);
+router.get("/", controller.getRequest);
 router.get("/cart/:id?", controller.getCart);
 router.post("/addItem", controller.postRequest);
 router.post("/updateItem", controller.updateRequest);

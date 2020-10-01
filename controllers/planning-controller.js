@@ -171,7 +171,7 @@ exports.getRequest = async (req, res) => {
       .populate("frequency")
       .populate("provider");
       //console.log(groupChart)
-    res.render("products/planning", {
+    res.render("planning/planning", {
       products,
       prev: Number(page) > 1,
       next: Number(page) * limit < quant,
@@ -695,7 +695,7 @@ exports.updateRequest = async (req, res) => {
 
       await product.save();
       req.flash("success_msg", "Produto solicitado!");
-      res.redirect("/products/planning");
+      res.redirect("/planning");
     } catch (err) {
       req.flash(
         "error_msg",

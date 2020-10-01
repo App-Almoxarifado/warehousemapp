@@ -245,7 +245,7 @@ app.use("/products", productMovementRoute);
 app.use("/products", productReadRoute);
 app.use("/products", productReceivementRoute);
 app.use("/products", transferRoute);
-app.use("/products", planningRoute);
+app.use("/planning", planningRoute);
 app.use("/dashboards", dashboardRoute);
 
 //Server
