@@ -693,7 +693,7 @@ exports.updateRequest = async (req, res) => {
 
       await product.save();
       req.flash("success_msg", "Produto solicitado!");
-      res.redirect("/products/cart");
+      res.redirect("/products/planning");
     } catch (err) {
       req.flash(
         "error_msg",

@@ -465,6 +465,8 @@ exports.postRequest = async (req, res) => {
 
         //totalWeightKg:req.body.inputAmount * req.body.weightKg,
 
+        active: "cart",
+
         tags: [
           req.body.group,
           req.body.subgroup,
@@ -693,7 +695,7 @@ exports.updateRequest = async (req, res) => {
 
       await product.save();
       req.flash("success_msg", "Produto solicitado!");
-      res.redirect("/products/cart");
+      res.redirect("/products/planning");
     } catch (err) {
       req.flash(
         "error_msg",
