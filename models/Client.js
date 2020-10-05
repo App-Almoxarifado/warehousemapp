@@ -121,15 +121,6 @@ const Client = new Schema({
     type: String,
     trim:true
   },
-  pm: {
-    type: Schema.Types.ObjectId,
-    ref: "collaborators",
-    required: true,
-  },
-  pmEmail: {
-    type: String,
-    trim:true
-  },
   responsibleMaterial: {
     type: Schema.Types.ObjectId,
     ref: "collaborators",

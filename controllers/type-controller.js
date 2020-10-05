@@ -18,13 +18,12 @@ exports.getList = async (req, res) => {
       );
     }
     page = Number(page || 1);
-    limit = limit ? Number(limit) : 10;
+    limit = limit ? Number(limit) : 2;
     const quant = await Type.find(
       filtros.length > 0 ? { $or: filtros } : {}
     ).estimatedDocumentCount();
 
     const types = await Type.aggregate([
-      //{ $match: filtros.length > 0 ? { $or: filtros } : { active: true, emailLaunch: req.user.email } },
       { $match: filtros.length > 0 ? { $or: filtros } : {} },
       { $sort: { description: 1 } },
       { $limit: limit },
@@ -41,9 +40,8 @@ exports.getList = async (req, res) => {
       { $unwind: "$user" },
     ])
 
-    //console.log(types)
-
     res.render("types/types", {
+      qtd,
       types,
       prev: Number(page) > 1,
       next: Number(page) * limit < quant,
@@ -270,8 +268,8 @@ exports.postCreate = async (req, res) => {
 //EDITANDO UM TIPO
 exports.getUpdate = async (req, res) => {
   try {
-  const file = req.file
-  var type = await Type.findOne({ _id: req.params.id }).lean();
+    const file = req.file
+    var type = await Type.findOne({ _id: req.params.id }).lean();
     res.render("types/edit", { type: type, file });
   } catch (_err) {
     req.flash("error_msg", "Ops, Houve um erro interno!");
@@ -344,8 +342,8 @@ exports.postUpdate = async (req, res) => {
 //CRIANDO UM PRODUTO PELO ID
 exports.getCreateId = async (req, res) => {
   try {
-  const file = req.file
-  var type = await Type.findOne({ _id: req.params.id }).lean();
+    const file = req.file
+    var type = await Type.findOne({ _id: req.params.id }).lean();
     res.render("types/add_id", { type: type, file });
   } catch (_err) {
     req.flash("error_msg", "Ops, Houve um erro interno!");

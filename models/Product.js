@@ -86,9 +86,10 @@ const Product = new Schema({
   },
   //DESCRIÇÃO
   description: {
-    type: String,
-    //required: true,
-    trim: true,
+    type: Schema.Types.ObjectId,
+    ref: "items",
+    index: true
+    //required: true
   },
   //FABRICANTE
   manufacturer: {
@@ -102,8 +103,10 @@ const Product = new Schema({
   },
   //CAPACIDADE / ALCANCE
   capacityReach: {
-    type: String,
-    trim: true,
+    type: Schema.Types.ObjectId,
+    ref: "items",
+    index: true
+    //required: true
   },
   //N DE SERIE
   serialNumber: {
@@ -283,11 +286,9 @@ const Product = new Schema({
     default: "true",
   },
   //TAGS
-  tags: [
-    {
+    tags: {
       type: String,
     },
-  ],
 });
 
 Product.pre("save", function () {

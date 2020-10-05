@@ -24,22 +24,172 @@ const Provider = mongoose.model("providers");
 require("../models/Collaborator");
 const Collaborator = mongoose.model("collaborators");
 
-//VIZUALIZANDO PRODUTOS POR GRUPO
-exports.getGroup = async (req, res) => {
+
+
+//VIZUALIZANDO PRODUTOS PARA FAZER PEDIDO
+exports.request = async (req, res) => {
   try {
-    var group = await Group.findOne({ _id: req.params.id }).lean();
-    if (group) {
-      var products = await Product.find({ group: group._id }).lean();
+    const customers = await Client.find({ active: true })
+      .sort({ description: "asc" })
+      .lean();
+    /*
+    if(req.user.admin)
+      customers = await Client.find({ active: true })
+      .sort({ description: "asc" })
+      .lean();
+    else customers = req.user.sites;
+    */
+    const groups = await Group.find({ active: true })
+      .sort({ description: "asc" })
+      .lean();
+
+    const subgroups = await Subgroup.find({ active: true })
+      .sort({ description: "asc" })
+      .lean();
+
+    const types = await Type.find({ active: true })
+      .sort({ description: "asc" })
+      .lean();
+
+    /*
+    const statuses = await Status.find({ active: true })
+      .sort({ description: "asc" })
+      .lean();
+      */
+
+    const filtros = {
+      $or: [],
+      $and: [],
+    };
+
+    let {
+      search,
+      page,
+      //site,
+      group,
+      subgroup,
+      type,
+      //status,
+      limit,
+    } = req.query;
+
+    if (!!search) {
+      const pattern = new RegExp(`.*${search}.*`);
+      filtros["$or"].push(
+        { description: { $regex: pattern, $options: 'i' } },
+        { capacityReach: { $regex: pattern, $options: 'i' } },
+        { stockCode: { $regex: pattern, $options: 'i' } }
+      );
     }
-    res.render("dashboards/dashboards", { group: group, products: products });
-  } catch (_err) {
-    req.flash("error_msg", "Ops, Houve um erro interno!" + err);
+
+    //if (!!site) filtros["$and"].push({ client: site });
+    if (!!group) filtros["$and"].push({ group: group });
+    if (!!subgroup) filtros["$and"].push({ subgroup: subgroup });
+    if (!!type) filtros["$and"].push({ kindOfEquipment: type });
+    //if (!!status) filtros["$and"].push({ physicalStatus: status });
+
+    page = Number(page || 1);
+    limit = limit ? Number(limit) : 10;
+
+    if (filtros["$and"].length === 0) delete filtros["$and"];
+    if (filtros["$or"].length === 0) delete filtros["$or"];
+
+    const quant = await Product.find(filtros).estimatedDocumentCount();
+
+    const stock = await Product.aggregate([
+
+      {
+        $group: {
+          _id: "$fullDescription",
+          quant: {
+            $sum: 1
+          },
+          quantity: {
+            $sum: "$stockQuantity"
+          },
+          qu: {
+            $sum: "$inputAmount"
+          }
+        }
+      }
+    ])
+    console.log(stock)
+    
+    const groupChart = await Product.aggregate([
+      {
+        $match: filtros
+      },
+      {
+        $group: {
+          _id: "$group",
+          quant: {
+            $sum: 1
+          },
+          quantity: {
+            $sum: "$stockQuantity"
+          }
+        }
+      },
+      {
+        $lookup:
+        {
+          from: "groups",
+          localField: "_id",
+          foreignField: "_id",
+          as: "group"
+        }
+      }
+    ])
+
+    var products = await Product.find(filtros)
+      .sort({
+        editionDate: "desc",
+      })
+      .limit(limit).lean()
+      .skip(page > 1 ? (page - 1) * limit : 0)
+      .populate("group")
+      .populate("subgroup")
+      .populate("client")
+      .populate("local")
+      .populate("sublease")
+      .populate("physicalStatus")
+      .populate("kindOfEquipment")
+      .populate("unity")
+      .populate("frequency")
+      .populate("provider")
+      .populate("userLaunch")
+      .populate("userEdition")
+      .populate("unity")
+      .populate("frequency")
+      .populate("provider");
+    //console.log(groupChart)
+    res.render("planning/planning", {
+      products,
+      prev: Number(page) > 1,
+      next: Number(page) * limit < quant,
+      customers,
+      group,
+      groups,
+      subgroups,
+      types,
+      page,
+      search,
+      limit,
+      subgroup,
+      type,
+      stock,
+      groupChart
+    });
+  } catch (err) {
+    console.log(err);
+    req.flash("error_msg", "Ops, Houve um erro interno!");
     res.redirect("/products");
   }
 };
 
+
 //VIZUALIZANDO PRODUTOS PARA FAZER PEDIDO
-exports.getRequest = async (req, res) => {
+exports.getSearch = async (req, res) => {
   try {
     const customers = await Client.find({ active: true })
       .sort({ description: "asc" })
@@ -76,7 +226,7 @@ exports.getRequest = async (req, res) => {
       search,
       page,
       site,
-      group,
+      //group,
       subgroup,
       type,
       status,
@@ -86,15 +236,15 @@ exports.getRequest = async (req, res) => {
     if (!!search) {
       const pattern = new RegExp(`.*${search}.*`);
       filtros["$or"].push(
-        { description: { $regex: pattern,$options: 'i' } },
-        { stockCode: { $regex: pattern,$options: 'i' }},
-        { qrcode: { $regex: pattern ,$options: 'i'} },
-        { user: { $regex: pattern ,$options: 'i'} }
+        { description: { $regex: pattern, $options: 'i' } },
+        { stockCode: { $regex: pattern, $options: 'i' } },
+        { qrcode: { $regex: pattern, $options: 'i' } },
+        { user: { $regex: pattern, $options: 'i' } }
       );
     }
 
     if (!!site) filtros["$and"].push({ client: site });
-    if (!!group) filtros["$and"].push({ group: group });
+    //if (!!group) filtros["$and"].push({ group: group });
     if (!!subgroup) filtros["$and"].push({ subgroup: subgroup });
     if (!!type) filtros["$and"].push({ kindOfEquipment: type });
     if (!!status) filtros["$and"].push({ physicalStatus: status });
@@ -107,22 +257,36 @@ exports.getRequest = async (req, res) => {
 
     const quant = await Product.find(filtros).estimatedDocumentCount();
 
+    const qtd = await Product.aggregate([
+      {"$group" : {
+        _id: {
+            status: "$status",
+            type: "$type"
+        },
+        quantity: {
+        $sum: "$stockQuantity"
+      }}}
+    ] )
+
+
     const stock = await Product.aggregate([
-      {
-        $match: filtros
-      },
+
       {
         $group: {
-          _id: "$client",
+          _id: "$description",
           quant: {
             $sum: 1
           },
           quantity: {
             $sum: "$stockQuantity"
+          },
+          qu: {
+            $sum: "$inputAmount"
           }
         }
       }
     ])
+    console.log(stock)
 
     const groupChart = await Product.aggregate([
       {
@@ -139,16 +303,20 @@ exports.getRequest = async (req, res) => {
           }
         }
       },
-      { $lookup:
+      {
+        $lookup:
         {
           from: "groups",
           localField: "_id",
           foreignField: "_id",
           as: "group"
-        }}
+        }
+      }
     ])
-
-    var products = await Product.find(filtros)
+    var group_id = await Group.findOne({ _id: req.params.id }).lean();
+    if (group_id) {
+      gid = group_id
+    var products = await Product.find({group: group_id._id}, filtros)
       .sort({
         editionDate: "desc",
       })
@@ -170,13 +338,15 @@ exports.getRequest = async (req, res) => {
       .populate("unity")
       .populate("frequency")
       .populate("provider");
-      //console.log(groupChart)
-    res.render("planning/planning", {
+    }
+    res.render("planning/search", {
+      gid,
       products,
       prev: Number(page) > 1,
       next: Number(page) * limit < quant,
       customers,
       groups,
+      group_id,
       subgroups,
       types,
       statuses,
@@ -184,12 +354,13 @@ exports.getRequest = async (req, res) => {
       search,
       limit,
       site,
-      group,
+      //group,
       subgroup,
       type,
       status,
       stock,
       groupChart
+      
     });
   } catch (err) {
     console.log(err);

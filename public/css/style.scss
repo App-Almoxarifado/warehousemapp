@@ -486,3 +486,13 @@ img {
     border-radius: 0px;
 }
 
+.btn-group-vertical>.btn, 
+.btn-group>.btn {
+    float: unset !important;
+    text-align: center;
+}
+
+.btnGroup {
+  margin: 8px;
+  border-radius: 10px !important;
+}

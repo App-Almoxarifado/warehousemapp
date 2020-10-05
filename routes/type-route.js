@@ -7,7 +7,7 @@ const { eAdmin } = require("../helpers/eAdmin");
 const { eDevAdmin } = require("../helpers/eDevAdmin");
 
 
-router.get("/", eAdmin, controller.getList);
+router.get("/",  controller.getList);
 router.get("/table", eAdmin, controller.getTable);
 router.get("/tabledev", eDevAdmin, controller.getTableDev);
 router.get("/add", controller.getCreate);
