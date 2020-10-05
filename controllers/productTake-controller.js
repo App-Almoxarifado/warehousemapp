@@ -9,7 +9,7 @@ exports.getCreateTake = async (req, res) => {
       _id: req.params.id,
     }).lean()
       .populate(["group", "subgroup", "client", "localArea", "local", "sublease",
-       "physicalStatus", "kindOfEquipment", "unity", "frequency","userLaunch","userEdition"])
+       "physicalStatus", "kindOfEquipment", "unity", "frequency","userLaunch","userEdition","provider"])
 
 
     res.render("products/take", {
