@@ -41,7 +41,6 @@ exports.getList = async (req, res) => {
     ])
 
     res.render("types/types", {
-      qtd,
       types,
       prev: Number(page) > 1,
       next: Number(page) * limit < quant,
