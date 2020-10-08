@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+var aggregatePaginate = require('mongoose-aggregate-paginate-v2');
 const Schema = mongoose.Schema;
 const aws = require("aws-sdk");
 const fs = require("fs");
@@ -96,5 +97,5 @@ Type.pre("remove", function () {
   }
 });
 
-
+Type.plugin(aggregatePaginate);
 mongoose.model("types", Type);

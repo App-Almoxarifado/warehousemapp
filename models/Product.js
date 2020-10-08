@@ -286,9 +286,9 @@ const Product = new Schema({
     default: "true",
   },
   //TAGS
-    tags: {
+    tags: [{
       type: String,
-    },
+    }],
 });
 
 Product.pre("save", function () {
