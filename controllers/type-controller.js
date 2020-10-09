@@ -44,8 +44,6 @@ exports.getList = async (req, res) => {
       types,
       prev: Number(page) > 1,
       next: Number(page) * limit < quant,
-      page,
-      limit,
       site,
       file
     });

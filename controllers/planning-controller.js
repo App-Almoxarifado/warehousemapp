@@ -113,7 +113,7 @@ exports.request = async (req, res) => {
         }
       }
     ])
-    console.log(stock)
+    //console.log(stock)
     
     const groupChart = await Product.aggregate([
       {
