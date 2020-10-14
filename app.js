@@ -3,6 +3,7 @@ require("dotenv").config();
 const compression = require("compression");
 const express = require("express");
 const handlebars = require("express-handlebars");
+const helpers = require('handlebars-helpers')();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const session = require("express-session");

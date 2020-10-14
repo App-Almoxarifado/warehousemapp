@@ -2,7 +2,7 @@
 <html lang="pt-br">
 
 <head>
-    <title>Warehousemapp</title>
+    <title>HBS Warehouseapp</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -19,21 +19,22 @@
 </head>
 
 <body>
-
-    {{>_navbar}}
-    <div id="bg">
-        <div class="container">
-
+{{>_navbar}}
+<div class="container">
+            {{>_msg}}
+            {{#if user}}
+            {{>_sidebar}}
+            {{/if}}
+<div style="width: 100%;">
             {{#if error}}
             <div class="alert alert-danger">{{error}}</div>
             {{else}}
             {{/if}}
-            {{>_msg}}
             {{{body}}}
-        </div>
-    </div>
-    {{>_footer}}
-
+            </div>
+</div>            
+{{>_footer}}
+</body>
     <!-- JS JQUERY JS-->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -51,7 +52,9 @@
     <!-- JS QR CODE  -->
     <script src="/js/qrcode.js"></script>
     <!-- JS  -->
+    <script src="/js/script.js"></script>
+    <!-- JS  -->
     <script src="/js/javascript.js"></script>
-</body>
+
 
 </html>
