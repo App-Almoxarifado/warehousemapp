@@ -666,27 +666,7 @@ exports.postRequest = async (req, res) => {
 //COLOCANDO PRODUTO NO CARRINHO COM UM CLIQUE
 exports.updateRequest = async (req, res) => {
   var product = await Product.findOne({ _id: req.body.id });
-  var erros = [];
-  if (
-    !req.body.description ||
-    typeof req.body.description == undefined ||
-    req.body.description == null
-  ) {
-    erros.push({
-      texto: "Descricão Inválida",
-    });
-  }
-
-  if (req.body.description.length < 2) {
-    erros.push({
-      texto: "Descrição do produto muito pequena!",
-    });
-  }
-  if (erros.length > 0) {
-    res.render("products/addproducts", {
-      erros: erros,
-    });
-  } else {
+  
     try {
       product.qrcode =
         req.body.patrimonialAsset
@@ -870,9 +850,9 @@ exports.updateRequest = async (req, res) => {
     } catch (err) {
       req.flash(
         "error_msg",
-        "Ops, Houve um erro ao salvar o Produto, tente novamente!"
+        "Ops, Houve um erro ao salvar o Produto, tente novamente!" + err
       );
       res.redirect("/products");
     }
-  }
+  
 };

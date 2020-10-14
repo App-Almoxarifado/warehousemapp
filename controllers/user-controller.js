@@ -27,7 +27,6 @@ exports.get = async (req, res) => {
 //SALVANDO USUÁRIO NO BANCO DE DADOS
 exports.getCreate = (req, res) => {
   var erros = [];
-
   if (
     !req.body.nome ||
     typeof req.body.nome == undefined ||

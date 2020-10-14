@@ -18,7 +18,7 @@ exports.getCreateTake = async (req, res) => {
     });
 
   } catch (_err) {
-    req.flash("error_msg", "Ops, Houve um erro interno!");
+    req.flash("error_msg", "Ops, Houve um erro interno!" + err);
     res.redirect("/products");
   }
 };

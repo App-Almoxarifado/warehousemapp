@@ -86,9 +86,8 @@ const Product = new Schema({
   },
   //DESCRIÇÃO
   description: {
-    type: Schema.Types.ObjectId,
-    ref: "items",
-    index: true
+    type: String,
+    trim: true,
     //required: true
   },
   //FABRICANTE
@@ -103,9 +102,8 @@ const Product = new Schema({
   },
   //CAPACIDADE / ALCANCE
   capacityReach: {
-    type: Schema.Types.ObjectId,
-    ref: "items",
-    index: true
+    type: String,
+    trim: true,
     //required: true
   },
   //N DE SERIE
