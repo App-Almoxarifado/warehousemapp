@@ -52,6 +52,7 @@ function setLimit() {
   var searchParams = new URLSearchParams(location.search);
   const limit = document.getElementById("limit").value || document.getElementById("limitMb").value;
   searchParams.set("limit", limit);
+  searchParams.set("page",1);
   window.location.search = searchParams.toString();
 }
 

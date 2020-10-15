@@ -18,16 +18,16 @@ exports.getList = async (req, res) => {
       );
     }
     page = Number(page || 1);
-    limit = limit ? Number(limit) : 2;
+    limit = limit ? Number(limit) : 5;
     const quant = await Type.find(
       filtros.length > 0 ? { $or: filtros } : {}
     ).estimatedDocumentCount();
 
     const types = await Type.aggregate([
-      { $match: filtros.length > 0 ? { $or: filtros } : {} },
-      { $sort: { description: 1 } },
-      { $limit: limit },
+      { $match: filtros.length > 0 ? { $or: filtros } : {active:true} },
       { $skip: page > 1 ? (page - 1) * limit : 0 },
+      { $limit: limit },
+      { $sort: { description: 1 } },
       {
         $lookup:
         {

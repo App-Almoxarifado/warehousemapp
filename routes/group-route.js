@@ -1,37 +1,21 @@
 const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/group-controller");
+const multer = require("multer");
+const multerConfig = require("../config/multer");
 const { eAdmin } = require("../helpers/eAdmin");
-const { eDevAdmin } = require("../helpers/eAdmin");
+const { eDevAdmin } = require("../helpers/eDevAdmin");
 
-//groups
-router.get("/", controller.getIndex);
-router.get("/groups", controller.getList);
-router.get("/groupstables", controller.getListTable);
-router.get("/groups/add", eAdmin || eDevAdmin, controller.getCreate);
-router.post("/groups/novo", eAdmin || eDevAdmin, controller.postCreate);
-router.get("/groups/edit/:id", eAdmin || eDevAdmin, controller.getUpdate);
-router.post("/groups/edit", eAdmin || eDevAdmin, controller.postUpdate);
-router.get("/groups/deletar/:id", eAdmin || eDevAdmin, controller.getDelete);
-router.get("/groups/take/:id", controller.getView);
-router.post("/groups/take", controller.postUpdateView);
-router.post("/groups/new", controller.postCreateView);
-router.get("/qrcode", controller.getQrcode);
 
-//Subgroups
-router.get("/subgroups", controller.getListSub);
-router.get("/subgroupstables", controller.getListSubTable);
-router.get("/subgroups/add", eAdmin || eDevAdmin, controller.getCreateSub);
-router.post("/subgroups/novo", eAdmin || eDevAdmin, controller.postCreateSub);
-router.get("/subgroups/edit/:id", eAdmin || eDevAdmin, controller.getUpdateSub);
-router.post("/subgroups/edit", eAdmin || eDevAdmin, controller.postUpdateSub);
-router.get(
-  "/subgroups/deletar/:id",
-  eAdmin || eDevAdmin,
-  controller.getDeleteSub
-);
-router.get("/subgroups/take/:id", controller.getViewSub);
-router.post("/subgroups/take", controller.postUpdateViewSub);
-router.post("/subgroups/new", controller.postCreateViewSub);
+router.get("/", controller.getList);
+router.get("/table", eAdmin, controller.getTable);
+router.get("/add", controller.getCreate);
+router.post("/add", eAdmin, multer(multerConfig).single("file"), controller.postCreate);
+router.get("/edit/:id", eAdmin, controller.getUpdate);
+router.post("/edit", eAdmin, multer(multerConfig).single("file"), controller.postUpdate);
+router.get("/add_id/:id", eAdmin, controller.getCreateId);
+router.post("/add_id", eAdmin, multer(multerConfig).single("file"), controller.postCreateId);
+router.get("/delete/:id", eDevAdmin, controller.getDelete);
+
 
 module.exports = router;

@@ -73,11 +73,13 @@ exports.editTransfer = async (req, res) => {
     const products = productsId.map(async (q, index) => {
       const product = await Product.findById(q);
       const quant = Number(productsQuantity[index]);
-      const products = new Product({
-        client: req.body.clientId,
-        //product.inputAmount -= quant;
-      });
-      await products.save();
+
+      if(product && product.inputAmount - quant >= 0) {
+        product.inputAmount -= quant;
+        product.save();
+      }
+      else return null;
+
       return {
         product: product._id,
         quant,
@@ -87,8 +89,9 @@ exports.editTransfer = async (req, res) => {
     const transfer = new Transfer({
       client: client._id,
       deliveryDate,
-      products,
+      products: products.filter(p => !!p),
     });
+
     await transfer.save();
     return res.send("Criado com sucesso");
   } catch (e) {
