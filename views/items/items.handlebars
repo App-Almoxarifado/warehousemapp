@@ -7,17 +7,17 @@
   <div class="d-none d-md-none d-print-block">
     <div class="d-flex justify-content-center">
 
-      <h3>Grupos</h3>
+      <h3>Itens</h3>
     </div>
   </div>
   <div class="d-none d-md-block d-print-none">
     <div class="d-flex justify-content-center">
       <div class="p-1 mr-auto">
-        <h3>Grupos</h3>
+        <h3>Itens</h3>
       </div>
 
       <div class="p-0 mr-1">
-        <a href="/groups">
+        <a href="/items">
           <button type="button" class="btn btn-primary btn-sm">
             Lista
             <i class="fas fa-th-list"></i>
@@ -25,7 +25,7 @@
         </a>
       </div>
       <div class="p-0 mr-1">
-        <a href="/groups/table">
+        <a href="/items/table">
           <button type="button" class="btn btn-primary btn-sm">
             Tabela
             <i class="fas fa-table"></i>
@@ -33,9 +33,9 @@
         </a>
       </div>
       <div class="p-0">
-        <a href="/groups/add">
+        <a href="/items/add">
           <button class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom" title="Cadastre ">
-            Cadastre um novo Grupo <i class="fas fa-paper-plane"></i>
+            Cadastre um novo Item <i class="fas fa-paper-plane"></i>
           </button>
         </a>
       </div>
@@ -96,7 +96,7 @@
 
   <div class="d-block d-md-none d-print-none">
     <div class="d-flex justify-content-center">
-      <h3>Grupos</h3>
+      <h3>Itens</h3>
       <hr>
     </div>
 
@@ -104,7 +104,7 @@
       <a href="/types/add">
         <button class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom"
           title="Cadastre um novo produto">
-          Cadastre um novo Grupo <i class="fas fa-paper-plane"></i>
+          Cadastre um novo Item <i class="fas fa-paper-plane"></i>
         </button>
       </a>
     </div>
@@ -162,7 +162,7 @@
   </div>
 
   <!--VIZULIZAÇÃO EM LISTA-->
-  {{#each groups}}
+  {{#each items}}
 
   <!--INFORMAÇÃOES PARA ADICIONAR NA REQUISIÇÃO-->
   <!--<form id="form_dev" method="POST">
@@ -206,36 +206,36 @@
           </div>
 
           <div class="liGroups11 p-0 mr-1">
-            <a href="/groups/add_id/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
+            <a href="/items/add_id/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
               data-placement="left" title="Criar novo a partir dessas informações">
               <i class="far fa-clone"></i>
             </a>
           </div>
 
           <div class="liGroups11 p-0 mr-1">
-            <a href="/groups/edit/{{_id}}" class="mt-1 mb-1 btn btn-dark btn-sm" data-toggle="tooltip"
-              data-placement="bottom" title="Editar Produto">
+            <a href="/items/edit/{{_id}}" class="mt-1 mb-1 btn btn-dark btn-sm" data-toggle="tooltip"
+              data-placement="bottom" title="Editar Item">
               <i class="fas fa-pen"></i>
             </a>
           </div>
 
           <div class="liGroups11 p-0">
-            <a href="/groups/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
-              data-placement="bottom" title="Deletar Produto">
+            <a href="/items/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
+              data-placement="bottom" title="Deletar Item">
               <i class="fas fa-trash-alt"></i>
             </a>
           </div>
           {{else}}
           <div class="liGroups11 p-0 mr-1">
-            <a href="/groups/edit/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
-              data-placement="bottom" title="Editar Produto">
+            <a href="/items/edit/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
+              data-placement="bottom" title="Editar Item">
               <i class="fas fa-pen"></i>
             </a>
           </div>
 
           <div class="liGroups11 p-0">
-            <a href="/groups/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
-              data-placement="bottom" title="Deletar Produto">
+            <a href="/items/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
+              data-placement="bottom" title="Deletar Item">
               <i class="fas fa-trash-alt"></i>
             </a>
           </div>
@@ -331,36 +331,36 @@
             </div>
 
             <div class="liGroups11 p-0 mr-1">
-              <a href="/groups/add_id/{{_id}}" class="mt-1 mb-1 btn btn-dark btn-sm" data-toggle="tooltip"
+              <a href="/items/add_id/{{_id}}" class="mt-1 mb-1 btn btn-dark btn-sm" data-toggle="tooltip"
                 data-placement="left" title="Criar novo a partir dessas informações">
                 <i class="far fa-clone"></i>
               </a>
             </div>
 
             <div class="liGroups11 p-0 mr-1">
-              <a href="/groups/edit/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
-                data-placement="bottom" title="Editar Produto">
+              <a href="/items/edit/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
+                data-placement="bottom" title="Editar Item">
                 <i class="fas fa-pen"></i>
               </a>
             </div>
 
             <div class="liGroups11 p-0">
-              <a href="/groups/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
-                data-placement="bottom" title="Deletar Produto">
+              <a href="/items/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
+                data-placement="bottom" title="Deletar Item">
                 <i class="fas fa-trash-alt"></i>
               </a>
             </div>
             {{else}}
             <div class="liGroups11 p-0 mr-1">
-              <a href="/groups/edit/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
-                data-placement="bottom" title="Editar Produto">
+              <a href="/items/edit/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
+                data-placement="bottom" title="Editar Item">
                 <i class="fas fa-pen"></i>
               </a>
             </div>
 
             <div class="liGroups11 p-0">
-              <a href="/groups/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
-                data-placement="bottom" title="Deletar Produto">
+              <a href="/items/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
+                data-placement="bottom" title="Deletar Item">
                 <i class="fas fa-trash-alt"></i>
               </a>
             </div>
@@ -377,7 +377,7 @@
   <br />
   {{else}}
   <h4 class="mt-12 mb-2">
-    Nenhum Grupo Registrado!
+    Nenhum Item Registrado!
   </h4>
   {{/each}}
 

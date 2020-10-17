@@ -3,7 +3,7 @@ require("../models/Group");
 const Group = mongoose.model("groups");
 
 
-//EXIBINDO TIPOS POR LISTA
+//EXIBINDO GRUPOS POR LISTA
 exports.getList = async (req, res) => {
   try {
     const file = req.file
@@ -69,18 +69,16 @@ exports.getTable = async (req, res) => {
       );
     }
     page = Number(page || 1);
-    limit = limit ? Number(limit) : 10;
+    limit = limit ? Number(limit) : 5;
     const quant = await Group.find(
       filtros.length > 0 ? { $or: filtros } : {}
     ).estimatedDocumentCount();
 
-    //UTILIZANDO O AGGREGATE
     const groups = await Group.aggregate([
-      //{ $match: filtros.length > 0 ? { $or: filtros } : { active: true, emailLaunch: req.user.email } },
-      { $match: filtros.length > 0 ? { $or: filtros } : {} },
-      { $sort: { description: 1 } },
-      { $limit: limit },
+      { $match: filtros.length > 0 ? { $or: filtros } : {active:true} },
       { $skip: page > 1 ? (page - 1) * limit : 0 },
+      { $limit: limit },
+      { $sort: { description: 1 } },
       {
         $lookup:
         {
@@ -93,23 +91,10 @@ exports.getTable = async (req, res) => {
       { $unwind: "$user" },
     ])
 
-    //console.log(groups)
-    //USANDO O FIND
-    /*var groups = await Group.find(filtros.length > 0 ? { $or: filtros } : {})
-      .sort({ description: "asc" })
-      .limit(limit)
-      .skip(page > 1 ? (page - 1) * limit : 0)
-      .populate("userEdition")
-      .populate("userLaunch");*/
-
-
     res.render("groups/table", {
-      //groups: groups.map((groups) => groups.toJSON()),
       groups,
       prev: Number(page) > 1,
       next: Number(page) * limit < quant,
-      page,
-      limit,
       site,
       file
     });

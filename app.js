@@ -71,6 +71,8 @@ const transferRoute = require("./routes/transfer-route");
 const dashboardRoute = require("./routes/dashboard-route");
 //Planejamento
 const planningRoute = require("./routes/planning-route");
+//Planejamento
+const itemRoute = require("./routes/item-route");
 
 const passport = require("passport");
 require("./config/auth")(passport);
@@ -248,6 +250,7 @@ app.use("/products", productReceivementRoute);
 app.use("/products", transferRoute);
 app.use("/planning", planningRoute);
 app.use("/dashboards", dashboardRoute);
+app.use("/items", itemRoute);
 
 //Server
 const PORT = process.env.PORT || 3000;

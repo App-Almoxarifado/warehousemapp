@@ -1,19 +1,18 @@
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark " style="background-color: #0075be;">
-  <div class="p">
+  {{#if user}}
+  <div class="px-1">
+    <button type="button" id="sidebarCollapse" style="border:solid 2px;" class="btn btn-primary btn-sm"><i
+        class="fas fa-align-left"></i>
+  </div>
+  {{/if}}
+  <div class="mr-auto px-1">
     <a class="navbar-brand mr-auto" href="/">
       <img src="https://warehousemapp.s3.amazonaws.com/logo6.png" width="180" alt="">
     </a>
-  </div>
-
-  <div class="mr-auto px-1">
-
-    <button type="button" id="sidebarCollapse" style="border:solid 2px;" class="btn btn-primary btn-sm"><i
-        class="fas fa-align-left"></i>
-        </button>
 
   </div>
   <div class="p px-2">
-    <h6 style="color: white;">{{split user.nome}}</h6>
+    <h6 style="color: white;">{{first user.nome}}</h6>
   </div>
   <div class="p">
     <img src="{{user.image}}" style="width: 3rem;" alt="" class="rounded-circle">

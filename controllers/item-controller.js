@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
-require("../models/Type");
-const Type = mongoose.model("types");
+require("../models/Item");
+const Item = mongoose.model("items");
 
 
-//EXIBINDO TIPOS POR LISTA
+//EXIBINDO GRUPOS POR LISTA
 exports.getList = async (req, res) => {
   try {
     const file = req.file
@@ -19,12 +19,12 @@ exports.getList = async (req, res) => {
     }
     page = Number(page || 1);
     limit = limit ? Number(limit) : 5;
-    const quant = await Type.find(
+    const quant = await Item.find(
       filtros.length > 0 ? { $or: filtros } : {}
     ).estimatedDocumentCount();
 
-    const types = await Type.aggregate([
-      { $match: filtros.length > 0 ? { $or: filtros } : { active: true } },
+    const items = await Item.aggregate([
+      { $match: filtros.length > 0 ? { $or: filtros } : {active:true} },
       { $skip: page > 1 ? (page - 1) * limit : 0 },
       { $limit: limit },
       { $sort: { description: 1 } },
@@ -40,8 +40,8 @@ exports.getList = async (req, res) => {
       { $unwind: "$user" },
     ])
 
-    res.render("types/types", {
-      types,
+    res.render("items/items", {
+      items,
       prev: Number(page) > 1,
       next: Number(page) * limit < quant,
       site,
@@ -50,7 +50,7 @@ exports.getList = async (req, res) => {
   } catch (err) {
     console.log(err);
     req.flash("error_msg", "Ops, Houve um erro interno!");
-    res.redirect("/types");
+    res.redirect("/items");
   }
 };
 
@@ -69,18 +69,16 @@ exports.getTable = async (req, res) => {
       );
     }
     page = Number(page || 1);
-    limit = limit ? Number(limit) : 10;
-    const quant = await Type.find(
+    limit = limit ? Number(limit) : 5;
+    const quant = await Item.find(
       filtros.length > 0 ? { $or: filtros } : {}
     ).estimatedDocumentCount();
 
-    //UTILIZANDO O AGGREGATE
-    const types = await Type.aggregate([
-      //{ $match: filtros.length > 0 ? { $or: filtros } : { active: true, emailLaunch: req.user.email } },
-      { $match: filtros.length > 0 ? { $or: filtros } : {} },
-      { $sort: { description: 1 } },
-      { $limit: limit },
+    const items = await Item.aggregate([
+      { $match: filtros.length > 0 ? { $or: filtros } : {active:true} },
       { $skip: page > 1 ? (page - 1) * limit : 0 },
+      { $limit: limit },
+      { $sort: { description: 1 } },
       {
         $lookup:
         {
@@ -93,30 +91,17 @@ exports.getTable = async (req, res) => {
       { $unwind: "$user" },
     ])
 
-    //console.log(types)
-    //USANDO O FIND
-    /*var types = await Type.find(filtros.length > 0 ? { $or: filtros } : {})
-      .sort({ description: "asc" })
-      .limit(limit)
-      .skip(page > 1 ? (page - 1) * limit : 0)
-      .populate("userEdition")
-      .populate("userLaunch");*/
-
-
-    res.render("types/table", {
-      //types: types.map((types) => types.toJSON()),
-      types,
+    res.render("items/table", {
+      items,
       prev: Number(page) > 1,
       next: Number(page) * limit < quant,
-      page,
-      limit,
       site,
       file
     });
   } catch (err) {
     console.log(err);
     req.flash("error_msg", "Ops, Houve um erro interno!");
-    res.redirect("/types");
+    res.redirect("/items");
   }
 };
 
@@ -136,13 +121,12 @@ exports.getTableDev = async (req, res) => {
     }
     page = Number(page || 1);
     limit = limit ? Number(limit) : 10;
-    const quant = await Type.find(
+    const quant = await Item.find(
       filtros.length > 0 ? { $or: filtros } : {}
     ).estimatedDocumentCount();
 
     //UTILIZANDO O AGGREGATE
-    const types = await Type.aggregate([
-      //{ $match: filtros.length > 0 ? { $or: filtros } : { active: true, emailLaunch: req.user.email } },
+    const items = await Item.aggregate([
       { $match: filtros.length > 0 ? { $or: filtros } : {} },
       { $sort: { description: 1 } },
       { $limit: limit },
@@ -159,9 +143,9 @@ exports.getTableDev = async (req, res) => {
       { $unwind: "$user" },
     ])
 
-    //console.log(types)
+    //console.log(items)
     //USANDO O FIND
-    /*var types = await Type.find(filtros.length > 0 ? { $or: filtros } : {})
+    /*var items = await Item.find(filtros.length > 0 ? { $or: filtros } : {})
       .sort({ description: "asc" })
       .limit(limit)
       .skip(page > 1 ? (page - 1) * limit : 0)
@@ -169,9 +153,9 @@ exports.getTableDev = async (req, res) => {
       .populate("userLaunch");*/
 
 
-    res.render("types/TableDev", {
-      //types: types.map((types) => types.toJSON()),
-      types,
+    res.render("items/TableDev", {
+      //items: items.map((items) => items.toJSON()),
+      items,
       prev: Number(page) > 1,
       next: Number(page) * limit < quant,
       page,
@@ -182,7 +166,7 @@ exports.getTableDev = async (req, res) => {
   } catch (err) {
     console.log(err);
     req.flash("error_msg", "Ops, Houve um erro interno!");
-    res.redirect("/types");
+    res.redirect("/items");
   }
 };
 
@@ -191,10 +175,10 @@ exports.getTableDev = async (req, res) => {
 exports.getCreate = async (req, res) => {
   const file = req.file
   try {
-    res.render("types/add", { file });
+    res.render("items/add", { file });
   } catch (err) {
     req.flash("error_msg", "Ops, Houve um erro interno!");
-    res.redirect("/types");
+    res.redirect("/items");
   }
 };
 
@@ -221,17 +205,17 @@ exports.postCreate = async (req, res) => {
   }
   if (req.body.description.length < 2) {
     erros.push({
-      texto: "Descrição do Tipo Muito Pequeno!",
+      texto: "Descrição do Item Muito Pequeno!",
     });
   }
   if (erros.length > 0) {
-    res.render("types/add", {
+    res.render("./items/add", {
       file,
       erros: erros,
     });
   } else {
     try {
-      const types = new Type({
+      const items = new Item({
         qrcode: req.body.description
           .normalize("NFD")
           .replace(/[\u0300-\u036f]/g, "") // Remove acentos
@@ -248,16 +232,16 @@ exports.postCreate = async (req, res) => {
         userEdtion: req.body.userEdtion,
         emailEdtion: req.body.emailEdtion,
       });
-      await types.save();
-      req.flash("success_msg", "Tipo criado com sucesso!");
-      res.redirect("/types");
-      console.log("Tipo criado com sucesso!");
+      await items.save();
+      req.flash("success_msg", "Item criado com sucesso!");
+      res.redirect("/items");
+      console.log("Item criado com sucesso!");
     } catch (err) {
       req.flash(
         "error_msg",
         "Ops, Houve um erro ao salvar o tipo, tente novamente!" + err
       );
-      res.redirect("/types");
+      res.redirect("/items");
     }
   }
 };
@@ -266,16 +250,16 @@ exports.postCreate = async (req, res) => {
 exports.getUpdate = async (req, res) => {
   try {
     const file = req.file
-    var type = await Type.findOne({ _id: req.params.id }).lean();
-    res.render("types/edit", { type: type, file });
+    var item = await Item.findOne({ _id: req.params.id }).lean();
+    res.render("items/edit", { item: item, file });
   } catch (_err) {
     req.flash("error_msg", "Ops, Houve um erro interno!");
-    res.redirect("/types");
+    res.redirect("/items");
   }
 };
 
 exports.postUpdate = async (req, res) => {
-  var type = await Type.findOne({ _id: req.body.id });
+  var item = await Item.findOne({ _id: req.body.id });
   var erros = [];
   if (
     !req.body.description ||
@@ -297,41 +281,41 @@ exports.postUpdate = async (req, res) => {
   }
   if (req.body.description.length < 2) {
     erros.push({
-      texto: "Descrição do Tipo Muito Pequeno!",
+      texto: "Descrição do Item Muito Pequeno!",
     });
   }
   if (erros.length > 0) {
-    res.render("types/edit", {
+    res.render("items/edit", {
       erros: erros,
     });
   } else {
     try {
-      (type.qrcode = req.body.description
+      (item.qrcode = req.body.description
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "") // Remove acentos
         .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
         .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
         .replace(/(^-+|-+$)/, "")), // Remove hífens extras do final ou do inicio da string
-        (type.image = req.file.location),
-        (type.key = req.file.key), //.slice(0, -1),
-        (type.description = req.body.description),
-        //(type.releaseDateOf = req.body.releaseDateOf),
-        //(type.userLaunch = req.body.userLaunch),
-        //(type.emailLaunch = req.body.emailLaunch),
-        (type.editionDate = req.body.editionDate),
-        (type.userEdtion = req.body.userEdtion),
-        (type.emailEdtion = req.body.emailEdtion);
+        (item.image = req.file.location),
+        (item.key = req.file.key), //.slice(0, -1),
+        (item.description = req.body.description),
+        //(item.releaseDateOf = req.body.releaseDateOf),
+        //(item.userLaunch = req.body.userLaunch),
+        //(item.emailLaunch = req.body.emailLaunch),
+        (item.editionDate = req.body.editionDate),
+        (item.userEdtion = req.body.userEdtion),
+        (item.emailEdtion = req.body.emailEdtion);
 
-      await type.save();
-      req.flash("success_msg", "Tipo editado com sucesso!");
-      res.redirect("/types");
-      console.log("Tipo editado com sucesso!");
+      await item.save();
+      req.flash("success_msg", "Item editado com sucesso!");
+      res.redirect("/items");
+      console.log("Item editado com sucesso!");
     } catch (err) {
       req.flash(
         "error_msg",
         "Ops, Houve um erro ao salvar o tipo, tente novamente!"
       );
-      res.redirect("/types");
+      res.redirect("/items");
     }
   }
 };
@@ -340,11 +324,11 @@ exports.postUpdate = async (req, res) => {
 exports.getCreateId = async (req, res) => {
   try {
     const file = req.file
-    var type = await Type.findOne({ _id: req.params.id }).lean();
-    res.render("types/add_id", { type: type, file });
+    var item = await Item.findOne({ _id: req.params.id }).lean();
+    res.render("items/add_id", { item: item, file });
   } catch (_err) {
     req.flash("error_msg", "Ops, Houve um erro interno!");
-    res.redirect("/types");
+    res.redirect("/items");
   }
 };
 
@@ -362,17 +346,17 @@ exports.postCreateId = async (req, res) => {
   }
   if (req.body.description.length < 2) {
     erros.push({
-      texto: "Descrição do Tipo Muito Pequeno!",
+      texto: "Descrição do Item Muito Pequeno!",
     });
   }
   if (erros.length > 0) {
-    res.render("types/add_id", {
+    res.render("items/add_id", {
       file,
       erros: erros,
     });
   } else {
     try {
-      const types = new Type({
+      const items = new Item({
         qrcode: req.body.description
           .normalize("NFD")
           .replace(/[\u0300-\u036f]/g, "") // Remove acentos
@@ -389,16 +373,16 @@ exports.postCreateId = async (req, res) => {
         userEdtion: req.body.userEdtion,
         emailEdtion: req.body.emailEdtion,
       });
-      await types.save();
-      req.flash("success_msg", "Tipo criado com sucesso!");
-      res.redirect("/types");
-      console.log("Tipo criado com sucesso!");
+      await items.save();
+      req.flash("success_msg", "Item criado com sucesso!");
+      res.redirect("/items");
+      console.log("Item criado com sucesso!");
     } catch (err) {
       req.flash(
         "error_msg",
         "Ops, Houve um erro ao salvar o tipo, tente novamente!" + err
       );
-      res.redirect("/types");
+      res.redirect("/items");
     }
   }
 };
@@ -406,13 +390,13 @@ exports.postCreateId = async (req, res) => {
 
 //DELETANDO UM TIPO
 exports.getDelete = async (req, res) => {
-  await Type.remove({ _id: req.params.id });
+  await Item.remove({ _id: req.params.id });
   try {
-    req.flash("success_msg", "Tipo deletado com Sucesso!");
-    res.redirect("/types");
+    req.flash("success_msg", "Item deletado com Sucesso!");
+    res.redirect("/items");
   } catch (err) {
     req.flash("error_msg", "Houve um erro interno!");
-    res.redirect("/types");
+    res.redirect("/items");
   }
 };
 
@@ -430,16 +414,16 @@ exports.postCreateDevAdmin = async (req, res) => {
   }
   if (req.body.description.length < 2) {
     erros.push({
-      texto: "Descrição do Tipo Muito Pequeno!",
+      texto: "Descrição do Item Muito Pequeno!",
     });
   }
   if (erros.length > 0) {
-    res.render("types/add", {
+    res.render("items/add", {
       erros: erros,
     });
   } else {
     try {
-      const types = new Type({
+      const items = new Item({
         qrcode: req.body.description
           .normalize("NFD")
           .replace(/[\u0300-\u036f]/g, "") // Remove acentos
@@ -455,23 +439,23 @@ exports.postCreateDevAdmin = async (req, res) => {
         userEdtion: req.body.userEdtion,
         emailEdtion: req.body.emailEdtion,
       });
-      await types.save();
-      req.flash("success_msg", "Tipo criado com sucesso!");
-      res.redirect("/types");
-      console.log("Tipo criado com sucesso!");
+      await items.save();
+      req.flash("success_msg", "Item criado com sucesso!");
+      res.redirect("/items");
+      console.log("Item criado com sucesso!");
     } catch (err) {
       req.flash(
         "error_msg",
         "Ops, Houve um erro ao salvar o tipo, tente novamente!"
       );
-      res.redirect("/types");
+      res.redirect("/items");
     }
   }
 };
 
 //EDITA UM NOVO PRODUTO COM UM CLIQUE
 exports.postUpdateDevAdmin = async (req, res) => {
-  var type = await Type.findOne({ _id: req.body.id });
+  var item = await Item.findOne({ _id: req.body.id });
   var erros = [];
   if (
     !req.body.description ||
@@ -484,40 +468,40 @@ exports.postUpdateDevAdmin = async (req, res) => {
   }
   if (req.body.description.length < 2) {
     erros.push({
-      texto: "Descrição do Tipo Muito Pequeno!",
+      texto: "Descrição do Item Muito Pequeno!",
     });
   }
   if (erros.length > 0) {
-    res.render("types/add", {
+    res.render("items/add", {
       erros: erros,
     });
   } else {
     try {
-      (type.qrcode = req.body.description
+      (item.qrcode = req.body.description
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "") // Remove acentos
         .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
         .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
         .replace(/(^-+|-+$)/, "")), // Remove hífens extras do final ou do inicio da string
-        (type.image = req.body.image), //.slice(0, -1),
-        (type.description = req.body.description),
-        //(type.releaseDateOf = req.body.releaseDateOf),
-        //(type.userLaunch = req.body.userLaunch),
-        //(type.emailLaunch = req.body.emailLaunch),
-        (type.editionDate = req.body.editionDate),
-        (type.userEdtion = req.body.userEdtion),
-        (type.emailEdtion = req.body.emailEdtion);
+        (item.image = req.body.image), //.slice(0, -1),
+        (item.description = req.body.description),
+        //(item.releaseDateOf = req.body.releaseDateOf),
+        //(item.userLaunch = req.body.userLaunch),
+        //(item.emailLaunch = req.body.emailLaunch),
+        (item.editionDate = req.body.editionDate),
+        (item.userEdtion = req.body.userEdtion),
+        (item.emailEdtion = req.body.emailEdtion);
 
-      await type.save();
-      req.flash("success_msg", "Tipo editado com sucesso!");
-      res.redirect("/types");
-      console.log("Tipo editado com sucesso!");
+      await item.save();
+      req.flash("success_msg", "Item editado com sucesso!");
+      res.redirect("/items");
+      console.log("Item editado com sucesso!");
     } catch (err) {
       req.flash(
         "error_msg",
         "Ops, Houve um erro ao salvar o tipo, tente novamente!" + err
       );
-      res.redirect("/types");
+      res.redirect("/items");
     }
   }
 };
