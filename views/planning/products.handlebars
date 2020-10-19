@@ -19,8 +19,8 @@
 
             <a href="/products/add">
                 <button class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom"
-                    title="Cadastre um novo produto">
-                    Cadastro <i class="fas fa-paper-plane"></i>
+                    title="Não encontrou o que procura, cadastre um novo produto">
+                    Cadastre um novo Produto <i class="fas fa-paper-plane"></i>
                 </button>
             </a>
 
@@ -38,19 +38,20 @@
                 </button>
             </a>
         </div>
-        <!--GOOGLE CHART JS-->
-        <div class="d-flex justify-content-center">
-            <div class=" p-1 mr-auto">
-                <div id="donutchart"></div>
+
+            <div class="mr-auto p-1">
+                <select class="custom-select custom-select-sm" id="site" name="site" onchange="setSite()">
+                    <option selected disabled hidden>Busque por Site</option>
+                    <option value="">Nenhum(a)</option>
+                    {{#each stock}}
+                    <option value="{{_group}}" {{#if_eq ../site _id}}selected{{/if_eq}}>{{_id}}</option>
+                    {{else}}
+                    <option value="0">Nenhum site registrado</option>
+                    {{/each}}
+                </select>
             </div>
-            <div class="p-1">
-                <div id="chart_div"></div>
-            </div>
-            <div class="p-1 ">
-                <div id="piechart_3d"></div>
-            </div>
-        </div>
         <!--CHART JS-->
+        <div class="d-none">
         <div class="d-flex justify-content-center">
 
             <div class=" p-1 ">
@@ -60,11 +61,12 @@
                 <canvas id="pie-chart" width="600" height="300"></canvas>
             </div>
         </div>
+        </div>
 
         <div class="d-flex justify-content-center">
             <div class="p-1">
                 {{#each groups}}
-                <a href="/products/group/{{_id}}">
+                <a href="/planning/search/group/{{_id}}">
                     <button type="button" class="totalGroup2 btn btn-secondary btn-sm">
                         {{description}}
                     </button>
@@ -364,8 +366,8 @@
                     <th class="tb01 d-print-block" scope="col">Id</th>
                     <th class="tb02 d-print-block" scope="col">Imagem</th>
                     <th class="tb03 d-print-block" scope="col">qrCode</th>
-                    <th class="tb04 d-print-block" scope="col">Grupos</th>
-                    <th class="tb05 d-print-block" scope="col">Subgrupos</th>
+                    <th class="tb04 d-print-block" scope="col">Grupo</th>
+                    <th class="tb05 d-print-block" scope="col">Subgrupo</th>
                     <th class="tb06 d-print-block" scope="col">Bp/Descrição/Fab./Mod./Cap./Ns</th>
                     <th class="tb07 d-print-block" scope="col">Código Estoque</th>
                     <th class="tb08 d-print-block" scope="col">Localização Atual</th>
@@ -383,7 +385,7 @@
                     <th class="tb20 d-print-block" scope="col">Requer Calib./Cert.</th>
                     <th class="tb21 d-print-block" scope="col">Qtd. Entrada</th>
                     <th class="tb22 d-print-block" scope="col">Qtd. em Uso</th>
-                    <th class="tb23 d-block d-print-block" scope="col">Qtd. Saída</th>
+                    <th class="bg-secondary">Solicitar</th>
                     <th class="tb24 d-print-block" scope="col">Qtd. Estoque</th>
                     <th class="tb25 d-print-block" scope="col">Qtd. Total</th>
                     <th class="tb26 d-print-block" scope="col">Unidade</th>
@@ -412,7 +414,7 @@
 
             <tbody>
                 {{#each products}}
-                <form method="POST">
+                <form action="/products/updateItem" method="POST">
                     <input type="hidden" class="mt-2 form-control" name="id" value="{{_id}}">
                     <input type="hidden" class="mt-2 form-control" name="qrcode" value="{{qrcode}}">
                     <input type="hidden" class="mt-2 form-control" name="image" value="{{image}}">
@@ -507,8 +509,8 @@
                         <td class="tb20 d-print-block">{{requiresCertificationCalibration}}</td>
                         <td class="tb21 d-print-block">{{inputAmount}}</td>
                         <td class="tb22 d-print-block">{{inputAmountSite}}</td>
-                        <td class="bg-secondary text-white"><input type="number" value="1" min="1"
-                                max="{{inputAmountSite}}" class="inputTake form-control form-control-sm"
+                        <td><input type="number" value="1" min="1"
+                                max="{{inputAmountSite}}" class=" form-control form-control-sm"
                                 name="outputQuantity" required></td>
                         <td class="tb24 d-print-block">{{stockQuantity}}</td>
                         <td class="tb25 d-print-block">
@@ -540,32 +542,32 @@
                         <td class="tb46 d-print-none">
                             <div class="d-flex justify-content-center">
                                 <div class="p-0 mr-1">
-                                    <button type="submit" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
+                                    <button type="submit" class="mt-1 mb-1 btn btn-success btn-sm" data-toggle="tooltip"
                                         data-placement="right" title="Inserir produto na solicitação atual">
                                         <i class="fas fa-cart-arrow-down"></i></button>
                                 </div>
 
-                                <div class="p-0 mr-1">
-                                    <button type="submit" class="mt-1 mb-1 btn btn-success btn-sm" data-toggle="tooltip"
+                                <div class="d-none p-0 mr-1">
+                                    <button type="submit" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
                                         data-placement="bottom" title="Dar entrada no Material">
                                         <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
                                 </div>
 
                                 <div class="p-0 mr-1">
-                                    <a href="/products/take/{{_id}}" class="mt-1 mb-1 btn btn-dark btn-sm"
+                                    <a href="/products/take/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm"
                                         data-toggle="tooltip" data-placement="bottom" title="Visualizar detalhes">
-                                        <i class="fas fa-align-left"></i>
+                                        <i class="fas fa-file-signature"></i>
                                     </a>
                                 </div>
 
-                                <div class="p-0 mr-1">
+                                <div class="d-none p-0 mr-1">
                                     <a href="/products/move/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm"
                                         data-toggle="tooltip" data-placement="bottom" title="Movimentação interna">
                                         <i class="fas fa-file-signature"></i>
                                     </a>
                                 </div>
 
-                                <div class="p-0 mr-1">
+                                <div class="d-none p-0 mr-1">
                                     <a href="/products/add_id/{{_id}}" class="mt-1 mb-1 btn btn-success btn-sm"
                                         data-toggle="tooltip" data-placement="left"
                                         title="Criar novo produto a partir dessas informações">
@@ -573,14 +575,14 @@
                                     </a>
                                 </div>
 
-                                <div class="p-0 mr-1">
+                                <div class="d-none p-0 mr-1">
                                     <a href="/products/edit/{{_id}}" class="mt-1 mb-1 btn btn-secondary btn-sm"
                                         data-toggle="tooltip" data-placement="bottom" title="Editar Produto">
                                         <i class="fas fa-pen"></i>
                                     </a>
                                 </div>
 
-                                <div class="p-0">
+                                <div class="d-none p-0">
                                     <a href="/products/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm"
                                         data-toggle="tooltip" data-placement="bottom" title="Deletar Produto">
                                         <i class="fas fa-trash-alt"></i>

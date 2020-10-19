@@ -76,6 +76,31 @@ function drawMultSeries() {
 
     
 //CHART JS
+//pie chart
+window.pieChart = new Chart(document.getElementById("pie-chart"), {
+  type: 'doughnut',
+
+  options: {
+    animation: {
+        tension: {
+            duration: 1000,
+            easing: 'linear',
+            from: 1,
+            to: 0,
+            loop: true
+        }
+    },
+  
+    legend: {
+      position:'right',
+      display: true },
+    title: {
+      display: true,
+      text: 'Estoque por Grupo'
+    }
+  }
+});
+
 // Bar chart
 window.barChart = new Chart(document.getElementById("bar-chart"), {
     type: 'horizontalBar',
@@ -93,35 +118,12 @@ window.barChart = new Chart(document.getElementById("bar-chart"), {
         display: false },
       title: {
         display: true,
-        text: 'Estoque por produto'
+        text: 'Tipos de equipamentos'
       }
     }
 });
 
-//pie chart
-window.pieChart = new Chart(document.getElementById("pie-chart"), {
-    type: 'doughnut',
 
-    options: {
-      animation: {
-          tension: {
-              duration: 1000,
-              easing: 'linear',
-              from: 1,
-              to: 0,
-              loop: true
-          }
-      },
-    
-      legend: {
-        position:'right',
-        display: true },
-      title: {
-        display: true,
-        text: 'Estoque por Grupo'
-      }
-    }
-});
 
 
 /* window.doughnutChart = new Chart(document.getElementById("doughnut-chart"), {

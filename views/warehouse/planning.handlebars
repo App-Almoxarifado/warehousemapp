@@ -39,6 +39,17 @@
             </a>
         </div>
 
+            <div class="mr-auto p-1">
+                <select class="custom-select custom-select-sm" id="site" name="site" onchange="setSite()">
+                    <option selected disabled hidden>Busque por Site</option>
+                    <option value="">Nenhum(a)</option>
+                    {{#each stock}}
+                    <option value="{{_group}}" {{#if_eq ../site _id}}selected{{/if_eq}}>{{_id}}</option>
+                    {{else}}
+                    <option value="0">Nenhum site registrado</option>
+                    {{/each}}
+                </select>
+            </div>
         <!--CHART JS-->
         <div class="d-none">
         <div class="d-flex justify-content-center">
@@ -55,7 +66,7 @@
         <div class="d-flex justify-content-center">
             <div class="p-1">
                 {{#each groups}}
-                <a href="/products/group/{{_id}}">
+                <a href="/planning/search/group/{{_id}}">
                     <button type="button" class="totalGroup2 btn btn-secondary btn-sm">
                         {{description}}
                     </button>

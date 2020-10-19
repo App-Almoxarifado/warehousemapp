@@ -3,7 +3,7 @@ require("../models/Group");
 const Group = mongoose.model("groups");
 
 
-//EXIBINDO GRUPOS POR LISTA
+//EXIBINDO TIPOS POR LISTA
 exports.getList = async (req, res) => {
   try {
     const file = req.file
@@ -69,16 +69,18 @@ exports.getTable = async (req, res) => {
       );
     }
     page = Number(page || 1);
-    limit = limit ? Number(limit) : 5;
+    limit = limit ? Number(limit) : 10;
     const quant = await Group.find(
       filtros.length > 0 ? { $or: filtros } : {}
     ).estimatedDocumentCount();
 
+    //UTILIZANDO O AGGREGATE
     const groups = await Group.aggregate([
-      { $match: filtros.length > 0 ? { $or: filtros } : {active:true} },
-      { $skip: page > 1 ? (page - 1) * limit : 0 },
-      { $limit: limit },
+      //{ $match: filtros.length > 0 ? { $or: filtros } : { active: true, emailLaunch: req.user.email } },
+      { $match: filtros.length > 0 ? { $or: filtros } : {} },
       { $sort: { description: 1 } },
+      { $limit: limit },
+      { $skip: page > 1 ? (page - 1) * limit : 0 },
       {
         $lookup:
         {
@@ -91,10 +93,23 @@ exports.getTable = async (req, res) => {
       { $unwind: "$user" },
     ])
 
+    //console.log(groups)
+    //USANDO O FIND
+    /*var groups = await Group.find(filtros.length > 0 ? { $or: filtros } : {})
+      .sort({ description: "asc" })
+      .limit(limit)
+      .skip(page > 1 ? (page - 1) * limit : 0)
+      .populate("userEdition")
+      .populate("userLaunch");*/
+
+
     res.render("groups/table", {
+      //groups: groups.map((groups) => groups.toJSON()),
       groups,
       prev: Number(page) > 1,
       next: Number(page) * limit < quant,
+      page,
+      limit,
       site,
       file
     });
@@ -215,7 +230,7 @@ exports.postCreate = async (req, res) => {
     });
   } else {
     try {
-      const groups = new Group({
+      await Group.create({
         qrcode: req.body.description
           .normalize("NFD")
           .replace(/[\u0300-\u036f]/g, "") // Remove acentos
@@ -232,7 +247,7 @@ exports.postCreate = async (req, res) => {
         userEdtion: req.body.userEdtion,
         emailEdtion: req.body.emailEdtion,
       });
-      await groups.save();
+      
       req.flash("success_msg", "Grupo criado com sucesso!");
       res.redirect("/groups");
       console.log("Grupo criado com sucesso!");
@@ -250,8 +265,8 @@ exports.postCreate = async (req, res) => {
 exports.getUpdate = async (req, res) => {
   try {
     const file = req.file
-    var type = await Group.findOne({ _id: req.params.id }).lean();
-    res.render("groups/edit", { type: type, file });
+    var group = await Group.findOne({ _id: req.params.id }).lean();
+    res.render("groups/edit", { group:group, file });
   } catch (_err) {
     req.flash("error_msg", "Ops, Houve um erro interno!");
     res.redirect("/groups");
@@ -259,7 +274,7 @@ exports.getUpdate = async (req, res) => {
 };
 
 exports.postUpdate = async (req, res) => {
-  var type = await Group.findOne({ _id: req.body.id });
+  var group = await Group.findOne({ _id: req.body.id });
   var erros = [];
   if (
     !req.body.description ||
@@ -290,23 +305,23 @@ exports.postUpdate = async (req, res) => {
     });
   } else {
     try {
-      (type.qrcode = req.body.description
+      (group.qrcode = req.body.description
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "") // Remove acentos
         .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
         .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
         .replace(/(^-+|-+$)/, "")), // Remove hífens extras do final ou do inicio da string
-        (type.image = req.file.location),
-        (type.key = req.file.key), //.slice(0, -1),
-        (type.description = req.body.description),
-        //(type.releaseDateOf = req.body.releaseDateOf),
-        //(type.userLaunch = req.body.userLaunch),
-        //(type.emailLaunch = req.body.emailLaunch),
-        (type.editionDate = req.body.editionDate),
-        (type.userEdtion = req.body.userEdtion),
-        (type.emailEdtion = req.body.emailEdtion);
+        (group.image = req.file.location),
+        (group.key = req.file.key), //.slice(0, -1),
+        (group.description = req.body.description),
+        //(group.releaseDateOf = req.body.releaseDateOf),
+        //(group.userLaunch = req.body.userLaunch),
+        //(group.emailLaunch = req.body.emailLaunch),
+        (group.editionDate = req.body.editionDate),
+        (group.userEdtion = req.body.userEdtion),
+        (group.emailEdtion = req.body.emailEdtion);
 
-      await type.save();
+      await group.save();
       req.flash("success_msg", "Grupo editado com sucesso!");
       res.redirect("/groups");
       console.log("Grupo editado com sucesso!");
@@ -390,7 +405,7 @@ exports.postCreateId = async (req, res) => {
 
 //DELETANDO UM TIPO
 exports.getDelete = async (req, res) => {
-  await Group.remove({ _id: req.params.id });
+  await Group.findByIdAndRemove(req.params._id);
   try {
     req.flash("success_msg", "Grupo deletado com Sucesso!");
     res.redirect("/groups");

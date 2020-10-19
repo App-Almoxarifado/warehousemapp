@@ -2,27 +2,31 @@
     <!-- Sidebar  -->
     <nav id="sidebar" class="active">
         <div class="sidebar-header text-center">
-        <img src="{{user.image}}" style="width: 3rem;" alt="" class="rounded-circle">
+            <img src="{{user.image}}" style="width: 3rem;" alt="" class="rounded-circle">
             <h6>{{user.nome}}</h6>
-         
+
             <strong class="px-2">{{first user.nome}}</strong>
         </div>
 
         <ul class="list-unstyled components">
             <li>
-                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                <a href="/">
                     <i class="fas fa-home"></i>
                     Home
                 </a>
+                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                <i class="fas fa-chart-line"></i>
+                Planejamento  
+                </a>
                 <ul class="collapse list-unstyled" id="homeSubmenu">
                     <li>
-                        <a href="/groups">Grupos</a>
+                        <a href="/planning">Dashboard</a>
                     </li>
                     <li>
-                        <a href="#">Home 2</a>
+                        <a href="/planning/products">Produtos</a>
                     </li>
                     <li>
-                        <a href="#">Home 3</a>
+                        <a href="/warehouse">Home 3</a>
                     </li>
                 </ul>
             </li>
@@ -65,24 +69,24 @@
                     Contact
                 </a>
             </li>
-        {{#if user}}
-<li>
-      <a href="/usuarios/logout">
-      <i class="fas fa-times"></i>
-      Sair</a>
-</li>
-      {{else}}
-<li>
-      <a  href="/usuarios/login">
-      <i class="fas fa-sign-in-alt"></i>
-      Login</a>
+            {{#if user}}
+            <li>
+                <a href="/usuarios/logout">
+                    <i class="fas fa-times"></i>
+                    Sair</a>
+            </li>
+            {{else}}
+            <li>
+                <a href="/usuarios/login">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Login</a>
 
 
-      <a href="/usuarios/registro">
-      <i class="fas fa-user-plus"></i>
-      Registro</a>
-</li>
-      {{/if}}
+                <a href="/usuarios/registro">
+                    <i class="fas fa-user-plus"></i>
+                    Registro</a>
+            </li>
+            {{/if}}
 
         </ul>
     </nav>

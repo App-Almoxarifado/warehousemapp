@@ -29,22 +29,25 @@ const Collaborator = mongoose.model("collaborators");
 //VIZUALIZANDO PRODUTOS PARA FAZER PEDIDO
 exports.request = async (req, res) => {
   try {
+    /*
     const customers = await Client.find({ active: true })
       .sort({ description: "asc" })
       .lean();
-    /*
+    */
+    
     if(req.user.admin)
       customers = await Client.find({ active: true })
       .sort({ description: "asc" })
       .lean();
     else customers = req.user.sites;
-    */
+    
     const groups = await Group.find({ active: true })
       .sort({ description: "asc" })
       .lean();
 
     const subgroups = await Subgroup.find({ active: true })
       .sort({ description: "asc" })
+
       .lean();
 
     const types = await Type.find({ active: true })
@@ -59,7 +62,7 @@ exports.request = async (req, res) => {
 
     const filtros = {
       $or: [],
-      $and: [],
+      $and:[],
     };
 
     let {
@@ -97,18 +100,17 @@ exports.request = async (req, res) => {
     const quant = await Product.find(filtros).estimatedDocumentCount();
 
     const stock = await Product.aggregate([
-
       {
         $group: {
-          _id: "$fullDescription",
+          _id: "$group",
           quant: {
             $sum: 1
           },
           quantity: {
-            $sum: "$stockQuantity"
+            $sum: "$description"
           },
           qu: {
-            $sum: "$inputAmount"
+            $sum: "$description"
           }
         }
       }
@@ -117,7 +119,7 @@ exports.request = async (req, res) => {
     
     const groupChart = await Product.aggregate([
       {
-        $match: filtros
+        $match: filtros.length > 0 ? { $or: filtros } : {}
       },
       {
         $group: {
@@ -137,6 +139,32 @@ exports.request = async (req, res) => {
           localField: "_id",
           foreignField: "_id",
           as: "group"
+        }
+      }
+    ])
+
+    const typeChart = await Product.aggregate([
+      {
+        $match: filtros.length > 0 ? { $or: filtros } : { active: true }
+      },
+      {
+        $group: {
+          _id: "$kindOfEquipment",
+          quant: {
+            $sum: 1
+          },
+          quantity: {
+            $sum: "$stockQuantity"
+          }
+        }
+      },
+      {
+        $lookup:
+        {
+          from: "types",
+          localField: "_id",
+          foreignField: "_id",
+          as: "tp"
         }
       }
     ])
@@ -178,7 +206,8 @@ exports.request = async (req, res) => {
       subgroup,
       type,
       stock,
-      groupChart
+      groupChart,
+      typeChart
     });
   } catch (err) {
     console.log(err);

@@ -49,23 +49,9 @@ const unityRoute = require("./routes/unity-route");
 const statusRoute = require("./routes/status-route");
 //Tipos de Equipamentos
 const typesRoute = require("./routes/type-route");
-//Produtos Mostar Dadod(Leitura)
-const productReadRoute = require("./routes/productRead-route");
-//Produtos Carrinho de Compras
-const productCartRoute = require("./routes/productCart-route");
-//Produtos Criar e Deletar
-const productCreateAndDeleteRoute = require("./routes/productCreateAndDelete-route");
-//Produtos Criar Novo pelo Id
-const productCreateIdRoute = require("./routes/productCreateId-route");
-//Produtos Update
-const productUpdateRoute = require("./routes/productUpdate-route");
-//Produtos Pedidos
-const productTakeRoute = require("./routes/productTake-route");
-//Produtos Movimentação Interna
-const productMovementRoute = require("./routes/productMovement-route");
-//Recebimento de Produtos
-const productReceivementRoute = require("./routes/productReceivement-route");
-//Transferência de Produtos
+//Produtos 
+const productRoute = require("./routes/product-route");
+//PEDIDOS
 const transferRoute = require("./routes/transfer-route");
 //Dashboards
 const dashboardRoute = require("./routes/dashboard-route");
@@ -73,6 +59,8 @@ const dashboardRoute = require("./routes/dashboard-route");
 const planningRoute = require("./routes/planning-route");
 //Planejamento
 const itemRoute = require("./routes/item-route");
+//Planejamento
+const warehouseRoute = require("./routes/warehouse-route");
 
 const passport = require("passport");
 require("./config/auth")(passport);
@@ -238,19 +226,11 @@ app.use("/breaks", intervalRoute);
 app.use("/unitys", unityRoute);
 app.use("/status", statusRoute);
 app.use("/types", typesRoute);
-app.use("/products", productCartRoute);
-app.use("/products", productReadRoute);
-app.use("/products", productCreateAndDeleteRoute);
-app.use("/products", productCreateIdRoute);
-app.use("/products", productUpdateRoute);
-app.use("/products", productTakeRoute);
-app.use("/products", productMovementRoute);
-app.use("/products", productReadRoute);
-app.use("/products", productReceivementRoute);
-app.use("/products", transferRoute);
+app.use("/products", productRoute);
 app.use("/planning", planningRoute);
 app.use("/dashboards", dashboardRoute);
 app.use("/items", itemRoute);
+app.use("/warehouse", warehouseRoute);
 
 //Server
 const PORT = process.env.PORT || 3000;

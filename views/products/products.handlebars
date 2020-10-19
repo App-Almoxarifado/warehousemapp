@@ -1,340 +1,376 @@
 <div class="mt-2 container">
+  {{#each erros}}
+  <div class="alert alert-danger">{{texto}}</div>
+  {{else}}
+  {{/each}}
   <!--<canvas class="line-chart"></canvas>-->
+  <div class="d-none d-md-none d-print-block">
+    <div class="d-flex justify-content-center">
 
+      <h3>Produtos</h3>
+    </div>
+  </div>
+  <div class="d-none d-md-block d-print-none">
+    <div class="d-flex justify-content-center">
+      <div class="p-1 mr-auto">
+        <h3>Produtos</h3>
+      </div>
 
-  <div class="d-flex">
-    <div class="mr-auto p-2">
-      <a href="/products/add">
-        <button class="btn btn-success">
-          Cadastro
-        </button>
-      </a>
-    </div>
-
-    <div class="p-2">
-      <a href="/products">
-        <button type="button" class="btn btn-primary">
-          Lista
-          <i class="fas fa-th-list"></i>
-        </button>
-      </a>
-    </div>
-    <div class="p-2">
-      <a href="/products/table">
-        <button type="button" class="btn btn-primary">
-          Tabela
-          <i class="fas fa-table"></i>
-        </button>
-      </a>
-    </div>
-    <div class="d-none d-md-block">
-      <div class="p-2">
-        <a href="/products/cart">
-          <button type="button" class="btn btn-secondary">
-            <small><strong>Meus Pedidos <i class="fas fa-dolly"></i></strong></small>
+      <div class="p-0 mr-1">
+        <a href="/products">
+          <button type="button" class="btn btn-primary btn-sm">
+            Lista
+            <i class="fas fa-th-list"></i>
           </button>
         </a>
       </div>
-    </div>
-  </div>
-
-  <div class="d-block d-md-none">
-    <div class="d-flex">
-      <div class="mr-auto p-2">
+      <div class="p-0 mr-1">
         <a href="/products/table">
-          <button type="button" class="btn btn-primary">
-            <small><strong>Total Cadastrados {{total}}</strong></small>
+          <button type="button" class="btn btn-primary btn-sm">
+            Tabela
+            <i class="fas fa-table"></i>
           </button>
         </a>
       </div>
-      <div class=" p-2">
-        <a href="/products/receivement">
-          <button type="button" class="btn btn-secondary">
-            <small><strong>Meus Pedidos <i class="fas fa-dolly"></i></strong></small>
+      <div class="p-0">
+        <a href="/products/add">
+          <button class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom" title="Cadastre ">
+            Cadastre um novo Produto <i class="fas fa-paper-plane"></i>
           </button>
         </a>
       </div>
     </div>
-  </div>
 
+    <div class="d-flex justify-content-center">
+      <div class="p-1 mr-auto">
+        <div class="form-group row">
+          <label for="client" class="col-sm-7 col-form-label col-form-label-sm">Itens p/ página</label>
+          <div class="col-sm-5">
+            <select class="custom-select custom-select-sm" id="limit" name="limit" onchange="setLimit()">
+              <option value="5" {{#if_eq limit 5}}selected{{/if_eq}}>5</option>
+              <option value="10" {{#if_eq limit 10}}selected{{/if_eq}}>10</option>
+              <option value="25" {{#if_eq limit 25}}selected{{/if_eq}}>25</option>
+              <option value="50" {{#if_eq limit 50}}selected{{/if_eq}}>50</option>
+              <option value="100" {{#if_eq limit 100}}selected{{/if_eq}}>100</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="p-1 ">
+        <p><small>Mais Detalhes</small></p>
+      </div>
+      <div class="p-1 ">
 
-  <hr>
+        <select class="custom-select custom-select-sm" name="SelectOptions" id="SelectOptions">
+          <option selected>Escolher...</option>
+          <option value="liTypes01">Id</option>
+          <option value="liTypes02">imagem</option>
+          <option value="liTypes03">QrCode</option>
+          <option value="liTypes04">Descrição</option>
+          <option value="liTypes05">Data de Lançamento</option>
+          <option value="liTypes06">Usuário Lançamento</option>
+          <option value="liTypes07">Email Lançamento</option>
+          <option value="liTypes08">Data Edição</option>
+          <option value="liTypes09">Usuário Edição</option>
+          <option value="liTypes10">Email Edição</option>
+          <option value="liTypes11">Ações</option>
+        </select>
+      </div>
 
-  <div class="d-none d-md-block">
-    <div class="form-row">
-      <div id="graf01" class="grafRight col-6 col-md-2 text-center" aria-hidden="true" style="display: none;">
-        <button type="button" class="btn btn-primary btn-lg btn-block"><small><strong>Total
-              Cadastrados<br><br>{{total}}</strong></small></button>
+      <div class="p-1">
+        <div class="input-group input-group-sm mb-3">
+          <input type="text-sm" class="form-control" id="search" name="search" placeholder="Pesquise aqui...">
+        </div>
       </div>
-      <div id="graf02" class="grafRight col-6  col-md-2 text-center" aria-hidden="true" style="display: none;">
-        <button type="button"
-          class="btn btn-success btn-lg btn-block"><small><strong>Ok<br><br>{{totalOk}}</strong></small></button>
-      </div>
-      <div id="graf03" class="grafRight col-6  col-md-2 text-center" aria-hidden="true" style="display: none; ">
-        <button type="button" class="btn btn-warning btn-lg btn-block"><small><strong>Precisa de
-              Manutenção<br>{{totalMaintenance }}</strong></small></button>
-      </div>
-      <div id="graf04" class="grafRight col-6  col-md-2 text-center" aria-hidden="true" style="display: none; ">
-        <button type="button"
-          class="btn btn-danger btn-lg btn-block"><small><strong>Segregados<br><br>{{totalBad}}</strong></small></button>
-      </div>
-      <div id="graf05" class="grafRight col-6 col-md-2 text-center" aria-hidden="true" style="display: none; ">
-        <button type="button" class="btn btn-secondary btn-lg btn-block"><small><strong>Requer Calibr./
-              Certif.<br>{{totalCalibration}}</strong></small></button>
-      </div>
-      <div id="graf06" class="grafRight col-6 col-md-2 text-center" aria-hidden="true" style="display: none;">
-        <button type="button"
-          class="btn btn-info btn-lg btn-block"><small><strong>Ativos<br><br>{{totalActive}}</strong></small></button>
-      </div>
-    </div>
-  </div>
 
-  <div class="d-none d-md-block ">
-    <div class="form-row">
-      <div id="graf07" class="grafLeft col-4 mt-2 col-md-2 text-center" aria-hidden="true" style="display: none;">
-        <button type="button" class="btn btn-info btn-lg btn-block"><small><strong>Consumiveis de
-              Produção<br>{{group01}}</strong></small></button>
+      <div class="p-1">
+        <button type="button" class="btn btn-primary btn-sm" onclick="search()">
+          <i class="fa fa-search" aria-hidden="true"></i>
+        </button>
       </div>
-      <div id="graf08" class="grafLeft col-4 mt-2 col-md-2 text-center" aria-hidden="true" style="display: none;">
-        <button type="button" class="btn btn-secondary btn-lg btn-block"><small><strong>Ferramentas e
-              Acessórios<br>{{group02}}</strong></small></button>
-      </div>
-      <div id="graf09" class="grafLeft col-4 mt-2 col-md-2 text-center" aria-hidden="true" style="display: none; ">
-        <button type="button" class="btn btn-danger btn-lg btn-block"><small><strong>Infraestrutura de obra e
-              mobilia<br>{{group03}}</strong></small></button>
-      </div>
-      <div id="graf10" class="grafLeft col-4 mt-2 col-md-2 text-center" aria-hidden="true" style="display: none; ">
-        <button type="button" class="btn btn-dark btn-lg btn-block"><small><strong>Máquinas e
-              Equipamentos<br>{{group04}}</strong></small></button>
-      </div>
-      <div id="graf11" class="grafLeft col-4 mt-2 col-md-2 text-center" aria-hidden="true" style="display: none; ">
-        <button type="button"
-          class="btn btn-success btn-lg btn-block"><small><strong>Metrologia<br><br>{{group05}}</strong></small></button>
-      </div>
-      <div id="graf12" class="grafLeft mt-2 col-4 col-md-2 text-center" aria-hidden="true" style="display: none;">
-        <button type="button" class="btn btn-primary btn-lg btn-block"><small><strong>Saúde e
-              Segurança<br><br>{{group06}}</strong></small></button>
-      </div>
+
     </div>
   </div>
 
 
 
-
-  <div class="d-flex">
-    <div class="p-2">
-      <input type="text" class="form-control" id="search" name="search" placeholder="Pesquise aqui..."
-        onchange="this.value=this.value.toLowerCase()" />
+  <div class="d-block d-md-none d-print-none">
+    <div class="d-flex justify-content-center">
+      <h3>Produtos</h3>
+      <hr>
     </div>
 
-    <div class="p-2">
-      <button type="button" class="btn btn-primary" onclick="search()">
-        <i class="fa fa-search" aria-hidden="true"></i>
-      </button>
+    <div class="d-flex justify-content-center">
+      <a href="/products/add">
+        <button class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom"
+          title="Cadastre um novo produto">
+          Cadastre um novo Produto <i class="fas fa-paper-plane"></i>
+        </button>
+      </a>
+    </div>
+
+
+    <div class="d-flex justify-content-center">
+      <div class="p-1">
+        <div class="input-group input-group-sm mb-3">
+          <input type="text-sm" class="search form-control" id="searchMobile" name="searchMobile"
+            placeholder="Pesquise aqui..." onchange="this.value=this.value.toLowerCase()" />
+        </div>
+      </div>
+
+      <div class="p-1 ">
+        <button type="button" class="btn btn-primary btn-sm" onclick="search()">
+          <i class="fa fa-search" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+
+
+    <div class="d-flex justify-content-center">
+      <div class="p-1">
+        <label for="client" class="col-sm-7 col-form-label col-form-label-sm">Itens p/ página</label>
+        <div class="col-sm-5">
+          <select class="custom-select custom-select-sm" id="limitMobile" name="limitMobile" onchange="setLimit()">
+            <option value="5" {{#if_eq limit 5}}selected{{/if_eq}}>5</option>
+            <option value="10" {{#if_eq limit 10}}selected{{/if_eq}}>10</option>
+            <option value="25" {{#if_eq limit 25}}selected{{/if_eq}}>25</option>
+            <option value="50" {{#if_eq limit 50}}selected{{/if_eq}}>50</option>
+            <option value="100" {{#if_eq limit 100}}selected{{/if_eq}}>100</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <div class="p-1 ">
+        <select class="custom-select custom-select-sm" name="SelectOptionsMobile" id="SelectOptionsMobile">
+          <option selected>Mais Detalhes</option>
+          <option value="liTypes01">Id</option>
+          <option value="liTypes02">imagem</option>
+          <option value="liTypes03">QrCode</option>
+          <option value="liTypes04">Descrição</option>
+          <option value="liTypes05">Data de Lançamento</option>
+          <option value="liTypes06">Usuário Lançamento</option>
+          <option value="liTypes07">Email Lançamento</option>
+          <option value="liTypes08">Data Edição</option>
+          <option value="liTypes09">Usuário Edição</option>
+          <option value="liTypes10">Email Edição</option>
+          <option value="liTypes11">Ações</option>
+        </select>
+      </div>
     </div>
   </div>
 
   <!--VIZULIZAÇÃO EM LISTA-->
   {{#each products}}
-  <!--INFORMAÇÃOES PARA ADICIONAR NA REQUISIÇÃO-->
-  <form action="/products/updateItem" method="POST">
-    <input type="hidden" class="mt-2 form-control" id="id" name="id" value="{{_id}}">
-    <input type="hidden" class="mt-2 form-control" id="qrcode" name="qrcode" value="{{qrcode}}">
-    <input type="hidden" class="mt-2 form-control" id="image" name="image" value="{{image}}">
-    <input type="hidden" class="mt-2 form-control" id="group" name="group" value="{{group._id}}">
-    <input type="hidden" class="mt-2 form-control" id="subgroup" name="subgroup" value="{{subgroup._id}}">
-    <!--<input type="hidden" class="mt-2 form-control" id="fullDescription" name="fullDescription" value="{{fullDescription}}">-->
-    <!--<input type="hidden" class="mt-2 form-control" id="stockCode" name="stockCode" value="{{stockCode}}">-->
-    <!--<input type="hidden" class="mt-2 form-control" id="localArea" name="localArea" value="{{localArea._id}}">-->
-    <input type="hidden" class="mt-2 form-control" id="local" name="local" value="{{local._id}}">
-    <input type="hidden" class="mt-2 form-control" id="sublease" name="sublease" value="{{sublease._id}}">
-    <input type="hidden" class="mt-2 form-control" id="patrimonialAsset" name="patrimonialAsset"
-      value="{{patrimonialAsset}}">
-    <input type="hidden" class="mt-2 form-control" id="description" name="description" value="{{description}}">
-    <input type="hidden" class="mt-2 form-control" id="manufacturer" name="manufacturer" value="{{manufacturer}}">
-    <input type="hidden" class="mt-2 form-control" id="model" name="model" value="{{model}}">
-    <input type="hidden" class="mt-2 form-control" id="capacityReach" name="capacityReach" value="{{capacityReach}}">
-    <input type="hidden" class="mt-2 form-control" id="serialNumber" name="serialNumber" value="{{serialNumber}}">
-    <input type="hidden" class="mt-2 form-control" id="physicalStatus" name="physicalStatus"
-      value="{{physicalStatus._id}}">
-    <input type="hidden" class="mt-2 form-control" id="kindOfEquipment" name="kindOfEquipment"
-      value="{{kindOfEquipment._id}}">
-    <input type="hidden" class="mt-2 form-control" id="requiresCertificationCalibration"
-      name="requiresCertificationCalibration" value="{{requiresCertificationCalibration}}">
-    <input type="hidden" class="mt-2 form-control" id="inputAmount" name="inputAmount" value="{{inputAmount}}">
-    <input type="hidden" class="mt-2 form-control" id="inputAmountSite" name="inputAmountSite"
-      value="{{inputAmountSite}}">
-    <input type="hidden" class="mt-2 form-control" id="outputQuantity" name="outputQuantity" value="{{outputQuantity}}">
-    <input type="hidden" class="mt-2 form-control" id="stockQuantity" name="stockQuantity" value="{{stockQuantity}}">
-    <input type="hidden" class="mt-2 form-control" id="stockTotal" name="stockTotal" value="{{stockTotal}}">
-    <input type="hidden" class="mt-2 form-control" id="unity" name="unity" value="{{unity._id}}">
-    <input type="hidden" class="mt-2 form-control" id="weightKg" name="weightKg" value="{{weightKg}}">
-    <input type="hidden" class="mt-2 form-control" id="faceValue" name="faceValue" value="{{faceValue}}">
-    <input type="hidden" class="mt-2 form-control" id="dimensionsWxLxH" name="dimensionsWxLxH"
-      value="{{dimensionsWxLxH}}">
-    <input type="hidden" class="mt-2 form-control" id="certificate" name="certificate" value="{{certificate}}">
-    <input type="hidden" class="mt-2 form-control" id="entityLaboratory" name="entityLaboratory"
-      value="{{entityLaboratory}}">
-    <input type="hidden" class="mt-2 form-control" id="frequency" name="frequency" value="{{frequency._id}}">
-    <input type="hidden" class="mt-2 form-control" id="calibrationDate" name="calibrationDate"
-      value="{{calibrationDate}}">
-    <input type="hidden" class="mt-2 form-control" id="calibrationValidity" name="calibrationValidity"
-      value="{{calibrationValidity}}">
-    <input type="hidden" class="mt-2 form-control" id="calibrationStatus" name="calibrationStatus"
-      value="{{calibrationStatus}}">
-    <input type="hidden" class="mt-2 form-control" id="po" name="po" value="{{po}}">
-    <input type="hidden" class="mt-2 form-control" id="sapCode" name="sapCode" value="{{sapCode}}">
-    <input type="hidden" class="mt-2 form-control" id="ncmCode" name="ncmCode" value="{{ncmCode}}">
-    <input type="hidden" class="mt-2 form-control" id="provider" name="provider" value="{{provider._id}}">
-    <input type="hidden" class="mt-2 form-control" id="note" name="note" value="{{note}}">
-    <input type="hidden" class="mt-2 form-control" id="activeStatus" name="activeStatus" value="{{activeStatus}}">
-    <!--CONTROLE DE USUÁRIOS LANÇAMENTO DO MATERIAL-->
-    <input type="hidden" class="mt-2 form-control" id="releaseDateOf" name="releaseDateOf" value="{{releaseDateOf}}">
-    <input type="hidden" class="mt-2 form-control" id="userLaunch" name="userLaunch" value="{{userLaunch._id}}">
-    <input type="hidden" class="mt-2 form-control" id="emailLaunch" name="emailLaunch" value="{{emailLaunch}}">
-    <!--CONTROLE DE USUÁRIOS ÚLTIMO LANÇAMENTO DO MATERIAL-->
-    <input type="hidden" class="mt-2 form-control" id="editionDate" name="editionDate" value="{{editionDate}}">
-    <input type="hidden" class="mt-2 form-control" id="userEdtion" name="userEdtion" value="{{userEdtion}}">
-    <input type="hidden" class="mt-2 form-control" id="emailEdtion" name="emailEdtion" value="{{emailEdtionn}}">
 
-    <div class="card" style="background-color: transparent;">
-      <div class="card-body">
-        <div class="d-flex">
-          <div class="mr-auto p-2">
-            <h6>{{fullDescription}}</h6>
+  <!--INFORMAÇÃOES PARA ADICIONAR NA REQUISIÇÃO-->
+  <!--<form id="form_dev" method="POST">
+    <input type="hidden" class="mt-2 form-control"  name="id" value="{{_id}}">
+    <input type="hidden" class="mt-2 form-control"  name="qrcode" value="{{qrcode}}">
+    <input type="hidden" class="mt-2 form-control"  name="image" value="{{image}}">
+    <input type="hidden" class="mt-2 form-control"  name="description" value="{{description}}">
+    <!--CONTROLE DE USUÁRIOS LANÇAMENTO DO MATERIAL-->
+  <!--<input type="hidden" class="mt-2 form-control"  name="createdAt"
+      value="{{#formatDate date}}{{/formatDate}}">
+    <input type="hidden" class="mt-2 form-control"  name="userLaunch" value="{{user._id}}">
+    <input type="hidden" class="mt-2 form-control"  name="emailCreate" value="{{emailCreate}}">
+    <!--CONTROLE DE USUÁRIOS ÚLTIMO LANÇAMENTO DO MATERIAL-->
+  <!--<input type="hidden" class="mt-2 form-control"  name="updatedAt"
+      value="{{#formatDate date}}{{/formatDate}}">
+    <input type="hidden" class="mt-2 form-control"  name="userEdtion" value="{{user._id}}">
+    <input type="hidden" class="mt-2 form-control"  name="emailEdtion" value="{{emailEdtion}}">-->
+
+
+
+  <div class="card" style="background-color: transparent;">
+    <div class="card-body">
+      <!--TELA MD-->
+      <div class="d-none d-md-block d-print-block">
+
+        <div class="d-flex justify-content-center">
+          <div class="liTypes04 mr-auto p-0">
+            <h3 class="liTypes04">{{description}}</h3>
+          </div>
+          {{#if ../ user.eDevAdmin}}
+          <div class="liTypes11 p-0 mr-1">
+            <button id="updateDev" type="submit" class="mt-1 mb-1 btn btn-secondary btn-sm" data-toggle="tooltip"
+              data-placement="right" title="Inserir produto na solicitação atual">
+              <i class="fas fa-cart-arrow-down"></i></button>
           </div>
 
-          <div class="col-4 col-md-2 text-right">
+          <div class="liTypes11 p-0 mr-1">
+            <button id="saveDev" type="submit" class="mt-1 mb-1 btn btn-success btn-sm" data-toggle="tooltip"
+              data-placement="bottom" title="Dar entrada no Material">
+              <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+          </div>
 
-            <button type="submit" class="mt-1 mb-1 btn btn-primary btn-sm">
-              <i class="fas fa-cart-arrow-down"></i></button>
-
-            <!--<button id="saveCart" type="submit" class="mt-1 mb-1 btn btn-success btn-sm">
-                                <i class="fa fa-paper-plane" aria-hidden="true"></i></button>-->
-
-
-            <a href="/products/add_id/{{_id}}" class="mt-1 mb-1 btn btn-success btn-sm" data-toggle="tooltip"
-              data-placement="bottom" title="Criar novo produto a partir dessas informações">
+          <div class="liTypes11 p-0 mr-1">
+            <a href="/products/add_id/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
+              data-placement="left" title="Criar novo a partir dessas informações">
               <i class="far fa-clone"></i>
             </a>
+          </div>
 
-            <a href="/products/edit/{{_id}}" class="mt-1 mb-1 btn btn-secondary btn-sm" data-toggle="tooltip"
+          <div class="liTypes11 p-0 mr-1">
+            <a href="/products/edit/{{_id}}" class="mt-1 mb-1 btn btn-dark btn-sm" data-toggle="tooltip"
               data-placement="bottom" title="Editar Produto">
               <i class="fas fa-pen"></i>
             </a>
+          </div>
 
+          <div class="liTypes11 p-0">
             <a href="/products/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
               data-placement="bottom" title="Deletar Produto">
               <i class="fas fa-trash-alt"></i>
             </a>
+          </div>
+          {{else}}
+          <div class="liTypes11 p-0 mr-1">
+            <a href="/products/edit/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
+              data-placement="bottom" title="Editar Produto">
+              <i class="fas fa-pen"></i>
+            </a>
+          </div>
 
+          <div class="liTypes11 p-0">
+            <a href="/products/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
+              data-placement="bottom" title="Deletar Produto">
+              <i class="fas fa-trash-alt"></i>
+            </a>
+          </div>
+          {{/if}}
+        </div>
+        <hr />
+
+        <div class="row no-gutters position-relative">
+
+          <div class="d-flex col-md-4 justify-content-center">
+            <div class="liTypes02 p-0">
+              <img src="{{image}}" style="width: 10rem;" class="rounded " alt="..." />
+            </div>
+            <div class="liTypes03 p-0" style="display: none;">
+              <img id="qrcode" name="qrcode" src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{_id}}"
+                style="width: 10rem;" class="rounded mr-3" />
+            </div>
+          </div>
+
+
+          <div class="col-md-4 position-static p-0 pl-md-0 text-center">
+            <p class="liTypes01 mt-0 mb-1"><small><b>Id: </b>{{_id}}</small></p>
+            <p class="liTypes05 mt-0 mb-1"><small><b>Data de Lançamento: </b>{{createdAt}}</small></p>
+            <p class="liTypes08 mt-0 mb-1" style="display: none;"><small><b>Última Modificação:
+                </b>{{updatedAt}}</small></p>
+          </div>
+
+          <div class="col-md-4 position-static p-0 pl-md-0 text-center">
+            <p class="liTypes06 mt-0 mb-1"><small><b>Usuário Lançamento: </b>{{created.name}}</small></p>
+            <p class="liTypes07 mt-0 mb-1"><small><b>Email Lançamento: </b>{{emailCreated}}</small></p>
+            <p class="liTypes09 mt-0 mb-1" style="display: none;"><small><b>Usuário Edição:
+                </b>{{updated.name}}</small></p>
+            <p class="liTypes10 mt-0 mb-1" style="display: none;"><small><b>Email Edição: </b>{{emailUpdated}}</small>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!--TELA MOBILE-->
+      <div class="d-block d-md-none d-print-block">
+        <div class="d-flex justify-content-center">
+          <div class="mr-auto p-0">
+            <h6 class="liTypes04">{{description}}</h6>
           </div>
         </div>
         <hr />
+
         <div class="row no-gutters position-relative">
-          <div class="col-6 col-md-2 mb-md-0 p-md-0 text-center">
-            <img src="{{image}}" style="width: 8rem;" class="rounded " alt="..." />
+
+          <div class="d-flex col-md-4 justify-content-center">
+            <div class="liTypes02 mr-2 p-0">
+              <img src="{{image}}" style="width: 6rem;" class="rounded " alt="..." />
+            </div>
+            <div class="liTypes03 p-0">
+              <img id="qrcode" name="qrcode" src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{_id}}"
+                style="width: 6rem;" class="rounded mr-3" />
+            </div>
           </div>
-          <div class="col-6 col-md-2 mb-md-0 p-md-0 text-center">
-            <img id="qrcode" name="qrcode" src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{
-                qrcode
-              }}" style="width: 8rem;" class="rounded mr-3" />
+
+
+          <div class="col-md-4 position-static p-0 pl-md-0 text-center">
+            <p class="liTypes01 mt-0 mb-1"><small><b>Id: </b>{{_id}}</small></p>
+            <p class="liTypes05 mt-0 mb-1"><small><b>Data de Lançamento: </b>{{createdAt}}</small></p>
+            <p class="liTypes08 mt-0 mb-1" style="display: none;"><small><b>Última Modificação:
+                </b>{{updatedAt}}</small></p>
           </div>
 
           <div class="col-md-4 position-static p-0 pl-md-0 text-center">
-            <p class="mt-0 mb-1">
-              <small>
-                <b>
-                  Grupo:
-                </b>
-                {{group.description}}
-              </small>
-            </p>
-            <p class="mt-0 mb-1">
-              <small>
-                <b>
-                  Subgrupo:
-                </b>
-                {{subgroup.description}}
-              </small>
-            </p>
-            <p class="mt-0 mb-1">
-              <small>
-                <b>
-                  Localização:
-                </b>
-                {{client.description}}
-              </small>
-            </p>
-            <p class="mt-0 mb-1">
-              <small>
-                <b>
-                  Status Físico:
-                </b>
-                {{physicalStatus.description}}
-              </small>
-            </p>
-            <p class="mt-0 mb-1">
-              <small>
-                <b>
-                  Tipo de Equipamento:
-                </b>
-                {{kindOfEquipment.description}}
-              </small>
+            <p class="liTypes06 mt-0 mb-1"><small><b>Usuário Lançamento: </b>{{created.name}}</small></p>
+            <p class="liTypes07 mt-0 mb-1"><small><b>Email Lançamento: </b>{{emailCreated}}</small></p>
+            <p class="liTypes09 mt-0 mb-1" style="display: none;"><small><b>Usuário Edição:
+                </b>{{updated.name}}</small></p>
+            <p class="liTypes10 mt-0 mb-1" style="display: none;"><small><b>Email Edição: </b>{{emailUpdated}}</small>
             </p>
           </div>
+        </div>
 
-          <div class="col-md-4 position-static p-0 pl-md-0 text-center">
-            <p class="mt-0 mb-1">
-              <small>
-                <b>
-                  Calibração/Certificação:
-                </b>
-                {{calibrationStatus}}
-              </small>
-            </p>
-            <p class="mt-0 mb-1">
-              <small>
-                <b>
-                  Quantidade Entrada:
-                </b>
-                {{inputAmount}}
-              </small>
-            </p>
-            <p class="mt-0 mb-1">
-              <small>
-                <b>
-                  Quantidade Estoque:
-                </b>
-                {{stockQuantity}}
-              </small>
-            </p>
-            <p class="mt-0 mb-1">
-              <small>
-                <b>
-                  Ultima Movimentação:
-                </b>
-                {{editionDate}}
-              </small>
-            </p>
 
-            <a href="/products/move/{{_id}}" class="mt-0 mb-1 btn btn-secondary btn-sm" data-toggle="tooltip"
-              data-placement="bottom" title="Visualizar detalhes">
-              <small>
-                Movimentação Interna
-              </small>
-            </a>
+        <div class="d-block d-md-none d-print-block">
+          <div class="d-flex justify-content-center">
+            {{#if ../ user.eDevAdmin}}
+            <div class="liTypes11 p-0 mr-1">
+              <button id="updateDev" type="submit" class="mt-1 mb-1 btn btn-secondary btn-sm" data-toggle="tooltip"
+                data-placement="right" title="Inserir produto na solicitação atual">
+                <i class="fas fa-cart-arrow-down"></i></button>
+            </div>
 
-            <a href="/products/take/{{_id}}" class="mt-0 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
-              data-placement="bottom" title="Visualizar detalhes">
-              <small>
-                Envio - Solicitação
-              </small>
-            </a>
+            <div class="liTypes11 p-0 mr-1">
+              <button id="saveDev" type="submit" class="mt-1 mb-1 btn btn-success btn-sm" data-toggle="tooltip"
+                data-placement="bottom" title="Dar entrada no Material">
+                <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+            </div>
+
+            <div class="liTypes11 p-0 mr-1">
+              <a href="/products/add_id/{{_id}}" class="mt-1 mb-1 btn btn-dark btn-sm" data-toggle="tooltip"
+                data-placement="left" title="Criar novo a partir dessas informações">
+                <i class="far fa-clone"></i>
+              </a>
+            </div>
+
+            <div class="liTypes11 p-0 mr-1">
+              <a href="/products/edit/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
+                data-placement="bottom" title="Editar Produto">
+                <i class="fas fa-pen"></i>
+              </a>
+            </div>
+
+            <div class="liTypes11 p-0">
+              <a href="/products/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
+                data-placement="bottom" title="Deletar Produto">
+                <i class="fas fa-trash-alt"></i>
+              </a>
+            </div>
+            {{else}}
+            <div class="liTypes11 p-0 mr-1">
+              <a href="/products/edit/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
+                data-placement="bottom" title="Editar Produto">
+                <i class="fas fa-pen"></i>
+              </a>
+            </div>
+
+            <div class="liTypes11 p-0">
+              <a href="/products/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
+                data-placement="bottom" title="Deletar Produto">
+                <i class="fas fa-trash-alt"></i>
+              </a>
+            </div>
+            {{/if}}
           </div>
         </div>
       </div>
     </div>
+
+  </div>
+
   </form>
 
   <br />
@@ -363,65 +399,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  function mostra() {
-    document.getElementById("graf01").style.display = "block";
-  }
-  setTimeout(mostra, 0000)
-
-  function mostra2() {
-    document.getElementById("graf02").style.display = "block";
-  }
-  setTimeout(mostra2, 500)
-
-  function mostra3() {
-    document.getElementById("graf03").style.display = "block";
-  }
-  setTimeout(mostra3, 1000)
-
-  function mostra4() {
-    document.getElementById("graf04").style.display = "block";
-  }
-  setTimeout(mostra4, 1500)
-
-  function mostra5() {
-    document.getElementById("graf05").style.display = "block";
-  }
-  setTimeout(mostra5, 2000)
-
-  function mostra6() {
-    document.getElementById("graf06").style.display = "block";
-  }
-  setTimeout(mostra6, 2500)
-  function mostra7() {
-    document.getElementById("graf07").style.display = "block";
-  }
-  setTimeout(mostra7, 0000)
-
-  function mostra8() {
-    document.getElementById("graf08").style.display = "block";
-  }
-  setTimeout(mostra8, 500)
-
-  function mostra9() {
-    document.getElementById("graf09").style.display = "block";
-  }
-  setTimeout(mostra9, 1000)
-
-  function mostra10() {
-    document.getElementById("graf10").style.display = "block";
-  }
-  setTimeout(mostra10, 1500)
-
-  function mostra11() {
-    document.getElementById("graf11").style.display = "block";
-  }
-  setTimeout(mostra11, 2000)
-
-  function mostra12() {
-    document.getElementById("graf12").style.display = "block";
-  }
-  setTimeout(mostra12, 2500)
-
-</script>

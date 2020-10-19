@@ -66,7 +66,7 @@ const Group = new Schema({
   active: {
     type: Boolean,
     default: "true",
-  },
+  }
 });
 
 Group.pre("save", function () {
