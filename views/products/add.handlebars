@@ -1,4 +1,3 @@
-
 <div class="container">
 
     {{#each erros}}
@@ -9,97 +8,92 @@
 
 
 
-            <h3 class="mt-2">Cadastre um Produto</h3>
+    <h3 class="mt-2">Cadastre um Produto</h3>
 
-            <hr>
-            <form action="/products/add" enctype="multipart/form-data" method="POST">
-                <div class="row no-gutters position-relative">
-                    <div class="upload col-md-4 position-static" style="display:none;">
-                        <div class="d-flex justify-content-center">
-                            <img src="https://warehousemapp.s3.amazonaws.com/logo8.png" class="avatar img-fluid rounded"
-                                alt="" style="width: 16rem;">
-                        </div>
+    <hr>
+    <form action="/products/add" enctype="multipart/form-data" method="POST">
+        <div class="row no-gutters position-relative">
+            <div class="upload col-md-4 position-static" style="display:none;">
+                <div class="d-flex justify-content-center">
+                    <img src="https://warehousemapp.s3.amazonaws.com/logo8.png" class="avatar img-fluid rounded" alt=""
+                        style="width: 16rem;">
+                </div>
+                <figcaption class="figure-caption text-center">Clique na imagem para fazer o upload, a imagem é obrigatória!</figcaption>
+                <div class="d-flex p-1 justify-content-center">
 
-                        <div class="d-flex p-1 justify-content-center">
+                    <input type="file" accept="image/*" name="file" id="file"
+                        class="btn-file text-center center-block file-upload">
+                </div>
+            </div>
+            <div class="col-md-4 position-static px-2">
+                <input type="hidden" class="form-control" id="id" name="id" placeholder="Id">
+                <input type="hidden" class="form-control mt-2" name="image" id="image">
+                <div class="form-row">
 
-                            <input type="file" accept="image/*" name="file" id="file"
-                                class="btn-file text-center center-block file-upload">
-                        </div>
+                    <div class="form-group col-md-12">
+                        <label style="font-size: small ;" for="group">Grupo:</label>
+                        <select class="custom-select custom-select-sm" id="group" name="group"
+                            onchange="location.assign('?gId='+document.getElementById('group').value)">
+                            <option selected disabled value="">Selecione...</option>
+                            {{#each groups}}
+                            <option {{#if_eq ../idGroup _id}}selected{{/if_eq}} value="{{_id}}">{{description}}
+                            </option>
+                            {{else}}
+                            <option value="0">Nenhum grupo registrado</option>
+                            {{/each}}
+                        </select>
                     </div>
-                    <div class="col-md-4 position-static px-2">
-                        <input type="hidden" class="form-control" id="id" name="id" placeholder="Id">
-                        <input type="hidden" class="form-control mt-2" name="image" id="image">
-                        <div class="form-row">
-
-                            <div class="form-group col-md-12">
-                                <label style="font-size: small ;" for="group">Grupo:</label>
-                                <select class="custom-select custom-select-sm" id="group" name="group"
-                                    onchange="location.assign('?gId='+document.getElementById('group').value)">
-                                    <option selected disabled value="">Selecione...</option>
-                                    {{#each groups}}
-                                    <option {{#if_eq ../idGroup _id}}selected{{/if_eq}} value="{{_id}}">{{description}}
-                                    </option>
-                                    {{else}}
-                                    <option value="0">Nenhum grupo registrado</option>
-                                    {{/each}}
-                                </select>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label style="font-size: small ;" for="subgroup">Subgrupo:</label>
-                                <select class="custom-select custom-select-sm" id="subgroup" name="subgroup"
-                                    onchange="viewFile()">
-                                    <option selected disabled value="">Selecione...</option>
-                                    {{#each subgroups}}
-                                    <option value="{{_id}}">{{description}}</option>
-                                    {{else}}
-                                    <option value="0">Nenhum Subgroup registrado</option>
-                                    {{/each}}
-                                </select>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label style="font-size: small ;" for="kindOfEquipment">Tipo de Equipamento:</label>
-                                <select class="custom-select custom-select-sm" id="kindOfEquipment"
-                                    name="kindOfEquipment">
-                                    <option selected disabled value="">Selecione...</option>
-                                    {{#each types}}
-                                    <option value="{{_id}}">{{description}}</option>
-                                    {{else}}
-                                    <option value="0">Nenhum tipo de equipamento registrado</option>
-                                    {{/each}}
-                                </select>
-                            </div>
-                        </div>
+                    <div class="form-group col-md-12">
+                        <label style="font-size: small ;" for="subgroup">Subgrupo:</label>
+                        <select class="custom-select custom-select-sm" id="subgroup" name="subgroup"
+                            onchange="viewFile()">
+                            <option selected disabled value="">Selecione...</option>
+                            {{#each subgroups}}
+                            <option value="{{_id}}">{{description}}</option>
+                            {{else}}
+                            <option value="0">Nenhum Subgroup registrado</option>
+                            {{/each}}
+                        </select>
                     </div>
-
-                    <div class="col-md-4 position-static ">
-                        <div class="form-row">
-                            <div class="form-group col-md-12">
-                                <label style="font-size: small ;" for="name">Descrição:</label>
-                                <input type="text" class="form-control form-control-sm" id="name" name="name"
-                                    placeholder="Descrição do tipo">
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label style="font-size: small ;" for="capacityReach">Capacidade/Alcance:</label>
-                                <input type="text" class="form-control form-control-sm" id="capacityReach"
-                                    name="capacityReach" placeholder="Descrição do tipo">
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label style="font-size: small ;color: transparent"
-                                    for="capacityReach">Capacidade/Alcance:</label>
-                                <input type='submit' class='btn btn-success btn-sm btn-block' value='Salvar'>
-                            </div>
-                        </div>
+                    <div class="form-group col-md-12">
+                        <label style="font-size: small ;" for="kindOfEquipment">Tipo de Equipamento:</label>
+                        <select class="custom-select custom-select-sm" id="kindOfEquipment" name="kindOfEquipment">
+                            <option selected disabled value="">Selecione...</option>
+                            {{#each types}}
+                            <option value="{{_id}}">{{description}}</option>
+                            {{else}}
+                            <option value="0">Nenhum tipo de equipamento registrado</option>
+                            {{/each}}
+                        </select>
                     </div>
                 </div>
-                <!--CONTROLE DE USUÁRIOS LANÇAMENTO -->
-                <input type="hidden" class="form-control mt-2" name="userCreated" id="userCreated"
-                    value="{{user.name}}">
-                <input type="hidden" class="form-control mt-2" name="emailCreated" id="emailCreated"
-                    value="{{user.email}}">
-                <!--CONTROLE DE USUÁRIOS -->
-                <input type="hidden" class="form-control mt-2" name="userUpdated" id="userUpdated"
-                    value="{{user.name}}">
-                <input type="hidden" class="form-control mt-2" name="emailUpdated" id="emailUpdated"
-                    value="{{user.email}}">
-            </form>
+            </div>
+
+            <div class="col-md-4 position-static ">
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label style="font-size: small ;" for="name">Descrição:</label>
+                        <input type="text" class="form-control form-control-sm" id="name" name="name"
+                            placeholder="Descrição do tipo">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label style="font-size: small ;" for="capacityReach">Capacidade/Alcance:</label>
+                        <input type="text" class="form-control form-control-sm" id="capacityReach" name="capacityReach"
+                            placeholder="Descrição do tipo">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label style="font-size: small ;color: transparent"
+                            for="capacityReach">Capacidade/Alcance:</label>
+                        <input type='submit' class='btn btn-success btn-sm btn-block' value='Salvar'>
+                    </div>
+                </div>
+            </div>
         </div>
+        <!--CONTROLE DE USUÁRIOS LANÇAMENTO -->
+        <input type="hidden" class="form-control mt-2" name="userCreated" id="userCreated" value="{{user.name}}">
+        <input type="hidden" class="form-control mt-2" name="emailCreated" id="emailCreated" value="{{user.email}}">
+        <!--CONTROLE DE USUÁRIOS -->
+        <input type="hidden" class="form-control mt-2" name="userUpdated" id="userUpdated" value="{{user.name}}">
+        <input type="hidden" class="form-control mt-2" name="emailUpdated" id="emailUpdated" value="{{user.email}}">
+    </form>
+</div>

@@ -23,11 +23,13 @@ require("../models/Provider");
 const Provider = mongoose.model("providers");
 require("../models/Collaborator");
 const Collaborator = mongoose.model("collaborators");
+require("../models/Request");
+const Request = mongoose.model("requests");
 
 
 
-//VIZUALIZANDO PRODUTOS PARA FAZER PEDIDO
-exports.request = async (req, res) => {
+//DASHBOARD
+exports.dashboard = async (req, res) => {
   try {
     /*
     const customers = await Client.find({ active: true })
@@ -216,20 +218,12 @@ exports.request = async (req, res) => {
   }
 };
 
-
-//VIZUALIZANDO PRODUTOS PARA FAZER PEDIDO
-exports.getSearch = async (req, res) => {
+/*exports.request = async (req, res) => {
   try {
-    const customers = await Client.find({ active: true })
-      .sort({ description: "asc" })
-      .lean();
-    /*
-    if(req.user.admin)
-      customers = await Client.find({ active: true })
-      .sort({ description: "asc" })
-      .lean();
-    else customers = req.user.sites;
-    */
+    var groupId = await Group.findOne({ _id: req.params.id }).lean();
+    if (groupId) {
+      var productGroup = await Product.find({ group: groupId._id }).lean();
+    }
     const groups = await Group.find({ active: true })
       .sort({ description: "asc" })
       .lean();
@@ -242,7 +236,91 @@ exports.getSearch = async (req, res) => {
       .sort({ description: "asc" })
       .lean();
 
-    const statuses = await Status.find({ active: true })
+    const filtros = {
+      $or: [],
+      $and: [],
+    };
+
+    let {
+      search,
+      page,
+      group,
+      subgroup,
+      type,
+      limit,
+    } = req.query;
+
+    if (!!search) {
+      const pattern = new RegExp(`.*${search}.*`);
+      filtros["$or"].push(
+        { tag: { $regex: pattern, $options: 'i' } },
+        { name: { $regex: pattern, $options: 'i' } },
+        { capacityReach: { $regex: pattern, $options: 'i' } },
+        { description: { $regex: pattern, $options: 'i' } },
+      );
+    }
+    if (!!group) filtros["$and"].push({ group: group });
+    if (!!subgroup) filtros["$and"].push({ subgroup: subgroup });
+    if (!!type) filtros["$and"].push({ kindOfEquipment: type });
+
+    page = Number(page || 1);
+    limit = limit ? Number(limit) : 10;
+
+    if (filtros["$and"].length === 0) delete filtros["$and"];
+    if (filtros["$or"].length === 0) delete filtros["$or"];
+
+    const quant = await Product.find(filtros).estimatedDocumentCount();
+
+    var products = await Product.find(filtros)
+      .sort({
+        editionDate: "desc",
+      })
+      .limit(limit).lean()
+      .skip(page > 1 ? (page - 1) * limit : 0)
+      .populate("group")
+      .populate("subgroup")
+      .populate("client")
+      .populate("kindOfEquipment")
+      .populate("unity")
+      .populate("frequency")
+    res.render("planning/products", {
+      products,
+      prev: Number(page) > 1,
+      next: Number(page) * limit < quant,
+      group,
+      groups,
+      subgroups,
+      types,
+      page,
+      search,
+      limit,
+      subgroup,
+      type,
+      groupId,
+      productGroup
+    });
+  } catch (err) {
+    console.log(err);
+    req.flash("error_msg", "Ops, Houve um erro interno!");
+    res.redirect("/products");
+  }
+};*/
+
+exports.request = async (req, res) => {
+  try {
+    var groupId = await Group.findOne({ _id: req.params.id }).lean();
+    if (groupId) {
+      var productGroup = await Product.find({ group: groupId._id }).lean();
+    }
+    const groups = await Group.find({ active: true })
+      .sort({ description: "asc" })
+      .lean();
+
+    const subgroups = await Subgroup.find({ active: true })
+      .sort({ description: "asc" })
+      .lean();
+
+    const types = await Type.find({ active: true })
       .sort({ description: "asc" })
       .lean();
 
@@ -254,29 +332,24 @@ exports.getSearch = async (req, res) => {
     let {
       search,
       page,
-      site,
-      //group,
+      group,
       subgroup,
       type,
-      status,
       limit,
     } = req.query;
 
     if (!!search) {
       const pattern = new RegExp(`.*${search}.*`);
       filtros["$or"].push(
+        { tag: { $regex: pattern, $options: 'i' } },
+        { name: { $regex: pattern, $options: 'i' } },
+        { capacityReach: { $regex: pattern, $options: 'i' } },
         { description: { $regex: pattern, $options: 'i' } },
-        { stockCode: { $regex: pattern, $options: 'i' } },
-        { qrcode: { $regex: pattern, $options: 'i' } },
-        { user: { $regex: pattern, $options: 'i' } }
       );
     }
-
-    if (!!site) filtros["$and"].push({ client: site });
-    //if (!!group) filtros["$and"].push({ group: group });
+    if (!!group) filtros["$and"].push({ group: group });
     if (!!subgroup) filtros["$and"].push({ subgroup: subgroup });
     if (!!type) filtros["$and"].push({ kindOfEquipment: type });
-    if (!!status) filtros["$and"].push({ physicalStatus: status });
 
     page = Number(page || 1);
     limit = limit ? Number(limit) : 10;
@@ -286,66 +359,7 @@ exports.getSearch = async (req, res) => {
 
     const quant = await Product.find(filtros).estimatedDocumentCount();
 
-    const qtd = await Product.aggregate([
-      {"$group" : {
-        _id: {
-            status: "$status",
-            type: "$type"
-        },
-        quantity: {
-        $sum: "$stockQuantity"
-      }}}
-    ] )
-
-
-    const stock = await Product.aggregate([
-
-      {
-        $group: {
-          _id: "$description",
-          quant: {
-            $sum: 1
-          },
-          quantity: {
-            $sum: "$stockQuantity"
-          },
-          qu: {
-            $sum: "$inputAmount"
-          }
-        }
-      }
-    ])
-    console.log(stock)
-
-    const groupChart = await Product.aggregate([
-      {
-        $match: filtros
-      },
-      {
-        $group: {
-          _id: "$group",
-          quant: {
-            $sum: 1
-          },
-          quantity: {
-            $sum: "$stockQuantity"
-          }
-        }
-      },
-      {
-        $lookup:
-        {
-          from: "groups",
-          localField: "_id",
-          foreignField: "_id",
-          as: "group"
-        }
-      }
-    ])
-    var group_id = await Group.findOne({ _id: req.params.id }).lean();
-    if (group_id) {
-      gid = group_id
-    var products = await Product.find({group: group_id._id}, filtros)
+    var products = await Product.find(filtros)
       .sort({
         editionDate: "desc",
       })
@@ -353,48 +367,61 @@ exports.getSearch = async (req, res) => {
       .skip(page > 1 ? (page - 1) * limit : 0)
       .populate("group")
       .populate("subgroup")
-      .populate("client")
-      .populate("local")
-      .populate("sublease")
-      .populate("physicalStatus")
       .populate("kindOfEquipment")
-      .populate("kindOfEquipment")
-      .populate("unity")
-      .populate("frequency")
-      .populate("provider")
-      .populate("userLaunch")
-      .populate("userEdition")
-      .populate("unity")
-      .populate("frequency")
-      .populate("provider");
-    }
-    res.render("planning/search", {
-      gid,
+    res.render("planning/products", {
       products,
       prev: Number(page) > 1,
       next: Number(page) * limit < quant,
-      customers,
+      group,
       groups,
-      group_id,
       subgroups,
       types,
-      statuses,
       page,
       search,
       limit,
-      site,
-      //group,
       subgroup,
       type,
-      status,
-      stock,
-      groupChart
-      
+      groupId,
+      productGroup
     });
   } catch (err) {
     console.log(err);
     req.flash("error_msg", "Ops, Houve um erro interno!");
     res.redirect("/products");
+  }
+};
+exports.postPlanning = async (req, res) => {
+  var erros = [];
+  if (
+    !req.body.qty ||
+    typeof req.body.qty == undefined ||
+    req.body.qty == null
+  ) {
+    erros.push({
+      texto: "Você precisa informar uma quantidade solicitada!",
+    });
+  }
+  if (erros.length > 0) {
+    res.render("planning/products", {
+      erros: erros,
+    });
+  } else {
+    try {
+      const requests = new Request({
+        product:req.body._id,
+        qty:req.body.qty,
+        user:req.user.name
+      });
+      await requests.save();
+      req.flash("success_msg", "Produto solicitado, enviado para pedido!");
+      res.redirect("/planning/products");
+    } catch (err) {
+      req.flash(
+        "error_msg",
+        "Ops, Houve um erro ao salvar o Produto, tente novamente!" + err
+      );
+      res.redirect("/planning");
+    }
   }
 };
 

@@ -1,72 +1,35 @@
 <div class="mt-2 container-fluid">
-    <div class="d-none d-md-none d-print-block">
-        <div class="d-flex justify-content-center">
-            <h3>Solicitação de Material</h3>
-        </div>
-    </div>
-    <div class="d-none d-md-block d-print-none">
         <div class="d-flex justify-content-center">
             <div class="p-1 mr-auto">
-                <h3>Solicitação de Material</h3>
+                <h4>Solicitação de Material</h4>
+                <h6>{{groupId.description}}</h6>
             </div>
-            {{#json stock}}
-            <input type="hidden" id="stock" value="{{this}}">
-            {{/json}}
-
-            {{#json groupChart}}
-            <input type="hidden" id="groupChart" value="{{this}}">
-            {{/json}}
-
             <a href="/products/add">
-                <button class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom"
+                <button class="mr-2 mt-3 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom"
                     title="Não encontrou o que procura, cadastre um novo produto">
-                    Cadastre um novo Produto <i class="fas fa-paper-plane"></i>
+                    <small><strong>Cadastre um novo Produto <i class="fas fa-paper-plane"></i></strong></small>
                 </button>
             </a>
 
             <a href="/products/cart">
-                <button type="button" class="mr-2 btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom"
+                <button type="button" class="mr-2 mt-3 btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom"
                     title="Vizualize os produtos requisitados, e quando quiser feche seu pedido">
                     <small><strong>Itens Requisitados <i class="fas fa-dolly"></i></strong></small>
                 </button>
             </a>
 
             <a href="/products/cart">
-                <button type="button" class="mr-2 btn btn-dark btn-sm " data-toggle="tooltip" data-placement="bottom"
+                <button type="button" class="mr-2 mt-3 btn btn-dark btn-sm " data-toggle="tooltip" data-placement="bottom"
                     title="Vizualize o histórico dos seus pedidos">
                     <small><strong>Meus Pedidos <i class="fas fa-truck"></i></strong></small>
                 </button>
             </a>
         </div>
 
-            <div class="mr-auto p-1">
-                <select class="custom-select custom-select-sm" id="site" name="site" onchange="setSite()">
-                    <option selected disabled hidden>Busque por Site</option>
-                    <option value="">Nenhum(a)</option>
-                    {{#each stock}}
-                    <option value="{{_group}}" {{#if_eq ../site _id}}selected{{/if_eq}}>{{_id}}</option>
-                    {{else}}
-                    <option value="0">Nenhum site registrado</option>
-                    {{/each}}
-                </select>
-            </div>
-        <!--CHART JS-->
-        <div class="d-none">
-        <div class="d-flex justify-content-center">
-
-            <div class=" p-1 ">
-                <canvas id="bar-chart" width="600" height="300"></canvas>
-            </div>
-            <div class="p-1">
-                <canvas id="pie-chart" width="600" height="300"></canvas>
-            </div>
-        </div>
-        </div>
-
         <div class="d-flex justify-content-center">
             <div class="p-1">
                 {{#each groups}}
-                <a href="/planning/search/group/{{_id}}">
+                <a href="/planning/products/{{_id}}">
                     <button type="button" class="totalGroup2 btn btn-secondary btn-sm">
                         {{description}}
                     </button>
@@ -77,17 +40,6 @@
             </div>
         </div>
         <div class="d-flex justify-content-center">
-            <div class="mr-auto p-1">
-                <select class="custom-select custom-select-sm" id="site" name="site" onchange="setSite()">
-                    <option selected disabled hidden>Busque por Site</option>
-                    <option value="">Nenhum(a)</option>
-                    {{#each customers}}
-                    <option value="{{_id}}" {{#if_eq ../site _id}}selected{{/if_eq}}>{{description}}</option>
-                    {{else}}
-                    <option value="0">Nenhum site registrado</option>
-                    {{/each}}
-                </select>
-            </div>
             <div class="p-1">
                 <select class="custom-select custom-select-sm" id="group" name="group" onchange="setSearchGroup()">
                     <option selected disabled hidden>Grupos</option>
@@ -114,26 +66,10 @@
             <div class="p-1">
                 <select class="custom-select custom-select-sm" id="type" name="type" onchange="setSearchType()">
                     <option selected disabled hidden>Tipos de Equipamento</option>
-                    {{#if_eq customer.length 0}}
-                    <option value="">Nenhum(a)</option>
-                    {{else}}
-                    <option value="0">Nenhum tipo de equipamento registrado</option>
-                    {{/if_eq}}
-
                     {{#each types}}
                     <option value="{{_id}}" {{#if_eq ../type _id}}selected{{/if_eq}}>{{description}}</option>
                     {{else}}
-                    {{/each}}
-                </select>
-            </div>
-            <div class="p-1">
-                <select class="custom-select custom-select-sm" id="status" name="status" onchange="setSearchStatus()">
-                    <option selected disabled hidden>Status do Produto</option>
-                    <option value="">Nenhum(a)</option>
-                    {{#each statuses}}
-                    <option value="{{_id}}" {{#if_eq ../status _id}}selected{{/if_eq}}>{{description}}</option>
-                    {{else}}
-                    <option value="0">Nenhum status registrado</option>
+                    <option value="0">Nenhum Tipo de Equipamento registrado</option>
                     {{/each}}
                 </select>
             </div>
@@ -172,374 +108,92 @@
             <div class="p-1 ">
                 <select class="custom-select custom-select-sm" name="SelectOptions" id="SelectOptions">
                     <option selected disabled hidden>Escolher...</option>
-                    <option value="tb01">Id</option>
-                    <option value="tb02">imagem</option>
-                    <option value="tb03">QrCode</option>
-                    <option value="tb04">Grupo</option>
-                    <option value="tb05">Subgrupo</option>
-                    <option value="tb06">Bp/Descrição/Fab./Mod./Cap./Ns</option>
-                    <option value="tb07">Código Estoque</option>
-                    <option value="tb08">Localização Atual</option>
-                    <option value="tb09">Localização no Site</option>
-                    <option value="tb10">Locação</option>
-                    <option value="tb11">SubLocação</option>
-                    <option value="tb12">B.P.</option>
-                    <option value="tb13">Descrição</option>
-                    <option value="tb14">Fabricante</option>
-                    <option value="tb15">Modelo</option>
-                    <option value="tb16">Cap./Alcance</option>
-                    <option value="tb17">N° de Série</option>
-                    <option value="tb18">Status</option>
-                    <option value="tb19">Tipo de Equipamento</option>
-                    <option value="tb20">Requer Calib./Cert.</option>
-                    <option value="tb21">Qtd. Entrada</option>
-                    <option value="tb22">Qtd. em Uso</option>
-                    <option value="tb23">Qtd. Saída</option>
-                    <option value="tb24">Qtd. Estoque</option>
-                    <option value="tb25">Qtd. Total</option>
-                    <option value="tb26">Unidade</option>
-                    <option value="tb27">Peso Kg</option>
-                    <option value="tb28">Valor de Face</option>
-                    <option value="tb29">Dimensões mm</option>
-                    <option value="tb30">Certificado</option>
-                    <option value="tb31">Lab./Ent.</option>
-                    <option value="tb32">Periodicidade</option>
-                    <option value="tb33">Data Cert./Cal.</option>
-                    <option value="tb34">Validade Cert./Cal.</option>
-                    <option value="tb35">Status Cert./Cal.</option>
-                    <option value="tb36">PO</option>
-                    <option value="tb37">Cód. Sap</option>
-                    <option value="tb38">Cód. Ncm</option>
-                    <option value="tb39">Fornecedor</option>
-                    <option value="tb40">Nota Fiscal</option>
-                    <option value="tb41">Dt. Recebimento</option>
-                    <option value="tb42">Obs</option>
-                    <option value="tb43">Status Ativo</option>
-                    <option value="tb44">Dt. Lançamento</option>
-                    <option value="tb45">Usuário Lançam.</option>
-                    <option value="tb46">Ações</option>
+                    <option value="pl01">Id</option>
+                    <option value="pl02">imagem</option>
+                    <option value="pl03">QrCode</option>
+                    <option value="pl04">Grupo</option>
+                    <option value="pl05">Subgrupo</option>
+                    <option value="pl06">Descrição Resumida</option>
+                    <option value="pl07">Tag</option>
+                    <option value="pl08">Descrição</option>
+                    <option value="pl09">Cap./Alcance</option>
+                    <option value="pl10">Tipo</option>
+                    <option value="pl11">Qtd alocada no Projeto</option>
+                    <option value="pl12">Qtd alocada no Reservada Atual</option>
+                    <option value="pl13">Qtd Total HBS</option>
+                    <option value="pl14">Qtd em Uso</option>
+                    <option value="pl15">Qtd com Pendência</option>
+                    <option value="pl16">Qtd disponivel</option>
+                    <option value="pl18">Ações</option>
                 </select>
             </div>
         </div>
-    </div>
 
-
-
-    <div class="d-block d-md-none d-print-none">
-        <div class="d-flex justify-content-center">
-            <h3>Solicitação de Material</h3>
-            <hr>
-        </div>
-
-        <div class="d-flex justify-content-center">
-            <a href="/products/add">
-                <button class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom"
-                    title="Cadastre um novo produto">
-                    Cadastro <i class="fas fa-paper-plane"></i>
-                </button>
-            </a>
-
-            <a href="/products/cart">
-                <button type="button" class="mr-2 btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom"
-                    title="Vizualize os produtos requisitados, e quando quiser feche seu pedido">
-                    <small><strong>Itens Requisitados <i class="fas fa-dolly"></i></strong></small>
-                </button>
-            </a>
-
-            <a href="/products/cart">
-                <button type="button" class="mr-2 btn btn-dark btn-sm " data-toggle="tooltip" data-placement="bottom"
-                    title="Vizualize o histórico dos seus pedidos">
-                    <small><strong>Meus Pedidos <i class="fas fa-truck"></i></strong></small>
-                </button>
-            </a>
-
-        </div>
-        <div class="d-flex justify-content-center">
-            <div class="p-1 flex-fill bd-highlight">
-                {{#each groups}}
-                <a href="/products/{{_id}}">
-                    <button type="button" class="btn btn-primary btn-sm btn-block">
-                        {{description}}
-                    </button>
-                </a>
-                {{else}}
-                <h6>Nenhum Grupo Registrado</h6>
-                {{/each}}
-            </div>
-        </div>
-
-        {{#each erros}}
-        <div class="alert alert-danger">{{texto}}</div>
-        {{else}}
-        {{/each}}
-
-        <div class="d-flex justify-content-center">
-            <div class="p-1">
-                <div class="input-group input-group-sm mb-3">
-                    <input type="text-sm" class="search form-control" id="searchMobile" name="searchMobile"
-                        placeholder="Pesquise aqui..." onchange="this.value=this.value.toLowerCase()" />
-                </div>
-            </div>
-
-            <div class="p-1 ">
-                <button type="button" class="btn btn-primary btn-sm" onclick="search()">
-                    <i class="fa fa-search" aria-hidden="true"></i>
-                </button>
-            </div>
-        </div>
-
-
-        <div class="d-flex justify-content-center">
-            <div class="p-1">
-                <select class="custom-select custom-select-sm" id="itensPage" name="itensPage">
-                    <option selected>Itens por Página</option>
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                </select>
-
-            </div>
-        </div>
-
-        <div class="d-flex justify-content-center">
-            <div class="p-1 ">
-                <select class="custom-select custom-select-sm" name="SelectOptionsMobile" id="SelectOptionsMobile">
-                    <option selected>Mostrar Colunas</option>
-                    <option value="tb01">Id</option>
-                    <option value="tb02">imagem</option>
-                    <option value="tb03">QrCode</option>
-                    <option value="tb04">Grupo</option>
-                    <option value="tb05">Subgrupo</option>
-                    <option value="tb06">Bp/Descrição/Fab./Mod./Cap./Ns</option>
-                    <option value="tb07">Código Estoque</option>
-                    <option value="tb08">Localização Atual</option>
-                    <option value="tb09">Localização no Site</option>
-                    <option value="tb10">Locação</option>
-                    <option value="tb11">SubLocação</option>
-                    <option value="tb12">B.P.</option>
-                    <option value="tb13">Descrição</option>
-                    <option value="tb14">Fabricante</option>
-                    <option value="tb15">Modelo</option>
-                    <option value="tb16">Cap./Alcance</option>
-                    <option value="tb17">N° de Série</option>
-                    <option value="tb18">Status</option>
-                    <option value="tb19">Tipo de Equipamento</option>
-                    <option value="tb20">Requer Calib./Cert.</option>
-                    <option value="tb21">Qtd. Entrada</option>
-                    <option value="tb22">Qtd. em Uso</option>
-                    <option value="tb23">Qtd. Saída</option>
-                    <option value="tb24">Qtd. Estoque</option>
-                    <option value="tb25">Qtd. Total</option>
-                    <option value="tb26">Unidade</option>
-                    <option value="tb27">Peso Kg</option>
-                    <option value="tb28">Valor de Face</option>
-                    <option value="tb29">Dimensões mm</option>
-                    <option value="tb30">Certificado</option>
-                    <option value="tb31">Lab./Ent.</option>
-                    <option value="tb32">Periodicidade</option>
-                    <option value="tb33">Data Cert./Cal.</option>
-                    <option value="tb34">Validade Cert./Cal.</option>
-                    <option value="tb35">Status Cert./Cal.</option>
-                    <option value="tb36">PO</option>
-                    <option value="tb37">Cód. Sap</option>
-                    <option value="tb38">Cód. Ncm</option>
-                    <option value="tb39">Fornecedor</option>
-                    <option value="tb40">Nota Fiscal</option>
-                    <option value="tb41">Dt. Recebimento</option>
-                    <option value="tb42">Obs</option>
-                    <option value="tb43">Status Ativo</option>
-                    <option value="tb44">Dt. Lançamento</option>
-                    <option value="tb45">Usuário Lançam.</option>
-                    <option value="tb46">Ações</option>
-                </select>
-            </div>
-        </div>
-    </div>
     <!--TABELA DE DADOS-->
 
     <div class="table-responsive">
         <table id="tblExport" class="table table-hover table-sm table-bordered">
             <thead>
                 <tr>
-                    <th class="tb01 d-print-block" scope="col">Id</th>
-                    <th class="tb02 d-print-block" scope="col">Imagem</th>
-                    <th class="tb03 d-print-block" scope="col">qrCode</th>
-                    <th class="tb04 d-print-block" scope="col">Grupo</th>
-                    <th class="tb05 d-print-block" scope="col">Subgrupo</th>
-                    <th class="tb06 d-print-block" scope="col">Bp/Descrição/Fab./Mod./Cap./Ns</th>
-                    <th class="tb07 d-print-block" scope="col">Código Estoque</th>
-                    <th class="tb08 d-print-block" scope="col">Localização Atual</th>
-                    <th class="tb09 d-print-block" scope="col">Localização no Site</th>
-                    <th class="tb10 d-print-block" scope="col">Locação</th>
-                    <th class="tb11 d-print-block" scope="col">SubLocação</th>
-                    <th class="tb12 d-print-block" scope="col">B.P.</th>
-                    <th class="tb13 d-print-block" scope="col">Descrição</th>
-                    <th class="tb14 d-print-block" scope="col">Fabricante</th>
-                    <th class="tb15 d-print-block" scope="col">Modelo</th>
-                    <th class="tb16 d-print-block" scope="col">Cap./Alcance</th>
-                    <th class="tb17 d-print-block" scope="col">N° de Série</th>
-                    <th class="tb18 d-print-block" scope="col">Status</th>
-                    <th class="tb19 d-print-block" scope="col">Tipo de Equipamento</th>
-                    <th class="tb20 d-print-block" scope="col">Requer Calib./Cert.</th>
-                    <th class="tb21 d-print-block" scope="col">Qtd. Entrada</th>
-                    <th class="tb22 d-print-block" scope="col">Qtd. em Uso</th>
-                    <th class="bg-secondary">Solicitar</th>
-                    <th class="tb24 d-print-block" scope="col">Qtd. Estoque</th>
-                    <th class="tb25 d-print-block" scope="col">Qtd. Total</th>
-                    <th class="tb26 d-print-block" scope="col">Unidade</th>
-                    <th class="tb27 d-print-block" scope="col">Peso Kg</th>
-                    <th class="tb28 d-print-block" scope="col">Valor de Face</th>
-                    <th class="tb29 d-print-block" scope="col">Dimensões mm</th>
-                    <th class="tb30 d-print-block" scope="col">Certificado</th>
-                    <th class="tb31 d-print-block" scope="col">Lab./Ent.</th>
-                    <th class="tb32 d-print-block" scope="col">Periodicidade</th>
-                    <th class="tb33 d-print-block" scope="col">Data Cert./Cal.</th>
-                    <th class="tb34 d-print-block" scope="col">Validade Cert./Cal.</th>
-                    <th class="tb35 d-print-block" scope="col">Status Cert./Cal.</th>
-                    <th class="tb36 d-print-block" scope="col">PO</th>
-                    <th class="tb37 d-print-block" scope="col">Cód. Sap</th>
-                    <th class="tb38 d-print-block" scope="col">Cód. Ncm</th>
-                    <th class="tb39 d-print-block" scope="col">Fornecedor</th>
-                    <th class="tb40 d-print-block" scope="col">Nota Fiscal</th>
-                    <th class="tb41 d-print-block" scope="col">Dt. Recebimento</th>
-                    <th class="tb42 d-print-block" scope="col">Obs</th>
-                    <th class="tb43 d-print-block" scope="col">Status Ativo</th>
-                    <th class="tb44 d-print-block" scope="col">Dt. Lançamento</th>
-                    <th class="tb45 d-print-block" scope="col">Usuário Lançam.</th>
-                    <th class="tb46 d-print-block" scope="col">Ações</th>
+                    <th class="pl01 d-print-block" scope="col">Id</th>
+                    <th class="pl02 d-print-block" scope="col">Imagem</th>
+                    <th class="pl03 d-print-block" scope="col">qrCode</th>
+                    <th class="pl04 d-print-block" scope="col">Grupo</th>
+                    <th class="pl05 d-print-block" scope="col">Subgrupo</th>
+                    <th class="pl06 d-print-block" scope="col">Descrição Resumida</th>
+                    <th class="pl07 d-print-block" scope="col">Tag</th>
+                    <th class="pl08 d-print-block" scope="col">Descrição</th>
+                    <th class="pl09 d-print-block" scope="col">Cap./Alcance</th>
+                    <th class="pl10 d-print-block" scope="col">Tipo/ Acionamento</th>
+                    <th class="pl11 d-print-block" scope="col">Qtd alocada no Projeto</th>
+                    <th class="pl12 d-print-block" scope="col">Qtd reservada p/ projeto</th>
+                    <th class="pl13 d-print-block" scope="col">Qtd Total HBS</th>
+                    <th class="pl14 d-print-block" scope="col">Qtd em Uso</th>
+                    <th class="pl15 d-print-block" scope="col">Qtd com Pendência</th>
+                    <th class="pl16 d-print-block" scope="col">Qtd disponivel</th>
+                    <th style="width:  7%" class="bg-secondary">Solicitar</th>
+                    <th class="pl18 d-print-block" scope="col">Ações</th>
                 </tr>
             </thead>
 
             <tbody>
                 {{#each products}}
-                <form action="/products/updateItem" method="POST">
-                    <input type="hidden" class="mt-2 form-control" name="id" value="{{_id}}">
-                    <input type="hidden" class="mt-2 form-control" name="qrcode" value="{{qrcode}}">
-                    <input type="hidden" class="mt-2 form-control" name="image" value="{{image}}">
-                    <input type="hidden" class="mt-2 form-control" name="group" value="{{group._id}}">
-                    <input type="hidden" class="mt-2 form-control" name="subgroup" value="{{subgroup._id}}">
-                    <!--<input type="hidden" class="mt-2 form-control" id="fullDescription" name="fullDescription" value="{{fullDescription}}">-->
-                    <!--<input type="hidden" class="mt-2 form-control" id="stockCode" name="stockCode" value="{{stockCode}}">-->
-                    <!--<input type="hidden" class="mt-2 form-control" id="localArea" name="localArea" value="{{localArea._id}}">-->
-                    <input type="hidden" class="mt-2 form-control" name="client" value="{{client._id}}">
-                    <input type="hidden" class="mt-2 form-control" name="local" value="{{local._id}}">
-                    <input type="hidden" class="mt-2 form-control" name="sublease" value="{{sublease._id}}">
-                    <input type="hidden" class="mt-2 form-control" name="patrimonialAsset" value="{{patrimonialAsset}}">
-                    <input type="hidden" class="mt-2 form-control" name="description" value="{{description}}">
-                    <input type="hidden" class="mt-2 form-control" name="manufacturer" value="{{manufacturer}}">
-                    <input type="hidden" class="mt-2 form-control" name="model" value="{{model}}">
-                    <input type="hidden" class="mt-2 form-control" name="capacityReach" value="{{capacityReach}}">
-                    <input type="hidden" class="mt-2 form-control" name="serialNumber" value="{{serialNumber}}">
-                    <input type="hidden" class="mt-2 form-control" name="physicalStatus" value="{{physicalStatus._id}}">
-                    <input type="hidden" class="mt-2 form-control" name="kindOfEquipment"
-                        value="{{kindOfEquipment._id}}">
-                    <input type="hidden" class="mt-2 form-control" name="requiresCertificationCalibration"
-                        value="{{requiresCertificationCalibration}}">
-                    <input type="hidden" class="mt-2 form-control" name="inputAmount" value="{{inputAmount}}">
-                    <input type="hidden" class="mt-2 form-control" name="inputAmountSite" value="{{inputAmountSite}}">
-                    <!--<input type="hidden" class="mt-2 form-control" id="outputQuantity" name="outputQuantity"
-                        value="{{outputQuantity}}">-->
-                    <input type="hidden" class="mt-2 form-control" name="stockQuantity" value="{{stockQuantity}}">
-                    <input type="hidden" class="mt-2 form-control" name="stockTotal" value="{{stockTotal}}">
-                    <input type="hidden" class="mt-2 form-control" name="unity" value="{{unity._id}}">
-                    <input type="hidden" class="mt-2 form-control" name="weightKg" value="{{weightKg}}">
-                    <input type="hidden" class="mt-2 form-control" name="faceValue" value="{{faceValue}}">
-                    <input type="hidden" class="mt-2 form-control" name="dimensionsWxLxH" value="{{dimensionsWxLxH}}">
-                    <input type="hidden" class="mt-2 form-control" name="certificate" value="{{certificate}}">
-                    <input type="hidden" class="mt-2 form-control" name="entityLaboratory" value="{{entityLaboratory}}">
-                    <input type="hidden" class="mt-2 form-control" name="frequency" value="{{frequency._id}}">
-                    <input type="hidden" class="mt-2 form-control" name="calibrationDate" value="{{calibrationDate}}">
-                    <input type="hidden" class="mt-2 form-control" name="calibrationValidity"
-                        value="{{calibrationValidity}}">
-                    <input type="hidden" class="mt-2 form-control" name="calibrationStatus"
-                        value="{{calibrationStatus}}">
-                    <input type="hidden" class="mt-2 form-control" name="po" value="{{po}}">
-                    <input type="hidden" class="mt-2 form-control" name="sapCode" value="{{sapCode}}">
-                    <input type="hidden" class="mt-2 form-control" name="ncmCode" value="{{ncmCode}}">
-                    <input type="hidden" class="mt-2 form-control" name="provider" value="{{provider._id}}">
-                    <input type="hidden" class="mt-2 form-control" name="invoce" value="{{invoce}}">
-                    <input type="hidden" class="mt-2 form-control" name="receivingDate" value="{{receivingDate}}">
-                    <input type="hidden" class="mt-2 form-control" name="note" value="{{note}}">
-                    <input type="hidden" class="mt-2 form-control" name="activeStatus" value="{{activeStatus}}">
-                    <!--CONTROLE DE USUÁRIOS LANÇAMENTO DO MATERIAL-->
-                    <input type="hidden" class="mt-2 form-control" name="releaseDateOf" value="{{releaseDateOf}}">
-                    <input type="hidden" class="mt-2 form-control" name="userLaunch" value="{{userLaunch._id}}">
-                    <input type="hidden" class="mt-2 form-control" name="emailLaunch" value="{{emailLaunch}}">
-                    <!--CONTROLE DE USUÁRIOS ÚLTIMO LANÇAMENTO DO MATERIAL-->
-                    <input type="hidden" class="mt-2 form-control" name="editionDate" value="{{editionDate}}">
-                    <input type="hidden" class="mt-2 form-control" name="userEdtion" value="{{userEdtion}}">
-                    <input type="hidden" class="mt-2 form-control" name="emailEdtion" value="{{emailEdtion}}">
+                <form action="/planning/planning" method="POST">
+                    <input type="hidden" class="mt-2 form-control" name="_id" value="{{_id}}">
                     <tr>
-                        <th class="tb01 d-print-block">{{_id}}</th>
-                        <td class="tb02 d-print-block">
+                        <th class="pl01 d-print-block">{{_id}}</th>
+                        <td class="pl02 d-print-block">
                             <figure class="figure">
                                 <img src="{{image}}" class="figure-img img-fluid rounded" style="max-width: 4rem;"
                                     alt="Imagem de um quadrado genérico com bordas arredondadas, em uma figure.">
-                                <!--<figcaption class="figure-caption">Uma legenda para a imagem acima.</figcaption>-->
                             </figure>
                         </td>
 
-                        <td class="tb03 d-print-block">
+                        <td class="pl03 d-print-block">
                             <figure class="figure">
-                                <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{qrcode}}"
+                                <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{_id}}"
                                     class="figure-img img-fluid rounded" style="max-width: 4rem;"
                                     alt="Imagem de um quadrado genérico com bordas arredondadas, em uma figure.">
                                 <!--<figcaption class="figure-caption">Uma legenda para a imagem acima.</figcaption>-->
                             </figure>
                         </td>
-
-                        <td class="tb04 d-print-block">{{group.description}}</td>
-                        <td class="tb05 d-print-block">{{subgroup.description}}</td>
-                        <td class="tb06 d-print-block">{{fullDescription}}</td>
-                        <td class="tb07 d-print-block">{{stockCode}}</td>
-                        <td class="tb08 d-print-block">{{client.description}}</td>
-                        <td class="tb09 d-print-block">{{localArea.description}}</td>
-                        <td class="tb10 d-print-block">{{local.description}}</td>
-                        <td class="tb11 d-print-block">{{sublease.description}}</td>
-                        <td class="tb12 d-print-block">{{patrimonialAsset}}</td>
-                        <td class="tb13 d-print-block">{{description}}</td>
-                        <td class="tb14 d-print-block">{{manufacturer}}</td>
-                        <td class="tb15 d-print-block">{{model}}</td>
-                        <td class="tb16 d-print-block">{{capacityReach}}</td>
-                        <td class="tb17 d-print-block">{{serialNumber}}</td>
-                        <td class="tb18 d-print-block">{{physicalStatus.description}}</td>
-                        <td class="tb19 d-print-block">{{kindOfEquipment.description}}</td>
-                        <td class="tb20 d-print-block">{{requiresCertificationCalibration}}</td>
-                        <td class="tb21 d-print-block">{{inputAmount}}</td>
-                        <td class="tb22 d-print-block">{{inputAmountSite}}</td>
-                        <td><input type="number" value="1" min="1"
-                                max="{{inputAmountSite}}" class=" form-control form-control-sm"
-                                name="outputQuantity" required></td>
-                        <td class="tb24 d-print-block">{{stockQuantity}}</td>
-                        <td class="tb25 d-print-block">
-                            {{#find_by_id ../stock stockCode }}
-                            {{ quantity }}
-                            {{/find_by_id}}
-                        </td>
-                        <td class="tb26 d-print-block">{{unity.description}}</td>
-                        <td class="tb27 d-print-block">{{weightKg}}</td>
-                        <td class="tb28 d-print-block">{{faceValue}}</td>
-                        <td class="tb29 d-print-block">{{dimensionsWxLxH}}</td>
-                        <td class="tb30 d-print-block">{{certificate}}</td>
-                        <td class="tb31 d-print-block">{{entityLaboratory}}</td>
-                        <td class="tb32 d-print-block">{{frequency.description}}</td>
-                        <td class="tb33 d-print-block">{{calibrationDate}}</td>
-                        <td class="tb34 d-print-block">{{calibrationValidity}}</td>
-                        <td class="tb35 d-print-block">{{calibrationStatus}}</td>
-                        <td class="tb36 d-print-block">{{po}}</td>
-                        <td class="tb37 d-print-block">{{sapCode}}</td>
-                        <td class="tb38 d-print-block">{{ncmCode}}</td>
-                        <td class="tb39 d-print-block">{{provider.name}}</td>
-                        <td class="tb40 d-print-block">{{invoce}}</td>
-                        <td class="tb41 d-print-block">{{receivingDate}}</td>
-                        <td class="tb42 d-print-block">{{note}}</td>
-                        <td class="tb43 d-print-block">{{activeStatus}}</td>
-                        <td class="tb44 d-print-block">{{releaseDateOf}}</td>
-                        <td class="tb45 d-print-block">{{userLaunch.name}}</td>
-
-                        <td class="tb46 d-print-none">
+                        <td class="pl04 d-print-block">{{group.description}}</td>
+                        <td class="pl05 d-print-block">{{subgroup.description}}</td>
+                        <td class="pl06 d-print-block">{{description}}</td>
+                        <td class="pl07 d-print-block">{{tag}}</td>
+                        <td class="pl08 d-print-block">{{name}}</td>
+                        <td class="pl09 d-print-block">{{capacityReach}}</td>
+                        <td class="pl10 d-print-block">{{kindOfEquipment.description}}</td>
+                        <td class="pl11 d-print-block">1</td>
+                        <td class="pl12 d-print-block">1</td>
+                        <td class="pl13 d-print-block">1</td>
+                        <td class="pl14 d-print-block">1</td>
+                        <td class="pl15 d-print-block">1</td>
+                        <td class="pl16 d-print-block">1</td>
+                                                <td><input type="number" value="1" min="1" max=""
+                                class=" form-control form-control-sm" name="qty" required></td>
+        
+                        <td class="pl18 d-print-none">
                             <div class="d-flex justify-content-center">
                                 <div class="p-0 mr-1">
                                     <button type="submit" class="mt-1 mb-1 btn btn-success btn-sm" data-toggle="tooltip"
@@ -547,47 +201,12 @@
                                         <i class="fas fa-cart-arrow-down"></i></button>
                                 </div>
 
-                                <div class="d-none p-0 mr-1">
-                                    <button type="submit" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
-                                        data-placement="bottom" title="Dar entrada no Material">
-                                        <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-                                </div>
-
                                 <div class="p-0 mr-1">
                                     <a href="/products/take/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm"
                                         data-toggle="tooltip" data-placement="bottom" title="Visualizar detalhes">
                                         <i class="fas fa-file-signature"></i>
                                     </a>
-                                </div>
-
-                                <div class="d-none p-0 mr-1">
-                                    <a href="/products/move/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm"
-                                        data-toggle="tooltip" data-placement="bottom" title="Movimentação interna">
-                                        <i class="fas fa-file-signature"></i>
-                                    </a>
-                                </div>
-
-                                <div class="d-none p-0 mr-1">
-                                    <a href="/products/add_id/{{_id}}" class="mt-1 mb-1 btn btn-success btn-sm"
-                                        data-toggle="tooltip" data-placement="left"
-                                        title="Criar novo produto a partir dessas informações">
-                                        <i class="far fa-clone"></i>
-                                    </a>
-                                </div>
-
-                                <div class="d-none p-0 mr-1">
-                                    <a href="/products/edit/{{_id}}" class="mt-1 mb-1 btn btn-secondary btn-sm"
-                                        data-toggle="tooltip" data-placement="bottom" title="Editar Produto">
-                                        <i class="fas fa-pen"></i>
-                                    </a>
-                                </div>
-
-                                <div class="d-none p-0">
-                                    <a href="/products/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm"
-                                        data-toggle="tooltip" data-placement="bottom" title="Deletar Produto">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </a>
-                                </div>
+                                </div>  
                             </div>
                         </td>
 
@@ -621,67 +240,4 @@
             {{/if}}
         </div>
     </div>
-    <!-- CHART JS  -->
-    <script src="/js/chart.js"></script>
-    <script type="text/javascript">
-
-        const data = JSON.parse(document.getElementById("stock").value);
-        const labels = [];
-        const values = [];
-        data.forEach(stock => {
-            labels.push(stock._id);
-            //values.push(stock.quantity);
-            values.push(stock.quant);
-        });
-        window.barChart.config.data.labels = labels;
-        window.barChart.config.data.datasets.pop();
-        window.barChart.config.data.datasets.push({
-            label: "Quantidade (unidade)",
-            data: values,
-            backgroundColor: [
-                '#000000',
-                '#1C1C1C',
-                '#363636',
-                '#4F4F4F',
-                '#696969',
-                '#808080',
-                '#A9A9A9',
-                '#C0C0C0',
-                '#D3D3D3',
-                '#DCDCDC',
-
-            ],
-        });
-        window.barChart.update();
-
-        const data2 = JSON.parse(document.getElementById("groupChart").value);
-        const labels2 = [];
-        const values2 = [];
-        data2.forEach(groupChart => {
-            labels2.push(groupChart.group[0].description);
-            //values2.push(groupChart.quantity);
-            values2.push(groupChart.quant);
-        });
-        window.pieChart.config.data.labels = labels2;
-        window.pieChart.config.data.datasets.pop();
-        window.pieChart.config.data.datasets.push({
-            label: "Quantidade (unidade)",
-            data: values2,
-            backgroundColor: [
-                '#000080',
-                '#2F4F4F',
-                '#808080',
-                '#cd853f',
-                '#228b22',
-                '#ff4500',
-                '#663399',
-                '#00ff00',
-                '#4169e1'
-            ],
-        });
-        pieChart.update();
-
-
-
-    </script>
 </div>

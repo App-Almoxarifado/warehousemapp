@@ -179,7 +179,7 @@ exports.getTableDev = async (req, res) => {
 };
 
 
-//CRIANDO UM TIPO
+//CRIANDO UM PRODUTO
 exports.getCreate = async (req, res) => {
     var groups = await Group.find({
         active: true,
@@ -266,7 +266,7 @@ exports.postCreate = async (req, res) => {
                     .replace(/(^-+|-+$)/, "")
             });
             await Request.create({
-                description:products._id
+                product:products._id
             });
             await products.save();
             req.flash("success_msg", "Produto criado com sucesso!");

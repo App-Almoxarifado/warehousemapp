@@ -9,7 +9,7 @@ const Request = new Schema({
   },
   qty: {
     type: Number,
-    required: true
+    //required: true
   },
   user: {
     type: Schema.Types.ObjectId,
