@@ -225,6 +225,8 @@ exports.request = async (req, res) => {
     if (clientId) {
       var productGroup = await Product.find({ group: clientId._id }).lean();
     }
+    const cliente = req.params.id
+    console.log(cliente)
     const groups = await Group.find({ active: true })
       .sort({ description: "asc" })
       .lean();
@@ -295,7 +297,8 @@ exports.request = async (req, res) => {
       subgroup,
       type,
       clientId,
-      productGroup
+      productGroup,
+      cliente 
     });
   } catch (err) {
     console.log(err);
@@ -304,6 +307,11 @@ exports.request = async (req, res) => {
   }
 };
 exports.postPlanning = async (req, res) => {
+      var clientId = await Client.findOne({ _id: req.params.id }).lean();
+    if (clientId) {
+      var productGroup = await Product.find({ group: clientId._id }).lean();
+    }
+    const cliente = req.params.id
   var erros = [];
   if (
     !req.body.qty ||
@@ -323,7 +331,8 @@ exports.postPlanning = async (req, res) => {
       const requests = new Request({
         product:req.body._id,
         qty:req.body.qty,
-        user:req.user.name
+        user:req.user.name,
+        site:cliente
       });
       await requests.save();
       req.flash("success_msg", "Produto solicitado, enviado para pedido!");

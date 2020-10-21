@@ -11,7 +11,11 @@ const Request = new Schema({
     type: Number,
     //required: true
   },
-
+  site: {
+    type: Schema.Types.ObjectId,
+    ref: "customers",
+    index: true
+  },
   user: {
     type: Schema.Types.ObjectId,
     ref: "collaborators",
