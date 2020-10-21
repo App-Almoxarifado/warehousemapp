@@ -30,7 +30,18 @@
                         <a href="#">Dados de Planejamento</a>
                     </li>
                     <li>
-                        <a href="/planning/products">Solicitação de Ativos</a>
+                        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">
+                            Solicitação de Ativos
+                        </a>
+                        <ul class="collapse list-unstyled" id="pageSubmenu">
+                            <li>
+                                {{#each sites}}
+                                <a href="/planning/products/{{_id}}">{{description}}</a>
+                                {{else}}
+                                <option value="0">Você não possui nenhuma obra para solicitar Material</option>
+                                {{/each}}
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </li>

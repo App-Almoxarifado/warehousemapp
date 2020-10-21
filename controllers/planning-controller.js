@@ -218,99 +218,12 @@ exports.dashboard = async (req, res) => {
   }
 };
 
-/*exports.request = async (req, res) => {
-  try {
-    var groupId = await Group.findOne({ _id: req.params.id }).lean();
-    if (groupId) {
-      var productGroup = await Product.find({ group: groupId._id }).lean();
-    }
-    const groups = await Group.find({ active: true })
-      .sort({ description: "asc" })
-      .lean();
-
-    const subgroups = await Subgroup.find({ active: true })
-      .sort({ description: "asc" })
-      .lean();
-
-    const types = await Type.find({ active: true })
-      .sort({ description: "asc" })
-      .lean();
-
-    const filtros = {
-      $or: [],
-      $and: [],
-    };
-
-    let {
-      search,
-      page,
-      group,
-      subgroup,
-      type,
-      limit,
-    } = req.query;
-
-    if (!!search) {
-      const pattern = new RegExp(`.*${search}.*`);
-      filtros["$or"].push(
-        { tag: { $regex: pattern, $options: 'i' } },
-        { name: { $regex: pattern, $options: 'i' } },
-        { capacityReach: { $regex: pattern, $options: 'i' } },
-        { description: { $regex: pattern, $options: 'i' } },
-      );
-    }
-    if (!!group) filtros["$and"].push({ group: group });
-    if (!!subgroup) filtros["$and"].push({ subgroup: subgroup });
-    if (!!type) filtros["$and"].push({ kindOfEquipment: type });
-
-    page = Number(page || 1);
-    limit = limit ? Number(limit) : 10;
-
-    if (filtros["$and"].length === 0) delete filtros["$and"];
-    if (filtros["$or"].length === 0) delete filtros["$or"];
-
-    const quant = await Product.find(filtros).estimatedDocumentCount();
-
-    var products = await Product.find(filtros)
-      .sort({
-        editionDate: "desc",
-      })
-      .limit(limit).lean()
-      .skip(page > 1 ? (page - 1) * limit : 0)
-      .populate("group")
-      .populate("subgroup")
-      .populate("client")
-      .populate("kindOfEquipment")
-      .populate("unity")
-      .populate("frequency")
-    res.render("planning/products", {
-      products,
-      prev: Number(page) > 1,
-      next: Number(page) * limit < quant,
-      group,
-      groups,
-      subgroups,
-      types,
-      page,
-      search,
-      limit,
-      subgroup,
-      type,
-      groupId,
-      productGroup
-    });
-  } catch (err) {
-    console.log(err);
-    req.flash("error_msg", "Ops, Houve um erro interno!");
-    res.redirect("/products");
-  }
-};*/
 
 exports.request = async (req, res) => {
   try {
-    var groupId = await Group.findOne({ _id: req.params.id }).lean();
-    if (groupId) {
-      var productGroup = await Product.find({ group: groupId._id }).lean();
+    var clientId = await Client.findOne({ _id: req.params.id }).lean();
+    if (clientId) {
+      var productGroup = await Product.find({ group: clientId._id }).lean();
     }
     const groups = await Group.find({ active: true })
       .sort({ description: "asc" })
@@ -381,7 +294,7 @@ exports.request = async (req, res) => {
       limit,
       subgroup,
       type,
-      groupId,
+      clientId,
       productGroup
     });
   } catch (err) {
@@ -414,7 +327,7 @@ exports.postPlanning = async (req, res) => {
       });
       await requests.save();
       req.flash("success_msg", "Produto solicitado, enviado para pedido!");
-      res.redirect("/planning/products");
+      res.redirect("/planning/products/" + requests.product);
     } catch (err) {
       req.flash(
         "error_msg",
