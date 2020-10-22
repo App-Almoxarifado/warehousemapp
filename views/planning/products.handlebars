@@ -11,14 +11,14 @@
                 </button>
             </a>
 
-            <a href="/products/cart">
+            <a href="/planning/request/{{siteId._id}}">
                 <button type="button" class="mr-2 mt-3 btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom"
                     title="Vizualize os produtos requisitados, e quando quiser feche seu pedido">
                     <small><strong>Itens Requisitados <i class="fas fa-dolly"></i></strong></small>
                 </button>
             </a>
 
-            <a href="/products/cart">
+            <a href="/planning/transfer">
                 <button type="button" class="mr-2 mt-3 btn btn-dark btn-sm " data-toggle="tooltip" data-placement="bottom"
                     title="Vizualize o histórico dos seus pedidos">
                     <small><strong>Meus Pedidos <i class="fas fa-truck"></i></strong></small>
@@ -151,15 +151,16 @@
                     <th class="pl14 d-print-block" scope="col">Qtd em Uso</th>
                     <th class="pl15 d-print-block" scope="col">Qtd com Pendência</th>
                     <th class="pl16 d-print-block" scope="col">Qtd disponivel</th>
-                    <th style="width:  7%" class="bg-secondary">Solicitar</th>
+                    <th style="width:7%" class="bg-secondary">Solicitar</th>
                     <th class="pl18 d-print-block" scope="col">Ações</th>
                 </tr>
             </thead>
 
             <tbody>
                 {{#each products}}
-                <form action="/planning/planning" method="POST">
+                <form action="/planning/request" method="POST">
                     <input type="hidden" class="mt-2 form-control" name="_id" value="{{_id}}">
+                    <input type="hidden" class="mt-2 form-control" name="tag" value="{{tag}}">
                     <tr>
                         <th class="pl01 d-print-block">{{_id}}</th>
                         <td class="pl02 d-print-block">

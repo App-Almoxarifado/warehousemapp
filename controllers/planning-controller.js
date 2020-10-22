@@ -25,6 +25,8 @@ require("../models/Collaborator");
 const Collaborator = mongoose.model("collaborators");
 require("../models/Request");
 const Request = mongoose.model("requests");
+require("../models/Planning");
+const Planning = mongoose.model("plannings");
 
 
 
@@ -40,7 +42,7 @@ exports.dashboard = async (req, res) => {
     if(req.user.admin)
       customers = await Client.find({ active: true })
       .sort({ description: "asc" })
-      .lean();
+      .lean().populate("site");
     else customers = req.user.sites;
     
     const groups = await Group.find({ active: true })
@@ -221,12 +223,13 @@ exports.dashboard = async (req, res) => {
 
 exports.request = async (req, res) => {
   try {
-    var clientId = await Client.findOne({ _id: req.params.id }).lean();
-    if (clientId) {
-      var productGroup = await Product.find({ group: clientId._id }).lean();
+    var siteId = await Client.findOne({ _id: req.params.id }).lean();
+    if (siteId) {
+      if(req.user.admin)
+      var customers = await Client.findOne({_id: siteId})
+      .lean();
+      else customers = req.user.sites;
     }
-    const cliente = req.params.id
-    console.log(cliente)
     const groups = await Group.find({ active: true })
       .sort({ description: "asc" })
       .lean();
@@ -283,6 +286,7 @@ exports.request = async (req, res) => {
       .populate("group")
       .populate("subgroup")
       .populate("kindOfEquipment")
+      
     res.render("planning/products", {
       products,
       prev: Number(page) > 1,
@@ -296,22 +300,16 @@ exports.request = async (req, res) => {
       limit,
       subgroup,
       type,
-      clientId,
-      productGroup,
-      cliente 
+      siteId,
+      customers,
     });
   } catch (err) {
     console.log(err);
-    req.flash("error_msg", "Ops, Houve um erro interno!");
+    req.flash("error_msg", "Ops, Houve um erro interno!"+err);
     res.redirect("/products");
   }
 };
-exports.postPlanning = async (req, res) => {
-      var clientId = await Client.findOne({ _id: req.params.id }).lean();
-    if (clientId) {
-      var productGroup = await Product.find({ group: clientId._id }).lean();
-    }
-    const cliente = req.params.id
+exports.postRequest = async (req, res) => {
   var erros = [];
   if (
     !req.body.qty ||
@@ -332,7 +330,7 @@ exports.postPlanning = async (req, res) => {
         product:req.body._id,
         qty:req.body.qty,
         user:req.user.name,
-        site:cliente
+        tag:req.body.tag
       });
       await requests.save();
       req.flash("success_msg", "Produto solicitado, enviado para pedido!");
@@ -348,489 +346,186 @@ exports.postPlanning = async (req, res) => {
 };
 
 //VIZUALIZANDO PRODUTOS CARRINHO
-exports.getCart = async (req, res) => {
+exports.getRequest = async (req, res) => {
   try {
-    var numberRequest = Date.now();
-    var products = await Product.find({ active: "cart" })
-      .lean()
-      .populate("group")
-      .populate("subgroup")
-      .populate("client")
-      .populate("physicalStatus")
-      .populate("kindOfEquipment")
-      .populate("kindOfEquipment")
-      .populate("unity")
-      .populate("frequancy")
-      .populate("provider");
-
-    var customers = await Client.find({
-      active: true,
-    })
-      .sort({
-        description: "asc",
-      })
+    var siteId = await Client.findOne({ _id: req.params.id }).lean();
+    if (siteId) {
+      if(req.user.admin)
+      var customers = await Client.findOne({_id: siteId})
       .lean();
+      else customers = req.user.sites;
+    }
 
-    console.log(req.user);
-    return res.render("products/cartproducts", {
-      user: req.user,
-      products: products,
-      customers: customers,
-      numberRequest,
+    const file = req.file
+    const filtros = [];
+    let { search, page, limit } = req.query;
+    if (!!search) {
+        const pattern = new RegExp(`.*${search}.*`);
+        filtros.push(
+            { tag: { $regex: pattern, $options: 'i' } },
+            { note: { $regex: pattern, $options: 'i' } },
+
+        );
+    }
+    page = Number(page || 1);
+    limit = limit ? Number(limit) : 5;
+    const quant = await Request.find(
+        filtros.length > 0 ? { $or: filtros } : {}
+    ).estimatedDocumentCount();
+
+    const requests = await Request.aggregate([
+        { $match: filtros.length > 0 ? { $or: filtros } : { active: true } },
+        { $sort: { description: -1 } },
+        { $skip: page > 1 ? (page - 1) * limit : 0 },
+        { $limit: limit },      
+        {
+            $lookup:
+            {
+                from: "products",
+                localField: "product",
+                foreignField: "_id",
+                as: "prodImg"
+            }
+        },
+        { $unwind: "$prodImg" },
+        {
+          $lookup:
+          {
+              from: "products",
+              localField: "product",
+              foreignField: "_id",
+              as: "prodDesc"
+          }
+      },
+      { $unwind: "$prodDesc" },
+    ])
+
+    res.render("planning/request", {
+        requests,
+        prev: Number(page) > 1,
+        next: Number(page) * limit < quant,
+        page,
+        limit,
+        file,
+        quant,
+        customers,
+        siteId
     });
-  } catch (err) {
+} catch (err) {
+    console.log(err);
     req.flash("error_msg", "Ops, Houve um erro interno!");
-    res.redirect("/products", {});
-  }
-  console.log(user);
-};
-
-//VIZUALIZANDO PRODUTOS CARRINHO
-exports.getCart_request = async (req, res) => {
-  try {
-    var numberRequest = Date.now();
-    var products = await Product.find({ active: "cart" })
-      .lean()
-      .populate("group")
-      .populate("subgroup")
-      .populate("client")
-      //.populate("localArea")
-      .populate("local")
-      .populate("sublease")
-      .populate("physicalStatus")
-      .populate("kindOfEquipment")
-      .populate("unity")
-      .populate("frequancy")
-      .populate("provider")
-      .populate("userLaunch")
-      .populate("userEdition");
-
-    var customers = await Client.find({
-      active: true,
-    })
-      .sort({
-        description: "asc",
-      })
-      .lean();
-
-    console.log(req.user);
-    return res.render("products/productscart", {
-      user: req.user,
-      products: products,
-      customers: customers,
-      numberRequest,
-    });
-  } catch (err) {
-    req.flash("error_msg", "Ops, Houve um erro interno!");
-    res.redirect("/products", {});
-  }
-  console.log(user);
+    res.redirect("/planning");
+}
 };
 
 //FINALIZANDO SOLICITAÇÃO POR ID
-exports.postRequest = async (req, res) => {
+exports.postPlanning = async (req, res) => {
   var erros = [];
   if (
-    !req.body.description ||
-    typeof req.body.description == undefined ||
-    req.body.description == null
+    !req.body.qty ||
+    typeof req.body.qty == undefined ||
+    req.body.qty == null
   ) {
     erros.push({
-      texto: "Descricão Inválida",
-    });
-  }
-
-  if (req.body.description.length < 2) {
-    erros.push({
-      texto: "Descrição do produto muito pequena!",
+      texto: "Você precisa informar uma quantidade solicitada!",
     });
   }
   if (erros.length > 0) {
-    res.render("products/addproducts", {
+    res.render("planning/products", {
       erros: erros,
     });
   } else {
     try {
-      const products = new Product({
-        qrcode:
-          req.body.patrimonialAsset
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-            .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-            .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, "") +
-          req.body.description
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-            .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-            .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, "") +
-          req.body.manufacturer
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-            .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-            .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, "") +
-          req.body.model
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-            .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-            .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, "") +
-          req.body.capacityReach
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-            .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-            .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, "") +
-          req.body.serialNumber
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-            .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-            .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, ""),
-
-        image: req.body.image,
-
-        group: req.body.group,
-
-        subgroup: req.body.subgroup,
-
-        fullDescription:
-          req.body.patrimonialAsset +
-          " " +
-          req.body.description +
-          " " +
-          req.body.manufacturer +
-          " " +
-          req.body.model +
-          " " +
-          req.body.capacityReach +
-          " " +
-          req.body.serialNumber,
-
-        stockCode:
-          req.body.description
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-            .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-            .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, "") +
-          req.body.capacityReach
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-            .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-            .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, ""),
-
-        client: req.body.client,
-
-        localArea: req.body.localArea,
-
-        local: req.body.local,
-
-        sublease: req.body.sublease,
-
-        patrimonialAsset: req.body.patrimonialAsset,
-
-        description: req.body.description,
-
-        manufacturer: req.body.manufacturer,
-
-        model: req.body.model,
-
-        capacityReach: req.body.capacityReach,
-
-        serialNumber: req.body.serialNumber,
-
-        physicalStatus: req.body.physicalStatus,
-
-        kindOfEquipment: req.body.kindOfEquipment,
-
-        requiresCertificationCalibration:
-          req.body.requiresCertificationCalibration,
-
-        inputAmount: req.body.inputAmount.replace(",", "."),
-
-        inputAmountSite: req.body.inputAmount.replace(",", "."),
-
-        outputQuantity: 0,
-
-        stockQuantity: req.body.inputAmount - req.body.outputQuantity,
-
-        unity: req.body.unity,
-
-        weightKg: req.body.weightKg,
-
-        faceValue: req.body.faceValue.replace(",", "."),
-
-        dimensionsWxLxH: req.body.dimensionsWxLxH,
-
-        certificate: req.body.certificate,
-
-        entityLaboratory: req.body.entityLaboratory,
-
-        frequency: req.body.frequency,
-
-        calibrationDate: req.body.calibrationDate,
-
-        calibrationValidity: req.body.calibrationValidity,
-
-        calibrationStatus: req.body.calibrationStatus,
-
-        po: req.body.po,
-
-        sapCode: req.body.sapCode,
-
-        ncmCode: req.body.ncmCode,
-
-        provider: req.body.provider,
-
-        invoce: req.body.invoce,
-
-        receivingDate: req.body.receivingDate,
-
-        note: req.body.note,
-
-        activeStatus: req.body.activeStatus,
-
-        releaseDateOf: req.body.releaseDateOf,
-
-        userLaunch: req.body.userLaunch,
-
-        emailLaunch: req.body.emailLaunch,
-
-        editionDate: req.body.editionDate,
-
-        userEdtion: req.body.userEdtion,
-
-        emailEdtion: req.body.emailEdtion,
-
-        //responsibleSite: req.body.client,
-
-        //responsibleMaterial: req.body.client,
-
-        //totalFaceValue:req.body.inputAmount * req.body.faceValue,
-
-        //totalWeightKg:req.body.inputAmount * req.body.weightKg,
-
-        active: "cart",
-
-        tags: [
-          req.body.group,
-          req.body.subgroup,
-          req.body.client,
-          req.body.local,
-          req.body.sublease,
-          req.body.client,
-          req.body.physicalStatus,
-          req.body.kindOfEquipment,
-          req.body.responsibleMaterial,
-        ],
+      const plannings = new Planning({
+        products:req.body._id,
+        user:req.user.name,
+        site:req.body.site
       });
-      await products.save();
-      req.flash("success_msg", "Produto solicitado, enviado para pedido!");
-      res.redirect("/products/request");
-    } catch (err) {
-      req.flash(
-        "error_msg",
-        "Ops, Houve um erro ao salvar o Produto, tente novamente!" + err
-      );
-      res.redirect("/products");
-    }
-  }
-};
-
-//COLOCANDO PRODUTO NO CARRINHO COM UM CLIQUE
-exports.updateRequest = async (req, res) => {
-  var product = await Product.findOne({ _id: req.body.id });
-  
-    try {
-      product.qrcode =
-        req.body.patrimonialAsset
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-          .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-          .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-          .replace(/(^-+|-+$)/, "") +
-        req.body.description
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-          .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-          .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-          .replace(/(^-+|-+$)/, "") +
-        req.body.manufacturer
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-          .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-          .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-          .replace(/(^-+|-+$)/, "") +
-        req.body.model
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-          .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-          .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-          .replace(/(^-+|-+$)/, "") +
-        req.body.capacityReach
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-          .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-          .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-          .replace(/(^-+|-+$)/, "") +
-        req.body.serialNumber
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-          .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-          .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-          .replace(/(^-+|-+$)/, "");
-
-      product.image = req.body.image;
-
-      product.group = req.body.group;
-
-      product.subgroup = req.body.subgroup;
-
-      product.fullDescription =
-        req.body.patrimonialAsset +
-        " " +
-        req.body.description +
-        " " +
-        req.body.manufacturer +
-        " " +
-        req.body.model +
-        " " +
-        req.body.capacityReach +
-        " " +
-        req.body.serialNumber;
-
-      product.stockCode =
-        req.body.description
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-          .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-          .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-          .replace(/(^-+|-+$)/, "") +
-        req.body.capacityReach
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-          .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-          .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-          .replace(/(^-+|-+$)/, "");
-
-      product.client = req.body.client;
-
-      product.localArea = req.body.localArea;
-
-      product.local = req.body.local;
-
-      product.sublease = req.body.sublease;
-
-      product.patrimonialAsset = req.body.patrimonialAsset;
-
-      product.description = req.body.description;
-
-      product.manufacturer = req.body.manufacturer;
-
-      product.model = req.body.model;
-
-      product.capacityReach = req.body.capacityReach;
-
-      product.serialNumber = req.body.serialNumber;
-
-      product.physicalStatus = req.body.physicalStatus;
-
-      product.kindOfEquipment = req.body.kindOfEquipment;
-
-      product.requiresCertificationCalibration =
-        req.body.requiresCertificationCalibration;
-
-      product.inputAmount = req.body.inputAmount.replace(",", ".");
-
-      product.inputAmountSite = req.body.inputAmount.replace(",", ".");
-
-      product.outputQuantity = req.body.outputQuantity.replace(",", ".");
-
-      //product.stockQuantity = req.body.inputAmount - req.body.outputQuantity
-
-      product.unity = req.body.unity;
-
-      product.weightKg = req.body.weightKg;
-
-      product.faceValue = req.body.faceValue.replace(",", ".");
-
-      product.dimensionsWxLxH = req.body.dimensionsWxLxH;
-
-      product.certificate = req.body.certificate;
-
-      product.entityLaboratory = req.body.entityLaboratory;
-
-      product.frequency = req.body.frequency;
-
-      product.calibrationDate = req.body.calibrationDate;
-
-      product.calibrationValidity = req.body.calibrationValidity;
-
-      product.calibrationStatus = req.body.calibrationStatus;
-
-      product.po = req.body.po;
-
-      product.sapCode = req.body.sapCode;
-
-      product.ncmCode = req.body.ncmCode;
-
-      product.provider = req.body.provider;
-
-      product.invoce = req.body.invoce;
-
-      product.receivingDate = req.body.receivingDate;
-
-      product.note = req.body.note;
-
-      product.activeStatus = req.body.activeStatus;
-
-      product.releaseDateOf = req.body.releaseDateOf;
-
-      product.userLaunch = req.body.userLaunch;
-
-      product.emailLaunch = req.body.emailLaunch;
-
-      product.editionDate = req.body.editionDate;
-
-      product.userEdtion = req.body.userEdtion;
-
-      product.emailEdtion = req.body.emailEdtion;
-
-      //product.responsibleSite= req.body.client
-
-      //product.responsibleMaterial= req.body.client
-
-      //product.totalFaceValue=req.body.inputAmount * req.body.faceValue
-
-      //product.totalWeightKg=req.body.inputAmount * req.body.weightKg
-
-      product.active = "cart";
-
-      product.tags = [
-        req.body.group,
-        req.body.subgroup,
-        req.body.client,
-        req.body.local,
-        req.body.sublease,
-        req.body.client,
-        req.body.physicalStatus,
-        req.body.kindOfEquipment,
-        req.body.responsibleMaterial,
-      ];
-
-      await product.save();
-      req.flash("success_msg", "Produto solicitado!");
+      await plannings.save();
+      req.flash("success_msg", "Pedido Finalizado!" + " " + req.user.nome);
       res.redirect("/planning");
     } catch (err) {
       req.flash(
         "error_msg",
-        "Ops, Houve um erro ao salvar o Produto, tente novamente!" + err
+        "Ops, Houve um erro ao salvar o Produto, tente novamente!" 
       );
-      res.redirect("/products");
+      res.redirect("/planning");
     }
-  
+  }
 };
+
+
+//VIZUALIZANDO PEDIDOS
+exports.getTransfer = async (req, res) => {
+  try {
+    var siteId = await Client.findOne({ _id: req.params.id }).lean();
+    if (siteId) {
+      if(req.user.admin)
+      var customers = await Client.findOne({_id: siteId})
+      .lean();
+      else customers = req.user.sites;
+    }
+
+    const file = req.file
+    const filtros = [];
+    let { search, page, limit } = req.query;
+    if (!!search) {
+        const pattern = new RegExp(`.*${search}.*`);
+        filtros.push(
+            { tag: { $regex: pattern, $options: 'i' } },
+            { note: { $regex: pattern, $options: 'i' } },
+
+        );
+    }
+    page = Number(page || 1);
+    limit = limit ? Number(limit) : 5;
+    const quant = await Request.find(
+        filtros.length > 0 ? { $or: filtros } : {}
+    ).estimatedDocumentCount();
+
+    const plannings = await Planning.aggregate([
+        { $match: filtros.length > 0 ? { $or: filtros } : { active: true } },
+        { $sort: { description: -1 } },
+        { $skip: page > 1 ? (page - 1) * limit : 0 },
+        { $limit: limit },  
+        { $unwind : "$products" },
+        {
+          $lookup:
+          {
+              from: "requests",
+              localField: "products",
+              foreignField: "_id",
+              as: "prodImg"
+          }
+      },
+      { $unwind: "$prodImg" },
+      {
+        $lookup:
+        {
+            from: "requests",
+            localField: "products",
+            foreignField: "_id",
+            as: "prodDesc"
+        }
+    },
+    { $unwind: "$prodDesc" },    
+    ])
+
+    res.render("planning/transfer", {
+        plannings,
+        prev: Number(page) > 1,
+        next: Number(page) * limit < quant,
+        page,
+        limit,
+        file,
+        quant,
+        customers,
+        siteId
+    });
+} catch (err) {
+    console.log(err);
+    req.flash("error_msg", "Ops, Houve um erro interno!");
+    res.redirect("/planning");
+}
+};
+

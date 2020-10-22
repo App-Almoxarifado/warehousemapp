@@ -10,7 +10,7 @@ const Type = mongoose.model("types");
 require("../models/Request");
 const Request = mongoose.model("requests");
 
-//EXIBINDO TIPOS POR LISTA
+//PRODUTOS POR LISTA
 exports.getList = async (req, res) => {
     try {
         const file = req.file
@@ -73,7 +73,7 @@ exports.getList = async (req, res) => {
     }
 };
 
-//EXIBINDO TIPOS POR TABELA
+//PRODUTOS POR TABELA
 exports.getTable = async (req, res) => {
     try {
         const file = req.file

@@ -6,10 +6,10 @@
 
   <div class="d-flex justify-content-center">
     <div class="p-1 mr-auto">
-      <h3>Meu Pedido</h3>
+      <h3>Meus Pedidos</h3>
     </div>
     <div class="p-0 mr-1 mt-1">
-      <h6>{{siteId.description}}</h6>
+      <h6>{{user.nome}}</h6>
     </div>
   </div>
 
@@ -101,7 +101,7 @@
         </tr>
       </thead>
       <tbody>                                        
-                {{#each requests}}
+                {{#each plannings}}
           <input type="hidden" class="mt-2 form-control" name="_id[]" value="{{_id}}">
           <tr>
             <th class="tbReq01 d-print-block">{{_id}}</th>
@@ -114,12 +114,17 @@
             </td>
 
             <td class="tbReq03 d-print-block">{{prodDesc.tag}}</td>
-            <td class="tbReq04 d-print-block">{{note}}</td>
+            <td class="tbReq04 d-print-block">{{products}}</td>
             <td class="tbReq05"><input type="number" value="1" min="1" max="" class=" form-control form-control-sm"
                 name="qty" required></td>
 
             <td class="tbReq06 d-print-none">
               <div class="d-flex justify-content-center">
+                <div class="p-0 mr-1">
+                  <button type="submit" class="mt-1 mb-1 btn btn-success btn-sm" data-toggle="tooltip"
+                    data-placement="right" title="Inserir produto na solicitação atual">
+                    <i class="fas fa-cart-arrow-down"></i></button>
+                </div>
 
                 <div class="liTypes11 p-0 mr-1">
                   <a href="/products/edit/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
