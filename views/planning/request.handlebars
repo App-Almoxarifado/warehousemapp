@@ -29,16 +29,16 @@
 
     <!--FORM PARA FINALIZAR PEDIDO-->
     <form action="/planning/planning" method="POST">
-    <input type="hidden" class="mt-2 form-control" name="site" value="{{siteId._id}}">
+      <input type="hidden" class="mt-2 form-control" name="site" value="{{siteId._id}}">
 
-    <div class="p-0">
-      <a href="/products/add">
-        <button type="submit" class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom"
-          title="Finalize seu pedido clicando aqui!">
-          Finalizar Pedido <i class="fas fa-paper-plane"></i>
-        </button>
-      </a>
-    </div>
+      <div class="p-0">
+        <a href="/products/add">
+          <button type="submit" class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom"
+            title="Finalize seu pedido clicando aqui!">
+            Finalizar Pedido <i class="fas fa-paper-plane"></i>
+          </button>
+        </a>
+      </div>
   </div>
 
 
@@ -100,44 +100,44 @@
           <th class="tbReq06 d-print-block" scope="col">Ações</th>
         </tr>
       </thead>
-      <tbody>                                        
-                {{#each requests}}
-          <input type="hidden" class="mt-2 form-control" name="_id[]" value="{{_id}}">
-          <tr>
-            <th class="tbReq01 d-print-block">{{_id}}</th>
-            <td class="tbReq02 d-print-block">
-              <figure class="figure">
-                <img src="{{prodImg.image}}" name="image" class="figure-img img-fluid rounded" style="max-width: 4rem;"
-                  alt="Imagem de um quadrado genérico com bordas arredondadas, em uma figure.">
-                <!--<figcaption class="figure-caption">Uma legenda para a imagem acima.</figcaption>-->
-              </figure>
-            </td>
+      <tbody>
+        {{#each requests}}
+        <input type="hidden" class="mt-2 form-control" name="_id[]" value="{{_id}}">
+        <tr>
+          <th class="tbReq01 d-print-block">{{_id}}</th>
+          <td class="tbReq02 d-print-block">
+            <figure class="figure">
+              <img src="{{prodImg.image}}" name="image" class="figure-img img-fluid rounded" style="max-width: 4rem;"
+                alt="Imagem de um quadrado genérico com bordas arredondadas, em uma figure.">
+              <!--<figcaption class="figure-caption">Uma legenda para a imagem acima.</figcaption>-->
+            </figure>
+          </td>
 
-            <td class="tbReq03 d-print-block">{{prodDesc.tag}}</td>
-            <td class="tbReq04 d-print-block">{{note}}</td>
-            <td class="tbReq05"><input type="number" value="1" min="1" max="" class=" form-control form-control-sm"
-                name="qty" required></td>
+          <td class="tbReq03 d-print-block">{{prodDesc.description}}</td>
+          <td class="tbReq04 d-print-block">{{note}}</td>
+          <td class="tbReq05"><input type="number" value="1" min="1" max="" class=" form-control form-control-sm"
+              name="qty" required></td>
 
-            <td class="tbReq06 d-print-none">
-              <div class="d-flex justify-content-center">
+          <td class="tbReq06 d-print-none">
+            <div class="d-flex justify-content-center">
 
-                <div class="liTypes11 p-0 mr-1">
-                  <a href="/products/edit/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
-                    data-placement="bottom" title="Cadastre um detalhe, referência do produto">
-                    <i class="fas fa-file-signature"></i>
-                  </a>
-                </div>
-
-                <div class="liTypes11 p-0">
-                  <a href="/products/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm"
-                    data-toggle="tooltip" data-placement="bottom" title="Excluir produto do Pedido">
-                    <i class="fas fa-trash-alt"></i>
-                  </a>
-                </div>
+              <div class="liTypes11 p-0 mr-1">
+                <a href="/products/edit/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
+                  data-placement="bottom" title="Cadastre um detalhe, referência do produto">
+                  <i class="fas fa-file-signature"></i>
+                </a>
               </div>
-            </td>
-          </tr>
-        
+
+              <div class="liTypes11 p-0">
+                <a href="/products/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
+                  data-placement="bottom" title="Excluir produto do Pedido">
+                  <i class="fas fa-trash-alt"></i>
+                </a>
+              </div>
+            </div>
+          </td>
+        </tr>
+
         {{else}}
         <h4 class="mt-12 mb-2">
           Nenhum Item Requisitado!
@@ -146,7 +146,7 @@
       </tbody>
     </table>
   </div>
-</form>
+  </form>
   <div class="d-flex d-print-none">
     <div class="mr-auto p-2">
       {{#if prev}}
