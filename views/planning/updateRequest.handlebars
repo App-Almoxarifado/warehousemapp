@@ -1,0 +1,52 @@
+<div class="container">
+
+    {{#each erros}}
+    <div class="mt-2 alert alert-danger">{{texto}}</div>
+    {{else}}
+
+    {{/each}}
+
+
+
+    <h3 class="mt-2">Crie uma nota</h3>
+
+    <hr>
+
+    <form action="/planning/updateRequest" enctype="multipart/form-data" method="POST">
+        <div class="row no-gutters position-relative">
+            <div class="col-md-4 position-static">
+                <div class="d-flex justify-content-center">
+                    <img src="https://warehousemapp.s3.amazonaws.com/logo8.png" class="avatar img-fluid rounded" alt=""
+                        style="width: 14rem;">
+                </div>
+                <figcaption class="figure-caption text-center">Clique na imagem para fazer o upload, a imagem é
+                    obrigatória!</figcaption>
+                <div class="d-flex p-1 justify-content-center">
+
+                    <input type="file" accept="image/*" name="file" id="file"
+                        class="btn-file text-center center-block file-upload">
+                </div>
+            </div>
+            <div class="col-md-8 position-static px-2">
+                <h4 class="mt-2">{{tag}}</h4>
+                <input type="hidden" class="form-control" id="id" name="id" placeholder="Id" value={{request._id}}>
+                <input type="hidden" class="form-control mt-2" name="image" id="image">
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label style="font-size: small ;" for="note">Observações, referencias:</label>
+                        <input class="form-control" id="note" name="note" rows="4">
+                        <small id="note" class="form-text text-muted">
+                            Cole um link de referência do material que deseja, ou descreva um fabricante, modelo!
+                        </small>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <input type='submit' class='btn btn-success btn-sm btn-block' value='Salvar'>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </form>
+</div>

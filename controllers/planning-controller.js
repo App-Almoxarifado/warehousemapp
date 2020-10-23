@@ -326,16 +326,17 @@ exports.postRequest = async (req, res) => {
     });
   } else {
     try {
-      const requests = new Request({
-        product:req.body._id,
-        qty:req.body.qty,
+      const {product,qty,tag,image} = req.body
+      const request = await Request.create({
+        product,
+        qty,
         user:req.user.name,
-        tag:req.body.tag,
-        image:req.body.image
+        tag,
+        image
       });
-      await requests.save();
+      //await requests.save();
       req.flash("success_msg", "Produto solicitado, enviado para pedido!");
-      res.redirect("/planning/products/" + requests.product);
+      res.redirect("/planning/products");
     } catch (err) {
       req.flash(
         "error_msg",
@@ -349,14 +350,6 @@ exports.postRequest = async (req, res) => {
 //VIZUALIZANDO PRODUTOS CARRINHO
 exports.getRequest = async (req, res) => {
   try {
-    var siteId = await Client.findOne({ _id: req.params.id }).lean();
-    if (siteId) {
-      if(req.user.admin)
-      var customers = await Client.findOne({_id: siteId})
-      .lean();
-      else customers = req.user.sites;
-    }
-
     const file = req.file
     const filtros = [];
     let { search, page, limit } = req.query;
@@ -364,8 +357,6 @@ exports.getRequest = async (req, res) => {
         const pattern = new RegExp(`.*${search}.*`);
         filtros.push(
             { tag: { $regex: pattern, $options: 'i' } },
-            { note: { $regex: pattern, $options: 'i' } },
-
         );
     }
     page = Number(page || 1);
@@ -380,27 +371,26 @@ exports.getRequest = async (req, res) => {
         { $skip: page > 1 ? (page - 1) * limit : 0 },
         { $limit: limit },      
         {
-            $lookup:
-            {
-                from: "products",
-                localField: "product",
-                foreignField: "_id",
-                as: "prodImg"
-            }
-        },
-        { $unwind: "$prodImg" },
-        {
           $lookup:
           {
               from: "products",
               localField: "product",
               foreignField: "_id",
-              as: "prodDesc"
+              as: "prodImg"
           }
       },
-      { $unwind: "$prodDesc" },
+      { $unwind: "$prodImg" },
+      {
+        $lookup:
+        {
+            from: "products",
+            localField: "product",
+            foreignField: "_id",
+            as: "prodDesc"
+        }
+    },
+    { $unwind: "$prodDesc" },
     ])
-
     res.render("planning/request", {
         requests,
         prev: Number(page) > 1,
@@ -409,12 +399,10 @@ exports.getRequest = async (req, res) => {
         limit,
         file,
         quant,
-        customers,
-        siteId
     });
 } catch (err) {
     console.log(err);
-    req.flash("error_msg", "Ops, Houve um erro interno!");
+    req.flash("error_msg", "Ops, Houve um erro interno!" + err);
     res.redirect("/planning");
 }
 };
@@ -440,7 +428,6 @@ exports.postPlanning = async (req, res) => {
       const plannings = new Planning({
         products:req.body._id,
         user:req.user.name,
-        site:req.body.site
       });
       await plannings.save();
       req.flash("success_msg", "Pedido Finalizado!" + " " + req.user.nome);
@@ -455,87 +442,93 @@ exports.postPlanning = async (req, res) => {
   }
 };
 
+//EDITANDO UM PEDIDO
+exports.getUpdate = async (req, res) => {
+  try {
+      const file = req.file
+      var request = await Request.findOne({ _id: req.params.id }).lean();
+      res.render("planning/updateRequest", { request: request, file });
+  } catch (_err) {
+      req.flash("error_msg", "Ops, Houve um erro interno!");
+      res.redirect("/planning");
+  }
+};
 
-//VIZUALIZANDO PEDIDOS
+//POST FINALIZANDO PEDIDO
+exports.postUpdate = async (req, res) => {
+  var request = await Request.findOne({ _id: req.body.id });
+  const file = req.file
+  var erros = [];
+  if (
+      !req.body.note ||
+      typeof req.body.note == undefined ||
+      req.body.note == null
+  ) {
+      erros.push({
+          texto: "Descreva alguma observação",
+      });
+  }
+  if (erros.length > 0) {
+      res.render("/planning", {
+          file,
+          erros: erros,
+      });
+  } else {
+      try {
+              request.image = req.file.location,
+              request.key = req.file.key,
+              request.note = req.body.note,
+              
+          await request.save();
+          req.flash("success_msg", "Observação criada com sucesso!!!");
+          res.redirect("/planning");
+          console.log("Produto editado com sucesso!");
+      } catch (err) {
+          req.flash(
+              "error_msg",
+              "Ops, Houve um erro ao salvar o tipo, tente novamente!"+err
+          );
+          res.redirect("/planning");
+      }
+  }
+};
+
+//VIZUALIZANDO PRODUTOS CARRINHO
 exports.getTransfer = async (req, res) => {
   try {
-    var siteId = await Client.findOne({ _id: req.params.id }).lean();
-    if (siteId) {
-      if(req.user.admin)
-      var customers = await Client.findOne({_id: siteId})
-      .lean();
-      else customers = req.user.sites;
-    }
-
     const file = req.file
     const filtros = [];
-    let { search, page, site, limit } = req.query;
+    let { search, page, limit } = req.query;
     if (!!search) {
-      const pattern = new RegExp(`.*${search}.*`);
-      filtros.push(
-        { _id: { $regex: pattern, $options: 'i' } },
-      );
+        const pattern = new RegExp(`.*${search}.*`);
+        filtros.push(
+            { _id: { $regex: pattern, $options: 'i' } },
+        );
     }
     page = Number(page || 1);
     limit = limit ? Number(limit) : 5;
     const quant = await Planning.find(
-      filtros.length > 0 ? { $or: filtros } : {}
+        filtros.length > 0 ? { $or: filtros } : {}
     ).estimatedDocumentCount();
 
     const plannings = await Planning.aggregate([
-        { $match: filtros.length > 0 ? { $or: filtros } : { active: true } },
-        { $sort: { _id: -1 } },
-        { $skip: page > 1 ? (page - 1) * limit : 0 },
-        { $limit: limit },  
-        { $unwind : "$products" },
-        { $unwind : "$site" },
-        {
-          $lookup:
-          {
-              from: "requests",
-              localField: "products",
-              foreignField: "_id",
-              as: "qty"
-          }
-      },
-      { $unwind: "$qty" },
-      {
-        $lookup:
-        {
-            from: "requests",
-            localField: "products",
-            foreignField: "_id",
-            as: "tag"
-        }
-    },
-    { $unwind: "$tag" },
-    {
-      $lookup:
-      {
-          from: "requests",
-          localField: "products",
-          foreignField: "_id",
-          as: "image"
-      }
-  },
-  { $unwind: "$image" },
-    ])
-console.log(plannings)
+      { $match: filtros.length > 0 ? { $or: filtros } : { active: true } },
+      { $sort: { _id: -1 } },
+      { $skip: page > 1 ? (page - 1) * limit : 0 },
+      { $limit: limit },  
+  ])
     res.render("planning/transfer", {
-        plannings,
+       plannings,
         prev: Number(page) > 1,
         next: Number(page) * limit < quant,
         page,
         limit,
         file,
         quant,
-        customers,
-        siteId
     });
 } catch (err) {
     console.log(err);
-    req.flash("error_msg", "Ops, Houve um erro interno!" +err);
+    req.flash("error_msg", "Ops, Houve um erro interno!" + err);
     res.redirect("/planning");
 }
 };
-

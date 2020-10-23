@@ -6,149 +6,144 @@
 
   <div class="d-flex justify-content-center">
     <div class="p-1 mr-auto">
-      <h3>Meus Pedidos</h3>
+      <h3>Meu Pedido</h3>
     </div>
     <div class="p-0 mr-1 mt-1">
-      <h6>{{user.nome}}</h6>
+      <h6>{{user.sites}}</h6>
     </div>
   </div>
 
   <div class="d-flex justify-content-center">
-    <div class="p-1">
-      {{#each user.sites}}
-      <a href="/planning/products/{{_id}}">
-        <button type="button" class="totalGroup2 btn btn-secondary btn-sm">
-          {{description}}
-        </button>
-      </a>
-      {{else}}
-      <h6>Nenhum Site Registrado</h6>
-      {{/each}}
-    </div>
-  </div>
-
-  <!--FORM PARA FINALIZAR PEDIDO-->
-  <form action="/planning/planning" method="POST">
-    <input type="hidden" class="mt-2 form-control" name="site" value="{{siteId._id}}">
-    <div class="d-flex justify-content-center">
-      <div class="p-1 mr-auto">
-        <div class="form-group row">
-          <label for="client" class="col-sm-7 col-form-label col-form-label-sm">Itens p/ página</label>
-          <div class="col-sm-5">
-            <select class="custom-select custom-select-sm" id="limit" name="limit" onchange="setLimit()">
-              <option value="5" {{#if_eq limit 5}}selected{{/if_eq}}>5</option>
-              <option value="10" {{#if_eq limit 10}}selected{{/if_eq}}>10</option>
-              <option value="25" {{#if_eq limit 25}}selected{{/if_eq}}>25</option>
-              <option value="50" {{#if_eq limit 50}}selected{{/if_eq}}>50</option>
-              <option value="100" {{#if_eq limit 100}}selected{{/if_eq}}>100</option>
-            </select>
-          </div>
+    <div class="p-1 mr-auto">
+      <div class="form-group row">
+        <label for="client" class="col-sm-7 col-form-label col-form-label-sm">Itens p/ página</label>
+        <div class="col-sm-5">
+          <select class="custom-select custom-select-sm" id="limit" name="limit" onchange="setLimit()">
+            <option value="5" {{#if_eq limit 5}}selected{{/if_eq}}>5</option>
+            <option value="10" {{#if_eq limit 10}}selected{{/if_eq}}>10</option>
+            <option value="25" {{#if_eq limit 25}}selected{{/if_eq}}>25</option>
+            <option value="50" {{#if_eq limit 50}}selected{{/if_eq}}>50</option>
+            <option value="100" {{#if_eq limit 100}}selected{{/if_eq}}>100</option>
+          </select>
         </div>
       </div>
-      <div class="p-1 ">
-        <p><small>Visualizar Colunas</small></p>
-      </div>
-      <div class="p-1 ">
-
-        <select class="custom-select custom-select-sm" name="SelectOptions" id="SelectOptions">
-          <option selected disabled hidden>Escolher...</option>
-          <option value="tbTr01">Id</option>
-          <option value="tbTr02">imagem</option>
-          <option value="tbTr03">Descrição</option>
-          <option value="tbTr04">Observação/ Nota</option>
-          <option value="tbTr05">Qtd. Solicitada</option>
-          <option value="tbTr06">Ações</option>
-        </select>
-      </div>
-
-
-            <div class="p-1">
-                <select class="custom-select custom-select-sm" id="group" name="group" onchange="setSearchGroup()">
-                    <option selected disabled hidden>Grupos</option>
-                    <option value="">Nenhum(a)</option>
-                    {{#each products}}
-                    <option value="{{_id}}" {{#if_eq ../group _id}}selected{{/if_eq}}>{{description}}</option>
-                    {{else}}
-                    <option value="0">Nenhum grupo registrado</option>
-                    {{/each}}
-                </select>
-            </div>
-
     </div>
-    <!--TABELA DE DADOS-->
-    <div class="table-responsive">
-      <table id="tblExport" class="table table-hover table-sm table-bordered">
+    <div class="p-1 ">
+      <p><small>Visualizar Colunas</small></p>
+    </div>
+    <div class="p-1 ">
 
-        <thead>
-          <tr>
-            <th class="tbTr01 d-print-block" scope="col">Pedido</th>
-            <th class="tbTr02 d-print-block" scope="col">Imagem</th>
-            <th class="tbTr03 d-print-block" scope="col">Descrição</th>
-            <th class="tbTr04 d-print-block" scope="col">Obra</th>
-            <th style="width:42%" class="tbTr05 d-print-block" scope="col">Observação / Nota</th>
-            <th class="tbTr06 d-print-block" scope="col">Qtd. Solicitada</th>
-            <th class="tbTr07 d-print-block" scope="col">Qtd. Atendida</th>
-            <th class="tbTr08 d-print-block" scope="col">Tag</th>
-            <th class="tbTr09 d-print-block" scope="col">Status Pedido</th>
-            <th class="tbTr10 d-print-block" scope="col">Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#each plannings}}
-          <input type="hidden" class="mt-2 form-control" name="_id" value="{{_id}}">
-          <input type="hidden" class="mt-2 form-control" name="products" value="{{products}}">
-          <input type="hidden" class="mt-2 form-control" name="site" value="{{site}}">
-          <tr>
-            <th class="tbTr01 d-print-block">{{_id}}</th>
-            <td class="tbTr02 d-print-block">
-              <figure class="figure">
-                <img src="{{image.image}}" name="image" class="figure-img img-fluid rounded" style="max-width: 4rem;"
-                  alt="Imagem de um quadrado genérico com bordas arredondadas, em uma figure.">
-                <!--<figcaption class="figure-caption">Uma legenda para a imagem acima.</figcaption>-->
-              </figure>
-            </td>
+      <select class="custom-select custom-select-sm" name="SelectOptions" id="SelectOptions">
+        <option selected disabled hidden>Escolher...</option>
+        <option value="tbReq01">Id</option>
+        <option value="tbReq02">imagem</option>
+        <option value="tbReq03">Descrição</option>
+        <option value="tbReq04">Observação/ Nota</option>
+        <option value="tbReq05">Qtd. Solicitada</option>
+        <option value="tbReq06">Ações</option>
+      </select>
+    </div>
 
-            <td class="tbTr03 d-print-block">{{products}}</td>
-            <td class="tbTr04 d-print-block">{{site}}</td>
-            <td class="tbTr05 d-print-block">{{note}}</td>
-            <td class="tbTr06 d-print-block">{{qty.qty}}</td>
-            <td class="tbTr07 d-print-block">{{qty.qty}}</td>
-            <td class="tbTr08 d-print-block">{{tag.tag}}</td>
-            <td class="tbTr09 d-print-block">{{status}}</td>
+    <div class="p-1">
+      <div class="input-group input-group-sm mb-3">
+        <input type="text-sm" class="form-control" id="search" name="search" placeholder="Pesquise aqui...">
+      </div>
+    </div>
 
-            <td class="tbTr10 d-print-none">
-              <div class="d-flex justify-content-center">
-                <div class="p-0 mr-1">
-                  <button type="submit" class="mt-1 mb-1 btn btn-success btn-sm" data-toggle="tooltip"
-                    data-placement="right" title="Inserir produto na solicitação atual">
-                    <i class="fas fa-cart-arrow-down"></i></button>
-                </div>
+    <div class="p-1">
+      <button type="button" class="btn btn-primary btn-sm" onclick="search()">
+        <i class="fa fa-search" aria-hidden="true"></i>
+      </button>
+    </div>
 
-                <div class="liTypes11 p-0 mr-1">
-                  <a href="/products/edit/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
-                    data-placement="bottom" title="Cadastre um detalhe, referência do produto">
-                    <i class="fas fa-file-signature"></i>
-                  </a>
-                </div>
+  </div>
 
-                <div class="liTypes11 p-0">
-                  <a href="/products/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm"
-                    data-toggle="tooltip" data-placement="bottom" title="Excluir produto do Pedido">
-                    <i class="fas fa-trash-alt"></i>
-                  </a>
-                </div>
+    <div class="d-flex justify-content-center">
+    <div class="p-1 mr-auto">
+      <h6>Temos {{quant}} itens requisitados até o momento!!</h6>
+    </div>
+    <div class="p-0 mr-1">
+      <a href="/planning/products">
+        <button type="button" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom"
+          title="Lembrou de algo, continue solicitando!">
+          Continuar Solicitando
+          <i class="fas fa-dolly"></i>
+        </button>
+      </a>
+    </div>
+
+    <!--FORM PARA FINALIZAR PEDIDO-->
+    <form action="/planning/planning" method="POST">
+
+      <div class="p-0">
+
+          <button type="submit" class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom"
+            title="Finalize seu pedido clicando aqui!">
+            Finalizar Pedido <i class="fas fa-paper-plane"></i>
+          </button>
+
+      </div>
+  </div>
+  <!--TABELA DE DADOS-->
+  <div class="table-responsive mt-1 ">
+    <table id="tblExport" class="table table-hover table-sm table-bordered">
+
+      <thead>
+        <tr>
+          <th class="tbReq01 d-print-block" scope="col">Id</th>
+          <th class="tbReq02 d-print-block" scope="col">Imagem</th>
+          <th class="tbReq03 d-print-block" scope="col">Descrição</th>
+          <th style="width:42%" class="tbReq04 d-print-block" scope="col">Observação / Nota</th>
+          <th style="width:7%" class="tbReq05 d-print-block" scope="col">Qtd. Solicitada</th>
+          <th class="tbReq06 d-print-block" scope="col">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each plannings}}
+        <input type="hidden" class="mt-2 form-control" name="_id[]" value="{{_id}}">
+        <tr>
+          <th class="tbReq01 d-print-block">{{_id}}</th>
+          <td class="tbReq02 d-print-block">
+            <figure class="figure">
+              <img src="{{_id}}" name="image" class="figure-img img-fluid rounded" style="max-width: 4rem;"
+                alt="Imagem de um quadrado genérico com bordas arredondadas, em uma figure.">
+              <!--<figcaption class="figure-caption">Uma legenda para a imagem acima.</figcaption>-->
+            </figure>
+          </td>
+
+          <td class="tbReq03 d-print-block">{{_id}}</td>
+          <td class="tbReq04 d-print-block">{{_id}}</td>
+          <td class="tbReq05"><input type="number" value="1" min="1" max="" class=" form-control form-control-sm"
+              name="qty" required></td>
+
+          <td class="tbReq06 d-print-none">
+            <div class="d-flex justify-content-center">
+
+              <div class="liTypes11 p-0 mr-1">
+                <a href="/products/edit/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
+                  data-placement="bottom" title="Cadastre um detalhe, referência do produto">
+                  <i class="fas fa-file-signature"></i>
+                </a>
               </div>
-            </td>
-          </tr>
 
-          {{else}}
-          <h4 class="mt-12 mb-2">
-            Nenhum Item Requisitado!
-          </h4>
-          {{/each}}
-        </tbody>
-      </table>
-    </div>
+              <div class="liTypes11 p-0">
+                <a href="/products/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
+                  data-placement="bottom" title="Excluir produto do Pedido">
+                  <i class="fas fa-trash-alt"></i>
+                </a>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        {{else}}
+        <h4 class="mt-12 mb-2">
+          Nenhum Item Requisitado!
+        </h4>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
   </form>
   <div class="d-flex d-print-none">
     <div class="mr-auto p-2">

@@ -14,10 +14,6 @@ const Transfer = new Schema({
     type: Schema.Types.ObjectId,
     ref: "customers",
   },
-  warehouse: {
-    type: Schema.Types.ObjectId,
-    ref: "warehouse"
-  },
   products: [
     {
       product: {

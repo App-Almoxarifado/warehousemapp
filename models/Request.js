@@ -36,6 +36,11 @@ const Request = new Schema({
     type: String,
     index: true
   },
+  site: {
+    type: Schema.Types.ObjectId,
+    ref: "customers",
+    index: true
+  },
   user: {
     type: Schema.Types.ObjectId,
     ref: "collaborators",

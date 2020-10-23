@@ -7,9 +7,9 @@ const Planning = new Schema({
         ref: "requests",
         index: true
       }],
-      site: {
+      request: {
         type: Schema.Types.ObjectId,
-        ref: "customers",
+        ref: "products",
         index: true
       },
       user: {
