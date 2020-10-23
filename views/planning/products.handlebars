@@ -128,7 +128,20 @@
                 </select>
             </div>
         </div>
+    <!--FORM PARA FINALIZAR PEDIDO-->
+    <form action="/planning/planning" method="POST">
+         {{#each save}}
+          <input type="text" class="mt-2 form-control" name="products[]" value="{{_id}}">
+          {{else}}
+          {{/each}}
+      <div class="p-0">
 
+          <button type="submit" class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom"
+            title="Finalize seu pedido clicando aqui!">
+            Finalizar Pedido <i class="fas fa-paper-plane"></i>
+          </button>
+
+      </div>
     <!--TABELA DE DADOS-->
 
     <div class="table-responsive">
@@ -159,7 +172,8 @@
             <tbody>
                 {{#each products}}
                 <form action="/planning/request" method="POST">
-                    <input type="hidden" class="mt-2 form-control" name="_id" value="{{_id}}">
+                    <input type="hidden" class="mt-2 form-control" name="product" value="{{_id}}">
+                    <input type="hidden" class="mt-2 form-control" name="description" value="{{description}}">
                     <input type="hidden" class="mt-2 form-control" name="tag" value="{{tag}}">
                     <input type="hidden" class="mt-2 form-control" name="image" value="{{image}}">
                     <tr>
@@ -213,6 +227,7 @@
                         </td>
 
                     </tr>
+                </form>
                 </form>
                 {{else}}
                 <h4 class="mt-12 mb-2">

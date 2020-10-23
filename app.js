@@ -20,6 +20,8 @@ const app = express();
 //SITES
 require("./models/Client");
 const Client = mongoose.model("customers");
+require("./models/Product");
+const Product = mongoose.model("products");
 
 //ROTAS
 
@@ -188,7 +190,14 @@ app.get("/", async (req, res) => {
         description: "asc",
       })
       .lean();
-    res.render("index", { customers: customers });
+      var products = await Product.find({
+        active: true,
+      })
+        .sort({
+          description: "asc",
+        })
+        .lean();
+    res.render("index", { customers, products });
   } catch (err) {
     req.flash("error_msg", "Ops, Houve um erro interno!");
     res.redirect("/");

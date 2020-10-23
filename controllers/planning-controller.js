@@ -223,13 +223,12 @@ exports.dashboard = async (req, res) => {
 
 exports.request = async (req, res) => {
   try {
-    var siteId = await Client.findOne({ _id: req.params.id }).lean();
-    if (siteId) {
-      if(req.user.admin)
-      var customers = await Client.findOne({_id: siteId})
-      .lean();
-      else customers = req.user.sites;
-    }
+    const save = await Product.find({tag:req.params.tag}).lean();
+
+    if(req.user.admin)
+    var customers = await Client.findOne({_id: siteId})
+    .lean();
+    else customers = req.user.sites;
     const groups = await Group.find({ active: true })
       .sort({ description: "asc" })
       .lean();
@@ -300,8 +299,8 @@ exports.request = async (req, res) => {
       limit,
       subgroup,
       type,
-      siteId,
       customers,
+      save
     });
   } catch (err) {
     console.log(err);
@@ -326,14 +325,17 @@ exports.postRequest = async (req, res) => {
     });
   } else {
     try {
-      const {product,qty,tag,image} = req.body
+      const {product,description,qty,tag,image} = req.body
       const request = await Request.create({
         product,
+        description,
         qty,
         user:req.user.name,
         tag,
         image
-      });
+      });    
+    
+      console.log(request)
       //await requests.save();
       req.flash("success_msg", "Produto solicitado, enviado para pedido!");
       res.redirect("/planning/products");
@@ -370,26 +372,7 @@ exports.getRequest = async (req, res) => {
         { $sort: { _id: -1 } },
         { $skip: page > 1 ? (page - 1) * limit : 0 },
         { $limit: limit },      
-        {
-          $lookup:
-          {
-              from: "products",
-              localField: "product",
-              foreignField: "_id",
-              as: "prodImg"
-          }
-      },
-      { $unwind: "$prodImg" },
-      {
-        $lookup:
-        {
-            from: "products",
-            localField: "product",
-            foreignField: "_id",
-            as: "prodDesc"
-        }
-    },
-    { $unwind: "$prodDesc" },
+
     ])
     res.render("planning/request", {
         requests,
@@ -425,11 +408,11 @@ exports.postPlanning = async (req, res) => {
     });
   } else {
     try {
-      const plannings = new Planning({
-        products:req.body._id,
+      await Planning.create({
+        products:req.body.products,
         user:req.user.name,
       });
-      await plannings.save();
+      //await plannings.save();
       req.flash("success_msg", "Pedido Finalizado!" + " " + req.user.nome);
       res.redirect("/planning");
     } catch (err) {

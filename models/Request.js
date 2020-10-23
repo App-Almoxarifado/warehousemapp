@@ -8,11 +8,11 @@ const { promisify } = require("util");
 const s3 = new aws.S3();
 
 const Request = new Schema({
-  product: {
+  product: [{
     type: Schema.Types.ObjectId,
     ref: "products",
-    index: true
-  },
+    index: true,
+  }],
   //IMAGEM
   image: {
     type: String,
@@ -23,6 +23,11 @@ const Request = new Schema({
     type: String,
     require: true,
   },
+  //DESCRIÇÃO
+  description: {
+    type: String,
+    require: true,
+  },
   qty: {
     type: Number,
     //required: true
@@ -30,21 +35,21 @@ const Request = new Schema({
   tag: {
     type: String,
     lowercase: true,
-    index: true
+    index: true,
   },
   note: {
     type: String,
-    index: true
+    index: true,
   },
   site: {
     type: Schema.Types.ObjectId,
     ref: "customers",
-    index: true
+    index: true,
   },
   user: {
     type: Schema.Types.ObjectId,
     ref: "collaborators",
-    index: true
+    index: true,
   },
   createdAt: {
     type: Date,
@@ -67,13 +72,13 @@ Request.pre("remove", function () {
     return s3
       .deleteObject({
         Bucket: process.env.BUCKET_NAME,
-        Key: this.key
+        Key: this.key,
       })
       .promise()
-      .then(response => {
+      .then((response) => {
         console.log(response.status);
       })
-      .catch(response => {
+      .catch((response) => {
         console.log(response.status);
       });
   } else {
