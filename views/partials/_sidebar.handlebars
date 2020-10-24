@@ -35,8 +35,8 @@
                         </a>
                         <ul class="collapse list-unstyled" id="pageSubmenu">
                             <li>
-                                {{#each products}}
-                                <a href="/planning/products/{{tag}}">{{description}}</a>
+                                {{#each sites}}
+                                <a href="/planning/products/{{_id}}">{{description}}</a>
                                 {{else}}
                                 <option value="0">Você não possui nenhuma obra para solicitar Material</option>
                                 {{/each}}

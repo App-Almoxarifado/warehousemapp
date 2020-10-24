@@ -22,6 +22,8 @@ require("./models/Client");
 const Client = mongoose.model("customers");
 require("./models/Product");
 const Product = mongoose.model("products");
+require("./models/Warehouse");
+const Warehouse = mongoose.model("warehouses");
 
 //ROTAS
 
@@ -197,7 +199,14 @@ app.get("/", async (req, res) => {
           description: "asc",
         })
         .lean();
-    res.render("index", { customers, products });
+        var warehouses = await Warehouse.find({
+          active: true,
+        })
+          .sort({
+            description: "asc",
+          })
+          .lean();
+    res.render("index", { customers, products, warehouses });
   } catch (err) {
     req.flash("error_msg", "Ops, Houve um erro interno!");
     res.redirect("/");

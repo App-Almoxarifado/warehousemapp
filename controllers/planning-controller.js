@@ -27,6 +27,8 @@ require("../models/Request");
 const Request = mongoose.model("requests");
 require("../models/Planning");
 const Planning = mongoose.model("plannings");
+require("../models/Warehouse");
+const Warehouse = mongoose.model("warehouses");
 
 
 
@@ -223,7 +225,7 @@ exports.dashboard = async (req, res) => {
 
 exports.request = async (req, res) => {
   try {
-    const save = await Product.find({tag:req.params.tag}).lean();
+    const save = await Warehouse.find({site:req.params._id}).lean();
 
     if(req.user.admin)
     var customers = await Client.findOne({_id: siteId})

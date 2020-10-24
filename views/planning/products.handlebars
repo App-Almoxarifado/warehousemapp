@@ -131,7 +131,7 @@
     <!--FORM PARA FINALIZAR PEDIDO-->
     <form action="/planning/planning" method="POST">
          {{#each save}}
-          <input type="text" class="mt-2 form-control" name="products[]" value="{{_id}}">
+          <input type="text" class="mt-2 form-control" name="products[]" value="{{description}}">
           {{else}}
           {{/each}}
       <div class="p-0">
