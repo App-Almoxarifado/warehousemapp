@@ -5,14 +5,9 @@ const fs = require("fs");
 const path = require("path");
 const { promisify } = require("util");
 
-//CRIANDO O DOCUMENTO - ANÁLOGIA A TABELA NO BANCO DE DADOS
+const s3 = new aws.S3();
+
 const Subgroup = new Schema({
-  //QRCODE
-  qrcode: {
-    type: String,
-    lowercase: true,
-    required: false,
-  },
   //IMAGEM
   image: {
     type: String,
@@ -27,50 +22,59 @@ const Subgroup = new Schema({
   description: {
     type: String,
     required: true,
+    trim: true
   },
+  //USUARIO LANÇAMENTO
   group: {
     type: Schema.Types.ObjectId,
     ref: "groups",
-    required: true,
     index: true
+    //required: true
   },
   //DATA DE LANÇAMENTO
-  releaseDateOf: {
-    type: String,
-    //default: Date.now()
+  createdAt: {
+    type: Date,
+    default: Date.now()
   },
   //USUARIO LANÇAMENTO
-  userLaunch: {
+  userCreated: {
     type: Schema.Types.ObjectId,
     ref: "collaborators",
     index: true
     //required: true
   },
   //EMAIL LANÇAMENTO
-  emailLaunch: {
+  emailCreated: {
     type: String,
-    //default: Date.now()
+    lowercase: true,
   },
   //DATA DE EDIÇÃO
-  editionDate: {
-    type: String,
-    //default: Date.now()
+  updatedAt: {
+    type: Date,
+    default: Date.now()
   },
   //USUARIO DE EDIÇÃO
-  userEdtion: {
+  userUpdated: {
     type: Schema.Types.ObjectId,
     ref: "collaborators",
     index: true
     //required: true
   },
   //EMAIL DE EDIÇÃO
-  emailEdtion: {
+  emailUpdated: {
     type: String,
-    //required: true,
+    lowercase: true,
   },
   active: {
     type: Boolean,
     default: "true",
+  },
+  //TAG
+  tag: {
+    type: String,
+    required: true,
+    lowercase: true,
+    trim: true
   },
 });
 
@@ -100,5 +104,6 @@ Subgroup.pre("remove", function () {
     );
   }
 });
+
 
 mongoose.model("subgroups", Subgroup);

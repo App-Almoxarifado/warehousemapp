@@ -225,12 +225,16 @@ exports.dashboard = async (req, res) => {
 
 exports.request = async (req, res) => {
   try {
-    const save = await Warehouse.find({site:req.params._id}).lean();
-
+    const customers = await Client.find({ active: true })
+      .sort({ description: "asc" })
+      .lean();
+    /*
     if(req.user.admin)
-    var customers = await Client.findOne({_id: siteId})
-    .lean();
+      customers = await Client.find({ active: true })
+      .sort({ description: "asc" })
+      .lean();
     else customers = req.user.sites;
+    */
     const groups = await Group.find({ active: true })
       .sort({ description: "asc" })
       .lean();
@@ -243,6 +247,10 @@ exports.request = async (req, res) => {
       .sort({ description: "asc" })
       .lean();
 
+    const statuses = await Status.find({ active: true })
+      .sort({ description: "asc" })
+      .lean();
+
     const filtros = {
       $or: [],
       $and: [],
@@ -251,24 +259,29 @@ exports.request = async (req, res) => {
     let {
       search,
       page,
+      site,
       group,
       subgroup,
       type,
+      status,
       limit,
     } = req.query;
 
     if (!!search) {
       const pattern = new RegExp(`.*${search}.*`);
       filtros["$or"].push(
-        { tag: { $regex: pattern, $options: 'i' } },
-        { name: { $regex: pattern, $options: 'i' } },
-        { capacityReach: { $regex: pattern, $options: 'i' } },
-        { description: { $regex: pattern, $options: 'i' } },
+        { description: { $regex: pattern,$options: 'i' } },
+        { stockCode: { $regex: pattern,$options: 'i' }},
+        { qrcode: { $regex: pattern ,$options: 'i'} },
+        { user: { $regex: pattern ,$options: 'i'} }
       );
     }
+
+    if (!!site) filtros["$and"].push({ client: site });
     if (!!group) filtros["$and"].push({ group: group });
     if (!!subgroup) filtros["$and"].push({ subgroup: subgroup });
     if (!!type) filtros["$and"].push({ kindOfEquipment: type });
+    if (!!status) filtros["$and"].push({ physicalStatus: status });
 
     page = Number(page || 1);
     limit = limit ? Number(limit) : 10;
@@ -292,17 +305,19 @@ exports.request = async (req, res) => {
       products,
       prev: Number(page) > 1,
       next: Number(page) * limit < quant,
-      group,
+      customers,
       groups,
       subgroups,
       types,
+      statuses,
       page,
       search,
       limit,
+      site,
+      group,
       subgroup,
       type,
-      customers,
-      save
+      status
     });
   } catch (err) {
     console.log(err);
@@ -411,8 +426,8 @@ exports.postPlanning = async (req, res) => {
   } else {
     try {
       await Planning.create({
-        products:req.body.products,
-        user:req.user.name,
+        product:req.body.product,
+        //user:req.user.name,
       });
       //await plannings.save();
       req.flash("success_msg", "Pedido Finalizado!" + " " + req.user.nome);

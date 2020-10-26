@@ -7,17 +7,17 @@
   <div class="d-none d-md-none d-print-block">
     <div class="d-flex justify-content-center">
 
-      <h3>Grupos</h3>
+      <h3>Subgrupos</h3>
     </div>
   </div>
   <div class="d-none d-md-block d-print-none">
     <div class="d-flex justify-content-center">
       <div class="p-1 mr-auto">
-        <h3>Grupos</h3>
+        <h3>Subgrupos</h3>
       </div>
 
       <div class="p-0 mr-1">
-        <a href="/groups">
+        <a href="/subgroups">
           <button type="button" class="btn btn-primary btn-sm">
             Lista
             <i class="fas fa-th-list"></i>
@@ -25,7 +25,7 @@
         </a>
       </div>
       <div class="p-0 mr-1">
-        <a href="/groups/table">
+        <a href="/subgroups/table">
           <button type="button" class="btn btn-primary btn-sm">
             Tabela
             <i class="fas fa-table"></i>
@@ -33,9 +33,9 @@
         </a>
       </div>
       <div class="p-0">
-        <a href="/groups/create">
+        <a href="/subgroups/create">
           <button class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom" title="Cadastre ">
-            Cadastre um novo Grupo <i class="fas fa-paper-plane"></i>
+            Cadastre um novo Subgrupo <i class="fas fa-paper-plane"></i>
           </button>
         </a>
       </div>
@@ -98,15 +98,15 @@
 
   <div class="d-block d-md-none d-print-none">
     <div class="d-flex justify-content-center">
-      <h3>Grupos</h3>
+      <h3>Subgrupos</h3>
       <hr>
     </div>
 
     <div class="d-flex justify-content-center">
-      <a href="/groups/create">
+      <a href="/subgroups/create">
         <button class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom"
           title="Cadastre um novo Poduto">
-          Cadastre um novo Grupo <i class="fas fa-paper-plane"></i>
+          Cadastre um novo Subgrupo <i class="fas fa-paper-plane"></i>
         </button>
       </a>
     </div>
@@ -173,6 +173,7 @@
           <th class="tbTypes02 d-print-block" scope="col">Imagem</th>
           <th class="tbTypes03 d-print-block" scope="col">qrCode</th>
           <th class="tbTypes04 d-print-block" scope="col">Descrição</th>
+          <th class="d-print-block" scope="col">Grupo</th>
           <th class="tbTypes05 d-print-block" scope="col">Data de Lançamento</th>
           <th class="tbTypes06 d-print-block" scope="col">Usuário Lançamento</th>
           <th class="tbTypes07 d-print-block" scope="col">Email Lançamento</th>
@@ -184,7 +185,7 @@
       </thead>
 
       <tbody>
-        {{#each groups}}
+        {{#each subgroups}}
         <tr>
           <th class="tbTypes01 d-print-block">{{_id}}</th>
           <td class="tbTypes02 d-print-block">
@@ -204,6 +205,7 @@
             </figure>
           </td>
           <td class="tbTypes04 d-print-block">{{description}}</td>
+          <td class="d-print-block">{{group.description}}</td>
           <td class="tbTypes05 d-print-block">{{createdAt}}</td>
           <td class="tbTypes06 d-print-block">{{user.name}}</td>
           <td class="tbTypes07 d-print-block">{{emailCreated}}</td>
@@ -214,15 +216,15 @@
           <td class="tbTypes03 d-print-none">
             <div class="d-flex justify-content-center">
               <div class="liTypes11 p-0 mr-1">
-                <a href="/groups/update/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
-                  data-placement="bottom" title="Editar Grupo">
+                <a href="/subgroups/update/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
+                  data-placement="bottom" title="Editar Subgrupo">
                   <i class="fas fa-pen"></i>
                 </a>
               </div>
 
               <div class="liTypes11 p-0">
-                <a href="/groups/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
-                  data-placement="bottom" title="Deletar Grupo">
+                <a href="/subgroups/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
+                  data-placement="bottom" title="Deletar Subgrupo">
                   <i class="fas fa-trash-alt"></i>
                 </a>
               </div>

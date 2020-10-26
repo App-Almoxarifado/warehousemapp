@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const Planning = new Schema({
-    products: [{
+    product: [{
         type: Schema.Types.ObjectId,
         ref: "requests",
         index: true

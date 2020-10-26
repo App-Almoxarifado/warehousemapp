@@ -40,6 +40,17 @@
             </div>
         </div>
         <div class="d-flex justify-content-center">
+            <div class="mr-auto p-1">
+                <select class="custom-select custom-select-sm" id="site" name="site" onchange="setSite()">
+                    <option selected disabled hidden>Busque por Site</option>
+                    <option value="">Nenhum(a)</option>
+                    {{#each customers}}
+                    <option value="{{_id}}" {{#if_eq ../site _id}}selected{{/if_eq}}>{{description}}</option>
+                    {{else}}
+                    <option value="0">Nenhum site registrado</option>
+                    {{/each}}
+                </select>
+            </div>
             <div class="p-1">
                 <select class="custom-select custom-select-sm" id="group" name="group" onchange="setSearchGroup()">
                     <option selected disabled hidden>Grupos</option>
@@ -66,10 +77,26 @@
             <div class="p-1">
                 <select class="custom-select custom-select-sm" id="type" name="type" onchange="setSearchType()">
                     <option selected disabled hidden>Tipos de Equipamento</option>
+                    {{#if_eq customer.length 0}}
+                    <option value="">Nenhum(a)</option>
+                    {{else}}
+                    <option value="0">Nenhum tipo de equipamento registrado</option>
+                    {{/if_eq}}
+
                     {{#each types}}
                     <option value="{{_id}}" {{#if_eq ../type _id}}selected{{/if_eq}}>{{description}}</option>
                     {{else}}
-                    <option value="0">Nenhum Tipo de Equipamento registrado</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div class="p-1">
+                <select class="custom-select custom-select-sm" id="status" name="status" onchange="setSearchStatus()">
+                    <option selected disabled hidden>Status do Produto</option>
+                    <option value="">Nenhum(a)</option>
+                    {{#each statuses}}
+                    <option value="{{_id}}" {{#if_eq ../status _id}}selected{{/if_eq}}>{{description}}</option>
+                    {{else}}
+                    <option value="0">Nenhum status registrado</option>
                     {{/each}}
                 </select>
             </div>
@@ -129,9 +156,10 @@
             </div>
         </div>
     <!--FORM PARA FINALIZAR PEDIDO-->
-    <form action="/planning/planning" method="POST">
-         {{#each save}}
-          <input type="text" class="mt-2 form-control" name="products[]" value="{{description}}">
+    <!--<form action="/planning/planning" method="POST">
+          {{#each save}}
+          <input type="text" class="mt-2 form-control" name="product[]" value="{{description}}">
+          <input type="text" class="mt-2 form-control" name="qty" value="{{qty}}">
           {{else}}
           {{/each}}
       <div class="p-0">
@@ -141,7 +169,7 @@
             Finalizar Pedido <i class="fas fa-paper-plane"></i>
           </button>
 
-      </div>
+      </div>-->
     <!--TABELA DE DADOS-->
 
     <div class="table-responsive">

@@ -29,6 +29,8 @@ const Warehouse = mongoose.model("warehouses");
 
 //Grupos
 const groupRoute = require("./routes/group-route");
+//Subgrupos
+const subgroupRoute = require("./routes/subgroup-route");
 //Usuarios
 const usuarioRoute = require("./routes/usuario-route");
 //Painel Admin
@@ -232,6 +234,7 @@ app.get("/qrcode", (req, res) => {
 
 app.use(require("./routes"));
 app.use("/groups", groupRoute);
+app.use("/subgroups", subgroupRoute);
 app.use("/usuarios", usuarioRoute);
 app.use("/developers", developerRoute);
 app.use("/providers", providerRoute);
