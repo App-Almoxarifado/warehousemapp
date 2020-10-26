@@ -267,13 +267,13 @@ exports.postUpdate = async (req, res) => {
 
 //DELETANDO
 exports.getDelete = async (req, res) => {
-  await Subgroup.deleteOne({ _id: req.params._id });
+  await Group.deleteOne({ _id: req.params._id });
   try {
-    req.flash("success_msg", "Subgrupo deletado com Sucesso!");
-    res.redirect("/subgroups");
+    req.flash("success_msg", "Grupo deletado com Sucesso!");
+    res.redirect("/groups");
   } catch (err) {
     req.flash("error_msg", "Houve um erro interno!");
-    res.redirect("/subgroups");
+    res.redirect("/groups");
   }
 };
 

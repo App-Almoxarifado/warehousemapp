@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const controller = require("../controllers/sublease-controller");
+const controller = require("../controllers/area-controller");
 const multer = require("multer");
 const multerConfig = require("../config/multer");
 const { eAdmin } = require("../helpers/eAdmin");

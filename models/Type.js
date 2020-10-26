@@ -8,12 +8,6 @@ const { promisify } = require("util");
 const s3 = new aws.S3();
 
 const Type = new Schema({
-  //QRCODE
-  qrcode: {
-    type: String,
-    lowercase: true,
-    required: false,
-  },
   //IMAGEM
   image: {
     type: String,
@@ -28,44 +22,52 @@ const Type = new Schema({
   description: {
     type: String,
     required: true,
+    trim: true
   },
   //DATA DE LANÇAMENTO
-  releaseDateOf: {
-    type: String,
-    //default: Date.now()
+  createdAt: {
+    type: Date,
+    default: Date.now()
   },
   //USUARIO LANÇAMENTO
-  userLaunch: {
+  userCreated: {
     type: Schema.Types.ObjectId,
     ref: "collaborators",
     index: true
     //required: true
   },
   //EMAIL LANÇAMENTO
-  emailLaunch: {
+  emailCreated: {
     type: String,
-    //default: Date.now()
+    lowercase: true,
   },
   //DATA DE EDIÇÃO
-  editionDate: {
-    type: String,
-    //default: Date.now()
+  updatedAt: {
+    type: Date,
+    default: Date.now()
   },
   //USUARIO DE EDIÇÃO
-  userEdtion: {
+  userUpdated: {
     type: Schema.Types.ObjectId,
     ref: "collaborators",
     index: true
     //required: true
   },
   //EMAIL DE EDIÇÃO
-  emailEdtion: {
+  emailUpdated: {
     type: String,
-    //required: true,
+    lowercase: true,
   },
   active: {
     type: Boolean,
     default: "true",
+  },
+  //TAG
+  tag: {
+    type: String,
+    required: true,
+    lowercase: true,
+    trim: true
   },
 });
 

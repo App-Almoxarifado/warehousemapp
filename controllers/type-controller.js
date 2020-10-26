@@ -3,18 +3,17 @@ require("../models/Type");
 const Type = mongoose.model("types");
 
 
-//EXIBINDO TIPOS POR LISTA
+//LISTA
 exports.getList = async (req, res) => {
   try {
     const file = req.file
     const filtros = [];
-    let { search, page, site, limit } = req.query;
+    let { search, page, limit } = req.query;
     if (!!search) {
       const pattern = new RegExp(`.*${search}.*`);
       filtros.push(
-        { qrcode: { $regex: pattern, $options: 'i' } },
+        { tag: { $regex: pattern, $options: 'i' } },
         { description: { $regex: pattern, $options: 'i' } },
-        { user: { $regex: pattern, $options: 'i' } }
       );
     }
     page = Number(page || 1);
@@ -25,26 +24,37 @@ exports.getList = async (req, res) => {
 
     const types = await Type.aggregate([
       { $match: filtros.length > 0 ? { $or: filtros } : { active: true } },
+      { $sort: { description: -1 } },
       { $skip: page > 1 ? (page - 1) * limit : 0 },
       { $limit: limit },
-      { $sort: { description: 1 } },
       {
         $lookup:
         {
           from: "collaborators",
-          localField: "userEdtion",
+          localField: "userCreated",
           foreignField: "_id",
-          as: "user"
+          as: "created"
         }
       },
-      { $unwind: "$user" },
+      { $unwind: "$created" },
+      {
+        $lookup:
+        {
+          from: "collaborators",
+          localField: "userUpdated",
+          foreignField: "_id",
+          as: "updated"
+        }
+      },
+      { $unwind: "$updated" },
     ])
 
-    res.render("types/types", {
+    res.render("types/read", {
       types,
       prev: Number(page) > 1,
       next: Number(page) * limit < quant,
-      site,
+      page,
+      limit,
       file
     });
   } catch (err) {
@@ -54,129 +64,47 @@ exports.getList = async (req, res) => {
   }
 };
 
-//EXIBINDO TIPOS POR TABELA
+//TABELA
 exports.getTable = async (req, res) => {
   try {
     const file = req.file
     const filtros = [];
-    let { search, page, site, limit } = req.query;
+    let { search, page, limit } = req.query;
     if (!!search) {
       const pattern = new RegExp(`.*${search}.*`);
       filtros.push(
-        { qrcode: { $regex: pattern, $options: 'i' } },
+        { tag: { $regex: pattern, $options: 'i' } },
         { description: { $regex: pattern, $options: 'i' } },
-        { user: { $regex: pattern, $options: 'i' } }
       );
     }
     page = Number(page || 1);
-    limit = limit ? Number(limit) : 10;
+    limit = limit ? Number(limit) : 5;
     const quant = await Type.find(
       filtros.length > 0 ? { $or: filtros } : {}
     ).estimatedDocumentCount();
 
-    //UTILIZANDO O AGGREGATE
     const types = await Type.aggregate([
-      //{ $match: filtros.length > 0 ? { $or: filtros } : { active: true, emailLaunch: req.user.email } },
-      { $match: filtros.length > 0 ? { $or: filtros } : {} },
-      { $sort: { description: 1 } },
-      { $limit: limit },
+      { $match: filtros.length > 0 ? { $or: filtros } : { active: true } },
+      { $sort: { description: -1 } },
       { $skip: page > 1 ? (page - 1) * limit : 0 },
+      { $limit: limit },
       {
         $lookup:
         {
           from: "collaborators",
-          localField: "userEdtion",
+          localField: "userUpdated",
           foreignField: "_id",
           as: "user"
         }
       },
       { $unwind: "$user" },
     ])
-
-    //console.log(types)
-    //USANDO O FIND
-    /*var types = await Type.find(filtros.length > 0 ? { $or: filtros } : {})
-      .sort({ description: "asc" })
-      .limit(limit)
-      .skip(page > 1 ? (page - 1) * limit : 0)
-      .populate("userEdition")
-      .populate("userLaunch");*/
-
-
     res.render("types/table", {
-      //types: types.map((types) => types.toJSON()),
       types,
       prev: Number(page) > 1,
       next: Number(page) * limit < quant,
       page,
       limit,
-      site,
-      file
-    });
-  } catch (err) {
-    console.log(err);
-    req.flash("error_msg", "Ops, Houve um erro interno!");
-    res.redirect("/types");
-  }
-};
-
-//TABELA DE EDIÇÃO
-exports.getTableDev = async (req, res) => {
-  try {
-    const file = req.file
-    const filtros = [];
-    let { search, page, site, limit } = req.query;
-    if (!!search) {
-      const pattern = new RegExp(`.*${search}.*`);
-      filtros.push(
-        { qrcode: { $regex: pattern, $options: 'i' } },
-        { description: { $regex: pattern, $options: 'i' } },
-        { user: { $regex: pattern, $options: 'i' } }
-      );
-    }
-    page = Number(page || 1);
-    limit = limit ? Number(limit) : 10;
-    const quant = await Type.find(
-      filtros.length > 0 ? { $or: filtros } : {}
-    ).estimatedDocumentCount();
-
-    //UTILIZANDO O AGGREGATE
-    const types = await Type.aggregate([
-      //{ $match: filtros.length > 0 ? { $or: filtros } : { active: true, emailLaunch: req.user.email } },
-      { $match: filtros.length > 0 ? { $or: filtros } : {} },
-      { $sort: { description: 1 } },
-      { $limit: limit },
-      { $skip: page > 1 ? (page - 1) * limit : 0 },
-      {
-        $lookup:
-        {
-          from: "collaborators",
-          localField: "userEdtion",
-          foreignField: "_id",
-          as: "user"
-        }
-      },
-      { $unwind: "$user" },
-    ])
-
-    //console.log(types)
-    //USANDO O FIND
-    /*var types = await Type.find(filtros.length > 0 ? { $or: filtros } : {})
-      .sort({ description: "asc" })
-      .limit(limit)
-      .skip(page > 1 ? (page - 1) * limit : 0)
-      .populate("userEdition")
-      .populate("userLaunch");*/
-
-
-    res.render("types/TableDev", {
-      //types: types.map((types) => types.toJSON()),
-      types,
-      prev: Number(page) > 1,
-      next: Number(page) * limit < quant,
-      page,
-      limit,
-      site,
       file
     });
   } catch (err) {
@@ -187,11 +115,11 @@ exports.getTableDev = async (req, res) => {
 };
 
 
-//CRIANDO UM TIPO
+//CRIANDO 
 exports.getCreate = async (req, res) => {
   const file = req.file
   try {
-    res.render("types/add", { file });
+    res.render("types/create", { file });
   } catch (err) {
     req.flash("error_msg", "Ops, Houve um erro interno!");
     res.redirect("/types");
@@ -221,32 +149,30 @@ exports.postCreate = async (req, res) => {
   }
   if (req.body.description.length < 2) {
     erros.push({
-      texto: "Descrição do Tipo Muito Pequeno!",
+      texto: "Descrição do tipo muito pequena!",
     });
   }
   if (erros.length > 0) {
-    res.render("types/add", {
+    res.render("types/create", {
       file,
       erros: erros,
     });
   } else {
     try {
       const types = new Type({
-        qrcode: req.body.description
+        image: req.file.location,
+        key: req.file.key,
+        description: req.body.description,
+        userCreated: req.body.userCreated,
+        emailCreated: req.body.emailCreated,
+        userUpdated: req.body.userUpdated,
+        emailUpdated: req.body.emailUpdated,
+        tag: req.body.description
           .normalize("NFD")
           .replace(/[\u0300-\u036f]/g, "") // Remove acentos
           .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
           .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-          .replace(/(^-+|-+$)/, ""), // Remove hífens extras do final ou do inicio da string
-        image: req.file.location, //.slice(0, -1),
-        key: req.file.key,
-        description: req.body.description,
-        releaseDateOf: req.body.releaseDateOf,
-        userLaunch: req.body.userLaunch,
-        emailLaunch: req.body.emailLaunch,
-        editionDate: req.body.editionDate,
-        userEdtion: req.body.userEdtion,
-        emailEdtion: req.body.emailEdtion,
+          .replace(/(^-+|-+$)/, "")
       });
       await types.save();
       req.flash("success_msg", "Tipo criado com sucesso!");
@@ -255,19 +181,19 @@ exports.postCreate = async (req, res) => {
     } catch (err) {
       req.flash(
         "error_msg",
-        "Ops, Houve um erro ao salvar o tipo, tente novamente!" + err
+        "Ops, Houve um erro ao salvar o tipo, tente novamente!"
       );
       res.redirect("/types");
     }
   }
 };
 
-//EDITANDO UM TIPO
+//EDITANDO
 exports.getUpdate = async (req, res) => {
   try {
     const file = req.file
-    var type = await Type.findOne({ _id: req.params.id }).lean();
-    res.render("types/edit", { type: type, file });
+    var type = await Type.findOne({ _id: req.params._id }).lean();
+    res.render("types/update", { type, file });
   } catch (_err) {
     req.flash("error_msg", "Ops, Houve um erro interno!");
     res.redirect("/types");
@@ -275,7 +201,8 @@ exports.getUpdate = async (req, res) => {
 };
 
 exports.postUpdate = async (req, res) => {
-  var type = await Type.findOne({ _id: req.body.id });
+  var type = await Type.findOne({ _id: req.body._id });
+  const file = req.file
   var erros = [];
   if (
     !req.body.description ||
@@ -292,107 +219,41 @@ exports.postUpdate = async (req, res) => {
     req.body.image == null
   ) {
     erros.push({
-      texto: "Você precisa escolher uma imagem!!!",
+      texto: "Escolha uma foto",
     });
   }
   if (req.body.description.length < 2) {
     erros.push({
-      texto: "Descrição do Tipo Muito Pequeno!",
+      texto: "Descrição do tipo muito pequena!",
     });
   }
   if (erros.length > 0) {
-    res.render("types/edit", {
-      erros: erros,
-    });
-  } else {
-    try {
-      (type.qrcode = req.body.description
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-        .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-        .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-        .replace(/(^-+|-+$)/, "")), // Remove hífens extras do final ou do inicio da string
-        (type.image = req.file.location),
-        (type.key = req.file.key), //.slice(0, -1),
-        (type.description = req.body.description),
-        //(type.releaseDateOf = req.body.releaseDateOf),
-        //(type.userLaunch = req.body.userLaunch),
-        //(type.emailLaunch = req.body.emailLaunch),
-        (type.editionDate = req.body.editionDate),
-        (type.userEdtion = req.body.userEdtion),
-        (type.emailEdtion = req.body.emailEdtion);
-
-      await type.save();
-      req.flash("success_msg", "Tipo editado com sucesso!");
-      res.redirect("/types");
-      console.log("Tipo editado com sucesso!");
-    } catch (err) {
-      req.flash(
-        "error_msg",
-        "Ops, Houve um erro ao salvar o tipo, tente novamente!"
-      );
-      res.redirect("/types");
-    }
-  }
-};
-
-//CRIANDO UM PRODUTO PELO ID
-exports.getCreateId = async (req, res) => {
-  try {
-    const file = req.file
-    var type = await Type.findOne({ _id: req.params.id }).lean();
-    res.render("types/add_id", { type: type, file });
-  } catch (_err) {
-    req.flash("error_msg", "Ops, Houve um erro interno!");
-    res.redirect("/types");
-  }
-};
-
-exports.postCreateId = async (req, res) => {
-  const file = req.file
-  var erros = [];
-  if (
-    !req.body.description ||
-    typeof req.body.description == undefined ||
-    req.body.description == null
-  ) {
-    erros.push({
-      texto: "Descricão Inválida",
-    });
-  }
-  if (req.body.description.length < 2) {
-    erros.push({
-      texto: "Descrição do Tipo Muito Pequeno!",
-    });
-  }
-  if (erros.length > 0) {
-    res.render("types/add_id", {
+    res.render("./types/update", {
       file,
       erros: erros,
     });
   } else {
     try {
-      const types = new Type({
-        qrcode: req.body.description
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-          .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-          .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-          .replace(/(^-+|-+$)/, ""), // Remove hífens extras do final ou do inicio da string
-        image: req.file.location, //.slice(0, -1),
-        key: req.file.key,
-        description: req.body.description,
-        releaseDateOf: req.body.releaseDateOf,
-        userLaunch: req.body.userLaunch,
-        emailLaunch: req.body.emailLaunch,
-        editionDate: req.body.editionDate,
-        userEdtion: req.body.userEdtion,
-        emailEdtion: req.body.emailEdtion,
-      });
-      await types.save();
-      req.flash("success_msg", "Tipo criado com sucesso!");
+      type.image = req.file.location
+      type.key = req.file.key
+      type.description = req.body.description
+      type.createdAt = req.body.createdAt
+      type.userCreated = req.body.userCreated
+      type.emailCreated = req.body.emailCreated
+      type.updatedAt = Date.now()
+      type.userUpdated = req.body.userUpdated
+      type.emailUpdated = req.body.emailUpdated
+      type.tag = req.body.description
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "") // Remove acentos
+        .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
+        .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
+        .replace(/(^-+|-+$)/, "") +
+
+        await type.save();
+      req.flash("success_msg", "Área editada com sucesso!");
       res.redirect("/types");
-      console.log("Tipo criado com sucesso!");
+      console.log("área editada com sucesso!");
     } catch (err) {
       req.flash(
         "error_msg",
@@ -404,11 +265,11 @@ exports.postCreateId = async (req, res) => {
 };
 
 
-//DELETANDO UM TIPO
+//DELETANDO
 exports.getDelete = async (req, res) => {
-  await Type.remove({ _id: req.params.id });
+  await Type.deleteOne({ _id: req.params._id });
   try {
-    req.flash("success_msg", "Tipo deletado com Sucesso!");
+    req.flash("success_msg", "Área deletada com Sucesso!");
     res.redirect("/types");
   } catch (err) {
     req.flash("error_msg", "Houve um erro interno!");
@@ -416,108 +277,3 @@ exports.getDelete = async (req, res) => {
   }
 };
 
-//CRIA UM NOVO PRODUDO COM UM CLIQUE
-exports.postCreateDevAdmin = async (req, res) => {
-  var erros = [];
-  if (
-    !req.body.description ||
-    typeof req.body.description == undefined ||
-    req.body.description == null
-  ) {
-    erros.push({
-      texto: "Descricão Inválida",
-    });
-  }
-  if (req.body.description.length < 2) {
-    erros.push({
-      texto: "Descrição do Tipo Muito Pequeno!",
-    });
-  }
-  if (erros.length > 0) {
-    res.render("types/add", {
-      erros: erros,
-    });
-  } else {
-    try {
-      const types = new Type({
-        qrcode: req.body.description
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-          .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-          .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-          .replace(/(^-+|-+$)/, ""), // Remove hífens extras do final ou do inicio da string
-        image: req.body.image, //.slice(0, -1),
-        description: req.body.description,
-        releaseDateOf: req.body.releaseDateOf,
-        userLaunch: req.body.userLaunch,
-        emailLaunch: req.body.emailLaunch,
-        editionDate: req.body.editionDate,
-        userEdtion: req.body.userEdtion,
-        emailEdtion: req.body.emailEdtion,
-      });
-      await types.save();
-      req.flash("success_msg", "Tipo criado com sucesso!");
-      res.redirect("/types");
-      console.log("Tipo criado com sucesso!");
-    } catch (err) {
-      req.flash(
-        "error_msg",
-        "Ops, Houve um erro ao salvar o tipo, tente novamente!"
-      );
-      res.redirect("/types");
-    }
-  }
-};
-
-//EDITA UM NOVO PRODUTO COM UM CLIQUE
-exports.postUpdateDevAdmin = async (req, res) => {
-  var type = await Type.findOne({ _id: req.body.id });
-  var erros = [];
-  if (
-    !req.body.description ||
-    typeof req.body.description == undefined ||
-    req.body.description == null
-  ) {
-    erros.push({
-      texto: "Descricão Inválida",
-    });
-  }
-  if (req.body.description.length < 2) {
-    erros.push({
-      texto: "Descrição do Tipo Muito Pequeno!",
-    });
-  }
-  if (erros.length > 0) {
-    res.render("types/add", {
-      erros: erros,
-    });
-  } else {
-    try {
-      (type.qrcode = req.body.description
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-        .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-        .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-        .replace(/(^-+|-+$)/, "")), // Remove hífens extras do final ou do inicio da string
-        (type.image = req.body.image), //.slice(0, -1),
-        (type.description = req.body.description),
-        //(type.releaseDateOf = req.body.releaseDateOf),
-        //(type.userLaunch = req.body.userLaunch),
-        //(type.emailLaunch = req.body.emailLaunch),
-        (type.editionDate = req.body.editionDate),
-        (type.userEdtion = req.body.userEdtion),
-        (type.emailEdtion = req.body.emailEdtion);
-
-      await type.save();
-      req.flash("success_msg", "Tipo editado com sucesso!");
-      res.redirect("/types");
-      console.log("Tipo editado com sucesso!");
-    } catch (err) {
-      req.flash(
-        "error_msg",
-        "Ops, Houve um erro ao salvar o tipo, tente novamente!" + err
-      );
-      res.redirect("/types");
-    }
-  }
-};

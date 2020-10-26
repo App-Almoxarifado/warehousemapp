@@ -9,13 +9,11 @@ const { eDevAdmin } = require("../helpers/eDevAdmin");
 
 router.get("/", eAdmin, controller.getList);
 router.get("/table", eAdmin, controller.getTable);
-router.get("/add", controller.getCreate);
-router.post("/add", eAdmin, multer(multerConfig).single("file"), controller.postCreate);
-router.get("/edit/:id", eAdmin, controller.getUpdate);
-router.post("/edit", eAdmin, multer(multerConfig).single("file"), controller.postUpdate);
-router.get("/add_id/:id", eAdmin, controller.getCreateId);
-router.post("/add_id", eAdmin, multer(multerConfig).single("file"), controller.postCreateId);
-router.get("/delete/:id", eDevAdmin, controller.getDelete);
+router.get("/create", controller.getCreate);
+router.post("/create", eAdmin, multer(multerConfig).single("file"), controller.postCreate);
+router.get("/update/:_id", eAdmin, controller.getUpdate);
+router.post("/update", eAdmin, multer(multerConfig).single("file"), controller.postUpdate);
+router.get("/delete/:_id", eAdmin, controller.getDelete);
 
 
 module.exports = router;

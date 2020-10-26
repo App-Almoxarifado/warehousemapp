@@ -8,7 +8,7 @@ const Subgroup = mongoose.model("subgroups");
 require("../models/Client");
 const Client = mongoose.model("customers");
 require("../models/Location");
-const Location = mongoose.model("leases");
+const Location = mongoose.model("locations");
 require("../models/Sublease");
 const Sublease = mongoose.model("subleases");
 require("../models/Status");

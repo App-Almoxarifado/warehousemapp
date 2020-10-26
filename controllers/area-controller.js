@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-require("../models/Sublease");
-const Sublease = mongoose.model("subleases");
+require("../models/Area");
+const Area = mongoose.model("areas");
 
 
 //LISTA
@@ -18,11 +18,11 @@ exports.getList = async (req, res) => {
     }
     page = Number(page || 1);
     limit = limit ? Number(limit) : 5;
-    const quant = await Sublease.find(
+    const quant = await Area.find(
       filtros.length > 0 ? { $or: filtros } : {}
     ).estimatedDocumentCount();
 
-    const subleases = await Sublease.aggregate([
+    const areas = await Area.aggregate([
       { $match: filtros.length > 0 ? { $or: filtros } : { active: true } },
       { $sort: { description: -1 } },
       { $skip: page > 1 ? (page - 1) * limit : 0 },
@@ -49,8 +49,8 @@ exports.getList = async (req, res) => {
       { $unwind: "$updated" },
     ])
 
-    res.render("subleases/read", {
-      subleases,
+    res.render("areas/read", {
+      areas,
       prev: Number(page) > 1,
       next: Number(page) * limit < quant,
       page,
@@ -60,7 +60,7 @@ exports.getList = async (req, res) => {
   } catch (err) {
     console.log(err);
     req.flash("error_msg", "Ops, Houve um erro interno!");
-    res.redirect("/subleases");
+    res.redirect("/areas");
   }
 };
 
@@ -79,11 +79,11 @@ exports.getTable = async (req, res) => {
     }
     page = Number(page || 1);
     limit = limit ? Number(limit) : 5;
-    const quant = await Sublease.find(
+    const quant = await Area.find(
       filtros.length > 0 ? { $or: filtros } : {}
     ).estimatedDocumentCount();
 
-    const subleases = await Sublease.aggregate([
+    const areas = await Area.aggregate([
       { $match: filtros.length > 0 ? { $or: filtros } : { active: true } },
       { $sort: { description: -1 } },
       { $skip: page > 1 ? (page - 1) * limit : 0 },
@@ -99,8 +99,8 @@ exports.getTable = async (req, res) => {
       },
       { $unwind: "$user" },
     ])
-    res.render("subleases/table", {
-      subleases,
+    res.render("areas/table", {
+      areas,
       prev: Number(page) > 1,
       next: Number(page) * limit < quant,
       page,
@@ -110,7 +110,7 @@ exports.getTable = async (req, res) => {
   } catch (err) {
     console.log(err);
     req.flash("error_msg", "Ops, Houve um erro interno!");
-    res.redirect("/subleases");
+    res.redirect("/areas");
   }
 };
 
@@ -119,10 +119,10 @@ exports.getTable = async (req, res) => {
 exports.getCreate = async (req, res) => {
   const file = req.file
   try {
-    res.render("subleases/create", { file });
+    res.render("areas/create", { file });
   } catch (err) {
     req.flash("error_msg", "Ops, Houve um erro interno!");
-    res.redirect("/subleases");
+    res.redirect("/areas");
   }
 };
 
@@ -149,17 +149,17 @@ exports.postCreate = async (req, res) => {
   }
   if (req.body.description.length < 2) {
     erros.push({
-      texto: "Descrição da sublocação muito pequena!",
+      texto: "Descrição da área muito pequena!",
     });
   }
   if (erros.length > 0) {
-    res.render("subleases/create", {
+    res.render("areas/create", {
       file,
       erros: erros,
     });
   } else {
     try {
-      const subleases = new Sublease({
+      const areas = new Area({
         image: req.file.location,
         key: req.file.key,
         description: req.body.description,
@@ -174,16 +174,16 @@ exports.postCreate = async (req, res) => {
           .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
           .replace(/(^-+|-+$)/, "")
       });
-      await subleases.save();
-      req.flash("success_msg", "Sublocação criada com sucesso!");
-      res.redirect("/subleases");
-      console.log("Sublocação criada com sucesso!");
+      await areas.save();
+      req.flash("success_msg", "Área criada com sucesso!");
+      res.redirect("/areas");
+      console.log("Área criada com sucesso!");
     } catch (err) {
       req.flash(
         "error_msg",
-        "Ops, Houve um erro ao salvar a sublocação, tente novamente!" + err
+        "Ops, Houve um erro ao salvar a área, tente novamente!" + err
       );
-      res.redirect("/subleases");
+      res.redirect("/areas");
     }
   }
 };
@@ -192,16 +192,16 @@ exports.postCreate = async (req, res) => {
 exports.getUpdate = async (req, res) => {
   try {
     const file = req.file
-    var sublease = await Sublease.findOne({ _id: req.params._id }).lean();
-    res.render("subleases/update", { sublease, file });
+    var area = await Area.findOne({ _id: req.params._id }).lean();
+    res.render("areas/update", { area, file });
   } catch (_err) {
     req.flash("error_msg", "Ops, Houve um erro interno!");
-    res.redirect("/subleases");
+    res.redirect("/areas");
   }
 };
 
 exports.postUpdate = async (req, res) => {
-  var sublease = await Sublease.findOne({ _id: req.body._id });
+  var area = await Area.findOne({ _id: req.body._id });
   const file = req.file
   var erros = [];
   if (
@@ -224,42 +224,42 @@ exports.postUpdate = async (req, res) => {
   }
   if (req.body.description.length < 2) {
     erros.push({
-      texto: "Descrição da sublocação muito pequena!",
+      texto: "Descrição da área muito pequena!",
     });
   }
   if (erros.length > 0) {
-    res.render("./subleases/update", {
+    res.render("./areas/update", {
       file,
       erros: erros,
     });
   } else {
     try {
-      sublease.image = req.file.location
-      sublease.key = req.file.key
-      sublease.description = req.body.description
-      sublease.createdAt = req.body.createdAt
-      sublease.userCreated = req.body.userCreated
-      sublease.emailCreated = req.body.emailCreated
-      sublease.updatedAt = Date.now()
-      sublease.userUpdated = req.body.userUpdated
-      sublease.emailUpdated = req.body.emailUpdated
-      sublease.tag = req.body.description
+      area.image = req.file.location
+      area.key = req.file.key
+      area.description = req.body.description
+      area.createdAt = req.body.createdAt
+      area.userCreated = req.body.userCreated
+      area.emailCreated = req.body.emailCreated
+      area.updatedAt = Date.now()
+      area.userUpdated = req.body.userUpdated
+      area.emailUpdated = req.body.emailUpdated
+      area.tag = req.body.description
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "") // Remove acentos
         .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
         .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
         .replace(/(^-+|-+$)/, "") +
 
-        await sublease.save();
-      req.flash("success_msg", "Sublocação editada com sucesso!");
-      res.redirect("/subleases");
-      console.log("sublocação editada com sucesso!");
+        await area.save();
+      req.flash("success_msg", "Área editada com sucesso!");
+      res.redirect("/areas");
+      console.log("área editada com sucesso!");
     } catch (err) {
       req.flash(
         "error_msg",
-        "Ops, Houve um erro ao salvar a sublocação, tente novamente!" + err
+        "Ops, Houve um erro ao salvar a área, tente novamente!" + err
       );
-      res.redirect("/subleases");
+      res.redirect("/areas");
     }
   }
 };
@@ -267,13 +267,13 @@ exports.postUpdate = async (req, res) => {
 
 //DELETANDO
 exports.getDelete = async (req, res) => {
-  await Sublease.deleteOne({ _id: req.params._id });
+  await Area.deleteOne({ _id: req.params._id });
   try {
-    req.flash("success_msg", "Sublocação deletada com Sucesso!");
-    res.redirect("/subleases");
+    req.flash("success_msg", "Área deletada com Sucesso!");
+    res.redirect("/areas");
   } catch (err) {
     req.flash("error_msg", "Houve um erro interno!");
-    res.redirect("/subleases");
+    res.redirect("/areas");
   }
 };
 
