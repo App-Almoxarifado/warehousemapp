@@ -16,14 +16,6 @@ const cookieParser = require("cookie-parser");
 const path = require("path");
 const app = express();
 
-//MODELS
-//SITES
-require("./models/Client");
-const Client = mongoose.model("customers");
-require("./models/Product");
-const Product = mongoose.model("products");
-require("./models/Warehouse");
-const Warehouse = mongoose.model("warehouses");
 
 //ROTAS
 
@@ -57,16 +49,17 @@ const statusRoute = require("./routes/status-route");
 const typesRoute = require("./routes/type-route");
 //Produtos 
 const productRoute = require("./routes/product-route");
+//Planejamento
+const planningRoute = require("./routes/planning-route");
+//Obras
+const warehouseRoute = require("./routes/warehouse-route");
+
 //PEDIDOS
 const transferRoute = require("./routes/transfer-route");
 //Dashboards
 const dashboardRoute = require("./routes/dashboard-route");
 //Planejamento
-const planningRoute = require("./routes/planning-route");
-//Planejamento
 const itemRoute = require("./routes/item-route");
-//Planejamento
-const warehouseRoute = require("./routes/warehouse-route");
 
 const passport = require("passport");
 require("./config/auth")(passport);
@@ -187,28 +180,7 @@ const upload = multer({ storage });*/
 //Rotas
 app.get("/", async (req, res) => {
   try {
-    var customers = await Client.find({
-      active: true,
-    })
-      .sort({
-        description: "asc",
-      })
-      .lean();
-      var products = await Product.find({
-        active: true,
-      })
-        .sort({
-          description: "asc",
-        })
-        .lean();
-        var warehouses = await Warehouse.find({
-          active: true,
-        })
-          .sort({
-            description: "asc",
-          })
-          .lean();
-    res.render("index", { customers, products, warehouses });
+    res.render("index", {});
   } catch (err) {
     req.flash("error_msg", "Ops, Houve um erro interno!");
     res.redirect("/");
@@ -239,7 +211,7 @@ app.use("/usuarios", usuarioRoute);
 app.use("/developers", developerRoute);
 app.use("/providers", providerRoute);
 app.use("/collaborators", collaboratorRoute);
-app.use("/customers", clientRoute);
+app.use("/warehouses", clientRoute);
 app.use("/areas", areaRoute);
 app.use("/locations", locationRoute);
 app.use("/subleases", subleaseRoute);
@@ -249,9 +221,10 @@ app.use("/statuses", statusRoute);
 app.use("/types", typesRoute);
 app.use("/products", productRoute);
 app.use("/planning", planningRoute);
+app.use("/warehouses", warehouseRoute);
+
 app.use("/dashboards", dashboardRoute);
 app.use("/items", itemRoute);
-app.use("/warehouses", warehouseRoute);
 
 //Server
 const PORT = process.env.PORT || 3000;

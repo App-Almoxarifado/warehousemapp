@@ -41,7 +41,7 @@ const Usuario = new Schema({
   },
   sites: [{
     type: Schema.Types.ObjectId,
-    ref: "customers"
+    ref: "warehouses"
   }]
 });
 mongoose.model("usuarios", Usuario);
