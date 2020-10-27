@@ -30,7 +30,7 @@
                             <label for="client">Site:</label>
                             <select class="custom-select" id="sites" name="sites" required>
                                 <option selected disabled value="">Selecione...</option>
-                                {{#each customers}}
+                                {{#each warehouses}}
                                 <option value="{{_id}}">{{description}}</option>
                                 {{else}}
                                 <option value="0">Nenhum site registrado</option>
