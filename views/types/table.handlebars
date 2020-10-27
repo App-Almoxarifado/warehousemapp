@@ -3,7 +3,7 @@
   <div class="alert alert-danger">{{texto}}</div>
   {{else}}
   {{/each}}
-  <!--<canvas class="line-chart"></canvas>-->
+
   <div class="d-none d-md-none d-print-block">
     <div class="d-flex justify-content-center">
 
@@ -33,9 +33,9 @@
         </a>
       </div>
       <div class="p-0">
-        <a href="/types/add">
+        <a href="/types/create">
           <button class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom" title="Cadastre ">
-            Cadastre um novo tipo <i class="fas fa-paper-plane"></i>
+            Cadastre um Tipo de Equipamento <i class="fas fa-paper-plane"></i>
           </button>
         </a>
       </div>
@@ -64,7 +64,6 @@
 
         <select class="custom-select custom-select-sm" name="SelectOptions" id="SelectOptions">
           <option selected>Escolher...</option>
-          <option selected>Mostrar Colunas</option>
           <option value="tbTypes01">Id</option>
           <option value="tbTypes02">imagem</option>
           <option value="tbTypes03">QrCode</option>
@@ -103,10 +102,10 @@
     </div>
 
     <div class="d-flex justify-content-center">
-      <a href="/types/add">
+      <a href="/types/create">
         <button class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom"
-          title="Cadastre um novo tipo">
-          Cadastre um novo tipo <i class="fas fa-paper-plane"></i>
+          title="Cadastre um novo Poduto">
+          Cadastre um Tipo de Equipamento <i class="fas fa-paper-plane"></i>
         </button>
       </a>
     </div>
@@ -146,7 +145,7 @@
     <div class="d-flex justify-content-center">
       <div class="p-1 ">
         <select class="custom-select custom-select-sm" name="SelectOptionsMobile" id="SelectOptionsMobile">
-          <option selected>Mostrar Colunas</option>
+          <option selected>Escolher...</option>
           <option value="tbTypes01">Id</option>
           <option value="tbTypes02">imagem</option>
           <option value="tbTypes03">QrCode</option>
@@ -185,108 +184,57 @@
 
       <tbody>
         {{#each types}}
+        <tr>
+          <th class="tbTypes01 d-print-block">{{_id}}</th>
+          <td class="tbTypes02 d-print-block">
+            <figure class="figure">
+              <img src="{{image}}" class="figure-img img-fluid rounded" style="max-width: 4rem;"
+                alt="Imagem de um quadrado genérico com bordas arredondadas, em uma figure.">
+              <!--<figcaption class="figure-caption">Uma legenda para a imagem acima.</figcaption>-->
+            </figure>
+          </td>
 
-  <!--INFORMAÇÃOES PARA ADICIONAR NA REQUISIÇÃO-->
-  <!--<form id="form_dev" method="POST">
-    <input type="hidden" class="mt-2 form-control"  name="id" value="{{_id}}">
-    <input type="hidden" class="mt-2 form-control"  name="qrcode" value="{{qrcode}}">
-    <input type="hidden" class="mt-2 form-control"  name="image" value="{{image}}">
-    <input type="hidden" class="mt-2 form-control"  name="description" value="{{description}}">
-    <!--CONTROLE DE USUÁRIOS LANÇAMENTO DO MATERIAL-->
-  <!--<input type="hidden" class="mt-2 form-control"  name="releaseDateOf"
-      value="{{#formatDate date}}{{/formatDate}}">
-    <input type="hidden" class="mt-2 form-control"  name="userLaunch" value="{{user._id}}">
-    <input type="hidden" class="mt-2 form-control"  name="emailLaunch" value="{{emailLaunch}}">
-    <!--CONTROLE DE USUÁRIOS ÚLTIMO LANÇAMENTO DO MATERIAL-->
-  <!--<input type="hidden" class="mt-2 form-control"  name="editionDate"
-      value="{{#formatDate date}}{{/formatDate}}">
-    <input type="hidden" class="mt-2 form-control"  name="userEdtion" value="{{user._id}}">
-    <input type="hidden" class="mt-2 form-control"  name="emailEdtion" value="{{emailEdtion}}">-->
-          <tr>
-            <th class="tbTypes01 d-print-block">{{_id}}</th>
-            <td class="tbTypes02 d-print-block">
-              <figure class="figure">
-                <img src="{{image}}" class="figure-img img-fluid rounded" style="max-width: 4rem;"
-                  alt="Imagem de um quadrado genérico com bordas arredondadas, em uma figure.">
-                <!--<figcaption class="figure-caption">Uma legenda para a imagem acima.</figcaption>-->
-              </figure>
-            </td>
+          <td class="tbTypes11 d-print-block">
+            <figure class="figure">
+              <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{_id}}"
+                class="figure-img img-fluid rounded" style="max-width: 4rem;"
+                alt="Imagem de um quadrado genérico com bordas arredondadas, em uma figure.">
+              <!--<figcaption class="figure-caption">Uma legenda para a imagem acima.</figcaption>-->
+            </figure>
+          </td>
+          <td class="tbTypes04 d-print-block">{{description}}</td>
+          <td class="tbTypes05 d-print-block">{{createdAt}}</td>
+          <td class="tbTypes06 d-print-block">{{user.name}}</td>
+          <td class="tbTypes07 d-print-block">{{emailCreated}}</td>
+          <td class="tbTypes08 d-print-block" style="display: none;">{{updatedAt}}</td>
+          <td class="tbTypes09 d-print-block" style="display: none;">{{user.name}}</td>
+          <td class="tbTypes10 d-print-block" style="display: none;">{{emailUpdated}}</td>
 
-            <td class="tbTypes03 d-print-block">
-              <figure class="figure">
-                <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{qrcode}}"
-                  class="figure-img img-fluid rounded" style="max-width: 4rem;"
-                  alt="Imagem de um quadrado genérico com bordas arredondadas, em uma figure.">
-                <!--<figcaption class="figure-caption">Uma legenda para a imagem acima.</figcaption>-->
-              </figure>
-            </td>
-            <td class="tbTypes04 d-print-block">{{description}}</td>
-            <td class="tbTypes05 d-print-block">{{releaseDateOf}}</td>
-            <td class="tbTypes06 d-print-block">{{user.name}}</td>
-            <td class="tbTypes07 d-print-block">{{emailLaunch}}</td>
-            <td class="tbTypes08 d-print-block" style="display: none;">{{editionDate}}</td>
-            <td class="tbTypes09 d-print-block" style="display: none;">{{user.name}}</td>
-            <td class="tbTypes10 d-print-block" style="display: none;">{{emailEdtion}}</td>
-
-            <td class="tbTypes03 d-print-none">
-              <div class="d-flex justify-content-center">
-                {{#if ../ user.eDevAdmin}}
-                <div class="liTypes11 p-0 mr-1">
-                  <button id="updateDev" type="submit" class="mt-1 mb-1 btn btn-secondary btn-sm" data-toggle="tooltip"
-                    data-placement="right" title="Inserir produto na solicitação atual">
-                    <i class="fas fa-cart-arrow-down"></i></button>
-                </div>
-
-                <div class="liTypes11 p-0 mr-1">
-                  <button id="saveDev" type="submit" class="mt-1 mb-1 btn btn-success btn-sm" data-toggle="tooltip"
-                    data-placement="bottom" title="Dar entrada no Material">
-                    <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-                </div>
-
-                <div class="liTypes11 p-0 mr-1">
-                  <a href="/types/add_id/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
-                    data-placement="left" title="Criar novo a partir dessas informações">
-                    <i class="far fa-clone"></i>
-                  </a>
-                </div>
-
-                <div class="liTypes11 p-0 mr-1">
-                  <a href="/types/edit/{{_id}}" class="mt-1 mb-1 btn btn-dark btn-sm" data-toggle="tooltip"
-                    data-placement="bottom" title="Editar Produto">
-                    <i class="fas fa-pen"></i>
-                  </a>
-                </div>
-
-                <div class="liTypes11 p-0">
-                  <a href="/types/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
-                    data-placement="bottom" title="Deletar Produto">
-                    <i class="fas fa-trash-alt"></i>
-                  </a>
-                </div>
-                {{else}}
-                <div class="liTypes11 p-0 mr-1">
-                  <a href="/types/edit/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
-                    data-placement="bottom" title="Editar Produto">
-                    <i class="fas fa-pen"></i>
-                  </a>
-                </div>
-
-                <div class="liTypes11 p-0">
-                  <a href="/types/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
-                    data-placement="bottom" title="Deletar Produto">
-                    <i class="fas fa-trash-alt"></i>
-                  </a>
-                </div>
-                {{/if}}
+          <td class="tbTypes03 d-print-none">
+            <div class="d-flex justify-content-center">
+              <div class="liTypes11 p-0 mr-1">
+                <a href="/types/update/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
+                  data-placement="bottom" title="Editar Grupo">
+                  <i class="fas fa-pen"></i>
+                </a>
               </div>
 
-            </td>
+              <div class="liTypes11 p-0">
+                <a href="/types/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
+                  data-placement="bottom" title="Deletar Grupo">
+                  <i class="fas fa-trash-alt"></i>
+                </a>
+              </div>
 
-          </tr>
+            </div>
+
+          </td>
+
+        </tr>
         </form>
         {{else}}
         <h4 class="mt-12 mb-2">
-          Nenhum Tipo Registrado!
+          Nenhum Tipo de Equipamento Registrado!
         </h4>
         {{/each}}
       </tbody>

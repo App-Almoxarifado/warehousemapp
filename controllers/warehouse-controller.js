@@ -1,456 +1,133 @@
 const mongoose = require("mongoose");
-require("../models/Product");
-const Product = mongoose.model("products");
-require("../models/Group");
-const Group = mongoose.model("groups");
-require("../models/Subgroup");
-const Subgroup = mongoose.model("subgroups");
-require("../models/Client");
-const Client = mongoose.model("customers");
-require("../models/Location");
-const Location = mongoose.model("locations");
-require("../models/Sublease");
-const Sublease = mongoose.model("subleases");
-require("../models/Status");
-const Status = mongoose.model("status");
-require("../models/Type");
-const Type = mongoose.model("types");
-require("../models/Unity");
-const Unity = mongoose.model("unitys");
-require("../models/Interval");
-const Interval = mongoose.model("breaks");
-require("../models/Provider");
-const Provider = mongoose.model("providers");
-require("../models/Collaborator");
-const Collaborator = mongoose.model("collaborators");
+require("../models/Warehouse");
+const Warehouse = mongoose.model("warehouses");
 
 
-
-//VIZUALIZANDO PRODUTOS PARA FAZER PEDIDO
-exports.request = async (req, res) => {
+//LISTA
+exports.getList = async (req, res) => {
   try {
-    const customers = await Client.find({ active: true })
-      .sort({ description: "asc" })
-      .lean();
-    /*
-    if(req.user.admin)
-      customers = await Client.find({ active: true })
-      .sort({ description: "asc" })
-      .lean();
-    else customers = req.user.sites;
-    */
-    const groups = await Group.find({ active: true })
-      .sort({ description: "asc" })
-      .lean();
-
-    const subgroups = await Subgroup.find({ active: true })
-      .sort({ description: "asc" })
-      .lean();
-
-    const types = await Type.find({ active: true })
-      .sort({ description: "asc" })
-      .lean();
-
-    /*
-    const statuses = await Status.find({ active: true })
-      .sort({ description: "asc" })
-      .lean();
-      */
-
-    const filtros = {
-      $or: [],
-      $and:[],
-    };
-
-    let {
-      search,
-      page,
-      //site,
-      group,
-      subgroup,
-      type,
-      //status,
-      limit,
-    } = req.query;
-
+    const file = req.file
+    const filtros = [];
+    let { search, page, limit } = req.query;
     if (!!search) {
       const pattern = new RegExp(`.*${search}.*`);
-      filtros["$or"].push(
+      filtros.push(
+        { tag: { $regex: pattern, $options: 'i' } },
         { description: { $regex: pattern, $options: 'i' } },
-        { capacityReach: { $regex: pattern, $options: 'i' } },
-        { stockCode: { $regex: pattern, $options: 'i' } }
       );
     }
-
-    //if (!!site) filtros["$and"].push({ client: site });
-    if (!!group) filtros["$and"].push({ group: group });
-    if (!!subgroup) filtros["$and"].push({ subgroup: subgroup });
-    if (!!type) filtros["$and"].push({ kindOfEquipment: type });
-    //if (!!status) filtros["$and"].push({ physicalStatus: status });
-
     page = Number(page || 1);
-    limit = limit ? Number(limit) : 10;
+    limit = limit ? Number(limit) : 5;
+    const quant = await Warehouse.find(
+      filtros.length > 0 ? { $or: filtros } : {}
+    ).estimatedDocumentCount();
 
-    if (filtros["$and"].length === 0) delete filtros["$and"];
-    if (filtros["$or"].length === 0) delete filtros["$or"];
-
-    const quant = await Product.find(filtros).estimatedDocumentCount();
-
-    const stock = await Product.aggregate([
-
-      {
-        $group: {
-          _id: "$fullDescription",
-          quant: {
-            $sum: 1
-          },
-          quantity: {
-            $sum: "$stockQuantity"
-          },
-          qu: {
-            $sum: "$inputAmount"
-          }
-        }
-      }
-    ])
-    //console.log(stock)
-    
-    const groupChart = await Product.aggregate([
-      {
-        $match: filtros
-      },
-      {
-        $group: {
-          _id: "$group",
-          quant: {
-            $sum: 1
-          },
-          quantity: {
-            $sum: "$stockQuantity"
-          }
-        }
-      },
+    const warehouses = await Warehouse.aggregate([
+      { $match: filtros.length > 0 ? { $or: filtros } : { active: true } },
+      { $sort: { description: -1 } },
+      { $skip: page > 1 ? (page - 1) * limit : 0 },
+      { $limit: limit },
       {
         $lookup:
         {
-          from: "groups",
-          localField: "_id",
+          from: "collaborators",
+          localField: "userCreated",
           foreignField: "_id",
-          as: "group"
+          as: "created"
         }
-      }
+      },
+      { $unwind: "$created" },
+      {
+        $lookup:
+        {
+          from: "collaborators",
+          localField: "userUpdated",
+          foreignField: "_id",
+          as: "updated"
+        }
+      },
+      { $unwind: "$updated" },
     ])
 
-    var products = await Product.find(filtros)
-      .sort({
-        editionDate: "desc",
-      })
-      .limit(limit).lean()
-      .skip(page > 1 ? (page - 1) * limit : 0)
-      .populate("group")
-      .populate("subgroup")
-      .populate("client")
-      .populate("local")
-      .populate("sublease")
-      .populate("physicalStatus")
-      .populate("kindOfEquipment")
-      .populate("unity")
-      .populate("frequency")
-      .populate("provider")
-      .populate("userLaunch")
-      .populate("userEdition")
-      .populate("unity")
-      .populate("frequency")
-      .populate("provider");
-    //console.log(groupChart)
-    res.render("planning/planning", {
-      products,
+    res.render("warehouses/read", {
+      warehouses,
       prev: Number(page) > 1,
       next: Number(page) * limit < quant,
-      customers,
-      group,
-      groups,
-      subgroups,
-      types,
       page,
-      search,
       limit,
-      subgroup,
-      type,
-      stock,
-      groupChart
+      file
     });
   } catch (err) {
     console.log(err);
     req.flash("error_msg", "Ops, Houve um erro interno!");
-    res.redirect("/products");
+    res.redirect("/warehouses");
   }
 };
 
-
-//VIZUALIZANDO PRODUTOS PARA FAZER PEDIDO
-exports.getSearch = async (req, res) => {
+//TABELA
+exports.getTable = async (req, res) => {
   try {
-    const customers = await Client.find({ active: true })
-      .sort({ description: "asc" })
-      .lean();
-    /*
-    if(req.user.admin)
-      customers = await Client.find({ active: true })
-      .sort({ description: "asc" })
-      .lean();
-    else customers = req.user.sites;
-    */
-    const groups = await Group.find({ active: true })
-      .sort({ description: "asc" })
-      .lean();
-
-    const subgroups = await Subgroup.find({ active: true })
-      .sort({ description: "asc" })
-      .lean();
-
-    const types = await Type.find({ active: true })
-      .sort({ description: "asc" })
-      .lean();
-
-    const statuses = await Status.find({ active: true })
-      .sort({ description: "asc" })
-      .lean();
-
-    const filtros = {
-      $or: [],
-      $and: [],
-    };
-
-    let {
-      search,
-      page,
-      site,
-      //group,
-      subgroup,
-      type,
-      status,
-      limit,
-    } = req.query;
-
+    const file = req.file
+    const filtros = [];
+    let { search, page, limit } = req.query;
     if (!!search) {
       const pattern = new RegExp(`.*${search}.*`);
-      filtros["$or"].push(
+      filtros.push(
+        { tag: { $regex: pattern, $options: 'i' } },
         { description: { $regex: pattern, $options: 'i' } },
-        { stockCode: { $regex: pattern, $options: 'i' } },
-        { qrcode: { $regex: pattern, $options: 'i' } },
-        { user: { $regex: pattern, $options: 'i' } }
       );
     }
-
-    if (!!site) filtros["$and"].push({ client: site });
-    //if (!!group) filtros["$and"].push({ group: group });
-    if (!!subgroup) filtros["$and"].push({ subgroup: subgroup });
-    if (!!type) filtros["$and"].push({ kindOfEquipment: type });
-    if (!!status) filtros["$and"].push({ physicalStatus: status });
-
     page = Number(page || 1);
-    limit = limit ? Number(limit) : 10;
+    limit = limit ? Number(limit) : 5;
+    const quant = await Warehouse.find(
+      filtros.length > 0 ? { $or: filtros } : {}
+    ).estimatedDocumentCount();
 
-    if (filtros["$and"].length === 0) delete filtros["$and"];
-    if (filtros["$or"].length === 0) delete filtros["$or"];
-
-    const quant = await Product.find(filtros).estimatedDocumentCount();
-
-    const qtd = await Product.aggregate([
-      {"$group" : {
-        _id: {
-            status: "$status",
-            type: "$type"
-        },
-        quantity: {
-        $sum: "$stockQuantity"
-      }}}
-    ] )
-
-
-    const stock = await Product.aggregate([
-
-      {
-        $group: {
-          _id: "$description",
-          quant: {
-            $sum: 1
-          },
-          quantity: {
-            $sum: "$stockQuantity"
-          },
-          qu: {
-            $sum: "$inputAmount"
-          }
-        }
-      }
-    ])
-    console.log(stock)
-
-    const groupChart = await Product.aggregate([
-      {
-        $match: filtros
-      },
-      {
-        $group: {
-          _id: "$group",
-          quant: {
-            $sum: 1
-          },
-          quantity: {
-            $sum: "$stockQuantity"
-          }
-        }
-      },
+    const warehouses = await Warehouse.aggregate([
+      { $match: filtros.length > 0 ? { $or: filtros } : { active: true } },
+      { $sort: { description: -1 } },
+      { $skip: page > 1 ? (page - 1) * limit : 0 },
+      { $limit: limit },
       {
         $lookup:
         {
-          from: "groups",
-          localField: "_id",
+          from: "collaborators",
+          localField: "userUpdated",
           foreignField: "_id",
-          as: "group"
+          as: "user"
         }
-      }
+      },
+      { $unwind: "$user" },
     ])
-    var group_id = await Group.findOne({ _id: req.params.id }).lean();
-    if (group_id) {
-      gid = group_id
-    var products = await Product.find({group: group_id._id}, filtros)
-      .sort({
-        editionDate: "desc",
-      })
-      .limit(limit).lean()
-      .skip(page > 1 ? (page - 1) * limit : 0)
-      .populate("group")
-      .populate("subgroup")
-      .populate("client")
-      .populate("local")
-      .populate("sublease")
-      .populate("physicalStatus")
-      .populate("kindOfEquipment")
-      .populate("kindOfEquipment")
-      .populate("unity")
-      .populate("frequency")
-      .populate("provider")
-      .populate("userLaunch")
-      .populate("userEdition")
-      .populate("unity")
-      .populate("frequency")
-      .populate("provider");
-    }
-    res.render("planning/search", {
-      gid,
-      products,
+    res.render("warehouses/table", {
+      warehouses,
       prev: Number(page) > 1,
       next: Number(page) * limit < quant,
-      customers,
-      groups,
-      group_id,
-      subgroups,
-      types,
-      statuses,
       page,
-      search,
       limit,
-      site,
-      //group,
-      subgroup,
-      type,
-      status,
-      stock,
-      groupChart
-      
+      file
     });
   } catch (err) {
     console.log(err);
     req.flash("error_msg", "Ops, Houve um erro interno!");
-    res.redirect("/products");
+    res.redirect("/warehouses");
   }
 };
 
-//VIZUALIZANDO PRODUTOS CARRINHO
-exports.getCart = async (req, res) => {
+
+//CRIANDO 
+exports.getCreate = async (req, res) => {
+  const file = req.file
   try {
-    var numberRequest = Date.now();
-    var products = await Product.find({ active: "cart" })
-      .lean()
-      .populate("group")
-      .populate("subgroup")
-      .populate("client")
-      .populate("physicalStatus")
-      .populate("kindOfEquipment")
-      .populate("kindOfEquipment")
-      .populate("unity")
-      .populate("frequancy")
-      .populate("provider");
-
-    var customers = await Client.find({
-      active: true,
-    })
-      .sort({
-        description: "asc",
-      })
-      .lean();
-
-    console.log(req.user);
-    return res.render("products/cartproducts", {
-      user: req.user,
-      products: products,
-      customers: customers,
-      numberRequest,
-    });
+    res.render("warehouses/create", { file });
   } catch (err) {
     req.flash("error_msg", "Ops, Houve um erro interno!");
-    res.redirect("/products", {});
+    res.redirect("/warehouses");
   }
-  console.log(user);
 };
 
-//VIZUALIZANDO PRODUTOS CARRINHO
-exports.getCart_request = async (req, res) => {
-  try {
-    var numberRequest = Date.now();
-    var products = await Product.find({ active: "cart" })
-      .lean()
-      .populate("group")
-      .populate("subgroup")
-      .populate("client")
-      //.populate("localArea")
-      .populate("local")
-      .populate("sublease")
-      .populate("physicalStatus")
-      .populate("kindOfEquipment")
-      .populate("unity")
-      .populate("frequancy")
-      .populate("provider")
-      .populate("userLaunch")
-      .populate("userEdition");
-
-    var customers = await Client.find({
-      active: true,
-    })
-      .sort({
-        description: "asc",
-      })
-      .lean();
-
-    console.log(req.user);
-    return res.render("products/productscart", {
-      user: req.user,
-      products: products,
-      customers: customers,
-      numberRequest,
-    });
-  } catch (err) {
-    req.flash("error_msg", "Ops, Houve um erro interno!");
-    res.redirect("/products", {});
-  }
-  console.log(user);
-};
-
-//FINALIZANDO SOLICITAÇÃO POR ID
-exports.postRequest = async (req, res) => {
+exports.postCreate = async (req, res) => {
+  const file = req.file
   var erros = [];
   if (
     !req.body.description ||
@@ -461,398 +138,142 @@ exports.postRequest = async (req, res) => {
       texto: "Descricão Inválida",
     });
   }
-
+  if (
+    !req.body.image ||
+    typeof req.body.image == undefined ||
+    req.body.image == null
+  ) {
+    erros.push({
+      texto: "Escolha uma foto",
+    });
+  }
   if (req.body.description.length < 2) {
     erros.push({
-      texto: "Descrição do produto muito pequena!",
+      texto: "Descrição da obra muito pequena!",
     });
   }
   if (erros.length > 0) {
-    res.render("products/addproducts", {
+    res.render("warehouses/create", {
+      file,
       erros: erros,
     });
   } else {
     try {
-      const products = new Product({
-        qrcode:
-          req.body.patrimonialAsset
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-            .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-            .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, "") +
-          req.body.description
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-            .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-            .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, "") +
-          req.body.manufacturer
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-            .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-            .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, "") +
-          req.body.model
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-            .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-            .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, "") +
-          req.body.capacityReach
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-            .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-            .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, "") +
-          req.body.serialNumber
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-            .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-            .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, ""),
-
-        image: req.body.image,
-
-        group: req.body.group,
-
-        subgroup: req.body.subgroup,
-
-        fullDescription:
-          req.body.patrimonialAsset +
-          " " +
-          req.body.description +
-          " " +
-          req.body.manufacturer +
-          " " +
-          req.body.model +
-          " " +
-          req.body.capacityReach +
-          " " +
-          req.body.serialNumber,
-
-        stockCode:
-          req.body.description
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-            .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-            .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, "") +
-          req.body.capacityReach
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-            .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-            .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-            .replace(/(^-+|-+$)/, ""),
-
-        client: req.body.client,
-
-        localArea: req.body.localArea,
-
-        local: req.body.local,
-
-        sublease: req.body.sublease,
-
-        patrimonialAsset: req.body.patrimonialAsset,
-
+      const warehouses = new Warehouse({
+        image: req.file.location,
+        key: req.file.key,
         description: req.body.description,
-
-        manufacturer: req.body.manufacturer,
-
-        model: req.body.model,
-
-        capacityReach: req.body.capacityReach,
-
-        serialNumber: req.body.serialNumber,
-
-        physicalStatus: req.body.physicalStatus,
-
-        kindOfEquipment: req.body.kindOfEquipment,
-
-        requiresCertificationCalibration:
-          req.body.requiresCertificationCalibration,
-
-        inputAmount: req.body.inputAmount.replace(",", "."),
-
-        inputAmountSite: req.body.inputAmount.replace(",", "."),
-
-        outputQuantity: 0,
-
-        stockQuantity: req.body.inputAmount - req.body.outputQuantity,
-
-        unity: req.body.unity,
-
-        weightKg: req.body.weightKg,
-
-        faceValue: req.body.faceValue.replace(",", "."),
-
-        dimensionsWxLxH: req.body.dimensionsWxLxH,
-
-        certificate: req.body.certificate,
-
-        entityLaboratory: req.body.entityLaboratory,
-
-        frequency: req.body.frequency,
-
-        calibrationDate: req.body.calibrationDate,
-
-        calibrationValidity: req.body.calibrationValidity,
-
-        calibrationStatus: req.body.calibrationStatus,
-
-        po: req.body.po,
-
-        sapCode: req.body.sapCode,
-
-        ncmCode: req.body.ncmCode,
-
-        provider: req.body.provider,
-
-        invoce: req.body.invoce,
-
-        receivingDate: req.body.receivingDate,
-
-        note: req.body.note,
-
-        activeStatus: req.body.activeStatus,
-
-        releaseDateOf: req.body.releaseDateOf,
-
-        userLaunch: req.body.userLaunch,
-
-        emailLaunch: req.body.emailLaunch,
-
-        editionDate: req.body.editionDate,
-
-        userEdtion: req.body.userEdtion,
-
-        emailEdtion: req.body.emailEdtion,
-
-        //responsibleSite: req.body.client,
-
-        //responsibleMaterial: req.body.client,
-
-        //totalFaceValue:req.body.inputAmount * req.body.faceValue,
-
-        //totalWeightKg:req.body.inputAmount * req.body.weightKg,
-
-        active: "cart",
-
-        tags: [
-          req.body.group,
-          req.body.subgroup,
-          req.body.client,
-          req.body.local,
-          req.body.sublease,
-          req.body.client,
-          req.body.physicalStatus,
-          req.body.kindOfEquipment,
-          req.body.responsibleMaterial,
-        ],
+        userCreated: req.body.userCreated,
+        emailCreated: req.body.emailCreated,
+        userUpdated: req.body.userUpdated,
+        emailUpdated: req.body.emailUpdated,
+        tag: req.body.description
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "") // Remove acentos
+          .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
+          .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
+          .replace(/(^-+|-+$)/, "")
       });
-      await products.save();
-      req.flash("success_msg", "Produto solicitado, enviado para pedido!");
-      res.redirect("/products/request");
+      await warehouses.save();
+      req.flash("success_msg", "Obra criada com sucesso!");
+      res.redirect("/warehouses");
+      console.log("Obra criada com sucesso!");
     } catch (err) {
       req.flash(
         "error_msg",
-        "Ops, Houve um erro ao salvar o Produto, tente novamente!" + err
+        "Ops, Houve um erro ao salvar a obra, tente novamente!" + err
       );
-      res.redirect("/products");
+      res.redirect("/warehouses");
     }
   }
 };
 
-//COLOCANDO PRODUTO NO CARRINHO COM UM CLIQUE
-exports.updateRequest = async (req, res) => {
-  var product = await Product.findOne({ _id: req.body.id });
-  
+//EDITANDO
+exports.getUpdate = async (req, res) => {
+  try {
+    const file = req.file
+    var warehouse = await Warehouse.findOne({ _id: req.params._id }).lean();
+    res.render("warehouses/update", { warehouse, file });
+  } catch (_err) {
+    req.flash("error_msg", "Ops, Houve um erro interno!");
+    res.redirect("/warehouses");
+  }
+};
+
+exports.postUpdate = async (req, res) => {
+  var warehouse = await Warehouse.findOne({ _id: req.body._id });
+  const file = req.file
+  var erros = [];
+  if (
+    !req.body.description ||
+    typeof req.body.description == undefined ||
+    req.body.description == null
+  ) {
+    erros.push({
+      texto: "Descricão Inválida",
+    });
+  }
+  if (
+    !req.body.image ||
+    typeof req.body.image == undefined ||
+    req.body.image == null
+  ) {
+    erros.push({
+      texto: "Escolha uma foto",
+    });
+  }
+  if (req.body.description.length < 2) {
+    erros.push({
+      texto: "Descrição da obra muito pequena!",
+    });
+  }
+  if (erros.length > 0) {
+    res.render("./warehouses/update", {
+      file,
+      erros: erros,
+    });
+  } else {
     try {
-      product.qrcode =
-        req.body.patrimonialAsset
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-          .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-          .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-          .replace(/(^-+|-+$)/, "") +
-        req.body.description
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-          .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-          .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-          .replace(/(^-+|-+$)/, "") +
-        req.body.manufacturer
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-          .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-          .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-          .replace(/(^-+|-+$)/, "") +
-        req.body.model
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-          .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-          .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-          .replace(/(^-+|-+$)/, "") +
-        req.body.capacityReach
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-          .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-          .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-          .replace(/(^-+|-+$)/, "") +
-        req.body.serialNumber
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-          .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-          .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-          .replace(/(^-+|-+$)/, "");
+      warehouse.image = req.file.location
+      warehouse.key = req.file.key
+      warehouse.description = req.body.description
+      warehouse.createdAt = req.body.createdAt
+      warehouse.userCreated = req.body.userCreated
+      warehouse.emailCreated = req.body.emailCreated
+      warehouse.updatedAt = Date.now()
+      warehouse.userUpdated = req.body.userUpdated
+      warehouse.emailUpdated = req.body.emailUpdated
+      warehouse.tag = req.body.description
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "") // Remove acentos
+        .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
+        .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
+        .replace(/(^-+|-+$)/, "") +
 
-      product.image = req.body.image;
-
-      product.group = req.body.group;
-
-      product.subgroup = req.body.subgroup;
-
-      product.fullDescription =
-        req.body.patrimonialAsset +
-        " " +
-        req.body.description +
-        " " +
-        req.body.manufacturer +
-        " " +
-        req.body.model +
-        " " +
-        req.body.capacityReach +
-        " " +
-        req.body.serialNumber;
-
-      product.stockCode =
-        req.body.description
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-          .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-          .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-          .replace(/(^-+|-+$)/, "") +
-        req.body.capacityReach
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-          .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-          .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-          .replace(/(^-+|-+$)/, "");
-
-      product.client = req.body.client;
-
-      product.localArea = req.body.localArea;
-
-      product.local = req.body.local;
-
-      product.sublease = req.body.sublease;
-
-      product.patrimonialAsset = req.body.patrimonialAsset;
-
-      product.description = req.body.description;
-
-      product.manufacturer = req.body.manufacturer;
-
-      product.model = req.body.model;
-
-      product.capacityReach = req.body.capacityReach;
-
-      product.serialNumber = req.body.serialNumber;
-
-      product.physicalStatus = req.body.physicalStatus;
-
-      product.kindOfEquipment = req.body.kindOfEquipment;
-
-      product.requiresCertificationCalibration =
-        req.body.requiresCertificationCalibration;
-
-      product.inputAmount = req.body.inputAmount.replace(",", ".");
-
-      product.inputAmountSite = req.body.inputAmount.replace(",", ".");
-
-      product.outputQuantity = req.body.outputQuantity.replace(",", ".");
-
-      //product.stockQuantity = req.body.inputAmount - req.body.outputQuantity
-
-      product.unity = req.body.unity;
-
-      product.weightKg = req.body.weightKg;
-
-      product.faceValue = req.body.faceValue.replace(",", ".");
-
-      product.dimensionsWxLxH = req.body.dimensionsWxLxH;
-
-      product.certificate = req.body.certificate;
-
-      product.entityLaboratory = req.body.entityLaboratory;
-
-      product.frequency = req.body.frequency;
-
-      product.calibrationDate = req.body.calibrationDate;
-
-      product.calibrationValidity = req.body.calibrationValidity;
-
-      product.calibrationStatus = req.body.calibrationStatus;
-
-      product.po = req.body.po;
-
-      product.sapCode = req.body.sapCode;
-
-      product.ncmCode = req.body.ncmCode;
-
-      product.provider = req.body.provider;
-
-      product.invoce = req.body.invoce;
-
-      product.receivingDate = req.body.receivingDate;
-
-      product.note = req.body.note;
-
-      product.activeStatus = req.body.activeStatus;
-
-      product.releaseDateOf = req.body.releaseDateOf;
-
-      product.userLaunch = req.body.userLaunch;
-
-      product.emailLaunch = req.body.emailLaunch;
-
-      product.editionDate = req.body.editionDate;
-
-      product.userEdtion = req.body.userEdtion;
-
-      product.emailEdtion = req.body.emailEdtion;
-
-      //product.responsibleSite= req.body.client
-
-      //product.responsibleMaterial= req.body.client
-
-      //product.totalFaceValue=req.body.inputAmount * req.body.faceValue
-
-      //product.totalWeightKg=req.body.inputAmount * req.body.weightKg
-
-      product.active = "cart";
-
-      product.tags = [
-        req.body.group,
-        req.body.subgroup,
-        req.body.client,
-        req.body.local,
-        req.body.sublease,
-        req.body.client,
-        req.body.physicalStatus,
-        req.body.kindOfEquipment,
-        req.body.responsibleMaterial,
-      ];
-
-      await product.save();
-      req.flash("success_msg", "Produto solicitado!");
-      res.redirect("/planning");
+        await warehouse.save();
+      req.flash("success_msg", "Obra editada com sucesso!");
+      res.redirect("/warehouses");
+      console.log("Obra editada com sucesso!");
     } catch (err) {
       req.flash(
         "error_msg",
-        "Ops, Houve um erro ao salvar o Produto, tente novamente!" + err
+        "Ops, Houve um erro ao salvar a obra, tente novamente!" + err
       );
-      res.redirect("/products");
+      res.redirect("/warehouses");
     }
-  
+  }
 };
+
+
+//DELETANDO
+exports.getDelete = async (req, res) => {
+  await Warehouse.deleteOne({ _id: req.params._id });
+  try {
+    req.flash("success_msg", "Obra deletada com Sucesso!");
+    res.redirect("/warehouses");
+  } catch (err) {
+    req.flash("error_msg", "Houve um erro interno!");
+    res.redirect("/warehouses");
+  }
+};
+

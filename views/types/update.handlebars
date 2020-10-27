@@ -1,0 +1,53 @@
+<div class="container">
+
+    {{#each erros}}
+    <div class="mt-2 alert alert-danger">{{texto}}</div>
+    {{else}}
+
+    {{/each}}
+
+
+
+    <h3 class="mt-2">Editando um Tipo de Equipamento</h3>
+
+    <hr>
+    <form action="/types/update" enctype="multipart/form-data" method="POST">
+        <div class="col-md-12 position-static">
+            <div class="d-flex justify-content-center">
+                <img src="{{type.image}}" class="avatar img-fluid rounded" alt="" style="width: 12rem;">
+            </div>
+            <figcaption class="figure-caption text-center">Clique na imagem para fazer o upload, a imagem é
+                obrigatória!</figcaption>
+            <div class="d-flex p-1 justify-content-center">
+
+                <input type="file" accept="image/*" name="file" id="file"
+                    class="btn-file text-center center-block file-upload">
+            </div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <div class="col-md-4 position-static">
+                <input type="hidden" class="form-control" id=_"id" name="_id" placeholder="_Id" value="{{type._id}}">
+                <input type="hidden" class="form-control mt-2" name="image" id="image">
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label style="font-size: small ;" for="description">Descrição:</label>
+                        <input type="text" class="form-control form-control-sm" id="description" name="description"
+                            placeholder="Digite aqui aqui a descrição" value="{{type.description}}">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <input type='submit' class='btn btn-success btn-sm btn-block' value='Salvar'>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--CONTROLE DE USUÁRIOS LANÇAMENTO -->
+        <input type="hidden" class="form-control mt-2" name="userCreated" id="userCreated"
+            value="{{type.userCreated}}">
+        <input type="hidden" class="form-control mt-2" name="emailCreated" id="emailCreated"
+            value="{{type.emailCreated}}">
+        <input type="hidden" class="form-control mt-2" name="createdAt" id="createdAt" value="{{type.createdAt}}">
+        <!--CONTROLE DE USUÁRIOS -->
+        <input type="hidden" class="form-control mt-2" name="userUpdated" id="userUpdated" value="{{user.name}}">
+        <input type="hidden" class="form-control mt-2" name="emailUpdated" id="emailUpdated" value="{{user.email}}">
+    </form>
+</div>

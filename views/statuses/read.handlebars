@@ -7,17 +7,17 @@
   <div class="d-none d-md-none d-print-block">
     <div class="d-flex justify-content-center">
 
-      <h3>Unidades</h3>
+      <h3>Status Físico</h3>
     </div>
   </div>
   <div class="d-none d-md-block d-print-none">
     <div class="d-flex justify-content-center">
       <div class="p-1 mr-auto">
-        <h3>Unidades</h3>
+        <h3>Status Físico</h3>
       </div>
 
       <div class="p-0 mr-1">
-        <a href="/unitys">
+        <a href="/statuses">
           <button type="button" class="btn btn-primary btn-sm">
             Lista
             <i class="fas fa-th-list"></i>
@@ -25,7 +25,7 @@
         </a>
       </div>
       <div class="p-0 mr-1">
-        <a href="/unitys/table">
+        <a href="/statuses/table">
           <button type="button" class="btn btn-primary btn-sm">
             Tabela
             <i class="fas fa-table"></i>
@@ -33,9 +33,9 @@
         </a>
       </div>
       <div class="p-0">
-        <a href="/unitys/add">
+        <a href="/statuses/create">
           <button class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom" title="Cadastre ">
-            Cadastre uma nova Unidade <i class="fas fa-paper-plane"></i>
+            Cadastre um Status <i class="fas fa-paper-plane"></i>
           </button>
         </a>
       </div>
@@ -96,15 +96,15 @@
 
   <div class="d-block d-md-none d-print-none">
     <div class="d-flex justify-content-center">
-      <h3>Unidades</h3>
+      <h3>Status Físico</h3>
       <hr>
     </div>
 
     <div class="d-flex justify-content-center">
-      <a href="/types/add">
+      <a href="/statuses/create">
         <button class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom"
           title="Cadastre um novo produto">
-          Cadastre uma nova Unidade <i class="fas fa-paper-plane"></i>
+          Cadastre um Status <i class="fas fa-paper-plane"></i>
         </button>
       </a>
     </div>
@@ -162,26 +162,7 @@
   </div>
 
   <!--VIZULIZAÇÃO EM LISTA-->
-  {{#each unitys}}
-
-  <!--INFORMAÇÃOES PARA ADICIONAR NA REQUISIÇÃO-->
-  <!--<form id="form_dev" method="POST">
-    <input type="hidden" class="mt-2 form-control"  name="id" value="{{_id}}">
-    <input type="hidden" class="mt-2 form-control"  name="qrcode" value="{{qrcode}}">
-    <input type="hidden" class="mt-2 form-control"  name="image" value="{{image}}">
-    <input type="hidden" class="mt-2 form-control"  name="description" value="{{description}}">
-    <!--CONTROLE DE USUÁRIOS LANÇAMENTO DO MATERIAL-->
-  <!--<input type="hidden" class="mt-2 form-control"  name="releaseDateOf"
-      value="{{#formatDate date}}{{/formatDate}}">
-    <input type="hidden" class="mt-2 form-control"  name="userLaunch" value="{{user._id}}">
-    <input type="hidden" class="mt-2 form-control"  name="emailLaunch" value="{{emailLaunch}}">
-    <!--CONTROLE DE USUÁRIOS ÚLTIMO LANÇAMENTO DO MATERIAL-->
-  <!--<input type="hidden" class="mt-2 form-control"  name="editionDate"
-      value="{{#formatDate date}}{{/formatDate}}">
-    <input type="hidden" class="mt-2 form-control"  name="userEdtion" value="{{user._id}}">
-    <input type="hidden" class="mt-2 form-control"  name="emailEdtion" value="{{emailEdtion}}">-->
-
-
+  {{#each statuses}}
 
   <div class="card" style="background-color: transparent;">
     <div class="card-body">
@@ -192,54 +173,19 @@
           <div class="liTypes04 mr-auto p-0">
             <h3 class="liTypes04">{{description}}</h3>
           </div>
-          {{#if ../ user.eDevAdmin}}
           <div class="liTypes11 p-0 mr-1">
-            <button id="updateDev" type="submit" class="mt-1 mb-1 btn btn-secondary btn-sm" data-toggle="tooltip"
-              data-placement="right" title="Inserir produto na solicitação atual">
-              <i class="fas fa-cart-arrow-down"></i></button>
-          </div>
-
-          <div class="liTypes11 p-0 mr-1">
-            <button id="saveDev" type="submit" class="mt-1 mb-1 btn btn-success btn-sm" data-toggle="tooltip"
-              data-placement="bottom" title="Dar entrada no Material">
-              <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-          </div>
-
-          <div class="liTypes11 p-0 mr-1">
-            <a href="/unitys/add_id/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
-              data-placement="left" title="Criar novo a partir dessas informações">
-              <i class="far fa-clone"></i>
-            </a>
-          </div>
-
-          <div class="liTypes11 p-0 mr-1">
-            <a href="/unitys/edit/{{_id}}" class="mt-1 mb-1 btn btn-dark btn-sm" data-toggle="tooltip"
-              data-placement="bottom" title="Editar Produto">
+            <a href="/statuses/update/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
+              data-placement="bottom" title="Editar Grupo">
               <i class="fas fa-pen"></i>
             </a>
           </div>
 
           <div class="liTypes11 p-0">
-            <a href="/unitys/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
-              data-placement="bottom" title="Deletar Produto">
+            <a href="/statuses/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
+              data-placement="bottom" title="Deletar Grupo">
               <i class="fas fa-trash-alt"></i>
             </a>
           </div>
-          {{else}}
-          <div class="liTypes11 p-0 mr-1">
-            <a href="/unitys/edit/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
-              data-placement="bottom" title="Editar Produto">
-              <i class="fas fa-pen"></i>
-            </a>
-          </div>
-
-          <div class="liTypes11 p-0">
-            <a href="/unitys/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
-              data-placement="bottom" title="Deletar Produto">
-              <i class="fas fa-trash-alt"></i>
-            </a>
-          </div>
-          {{/if}}
         </div>
         <hr />
 
@@ -250,7 +196,7 @@
               <img src="{{image}}" style="width: 10rem;" class="rounded " alt="..." />
             </div>
             <div class="liTypes03 p-0" style="display: none;">
-              <img id="qrcode" name="qrcode" src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{qrcode}}"
+              <img id="qrcode" name="qrcode" src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{_id}}"
                 style="width: 10rem;" class="rounded mr-3" />
             </div>
           </div>
@@ -258,17 +204,17 @@
 
           <div class="col-md-4 position-static p-0 pl-md-0 text-center">
             <p class="liTypes01 mt-0 mb-1"><small><b>Id: </b>{{_id}}</small></p>
-            <p class="liTypes05 mt-0 mb-1"><small><b>Data de Lançamento: </b>{{releaseDateOf}}</small></p>
+            <p class="liTypes05 mt-0 mb-1"><small><b>Data de Lançamento: </b>{{createdAt}}</small></p>
             <p class="liTypes08 mt-0 mb-1" style="display: none;"><small><b>Última Modificação:
-                </b>{{editionDate}}</small></p>
+                </b>{{updatedAt}}</small></p>
           </div>
 
           <div class="col-md-4 position-static p-0 pl-md-0 text-center">
-            <p class="liTypes06 mt-0 mb-1"><small><b>Usuário Lançamento: </b>{{user.name}}</small></p>
-            <p class="liTypes07 mt-0 mb-1"><small><b>Email Lançamento: </b>{{emailLaunch}}</small></p>
+            <p class="liTypes06 mt-0 mb-1"><small><b>Usuário Lançamento: </b>{{created.name}}</small></p>
+            <p class="liTypes07 mt-0 mb-1"><small><b>Email Lançamento: </b>{{emailCreated}}</small></p>
             <p class="liTypes09 mt-0 mb-1" style="display: none;"><small><b>Usuário Edição:
-                </b>{{user.name}}</small></p>
-            <p class="liTypes10 mt-0 mb-1" style="display: none;"><small><b>Email Edição: </b>{{emailEdtion}}</small>
+                </b>{{updated.name}}</small></p>
+            <p class="liTypes10 mt-0 mb-1" style="display: none;"><small><b>Email Edição: </b>{{emailUpdated}}</small>
             </p>
           </div>
         </div>
@@ -281,7 +227,6 @@
             <h6 class="liTypes04">{{description}}</h6>
           </div>
         </div>
-
         <hr />
 
         <div class="row no-gutters position-relative">
@@ -291,7 +236,7 @@
               <img src="{{image}}" style="width: 6rem;" class="rounded " alt="..." />
             </div>
             <div class="liTypes03 p-0">
-              <img id="qrcode" name="qrcode" src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{qrcode}}"
+              <img id="qrcode" name="qrcode" src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{_id}}"
                 style="width: 6rem;" class="rounded mr-3" />
             </div>
           </div>
@@ -299,17 +244,17 @@
 
           <div class="col-md-4 position-static p-0 pl-md-0 text-center">
             <p class="liTypes01 mt-0 mb-1"><small><b>Id: </b>{{_id}}</small></p>
-            <p class="liTypes05 mt-0 mb-1"><small><b>Data de Lançamento: </b>{{releaseDateOf}}</small></p>
+            <p class="liTypes05 mt-0 mb-1"><small><b>Data de Lançamento: </b>{{createdAt}}</small></p>
             <p class="liTypes08 mt-0 mb-1" style="display: none;"><small><b>Última Modificação:
-                </b>{{editionDate}}</small></p>
+                </b>{{updatedAt}}</small></p>
           </div>
 
           <div class="col-md-4 position-static p-0 pl-md-0 text-center">
-            <p class="liTypes06 mt-0 mb-1"><small><b>Usuário Lançamento: </b>{{user.name}}</small></p>
-            <p class="liTypes07 mt-0 mb-1"><small><b>Email Lançamento: </b>{{emailLaunch}}</small></p>
+            <p class="liTypes06 mt-0 mb-1"><small><b>Usuário Lançamento: </b>{{created.name}}</small></p>
+            <p class="liTypes07 mt-0 mb-1"><small><b>Email Lançamento: </b>{{emailCreated}}</small></p>
             <p class="liTypes09 mt-0 mb-1" style="display: none;"><small><b>Usuário Edição:
-                </b>{{user.name}}</small></p>
-            <p class="liTypes10 mt-0 mb-1" style="display: none;"><small><b>Email Edição: </b>{{emailEdtion}}</small>
+                </b>{{updated.name}}</small></p>
+            <p class="liTypes10 mt-0 mb-1" style="display: none;"><small><b>Email Edição: </b>{{emailUpdated}}</small>
             </p>
           </div>
         </div>
@@ -317,54 +262,20 @@
 
         <div class="d-block d-md-none d-print-block">
           <div class="d-flex justify-content-center">
-            {{#if ../ user.eDevAdmin}}
             <div class="liTypes11 p-0 mr-1">
-              <button id="updateDev" type="submit" class="mt-1 mb-1 btn btn-secondary btn-sm" data-toggle="tooltip"
-                data-placement="right" title="Inserir produto na solicitação atual">
-                <i class="fas fa-cart-arrow-down"></i></button>
-            </div>
-
-            <div class="liTypes11 p-0 mr-1">
-              <button id="saveDev" type="submit" class="mt-1 mb-1 btn btn-success btn-sm" data-toggle="tooltip"
-                data-placement="bottom" title="Dar entrada no Material">
-                <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-            </div>
-
-            <div class="liTypes11 p-0 mr-1">
-              <a href="/unitys/add_id/{{_id}}" class="mt-1 mb-1 btn btn-dark btn-sm" data-toggle="tooltip"
-                data-placement="left" title="Criar novo a partir dessas informações">
-                <i class="far fa-clone"></i>
-              </a>
-            </div>
-
-            <div class="liTypes11 p-0 mr-1">
-              <a href="/unitys/edit/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
-                data-placement="bottom" title="Editar Produto">
+              <a href="/statuses/update/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
+                data-placement="bottom" title="Editar Grupo">
                 <i class="fas fa-pen"></i>
               </a>
             </div>
 
             <div class="liTypes11 p-0">
-              <a href="/unitys/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
-                data-placement="bottom" title="Deletar Produto">
+              <a href="/statuses/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
+                data-placement="bottom" title="Deletar Grupo">
                 <i class="fas fa-trash-alt"></i>
-              </a>
-            </div>
-            {{else}}
-            <div class="liTypes11 p-0 mr-1">
-              <a href="/unitys/edit/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
-                data-placement="bottom" title="Editar Produto">
-                <i class="fas fa-pen"></i>
               </a>
             </div>
 
-            <div class="liTypes11 p-0">
-              <a href="/unitys/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
-                data-placement="bottom" title="Deletar Produto">
-                <i class="fas fa-trash-alt"></i>
-              </a>
-            </div>
-            {{/if}}
           </div>
         </div>
       </div>
@@ -377,7 +288,7 @@
   <br />
   {{else}}
   <h4 class="mt-12 mb-2">
-    Nenhuma Unidade Registrada!
+    Nenhum Status Registrado!
   </h4>
   {{/each}}
 

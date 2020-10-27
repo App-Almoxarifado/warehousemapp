@@ -7,17 +7,17 @@
   <div class="d-none d-md-none d-print-block">
     <div class="d-flex justify-content-center">
 
-      <h3>Padrões de Unidades</h3>
+      <h3>Status Físico</h3>
     </div>
   </div>
   <div class="d-none d-md-block d-print-none">
     <div class="d-flex justify-content-center">
       <div class="p-1 mr-auto">
-        <h3>Padrões de Unidades</h3>
+        <h3>Status Físico</h3>
       </div>
 
       <div class="p-0 mr-1">
-        <a href="/unitys">
+        <a href="/statuses">
           <button type="button" class="btn btn-primary btn-sm">
             Lista
             <i class="fas fa-th-list"></i>
@@ -25,7 +25,7 @@
         </a>
       </div>
       <div class="p-0 mr-1">
-        <a href="/unitys/table">
+        <a href="/statuses/table">
           <button type="button" class="btn btn-primary btn-sm">
             Tabela
             <i class="fas fa-table"></i>
@@ -33,9 +33,9 @@
         </a>
       </div>
       <div class="p-0">
-        <a href="/unitys/create">
+        <a href="/statuses/create">
           <button class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom" title="Cadastre ">
-            Cadastre um Padrão de Unidade <i class="fas fa-paper-plane"></i>
+            Cadastre um Status <i class="fas fa-paper-plane"></i>
           </button>
         </a>
       </div>
@@ -97,15 +97,15 @@
 
   <div class="d-block d-md-none d-print-none">
     <div class="d-flex justify-content-center">
-      <h3>Padrões de Unidades</h3>
+      <h3>Status Físico</h3>
       <hr>
     </div>
 
     <div class="d-flex justify-content-center">
-      <a href="/unitys/create">
+      <a href="/statuses/create">
         <button class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom"
           title="Cadastre um novo Poduto">
-          Cadastre um Padrão de Unidade <i class="fas fa-paper-plane"></i>
+          Cadastre um Status <i class="fas fa-paper-plane"></i>
         </button>
       </a>
     </div>
@@ -145,7 +145,7 @@
     <div class="d-flex justify-content-center">
       <div class="p-1 ">
         <select class="custom-select custom-select-sm" name="SelectOptionsMobile" id="SelectOptionsMobile">
-          <option selected>Mostrar Colunas</option>
+          <option selected>Escolher...</option>
           <option value="tbTypes01">Id</option>
           <option value="tbTypes02">imagem</option>
           <option value="tbTypes03">QrCode</option>
@@ -183,7 +183,7 @@
       </thead>
 
       <tbody>
-        {{#each unitys}}
+        {{#each statuses}}
         <tr>
           <th class="tbTypes01 d-print-block">{{_id}}</th>
           <td class="tbTypes02 d-print-block">
@@ -213,14 +213,14 @@
           <td class="tbTypes03 d-print-none">
             <div class="d-flex justify-content-center">
               <div class="liTypes11 p-0 mr-1">
-                <a href="/unitys/update/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
+                <a href="/statuses/update/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
                   data-placement="bottom" title="Editar Grupo">
                   <i class="fas fa-pen"></i>
                 </a>
               </div>
 
               <div class="liTypes11 p-0">
-                <a href="/unitys/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
+                <a href="/statuses/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
                   data-placement="bottom" title="Deletar Grupo">
                   <i class="fas fa-trash-alt"></i>
                 </a>
@@ -234,7 +234,7 @@
         </form>
         {{else}}
         <h4 class="mt-12 mb-2">
-          Nenhum Padrão de Unidade Registrado!
+          Nenhum Status Registrado!
         </h4>
         {{/each}}
       </tbody>

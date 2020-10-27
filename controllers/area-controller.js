@@ -253,7 +253,7 @@ exports.postUpdate = async (req, res) => {
         await area.save();
       req.flash("success_msg", "Área editada com sucesso!");
       res.redirect("/areas");
-      console.log("área editada com sucesso!");
+      console.log("Área editada com sucesso!");
     } catch (err) {
       req.flash(
         "error_msg",

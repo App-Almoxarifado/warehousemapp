@@ -8,124 +8,91 @@ const { promisify } = require("util");
 const s3 = new aws.S3();
 
 const Collaborator = new Schema({
-  qrcode: {
-    type: String,
-    lowercase: true,
-    required: false,
-    trim: true
-  },
+  //IMAGEM
   image: {
     type: String,
-    required: false,
-    trim: true
+    require: true,
   },
   //IMAGEM
   key: {
     type: String,
     require: true,
-    trim: true
   },
-  name: {
+  //NOME
+  description: {
     type: String,
     required: true,
     trim: true
   },
+  //MÁTRICULA
   registration: {
     type: String,
-    required: true,
+    //required: true,
     trim: true
   },
+  //FUNÇÃO
   occupation: {
     type: String,
-    required: true,
+    //required: true,
     trim: true
   },
+  //EMPRESA CONTARTANTE
   contractor: {
     type: Schema.Types.ObjectId,
-    ref: "customers",
-    required: true,
+    ref: "warehouses",
+    index: true
+    //required: true
   },
-  email: {
+  //CPF
+  cpf: {
     type: String,
-    required: true,
+    //required: true,
     trim: true
-  },
-  phone: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  cpfCnpj: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  address: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  cep: {
-    type: String,
-    required: true,
-  },
-  logradouro: {
-    type: String,
-    required: true,
-  },
-  bairro: {
-    type: String,
-    required: true,
-  },
-  cidade: {
-    type: String,
-    required: true,
-  },
-  uf: {
-    type: String,
-    required: true,
-  },
-  number: {
-    type: Number,
-    required: true,
   },
   //DATA DE LANÇAMENTO
-  releaseDateOf: {
-    type: String,
-    //default: Date.now()
+  createdAt: {
+    type: Date,
+    default: Date.now()
   },
   //USUARIO LANÇAMENTO
-  userLaunch: {
+  userCreated: {
     type: Schema.Types.ObjectId,
     ref: "collaborators",
     index: true
     //required: true
   },
   //EMAIL LANÇAMENTO
-  emailLaunch: {
+  emailCreated: {
     type: String,
-    //default: Date.now()
+    lowercase: true,
   },
   //DATA DE EDIÇÃO
-  editionDate: {
-    type: String,
-    //default: Date.now()
+  updatedAt: {
+    type: Date,
+    default: Date.now()
   },
   //USUARIO DE EDIÇÃO
-  userEdtion: {
+  userUpdated: {
     type: Schema.Types.ObjectId,
     ref: "collaborators",
     index: true
     //required: true
   },
   //EMAIL DE EDIÇÃO
-  emailEdtion: {
+  emailUpdated: {
     type: String,
-    //required: true,
+    lowercase: true,
   },
   active: {
     type: Boolean,
     default: "true",
+  },
+  //TAG
+  tag: {
+    type: String,
+    required: true,
+    lowercase: true,
+    trim: true
   },
 });
 
@@ -155,5 +122,6 @@ Collaborator.pre("remove", function () {
     );
   }
 });
+
 
 mongoose.model("collaborators", Collaborator);

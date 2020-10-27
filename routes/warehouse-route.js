@@ -1,12 +1,19 @@
 const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/warehouse-controller");
+const multer = require("multer");
+const multerConfig = require("../config/multer");
+const { eAdmin } = require("../helpers/eAdmin");
+const { eDevAdmin } = require("../helpers/eDevAdmin");
 
-//PRODUTOS - ROTA CARRINHO DE COMPRAS
-router.get("/", controller.request);
-router.get("/cart/:id?", controller.getCart);
-router.post("/addItem", controller.postRequest);
-router.post("/updateItem", controller.updateRequest);
-router.get("/search/group/:id", controller.getSearch);
+
+router.get("/", eAdmin, controller.getList);
+router.get("/table", eAdmin, controller.getTable);
+router.get("/create", controller.getCreate);
+router.post("/create", eAdmin, multer(multerConfig).single("file"), controller.postCreate);
+router.get("/update/:_id", eAdmin, controller.getUpdate);
+router.post("/update", eAdmin, multer(multerConfig).single("file"), controller.postUpdate);
+router.get("/delete/:_id", eAdmin, controller.getDelete);
+
 
 module.exports = router;

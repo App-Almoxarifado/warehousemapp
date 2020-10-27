@@ -243,15 +243,15 @@ app.use("/customers", clientRoute);
 app.use("/areas", areaRoute);
 app.use("/locations", locationRoute);
 app.use("/subleases", subleaseRoute);
-app.use("/breaks", intervalRoute);
+app.use("/intervals", intervalRoute);
 app.use("/unitys", unityRoute);
-app.use("/status", statusRoute);
+app.use("/statuses", statusRoute);
 app.use("/types", typesRoute);
 app.use("/products", productRoute);
 app.use("/planning", planningRoute);
 app.use("/dashboards", dashboardRoute);
 app.use("/items", itemRoute);
-app.use("/warehouse", warehouseRoute);
+app.use("/warehouses", warehouseRoute);
 
 //Server
 const PORT = process.env.PORT || 3000;

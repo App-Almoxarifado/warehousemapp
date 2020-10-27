@@ -8,92 +8,95 @@ const { promisify } = require("util");
 const s3 = new aws.S3();
 
 const Interval = new Schema({
-//QRCODE
-qrcode: {
-  type: String,
-  lowercase: true,
-  required: false,
-},
-//IMAGEM
-image: {
-  type: String,
-  require: true,
-},
-//IMAGEM
-key: {
-  type: String,
-  require: true,
-},
-//DESCRIÇÃO
-description: {
-  type: String,
-  required: true,
-},
-//DATA DE LANÇAMENTO
-releaseDateOf: {
-  type: String,
-  //default: Date.now()
-},
-//USUARIO LANÇAMENTO
-userLaunch: {
-  type: Schema.Types.ObjectId,
-  ref: "collaborators",
-  index: true
-  //required: true
-},
-//EMAIL LANÇAMENTO
-emailLaunch: {
-  type: String,
-  //default: Date.now()
-},
-//DATA DE EDIÇÃO
-editionDate: {
-  type: String,
-  //default: Date.now()
-},
-//USUARIO DE EDIÇÃO
-userEdtion: {
-  type: Schema.Types.ObjectId,
-  ref: "collaborators",
-  index: true
-  //required: true
-},
-//EMAIL DE EDIÇÃO
-emailEdtion: {
-  type: String,
-  //required: true,
-},
-active: {
-  type: Boolean,
-  default: "true",
-},
+  //IMAGEM
+  image: {
+    type: String,
+    require: true,
+  },
+  //IMAGEM
+  key: {
+    type: String,
+    require: true,
+  },
+  //DESCRIÇÃO
+  description: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  //DATA DE LANÇAMENTO
+  createdAt: {
+    type: Date,
+    default: Date.now()
+  },
+  //USUARIO LANÇAMENTO
+  userCreated: {
+    type: Schema.Types.ObjectId,
+    ref: "collaborators",
+    index: true
+    //required: true
+  },
+  //EMAIL LANÇAMENTO
+  emailCreated: {
+    type: String,
+    lowercase: true,
+  },
+  //DATA DE EDIÇÃO
+  updatedAt: {
+    type: Date,
+    default: Date.now()
+  },
+  //USUARIO DE EDIÇÃO
+  userUpdated: {
+    type: Schema.Types.ObjectId,
+    ref: "collaborators",
+    index: true
+    //required: true
+  },
+  //EMAIL DE EDIÇÃO
+  emailUpdated: {
+    type: String,
+    lowercase: true,
+  },
+  active: {
+    type: Boolean,
+    default: "true",
+  },
+  //TAG
+  tag: {
+    type: String,
+    required: true,
+    lowercase: true,
+    trim: true
+  },
 });
 
 Interval.pre("save", function () {
-if (!this.image) {
-  this.image = `${process.env.APP_URL}/files/${this.key}`;
-}
+  if (!this.image) {
+    this.image = `${process.env.APP_URL}/files/${this.key}`;
+  }
 });
 
 Interval.pre("remove", function () {
-if (process.env.STORAGE_TYPE === "s3") {
-  return s3
-    .deleteObject({
-      Bucket: process.env.BUCKET_NAME,
-      Key: this.key
-    })
-    .promise()
-    .then(response => {
-      console.log(response.status);
-    })
-    .catch(response => {
-      console.log(response.status);
-    });
-} else {
-  return promisify(fs.unlink)(
-    path.resolve(__dirname, "..", "tmp", "uploads", this.key)
-  );
-}
+  if (process.env.STORAGE_TYPE === "s3") {
+    return s3
+      .deleteObject({
+        Bucket: process.env.BUCKET_NAME,
+        Key: this.key
+      })
+      .promise()
+      .then(response => {
+        console.log(response.status);
+      })
+      .catch(response => {
+        console.log(response.status);
+      });
+  } else {
+    return promisify(fs.unlink)(
+      path.resolve(__dirname, "..", "tmp", "uploads", this.key)
+    );
+  }
 });
 
-mongoose.model("breaks", Interval);
+
+mongoose.model("intervals", Interval);
