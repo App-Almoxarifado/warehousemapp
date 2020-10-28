@@ -32,30 +32,258 @@ const Product = new Schema({
     index: true
     //required: true
   },
-  //DESCRIÇÃO
-  description: {
-    type: String,
-    required: true,
-    trim: true
+  //ARMAZEN OBRA
+  warehouse: {
+    type: Schema.Types.ObjectId,
+    ref: "warehouses",
+    index: true
+    //required: true
   },
-  //DESCRIÇÃO
-  name: {
-    type: String,
-    required: true,
-    trim: true
+  //ÁREA DE ARMAZENAMENTO
+  area: {
+    type: Schema.Types.ObjectId,
+    ref: "areas",
+    index: true
+    //required: true
   },
-  //CAPACIDADE-ALCANCE
-  capacityReach: {
-    type: String,
-    required: true,
-    trim: true
+  //LOCAÇÃO
+  location: {
+    type: Schema.Types.ObjectId,
+    ref: "locations",
+    index: true
+    //required: true
+  },
+  //SUBLOCAÇÃO
+  sublease: {
+    type: Schema.Types.ObjectId,
+    ref: "subleases",
+    index: true
+    //required: true
+  },
+  //STATUS DO EQUIPAMENTO
+  status: {
+    type: Schema.Types.ObjectId,
+    ref: "statuses",
+    index: true
+    //required: true
   },
   //TIPO DE EQUIPAMENTO
-  kindOfEquipment: {
+  type: {
     type: Schema.Types.ObjectId,
     ref: "types",
     index: true
     //required: true
+  },
+  //PADRÃO DE UNIDADE
+  unity: {
+    type: Schema.Types.ObjectId,
+    ref: "unitys",
+    index: true
+    //required: true
+  },
+  //INTERVALO DE CALIBRAÇÃO
+  interval: {
+    type: Schema.Types.ObjectId,
+    ref: "intervals",
+    index: true
+    //required: true
+  },
+  //FORNECEDOR
+  provider: {
+    type: Schema.Types.ObjectId,
+    ref: "providers",
+    index: true
+    //required: true
+  },
+  //DESCRIÇÃO DO PRODUTO
+  description: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //DESCRIÇÃO COMPLETA DO PRODUTO
+  fullDescription: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //TAG
+  tag: {
+    type: String,
+    required: true,
+    lowercase: true,
+    trim: true
+  },
+  //TAG PESQUISA
+  tagSearch: {
+    type: String,
+    required: true,
+    lowercase: true,
+    trim: true
+  },
+  //PATRIMONIO DO PRODUTO
+  patrimony: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //PATRIMONIO HBS DO PRODUTO
+  hbsCode: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //NOME DO PRODUTO
+  name: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //FABRICANTE DO PRODUTO
+  manufacturer: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //MODELO DO PRODUTO
+  model: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //CAPACIDADE/ALCANCE DO PRODUTO
+  capacityReach: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //N° DE SÉRIE DO PRODUTO
+  serialNumber: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //REQUER CERTIFICAÇÃO?
+  requiresCertification: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //QTD EM ESTOQUE
+  qtyStock: {
+    type: Number,
+  },
+  //QTD RESERVADA
+  qtyReservation: {
+    type: Number,
+  },
+  //QTD REQUISITADA
+  qtyRequest: {
+    type: Number,
+  },
+  //PESO KG
+  weightKg: {
+    type: Number,
+  },
+  //VALOR DE FACE
+  faceValue: {
+    type: Number,
+  },
+  //DIMENSÕES DO PRODUTO
+  dimensionsWxLxH: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //CERTIFICADO
+  certificate: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //ENTIDADE LABORATÓRIO CERTIFICAÇÃO
+  entityLaboratory: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //DATA DA CERTIFICAÇÃO
+  calibrationDate: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //DATA DE VENCIMENTO CERTIFICAÇÃO
+  calibrationValidity: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //STATUS CALIBRAÇÃO
+  calibrationStatus: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //PEDIDO DE COMPRA
+  po: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //CÓDIGO SAP
+  sapCode: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //CÓDIGO NCM
+  ncmCode: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //NF RECEBIMENTO
+  invoce: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //DATA NF RECEBIMENTO
+  receivingDate: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //OBSERVAÇÃO
+  note: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //DATA MOBILIZAÇÃO
+  mobilization: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //DATA DESMOBILIZAÇÃO
+  demobilization: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //NF MOBILIZAÇÃO
+  invoiceMobilization: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //NF DESMOBILIZAÇÃO
+  invoiceDemobilization: {
+    type: String,
+    //required: true,
+    trim: true
   },
   //DATA DE LANÇAMENTO
   createdAt: {
@@ -72,7 +300,7 @@ const Product = new Schema({
   //EMAIL LANÇAMENTO
   emailCreated: {
     type: String,
-    //default: Date.now()
+    lowercase: true,
   },
   //DATA DE EDIÇÃO
   updatedAt: {
@@ -89,18 +317,13 @@ const Product = new Schema({
   //EMAIL DE EDIÇÃO
   emailUpdated: {
     type: String,
-    //required: true,
+    lowercase: true,
   },
   active: {
     type: Boolean,
     default: "true",
   },
-  tag: {
-    type: String,
-    required: true,
-    lowercase: true,
-    trim: true
-  },
+
 });
 
 Product.pre("save", function () {

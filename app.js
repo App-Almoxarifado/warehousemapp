@@ -53,13 +53,9 @@ const productRoute = require("./routes/product-route");
 const planningRoute = require("./routes/planning-route");
 //Obras
 const warehouseRoute = require("./routes/warehouse-route");
-
 //PEDIDOS
 const transferRoute = require("./routes/transfer-route");
-//Dashboards
-const dashboardRoute = require("./routes/dashboard-route");
-//Planejamento
-const itemRoute = require("./routes/item-route");
+
 
 const passport = require("passport");
 require("./config/auth")(passport);
@@ -166,17 +162,6 @@ mongoose
 //public
 app.use(express.static(path.join(__dirname, "public")));
 
-//Carregando arquivo de upload
-/*const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "public/uploads/");
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
-  },
-});
-const upload = multer({ storage });*/
-
 //Rotas
 app.get("/", async (req, res) => {
   try {
@@ -223,8 +208,7 @@ app.use("/products", productRoute);
 app.use("/planning", planningRoute);
 app.use("/warehouses", warehouseRoute);
 
-app.use("/dashboards", dashboardRoute);
-app.use("/items", itemRoute);
+
 
 //Server
 const PORT = process.env.PORT || 3000;
