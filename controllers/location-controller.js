@@ -92,12 +92,22 @@ exports.getTable = async (req, res) => {
         $lookup:
         {
           from: "collaborators",
-          localField: "userUpdated",
+          localField: "userCreated",
           foreignField: "_id",
-          as: "user"
+          as: "created"
         }
       },
-      { $unwind: "$user" },
+      { $unwind: "$created" },
+      {
+        $lookup:
+        {
+          from: "collaborators",
+          localField: "userUpdated",
+          foreignField: "_id",
+          as: "updated"
+        }
+      },
+      { $unwind: "$updated" },
     ])
     res.render("locations/table", {
       locations,

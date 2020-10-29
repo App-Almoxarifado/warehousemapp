@@ -1,7 +1,12 @@
 const mongoose = require("mongoose");
 require("../models/Product");
 const Product = mongoose.model("products");
-
+require("../models/Group");
+const Group = mongoose.model("groups");
+require("../models/Subgroup");
+const Subgroup = mongoose.model("subgroups");
+require("../models/Type");
+const Type = mongoose.model("types");
 
 //LISTA
 exports.getList = async (req, res) => {
@@ -13,7 +18,10 @@ exports.getList = async (req, res) => {
       const pattern = new RegExp(`.*${search}.*`);
       filtros.push(
         { tag: { $regex: pattern, $options: 'i' } },
+        { name: { $regex: pattern, $options: 'i' } },
+        { capacityReach: { $regex: pattern, $options: 'i' } },
         { description: { $regex: pattern, $options: 'i' } },
+        { fullDescription: { $regex: pattern, $options: 'i' } }
       );
     }
     page = Number(page || 1);
@@ -47,6 +55,36 @@ exports.getList = async (req, res) => {
         }
       },
       { $unwind: "$updated" },
+      {
+        $lookup:
+        {
+          from: "groups",
+          localField: "group",
+          foreignField: "_id",
+          as: "group"
+        }
+      },
+      { $unwind: "$group" },
+      {
+        $lookup:
+        {
+          from: "subgroups",
+          localField: "subgroup",
+          foreignField: "_id",
+          as: "subgroup"
+        }
+      },
+      { $unwind: "$subgroup" },
+      {
+        $lookup:
+        {
+          from: "types",
+          localField: "type",
+          foreignField: "_id",
+          as: "type"
+        }
+      },
+      { $unwind: "$type" }
     ])
 
     res.render("products/read", {
@@ -74,7 +112,10 @@ exports.getTable = async (req, res) => {
       const pattern = new RegExp(`.*${search}.*`);
       filtros.push(
         { tag: { $regex: pattern, $options: 'i' } },
+        { name: { $regex: pattern, $options: 'i' } },
+        { capacityReach: { $regex: pattern, $options: 'i' } },
         { description: { $regex: pattern, $options: 'i' } },
+        { fullDescription: { $regex: pattern, $options: 'i' } }
       );
     }
     page = Number(page || 1);
@@ -92,12 +133,52 @@ exports.getTable = async (req, res) => {
         $lookup:
         {
           from: "collaborators",
-          localField: "userUpdated",
+          localField: "userCreated",
           foreignField: "_id",
-          as: "user"
+          as: "created"
         }
       },
-      { $unwind: "$user" },
+      { $unwind: "$created" },
+      {
+        $lookup:
+        {
+          from: "collaborators",
+          localField: "userUpdated",
+          foreignField: "_id",
+          as: "updated"
+        }
+      },
+      { $unwind: "$updated" },
+      {
+        $lookup:
+        {
+          from: "groups",
+          localField: "group",
+          foreignField: "_id",
+          as: "group"
+        }
+      },
+      { $unwind: "$group" },
+      {
+        $lookup:
+        {
+          from: "subgroups",
+          localField: "subgroup",
+          foreignField: "_id",
+          as: "subgroup"
+        }
+      },
+      { $unwind: "$subgroup" },
+      {
+        $lookup:
+        {
+          from: "types",
+          localField: "type",
+          foreignField: "_id",
+          as: "type"
+        }
+      },
+      { $unwind: "$type" }
     ])
     res.render("products/table", {
       products,
@@ -117,9 +198,25 @@ exports.getTable = async (req, res) => {
 
 //CRIANDO 
 exports.getCreate = async (req, res) => {
+  var groups = await Group.find({
+    active: true,
+  }).sort({
+    description: "asc",
+  }).lean();
+  const { gId } = req.query;
+  var subgroups = await Subgroup.find(
+    gId ? { group: gId, } : { active: true, }
+  ).sort({
+    description: "asc",
+  }).lean();
+  var types = await Type.find({
+    active: true,
+  }).sort({
+    description: "asc",
+  }).lean();
   const file = req.file
   try {
-    res.render("products/create", { file });
+    res.render("products/create", { file, idGroup: gId, groups, subgroups, types });
   } catch (err) {
     req.flash("error_msg", "Ops, Houve um erro interno!");
     res.redirect("/products");
@@ -130,9 +227,9 @@ exports.postCreate = async (req, res) => {
   const file = req.file
   var erros = [];
   if (
-    !req.body.description ||
-    typeof req.body.description == undefined ||
-    req.body.description == null
+    !req.body.name ||
+    typeof req.body.name == undefined ||
+    req.body.name == null
   ) {
     erros.push({
       texto: "Descricão Inválida",
@@ -147,13 +244,13 @@ exports.postCreate = async (req, res) => {
       texto: "Escolha uma foto",
     });
   }
-  if (req.body.description.length < 2) {
+  if (req.body.name.length < 2) {
     erros.push({
-      texto: "Descrição do pruduto muito pequena!",
+      texto: "Descrição do Produto Muito Pequeno!",
     });
   }
   if (erros.length > 0) {
-    res.render("products/create", {
+    res.render("products/add", {
       file,
       erros: erros,
     });
@@ -162,17 +259,28 @@ exports.postCreate = async (req, res) => {
       const products = new Product({
         image: req.file.location,
         key: req.file.key,
-        description: req.body.description,
+        group: req.body.group,
+        subgroup: req.body.subgroup,
+        description: req.body.name + " " + req.body.capacityReach,
+        name: req.body.name,
+        capacityReach: req.body.capacityReach,
+        type: req.body.type,
         userCreated: req.body.userCreated,
         emailCreated: req.body.emailCreated,
         userUpdated: req.body.userUpdated,
         emailUpdated: req.body.emailUpdated,
-        tag: req.body.description
+        tag: req.body.name
           .normalize("NFD")
           .replace(/[\u0300-\u036f]/g, "") // Remove acentos
           .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
           .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-          .replace(/(^-+|-+$)/, "")
+          .replace(/(^-+|-+$)/, "") +
+          req.body.capacityReach
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "") // Remove acentos
+            .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
+            .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
+            .replace(/(^-+|-+$)/, "")
       });
       await products.save();
       req.flash("success_msg", "Produto criado com sucesso!");
@@ -192,8 +300,11 @@ exports.postCreate = async (req, res) => {
 exports.getUpdate = async (req, res) => {
   try {
     const file = req.file
-    var area = await Product.findOne({ _id: req.params._id }).lean();
-    res.render("products/update", { area, file });
+    var product = await Product.findById(req.params._id).lean();
+    var groups = await Group.find({ active: true, }).sort({ description: "asc", }).lean();
+    var subgroups = await Subgroup.find({ active: true, }).sort({ description: "asc", }).lean();
+    var types = await Type.find({ active: true, }).sort({ description: "asc", }).lean();
+    res.render("products/update", { product, file, groups, subgroups, types });
   } catch (_err) {
     req.flash("error_msg", "Ops, Houve um erro interno!");
     res.redirect("/products");
@@ -201,13 +312,13 @@ exports.getUpdate = async (req, res) => {
 };
 
 exports.postUpdate = async (req, res) => {
-  var area = await Product.findOne({ _id: req.body._id });
+  var product = await Product.findById(req.params._id).lean();
   const file = req.file
   var erros = [];
   if (
-    !req.body.description ||
-    typeof req.body.description == undefined ||
-    req.body.description == null
+    !req.body.name ||
+    typeof req.body.name == undefined ||
+    req.body.name == null
   ) {
     erros.push({
       texto: "Descricão Inválida",
@@ -222,35 +333,46 @@ exports.postUpdate = async (req, res) => {
       texto: "Escolha uma foto",
     });
   }
-  if (req.body.description.length < 2) {
+  if (req.body.name.length < 2) {
     erros.push({
-      texto: "Descrição do pruduto muito pequena!",
+      texto: "Descrição do Produto Muito Pequeno!",
     });
   }
   if (erros.length > 0) {
-    res.render("./products/update", {
+    res.render("./products/edit", {
       file,
       erros: erros,
     });
   } else {
     try {
-      area.image = req.file.location
-      area.key = req.file.key
-      area.description = req.body.description
-      area.createdAt = req.body.createdAt
-      area.userCreated = req.body.userCreated
-      area.emailCreated = req.body.emailCreated
-      area.updatedAt = Date.now()
-      area.userUpdated = req.body.userUpdated
-      area.emailUpdated = req.body.emailUpdated
-      area.tag = req.body.description
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-        .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-        .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-        .replace(/(^-+|-+$)/, "") +
+        product.image = req.file.location
+        product.key = req.file.key
+        product.description = req.body.name + " " + req.body.capacityReach
+        product.group= req.body.group
+        product.subgroup= req.body.subgroup
+        product.type= req.body.type
+        product.name = req.body.name
+        product.capacityReach = req.body.capacityReach
+        product.createdAt = req.body.createdAt
+        product.userCreated = req.body.userCreated
+        product.emailCreated = req.body.emailCreated
+        product.updatedAt = Date.now()
+        product.userUpdated = req.body.userUpdated
+        product.emailUpdated = req.body.emailUpdated
+        product.tag = req.body.name
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "") // Remove acentos
+          .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
+          .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
+          .replace(/(^-+|-+$)/, "") +
+        req.body.capacityReach
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "") // Remove acentos
+          .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
+          .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
+          .replace(/(^-+|-+$)/, "")
 
-        await area.save();
+      await product.save();
       req.flash("success_msg", "Produto editado com sucesso!");
       res.redirect("/products");
       console.log("Produto editado com sucesso!");

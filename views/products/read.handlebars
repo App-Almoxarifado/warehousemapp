@@ -62,18 +62,21 @@
       <div class="p-1 ">
 
         <select class="custom-select custom-select-sm" name="SelectOptions" id="SelectOptions">
-          <option selected>Escolher...</option>
-          <option value="liTypes01">Id</option>
-          <option value="liTypes02">imagem</option>
-          <option value="liTypes03">QrCode</option>
-          <option value="liTypes04">Descrição</option>
-          <option value="liTypes05">Data de Lançamento</option>
-          <option value="liTypes06">Usuário Lançamento</option>
-          <option value="liTypes07">Email Lançamento</option>
-          <option value="liTypes08">Data Edição</option>
-          <option value="liTypes09">Usuário Edição</option>
-          <option value="liTypes10">Email Edição</option>
-          <option value="liTypes11">Ações</option>
+          <option selected disabled hidden>Escolha...</option>
+          <option value="liProd01">Id</option>
+          <option value="liProd02">imagem</option>
+          <option value="liProd03">QrCode</option>
+          <option value="liProd04">Descrição</option>
+          <option value="liProd05">Grupo</option>
+          <option value="liProd06">Subgrupo</option>
+          <option value="liProd07">Tipo de Equipamento</option>
+          <option value="liProd08">Data de Lançamento</option>
+          <option value="liProd09">Usuário Lançamento</option>
+          <option value="liProd10">Email Lançamento</option>
+          <option value="liProd11">Data Edição</option>
+          <option value="liProd12">Usuário Edição</option>
+          <option value="liProd13">Email Edição</option>
+          <option value="liProd14">Ações</option>
         </select>
       </div>
 
@@ -144,18 +147,21 @@
     <div class="d-flex justify-content-center">
       <div class="p-1 ">
         <select class="custom-select custom-select-sm" name="SelectOptionsMobile" id="SelectOptionsMobile">
-          <option selected>Mais Detalhes</option>
-          <option value="liTypes01">Id</option>
-          <option value="liTypes02">imagem</option>
-          <option value="liTypes03">QrCode</option>
-          <option value="liTypes04">Descrição</option>
-          <option value="liTypes05">Data de Lançamento</option>
-          <option value="liTypes06">Usuário Lançamento</option>
-          <option value="liTypes07">Email Lançamento</option>
-          <option value="liTypes08">Data Edição</option>
-          <option value="liTypes09">Usuário Edição</option>
-          <option value="liTypes10">Email Edição</option>
-          <option value="liTypes11">Ações</option>
+          <option selected disabled hidden>Escolha...</option>
+          <option value="liProd01">Id</option>
+          <option value="liProd02">imagem</option>
+          <option value="liProd03">QrCode</option>
+          <option value="liProd04">Descrição</option>
+          <option value="liProd05">Grupo</option>
+          <option value="liProd06">Subgrupo</option>
+          <option value="liProd07">Tipo de Equipamento</option>
+          <option value="liProd08">Data de Lançamento</option>
+          <option value="liProd09">Usuário Lançamento</option>
+          <option value="liProd10">Email Lançamento</option>
+          <option value="liProd11">Data Edição</option>
+          <option value="liProd12">Usuário Edição</option>
+          <option value="liProd13">Email Edição</option>
+          <option value="liProd14">Ações</option>
         </select>
       </div>
     </div>
@@ -170,17 +176,17 @@
       <div class="d-none d-md-block d-print-block">
 
         <div class="d-flex justify-content-center">
-          <div class="liTypes04 mr-auto p-0">
-            <h3 class="liTypes04">{{description}}</h3>
+          <div class="liProd04 mr-auto p-0">
+            <h3 class="liProd04">{{description}}</h3>
           </div>
-          <div class="liTypes11 p-0 mr-1">
+          <div class="liProd14 p-0 mr-1">
             <a href="/products/update/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
               data-placement="bottom" title="Editar Grupo">
               <i class="fas fa-pen"></i>
             </a>
           </div>
 
-          <div class="liTypes11 p-0">
+          <div class="liProd14 p-0">
             <a href="/products/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
               data-placement="bottom" title="Deletar Grupo">
               <i class="fas fa-trash-alt"></i>
@@ -192,10 +198,10 @@
         <div class="row no-gutters position-relative">
 
           <div class="d-flex col-md-4 justify-content-center">
-            <div class="liTypes02 p-0">
-              <img src="{{image}}" style="width: 10rem;" class="rounded " alt="..." />
+            <div class="liProd02 p-0">
+              <img src="{{image}}" style="width: 6rem;" class="rounded " alt="..." />
             </div>
-            <div class="liTypes03 p-0" style="display: none;">
+            <div class="liProd03 p-0">
               <img id="qrcode" name="qrcode" src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{_id}}"
                 style="width: 10rem;" class="rounded mr-3" />
             </div>
@@ -203,18 +209,21 @@
 
 
           <div class="col-md-4 position-static p-0 pl-md-0 text-center">
-            <p class="liTypes01 mt-0 mb-1"><small><b>Id: </b>{{_id}}</small></p>
-            <p class="liTypes05 mt-0 mb-1"><small><b>Data de Lançamento: </b>{{createdAt}}</small></p>
-            <p class="liTypes08 mt-0 mb-1" style="display: none;"><small><b>Última Modificação:
-                </b>{{updatedAt}}</small></p>
+            <p class="liProd01 mt-0 mb-1"><small><b>Id: </b>{{_id}}</small></p>
+            <p class="liProd05 mt-0 mb-1"><small><b>Grupo: </b>{{group.description}}</small></p>
+            <p class="liProd06 mt-0 mb-1"><small><b>Subgrupo: </b>{{subgroup.description}}</small></p>
+            <p class="liProd07 mt-0 mb-1"><small><b>Tipo de Equipamento: </b>{{type.description}}</small></p>
           </div>
 
           <div class="col-md-4 position-static p-0 pl-md-0 text-center">
-            <p class="liTypes06 mt-0 mb-1"><small><b>Usuário Lançamento: </b>{{created.name}}</small></p>
-            <p class="liTypes07 mt-0 mb-1"><small><b>Email Lançamento: </b>{{emailCreated}}</small></p>
-            <p class="liTypes09 mt-0 mb-1" style="display: none;"><small><b>Usuário Edição:
-                </b>{{updated.name}}</small></p>
-            <p class="liTypes10 mt-0 mb-1" style="display: none;"><small><b>Email Edição: </b>{{emailUpdated}}</small>
+            <p class="liProd08 mt-0 mb-1"><small><b>Data de Lançamento: </b>{{createdAt}}</small></p>
+            <p class="liProd11 mt-0 mb-1"><small><b>Última Modificação:
+                </b>{{updatedAt}}</small></p>
+            <p class="liProd09 mt-0 mb-1"><small><b>Usuário Lançamento: </b>{{created.description}}</small></p>
+            <p class="liProd10 mt-0 mb-1"><small><b>Email Lançamento: </b>{{emailCreated}}</small></p>
+            <p class="liProd12 mt-0 mb-1"><small><b>Usuário Edição:
+                </b>{{updated.description}}</small></p>
+            <p class="liProd13 mt-0 mb-1"><small><b>Email Edição: </b>{{emailUpdated}}</small>
             </p>
           </div>
         </div>
@@ -224,7 +233,7 @@
       <div class="d-block d-md-none d-print-block">
         <div class="d-flex justify-content-center">
           <div class="mr-auto p-0">
-            <h6 class="liTypes04">{{description}}</h6>
+            <h6 class="liProd04">{{description}}</h6>
           </div>
         </div>
         <hr />
@@ -232,10 +241,10 @@
         <div class="row no-gutters position-relative">
 
           <div class="d-flex col-md-4 justify-content-center">
-            <div class="liTypes02 mr-2 p-0">
+            <div class="liProd02 mr-2 p-0">
               <img src="{{image}}" style="width: 6rem;" class="rounded " alt="..." />
             </div>
-            <div class="liTypes03 p-0">
+            <div class="liProd03 p-0">
               <img id="qrcode" name="qrcode" src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{_id}}"
                 style="width: 6rem;" class="rounded mr-3" />
             </div>
@@ -243,18 +252,21 @@
 
 
           <div class="col-md-4 position-static p-0 pl-md-0 text-center">
-            <p class="liTypes01 mt-0 mb-1"><small><b>Id: </b>{{_id}}</small></p>
-            <p class="liTypes05 mt-0 mb-1"><small><b>Data de Lançamento: </b>{{createdAt}}</small></p>
-            <p class="liTypes08 mt-0 mb-1" style="display: none;"><small><b>Última Modificação:
-                </b>{{updatedAt}}</small></p>
+            <p class="liProd01 mt-0 mb-1"><small><b>Id: </b>{{_id}}</small></p>
+            <p class="liProd05 mt-0 mb-1"><small><b>Grupo: </b>{{group.description}}</small></p>
+            <p class="liProd06 mt-0 mb-1"><small><b>Subgrupo: </b>{{subgroup.description}}</small></p>
+            <p class="liProd07 mt-0 mb-1"><small><b>Tipo de Equipamento: </b>{{type.description}}</small></p>
           </div>
 
           <div class="col-md-4 position-static p-0 pl-md-0 text-center">
-            <p class="liTypes06 mt-0 mb-1"><small><b>Usuário Lançamento: </b>{{created.name}}</small></p>
-            <p class="liTypes07 mt-0 mb-1"><small><b>Email Lançamento: </b>{{emailCreated}}</small></p>
-            <p class="liTypes09 mt-0 mb-1" style="display: none;"><small><b>Usuário Edição:
-                </b>{{updated.name}}</small></p>
-            <p class="liTypes10 mt-0 mb-1" style="display: none;"><small><b>Email Edição: </b>{{emailUpdated}}</small>
+            <p class="liProd08 mt-0 mb-1"><small><b>Data de Lançamento: </b>{{createdAt}}</small></p>
+            <p class="liProd11 mt-0 mb-1"><small><b>Última Modificação:
+                </b>{{updatedAt}}</small></p>
+            <p class="liProd09 mt-0 mb-1"><small><b>Usuário Lançamento: </b>{{created.description}}</small></p>
+            <p class="liProd10 mt-0 mb-1"><small><b>Email Lançamento: </b>{{emailCreated}}</small></p>
+            <p class="liProd12 mt-0 mb-1"><small><b>Usuário Edição:
+                </b>{{updated.description}}</small></p>
+            <p class="liProd13 mt-0 mb-1"><small><b>Email Edição: </b>{{emailUpdated}}</small>
             </p>
           </div>
         </div>
@@ -262,14 +274,14 @@
 
         <div class="d-block d-md-none d-print-block">
           <div class="d-flex justify-content-center">
-            <div class="liTypes11 p-0 mr-1">
+            <div class="liProd14 p-0 mr-1">
               <a href="/products/update/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
                 data-placement="bottom" title="Editar Grupo">
                 <i class="fas fa-pen"></i>
               </a>
             </div>
 
-            <div class="liTypes11 p-0">
+            <div class="liProd14 p-0">
               <a href="/products/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
                 data-placement="bottom" title="Deletar Grupo">
                 <i class="fas fa-trash-alt"></i>

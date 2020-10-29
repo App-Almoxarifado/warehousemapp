@@ -7,17 +7,17 @@
   <div class="d-none d-md-none d-print-block">
     <div class="d-flex justify-content-center">
 
-      <h3>Áreas de Locação</h3>
+      <h3>Produtos</h3>
     </div>
   </div>
   <div class="d-none d-md-block d-print-none">
     <div class="d-flex justify-content-center">
       <div class="p-1 mr-auto">
-        <h3>Áreas de Locação</h3>
+        <h3>Produtos</h3>
       </div>
 
       <div class="p-0 mr-1">
-        <a href="/areas">
+        <a href="/products">
           <button type="button" class="btn btn-primary btn-sm">
             Lista
             <i class="fas fa-th-list"></i>
@@ -25,7 +25,7 @@
         </a>
       </div>
       <div class="p-0 mr-1">
-        <a href="/areas/table">
+        <a href="/products/table">
           <button type="button" class="btn btn-primary btn-sm">
             Tabela
             <i class="fas fa-table"></i>
@@ -33,9 +33,9 @@
         </a>
       </div>
       <div class="p-0">
-        <a href="/areas/create">
+        <a href="/products/create">
           <button class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom" title="Cadastre ">
-            Cadastre uma Área de Locação <i class="fas fa-paper-plane"></i>
+            Cadastre um novo Produto <i class="fas fa-paper-plane"></i>
           </button>
         </a>
       </div>
@@ -63,19 +63,21 @@
       <div class="p-1 ">
 
         <select class="custom-select custom-select-sm" name="SelectOptions" id="SelectOptions">
-          <option selected>Escolher...</option>
-          <option selected>Mostrar Colunas</option>
-          <option value="tbTypes01">Id</option>
-          <option value="tbTypes02">imagem</option>
-          <option value="tbTypes03">QrCode</option>
-          <option value="tbTypes04">Descrição</option>
-          <option value="tbTypes05">Data de Lançamento</option>
-          <option value="tbTypes06">Usuário Lançamento</option>
-          <option value="tbTypes07">Email Lançamento</option>
-          <option value="tbTypes08">Data Edição</option>
-          <option value="tbTypes09">ID Usuário Edição</option>
-          <option value="tbTypes10">Email Edição</option>
-          <option value="tbTypes11">Ações</option>
+          <option selected disabled hidden>Escolha...</option>
+          <option value="liProd01">Id</option>
+          <option value="liProd02">imagem</option>
+          <option value="liProd03">QrCode</option>
+          <option value="liProd04">Descrição</option>
+          <option value="liProd05">Grupo</option>
+          <option value="liProd06">Subgrupo</option>
+          <option value="liProd07">Tipo de Equipamento</option>
+          <option value="liProd08">Data de Lançamento</option>
+          <option value="liProd09">Usuário Lançamento</option>
+          <option value="liProd10">Email Lançamento</option>
+          <option value="liProd11">Data Edição</option>
+          <option value="liProd12">Usuário Edição</option>
+          <option value="liProd13">Email Edição</option>
+          <option value="liProd14">Ações</option>
         </select>
       </div>
 
@@ -98,15 +100,15 @@
 
   <div class="d-block d-md-none d-print-none">
     <div class="d-flex justify-content-center">
-      <h3>Áreas de Locação</h3>
+      <h3>Produtos</h3>
       <hr>
     </div>
 
     <div class="d-flex justify-content-center">
-      <a href="/areas/create">
+      <a href="/products/create">
         <button class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom"
           title="Cadastre um novo Poduto">
-          Cadastre uma Área de Locação <i class="fas fa-paper-plane"></i>
+          Cadastre um novo Produto <i class="fas fa-paper-plane"></i>
         </button>
       </a>
     </div>
@@ -146,18 +148,21 @@
     <div class="d-flex justify-content-center">
       <div class="p-1 ">
         <select class="custom-select custom-select-sm" name="SelectOptionsMobile" id="SelectOptionsMobile">
-          <option selected>Mostrar Colunas</option>
-          <option value="tbTypes01">Id</option>
-          <option value="tbTypes02">imagem</option>
-          <option value="tbTypes03">QrCode</option>
-          <option value="tbTypes04">Descrição</option>
-          <option value="tbTypes05">Data de Lançamento</option>
-          <option value="tbTypes06">Usuário Lançamento</option>
-          <option value="tbTypes07">Email Lançamento</option>
-          <option value="tbTypes08">Data Edição</option>
-          <option value="tbTypes09">Usuário Edição</option>
-          <option value="tbTypes10">Email Edição</option>
-          <option value="tbTypes11">Ações</option>
+          <option selected disabled hidden>Escolha...</option>
+          <option value="liProd01">Id</option>
+          <option value="liProd02">imagem</option>
+          <option value="liProd03">QrCode</option>
+          <option value="liProd04">Descrição</option>
+          <option value="liProd05">Grupo</option>
+          <option value="liProd06">Subgrupo</option>
+          <option value="liProd07">Tipo de Equipamento</option>
+          <option value="liProd08">Data de Lançamento</option>
+          <option value="liProd09">Usuário Lançamento</option>
+          <option value="liProd10">Email Lançamento</option>
+          <option value="liProd11">Data Edição</option>
+          <option value="liProd12">Usuário Edição</option>
+          <option value="liProd13">Email Edição</option>
+          <option value="liProd14">Ações</option>
         </select>
       </div>
     </div>
@@ -169,33 +174,36 @@
 
       <thead>
         <tr>
-          <th class="tbTypes01 d-print-block" scope="col">Id</th>
-          <th class="tbTypes02 d-print-block" scope="col">Imagem</th>
-          <th class="tbTypes03 d-print-block" scope="col">qrCode</th>
-          <th class="tbTypes04 d-print-block" scope="col">Descrição</th>
-          <th class="tbTypes05 d-print-block" scope="col">Data de Lançamento</th>
-          <th class="tbTypes06 d-print-block" scope="col">Usuário Lançamento</th>
-          <th class="tbTypes07 d-print-block" scope="col">Email Lançamento</th>
-          <th class="tbTypes08 d-print-block" scope="col" style="display: none;">Última Modificação</th>
-          <th class="tbTypes09 d-print-block" scope="col" style="display: none;">Usuário Edição</th>
-          <th class="tbTypes10 d-print-block" scope="col" style="display: none;">Email Edição</th>
-          <th class="tbTypes11 d-print-block" scope="col">Ações</th>
+          <th class="liProd01 d-print-block" scope="col">Id</th>
+          <th class="liProd02 d-print-block" scope="col">Imagem</th>
+          <th class="liProd03 d-print-block" scope="col">qrCode</th>
+          <th class="liProd04 d-print-block" scope="col">Descrição</th>
+          <th class="liProd05 d-print-block" scope="col">Grupo</th>
+          <th class="liProd06 d-print-block" scope="col">Subgrupo</th>
+          <th class="liProd07 d-print-block" scope="col">Tipo de Equipamento</th>
+          <th class="liProd08 d-print-block" scope="col">Data de Lançamento</th>
+          <th class="liProd09 d-print-block" scope="col">Usuário Lançamento</th>
+          <th class="liProd10 d-print-block" scope="col">Email Lançamento</th>
+          <th class="liProd11 d-print-block" scope="col">Última Modificação</th>
+          <th class="liProd12 d-print-block" scope="col">Usuário Edição</th>
+          <th class="liProd13 d-print-block" scope="col">Email Edição</th>
+          <th class="liProd14 d-print-block" scope="col">Ações</th>
         </tr>
       </thead>
 
       <tbody>
-        {{#each areas}}
+        {{#each products}}
         <tr>
-          <th class="tbTypes01 d-print-block">{{_id}}</th>
-          <td class="tbTypes02 d-print-block">
+          <th class="liProd01 d-print-block">{{_id}}</th>
+          <td class="liProd02 d-print-block">
             <figure class="figure">
-              <img src="{{image}}" class="figure-img img-fluid rounded" style="max-width: 4rem;"
+              <img src="{{image}}" class="figure-img img-fluid rounded" style="max-width: 3rem;"
                 alt="Imagem de um quadrado genérico com bordas arredondadas, em uma figure.">
               <!--<figcaption class="figure-caption">Uma legenda para a imagem acima.</figcaption>-->
             </figure>
           </td>
 
-          <td class="tbTypes11 d-print-block">
+          <td class="liProd11 d-print-block">
             <figure class="figure">
               <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{_id}}"
                 class="figure-img img-fluid rounded" style="max-width: 4rem;"
@@ -203,25 +211,28 @@
               <!--<figcaption class="figure-caption">Uma legenda para a imagem acima.</figcaption>-->
             </figure>
           </td>
-          <td class="tbTypes04 d-print-block">{{description}}</td>
-          <td class="tbTypes05 d-print-block">{{createdAt}}</td>
-          <td class="tbTypes06 d-print-block">{{user.name}}</td>
-          <td class="tbTypes07 d-print-block">{{emailCreated}}</td>
-          <td class="tbTypes08 d-print-block" style="display: none;">{{updatedAt}}</td>
-          <td class="tbTypes09 d-print-block" style="display: none;">{{user.name}}</td>
-          <td class="tbTypes10 d-print-block" style="display: none;">{{emailUpdated}}</td>
+          <td class="liProd04 d-print-block">{{description}}</td>
+          <td class="liProd05 d-print-block">{{group.description}}</td>
+          <td class="liProd06 d-print-block">{{subgroup.description}}</td>
+          <td class="liProd07 d-print-block">{{type.description}}</td>
+          <td class="liProd08 d-print-block">{{createdAt}}</td>
+          <td class="liProd09 d-print-block">{{created.description}}</td>
+          <td class="liProd10 d-print-block">{{emailCreated}}</td>
+          <td class="liProd11 d-print-block">{{updatedAt}}</td>
+          <td class="liProd12 d-print-block">{{updated.description}}</td>
+          <td class="liProd13 d-print-block">{{emailUpdated}}</td>
 
-          <td class="tbTypes03 d-print-none">
+          <td class="liProd14 d-print-none">
             <div class="d-flex justify-content-center">
-              <div class="liTypes11 p-0 mr-1">
-                <a href="/areas/update/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
+              <div class="liTypes14 p-0 mr-1">
+                <a href="/products/update/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
                   data-placement="bottom" title="Editar Grupo">
                   <i class="fas fa-pen"></i>
                 </a>
               </div>
 
-              <div class="liTypes11 p-0">
-                <a href="/areas/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
+              <div class="liTypes14 p-0">
+                <a href="/products/delete/{{_id}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
                   data-placement="bottom" title="Deletar Grupo">
                   <i class="fas fa-trash-alt"></i>
                 </a>
@@ -235,7 +246,7 @@
         </form>
         {{else}}
         <h4 class="mt-12 mb-2">
-          Nenhum Tipo Registrado!
+          Nenhum Produto Registrado!
         </h4>
         {{/each}}
       </tbody>

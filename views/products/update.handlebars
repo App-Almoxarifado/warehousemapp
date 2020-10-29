@@ -8,33 +8,81 @@
 
 
 
-    <h3 class="mt-2">Editando uma Área de Locação</h3>
+    <h3 class="mt-2">Editando um Produto</h3>
 
     <hr>
-    <form action="/areas/update" enctype="multipart/form-data" method="POST">
-        <div class="col-md-12 position-static">
-            <div class="d-flex justify-content-center">
-                <img src="{{area.image}}" class="avatar img-fluid rounded" alt="" style="width: 12rem;">
-            </div>
-            <figcaption class="figure-caption text-center">Clique na imagem para fazer o upload, a imagem é
-                obrigatória!</figcaption>
-            <div class="d-flex p-1 justify-content-center">
-
-                <input type="file" accept="image/*" name="file" id="file"
-                    class="btn-file text-center center-block file-upload">
-            </div>
-        </div>
-        <div class="d-flex justify-content-center">
+    <form action="/products/update" enctype="multipart/form-data" method="POST">
+        <div class="row no-gutters position-relative">
             <div class="col-md-4 position-static">
-                <input type="hidden" class="form-control" id=_"id" name="_id" placeholder="_Id" value="{{area._id}}">
+                <div class="d-flex justify-content-center">
+                    <img src="{{product.image}}" class="avatar img-fluid rounded" alt=""
+                        style="width: 16rem;">
+                </div>
+                <figcaption class="figure-caption text-center">Clique na imagem para fazer o upload, a imagem é
+                    obrigatória!</figcaption>
+                <div class="d-flex p-1 justify-content-center">
+
+                    <input type="file" accept="image/*" name="file" id="file"
+                        class="btn-file text-center center-block file-upload">
+                </div>
+            </div>
+            <div class="col-md-4 position-static px-2">
+                <input type="hidden" class="form-control" id="id" name="id" placeholder="Id" value="{{product._id}}">
                 <input type="hidden" class="form-control mt-2" name="image" id="image">
                 <div class="form-row">
+
                     <div class="form-group col-md-12">
-                        <label style="font-size: small ;" for="description">Descrição:</label>
-                        <input type="text" class="form-control form-control-sm" id="description" name="description"
-                            placeholder="Digite aqui aqui a descrição" value="{{area.description}}">
+                        <label style="font-size: small ;" for="group">Grupo:</label>
+                        <select class="custom-select custom-select-sm" id="group" name="group" value="{{product.group}}">
+                            <option selected disabled value="">Selecione...</option>
+                            {{#each groups}}
+                            <option {{#if_eq ../product.group _id}}selected{{/if_eq}} value="{{_id}}">{{description}}
+                            </option>
+                            {{else}}
+                            <option value="0">Nenhum grupo registrado</option>
+                            {{/each}}
+                        </select>
                     </div>
                     <div class="form-group col-md-12">
+                        <label style="font-size: small ;" for="subgroup">Subgrupo:</label>
+                        <select class="custom-select custom-select-sm" id="subgroup" name="subgroup" value="{{product.subgroup}}">
+                            <option selected disabled value="">Selecione...</option>
+                            {{#each subgroups}}
+                            <option {{#if_eq ../product.subgroup _id}}selected{{/if_eq}} value="{{_id}}">{{description}}
+                            {{else}}
+                            <option value="0">Nenhum Subgroup registrado</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label style="font-size: small ;" for="type">Tipo de Equipamento:</label>
+                        <select class="custom-select custom-select-sm" id="type" name="type" value="{{product.type}}">
+                            <option selected disabled value="">Selecione...</option>
+                            {{#each types}}
+                           <option {{#if_eq ../product.type _id}}selected{{/if_eq}} value="{{_id}}">{{description}}
+                            {{else}}
+                            <option value="0">Nenhum tipo de equipamento registrado</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 position-static ">
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label style="font-size: small ;" for="name">Descrição:</label>
+                        <input type="text" class="form-control form-control-sm" id="name" name="name"
+                            placeholder="Descrição do Produto" value="{{product.name}}">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label style="font-size: small ;" for="capacityReach">Capacidade/Alcance:</label>
+                        <input type="text" class="form-control form-control-sm" id="capacityReach" name="capacityReach"
+                            placeholder="Capacidade / Alcance" value="{{product.capacityReach}}">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label style="font-size: small ;color: transparent"
+                            for="button">Salvar:</label>
                         <input type='submit' class='btn btn-success btn-sm btn-block' value='Salvar'>
                     </div>
                 </div>
@@ -42,10 +90,10 @@
         </div>
         <!--CONTROLE DE USUÁRIOS LANÇAMENTO -->
         <input type="hidden" class="form-control mt-2" name="userCreated" id="userCreated"
-            value="{{area.userCreated}}">
+            value="{{product.userCreated}}">
         <input type="hidden" class="form-control mt-2" name="emailCreated" id="emailCreated"
-            value="{{area.emailCreated}}">
-        <input type="hidden" class="form-control mt-2" name="createdAt" id="createdAt" value="{{area.createdAt}}">
+            value="{{product.emailCreated}}">
+        <input type="hidden" class="form-control mt-2" name="createdAt" id="createdAt" value="{{product.createdAt}}">
         <!--CONTROLE DE USUÁRIOS -->
         <input type="hidden" class="form-control mt-2" name="userUpdated" id="userUpdated" value="{{user.name}}">
         <input type="hidden" class="form-control mt-2" name="emailUpdated" id="emailUpdated" value="{{user.email}}">

@@ -110,14 +110,14 @@ const Product = new Schema({
   //TAG
   tag: {
     type: String,
-    required: true,
+    //required: true,
     lowercase: true,
     trim: true
   },
   //TAG PESQUISA
   tagSearch: {
     type: String,
-    required: true,
+    //required: true,
     lowercase: true,
     trim: true
   },
@@ -172,22 +172,27 @@ const Product = new Schema({
   //QTD EM ESTOQUE
   qtyStock: {
     type: Number,
+    default: 0
   },
   //QTD RESERVADA
   qtyReservation: {
     type: Number,
+    default: 0
   },
   //QTD REQUISITADA
   qtyRequest: {
     type: Number,
+    default: 0
   },
   //PESO KG
   weightKg: {
     type: Number,
+    default: 0
   },
   //VALOR DE FACE
   faceValue: {
     type: Number,
+    default: 0
   },
   //DIMENSÕES DO PRODUTO
   dimensionsWxLxH: {
