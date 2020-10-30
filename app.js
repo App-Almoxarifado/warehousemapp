@@ -11,6 +11,7 @@ const flash = require("connect-flash");
 const qr = require("qr-image");
 const moment = require("moment");
 const morgan = require("morgan");
+const methodOverride = require("method-override");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const path = require("path");
@@ -101,6 +102,8 @@ app.use((req, res, next) => {
 app.use(bodyParser.urlencoded({ extended: true }));
 //BODY PARSER - EXPRESS LIDAR COM REQUISIÇÕES FORMATO JSON
 app.use(bodyParser.json({ limit: "5mb" }));
+
+app.use(methodOverride("_method"));
 //LIB DE LOG
 app.use(morgan("dev"));
 //SALVAR AS IMAGENS EM AMBIENTE DE PRODUÇÃO
