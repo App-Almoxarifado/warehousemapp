@@ -14,7 +14,6 @@ const morgan = require("morgan");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const path = require("path");
-const methodOverride = require("method-override");
 const app = express();
 
 
@@ -105,8 +104,6 @@ app.use(bodyParser.json({ limit: "5mb" }));
 //LIB DE LOG
 app.use(morgan("dev"));
 //SALVAR AS IMAGENS EM AMBIENTE DE PRODUÇÃO
-
-app.use(methodOverride("_method"));
 app.use(
   "/files",
   express.static(path.resolve(__dirname, "tmp", "uploads"))

@@ -300,7 +300,7 @@ exports.postCreate = async (req, res) => {
 exports.getUpdate = async (req, res) => {
   try {
     const file = req.file
-    var product = await Product.findById(req.params._id).lean();
+    var product = await Product.findOne({ _id: req.params._id }).lean();
     var groups = await Group.find({ active: true, }).sort({ description: "asc", }).lean();
     var subgroups = await Subgroup.find({ active: true, }).sort({ description: "asc", }).lean();
     var types = await Type.find({ active: true, }).sort({ description: "asc", }).lean();
@@ -312,7 +312,7 @@ exports.getUpdate = async (req, res) => {
 };
 
 exports.postUpdate = async (req, res) => {
-  var product = await Product.findById(req.params._id).lean();
+  var product = await Product.findOne({ _id: req.body._id });
   const file = req.file
   var erros = [];
   if (
@@ -335,43 +335,42 @@ exports.postUpdate = async (req, res) => {
   }
   if (req.body.name.length < 2) {
     erros.push({
-      texto: "Descrição do Produto Muito Pequeno!",
+      texto: "Descrição do fornecedor muito pequena!",
     });
   }
   if (erros.length > 0) {
-    res.render("./products/edit", {
+    res.render("./products/update", {
       file,
       erros: erros,
     });
   } else {
     try {
-        product.image = req.file.location
-        product.key = req.file.key
-        product.description = req.body.name + " " + req.body.capacityReach
-        product.group= req.body.group
-        product.subgroup= req.body.subgroup
-        product.type= req.body.type
-        product.name = req.body.name
-        product.capacityReach = req.body.capacityReach
-        product.createdAt = req.body.createdAt
-        product.userCreated = req.body.userCreated
-        product.emailCreated = req.body.emailCreated
-        product.updatedAt = Date.now()
-        product.userUpdated = req.body.userUpdated
-        product.emailUpdated = req.body.emailUpdated
-        product.tag = req.body.name
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-          .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
-          .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-          .replace(/(^-+|-+$)/, "") +
+      product.image = req.file.location
+      product.key = req.file.key
+      product.description = req.body.name + " " + req.body.capacityReach
+      product.name = req.body.name
+      product.group = req.body.group
+      product.subgroup = req.body.subgroup
+      product.type= req.body.type
+      product.capacityReach = req.body.capacityReach
+      product.createdAt = req.body.createdAt
+      product.userCreated = req.body.userCreated
+      product.emailCreated = req.body.emailCreated
+      product.updatedAt = Date.now()
+      product.userUpdated = req.body.userUpdated
+      product.emailUpdated = req.body.emailUpdated
+      product.tag = req.body.name
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "") // Remove acentos
+        .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
+        .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
+        .replace(/(^-+|-+$)/, "") +
         req.body.capacityReach
           .normalize("NFD")
           .replace(/[\u0300-\u036f]/g, "") // Remove acentos
           .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
           .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
           .replace(/(^-+|-+$)/, "")
-
       await product.save();
       req.flash("success_msg", "Produto editado com sucesso!");
       res.redirect("/products");
