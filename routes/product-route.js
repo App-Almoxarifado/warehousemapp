@@ -12,7 +12,7 @@ router.get("/table", eAdmin, controller.getTable);
 router.get("/create", controller.getCreate);
 router.post("/create", eAdmin, multer(multerConfig).single("file"), controller.postCreate);
 router.get("/update/:_id", eAdmin, controller.getUpdate);
-router.put("/update/:_id", eAdmin, multer(multerConfig).single("file"), controller.postUpdate);
+router.post("/update", eAdmin, multer(multerConfig).single("file"), controller.postUpdate);
 router.get("/delete/:_id", eAdmin, controller.getDelete);
 
 

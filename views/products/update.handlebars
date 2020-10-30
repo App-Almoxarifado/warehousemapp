@@ -11,8 +11,7 @@
     <h3 class="mt-2">Editando um Fornecedor</h3>
 
     <hr>
-    <form action="/products/update/{{product._id}}?_method=PUT" enctype="multipart/form-data" method="POST">
-    <input type="hidden" name="_method" value="PUT">
+    <form action="/products/update" enctype="multipart/form-data" method="POST">
         <div class="row no-gutters position-relative">
             <div class="col-md-4 position-static">
                 <div class="d-flex justify-content-center">
@@ -27,7 +26,7 @@
                 </div>
             </div>
             <div class="col-md-4 position-static px-2">
-                
+                <input type="hidden" class="form-control" id=_"id" name="_id" placeholder="_Id" value="{{product._id}}">
                 <input type="hidden" class="form-control mt-2" name="image" id="image">
                 <div class="form-row">
                     <div class="form-group col-md-12">

@@ -312,8 +312,8 @@ exports.getUpdate = async (req, res) => {
 };
 
 exports.postUpdate = async (req, res) => {
-  const { key, location} = req.file;
-  //console.log(location)
+  var product = await Product.findOne({ _id: req.body._id });
+  const file = req.file
   var erros = [];
   if (
     !req.body.name ||
@@ -345,22 +345,21 @@ exports.postUpdate = async (req, res) => {
     });
   } else {
     try {
-      await Product.findByIdAndUpdate(req.params._id,location,{
-      image:location,
-      key,
-      description : req.body.name + " " + req.body.capacityReach,
-      name : req.body.name,
-      group : req.body.group,
-      subgroup : req.body.subgroup,
-      type: req.body.type,
-      capacityReach : req.body.capacityReach,
-      createdAt : req.body.createdAt,
-      userCreated : req.body.userCreated,
-      emailCreated : req.body.emailCreated,
-      updatedAt : Date.now(),
-      userUpdated : req.body.userUpdated,
-      emailUpdated : req.body.emailUpdated,
-      tag : req.body.name
+      product.image = req.file.location
+      product.key = req.file.key
+      product.description = req.body.name + " " + req.body.capacityReach
+      product.name = req.body.name
+      product.group = req.body.group
+      product.subgroup = req.body.subgroup
+      product.type= req.body.type
+      product.capacityReach = req.body.capacityReach
+      product.createdAt = req.body.createdAt
+      product.userCreated = req.body.userCreated
+      product.emailCreated = req.body.emailCreated
+      product.updatedAt = Date.now()
+      product.userUpdated = req.body.userUpdated
+      product.emailUpdated = req.body.emailUpdated
+      product.tag = req.body.name
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "") // Remove acentos
         .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
@@ -372,14 +371,14 @@ exports.postUpdate = async (req, res) => {
           .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
           .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
           .replace(/(^-+|-+$)/, "")
-      });
+      await product.save();
       req.flash("success_msg", "Produto editado com sucesso!");
       res.redirect("/products");
       console.log("Produto editado com sucesso!");
     } catch (err) {
       req.flash(
         "error_msg",
-        "Ops, Houve um erro ao salvar a área, tente novamente!" + err
+        "Ops, Houve um erro ao salvar o produto, tente novamente!" + err
       );
       res.redirect("/products");
     }
@@ -398,4 +397,3 @@ exports.getDelete = async (req, res) => {
     res.redirect("/products");
   }
 };
-
