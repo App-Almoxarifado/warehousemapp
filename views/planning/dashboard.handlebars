@@ -1,0 +1,143 @@
+<div class="mt-2  container-fluid">
+    <div class="d-flex justify-content-center">
+        <div class="p-1 mr-auto">
+            <h3>Minhas Obras</h3>
+        </div>
+        {{#json typeChart}}
+        <input type="hidden" id="typeChart" value="{{this}}">
+        {{/json}}
+
+        {{#json groupChart}}
+        <input type="hidden" id="groupChart" value="{{this}}">
+        {{/json}}
+    </div>
+
+
+    <div class="d-flex justify-content-center">
+        <div class="row">
+            {{#each warehouseCard}}
+            <div class="col-sm-4 mt-1">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center">
+                            <div class="p-0 mr-auto">
+                        <h4 class="card-title text-primary">{{warehouse.description}}</h4>
+                        </div>
+                        <img src="{{warehouse.image}}" style="width: 6rem;" alt="" class="rounded">
+                        </div>
+                        <hr>
+                        <h6 class="card-title text-secundary">Status Obra: {{warehouse.active}}</h6>
+                        <p class="card-text"><small>Data Mobilização: {{warehouse.createdAt}}</small></p>
+                        <p class="card-text"><small>Data Desmobilização: {{warehouse.active}}</small></p>
+                        <hr>
+                        <div class="form-group row px-3">
+                            <small class="mr-1"><b>Itens Mobilizados: </b></small><input style="width:30%"
+                                class="NumberInt car" type="number" value="{{qty}}">
+                        </div>
+                        <div class="form-group row px-3">
+                            <small class="mr-1"><b>Itens em Estoque (Und.): </b></small><input style="width:30%"
+                                class="NumberInt car" type="number" value="{{qtyStock}}">
+                        </div>
+                        <div class="form-group row px-3">
+                            <small class="mr-1"><b>Itens Reservados: </b></small><input style="width:30%"
+                                class="NumberInt car" type="number" value="{{qtyReservation}}">
+                        </div>
+                        <div class="form-group row px-3">
+                            <small class="mr-1"><b>Peso Kg (Mobilizado): </b></small><input style="width:30%" class="NumberDec car"
+                                type="number" value="{{weightKg}}">
+                        </div>
+                        <div class="form-group row px-3">
+                            <small class="mr-1"><b>Valores Ferramental: </b></small><small>R$ </small><input style="width:30%" class="NumberDec car"
+                                type="number" value="{{faceValue}}">
+                        </div>
+
+                        <a href="#" class="btn btn-primary btn-sm">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+            {{else}}
+            <h6>Nenhum Site Registrado</h6>
+            {{/each}}
+        </div>
+    </div>
+
+
+        <!--CHART JS-->
+    <div class="row">
+        <div class="col-sm-4 mt-1">
+            <div class="card">
+                <canvas id="pie-chart" width="600" height="300"></canvas>
+            </div>
+        </div>
+        <div class="col-sm-4 mt-1">
+            <div class="card">
+                <canvas id="bar-chart" width="600" height="300"></canvas>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+<!-- CHART JS  -->
+<script src="/js/chart.js"></script>
+<script type="text/javascript">
+
+
+
+    const data2 = JSON.parse(document.getElementById("groupChart").value);
+    const labels2 = [];
+    const values2 = [];
+    data2.forEach(groupChart => {
+        labels2.push(groupChart.group[0].description);
+        values2.push(groupChart.quant);
+    });
+    window.pieChart.config.data.labels = labels2;
+    window.pieChart.config.data.datasets.pop();
+    window.pieChart.config.data.datasets.push({
+        label: "Quantidade (unidade)",
+        data: values2,
+        backgroundColor: [
+            '#000080',
+            '#2F4F4F',
+            '#808080',
+            '#cd853f',
+            '#228b22',
+            '#ff4500',
+            '#663399',
+            '#00ff00',
+            '#4169e1'
+        ],
+    });
+    window.pieChart.update();
+
+    const data = JSON.parse(document.getElementById("typeChart").value);
+    const labels = [];
+    const values = [];
+    data.forEach(typeChart => {
+        labels.push(typeChart.tp[0].description);
+        values.push(typeChart.quant);
+    });
+    window.barChart.config.data.labels = labels;
+    window.barChart.config.data.datasets.pop();
+    window.barChart.config.data.datasets.push({
+        label: "Quantidade (unidade)",
+        data: values,
+        backgroundColor: [
+            '#ff4500',
+            '#663399',
+            '#00ff00',
+            '#4169e1',
+            '#000080',
+            '#2F4F4F',
+            '#808080',
+            '#cd853f',
+            '#228b22',
+
+
+        ],
+    });
+    window.barChart.update();
+
+
+
+</script>

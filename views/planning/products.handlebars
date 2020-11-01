@@ -44,7 +44,7 @@
                 <select class="custom-select custom-select-sm" id="site" name="site" onchange="setSite()">
                     <option selected disabled hidden>Busque por Site</option>
                     <option value="">Nenhum(a)</option>
-                    {{#each customers}}
+                    {{#each warehouses}}
                     <option value="{{_id}}" {{#if_eq ../site _id}}selected{{/if_eq}}>{{description}}</option>
                     {{else}}
                     <option value="0">Nenhum site registrado</option>
@@ -77,15 +77,11 @@
             <div class="p-1">
                 <select class="custom-select custom-select-sm" id="type" name="type" onchange="setSearchType()">
                     <option selected disabled hidden>Tipos de Equipamento</option>
-                    {{#if_eq customer.length 0}}
                     <option value="">Nenhum(a)</option>
-                    {{else}}
-                    <option value="0">Nenhum tipo de equipamento registrado</option>
-                    {{/if_eq}}
-
                     {{#each types}}
                     <option value="{{_id}}" {{#if_eq ../type _id}}selected{{/if_eq}}>{{description}}</option>
                     {{else}}
+                    <option value="0">Nenhum tipo de equipamento registrado</option>
                     {{/each}}
                 </select>
             </div>
@@ -227,7 +223,7 @@
                         <td class="pl07 d-print-block">{{tag}}</td>
                         <td class="pl08 d-print-block">{{name}}</td>
                         <td class="pl09 d-print-block">{{capacityReach}}</td>
-                        <td class="pl10 d-print-block">{{kindOfEquipment.description}}</td>
+                        <td class="pl10 d-print-block">{{type.description}}</td>
                         <td class="pl11 d-print-block">1</td>
                         <td class="pl12 d-print-block">1</td>
                         <td class="pl13 d-print-block">1</td>

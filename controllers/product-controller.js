@@ -300,7 +300,7 @@ exports.postCreate = async (req, res) => {
 exports.getUpdate = async (req, res) => {
   try {
     const file = req.file
-    var product = await Product.findOne({ _id: req.params._id }).lean();
+    var product = await Product.findById(req.params._id ).lean();
     var groups = await Group.find({ active: true, }).sort({ description: "asc", }).lean();
     var subgroups = await Subgroup.find({ active: true, }).sort({ description: "asc", }).lean();
     var types = await Type.find({ active: true, }).sort({ description: "asc", }).lean();

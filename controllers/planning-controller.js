@@ -5,8 +5,8 @@ require("../models/Group");
 const Group = mongoose.model("groups");
 require("../models/Subgroup");
 const Subgroup = mongoose.model("subgroups");
-require("../models/Client");
-const Client = mongoose.model("customers");
+require("../models/Warehouse");
+const Warehouse = mongoose.model("warehouses");
 require("../models/Location");
 const Location = mongoose.model("locations");
 require("../models/Sublease");
@@ -27,105 +27,16 @@ require("../models/Request");
 const Request = mongoose.model("requests");
 require("../models/Planning");
 const Planning = mongoose.model("plannings");
-require("../models/Warehouse");
-const Warehouse = mongoose.model("warehouses");
+
 
 
 
 //DASHBOARD
 exports.dashboard = async (req, res) => {
   try {
-    /*
-    const customers = await Client.find({ active: true })
-      .sort({ description: "asc" })
-      .lean();
-    */
-    
-    if(req.user.admin)
-      customers = await Client.find({ active: true })
-      .sort({ description: "asc" })
-      .lean().populate("site");
-    else customers = req.user.sites;
-    
-    const groups = await Group.find({ active: true })
-      .sort({ description: "asc" })
-      .lean();
-
-    const subgroups = await Subgroup.find({ active: true })
-      .sort({ description: "asc" })
-
-      .lean();
-
-    const types = await Type.find({ active: true })
-      .sort({ description: "asc" })
-      .lean();
-
-    /*
-    const statuses = await Status.find({ active: true })
-      .sort({ description: "asc" })
-      .lean();
-      */
-
-    const filtros = {
-      $or: [],
-      $and:[],
-    };
-
-    let {
-      search,
-      page,
-      //site,
-      group,
-      subgroup,
-      type,
-      //status,
-      limit,
-    } = req.query;
-
-    if (!!search) {
-      const pattern = new RegExp(`.*${search}.*`);
-      filtros["$or"].push(
-        { description: { $regex: pattern, $options: 'i' } },
-        { capacityReach: { $regex: pattern, $options: 'i' } },
-        { stockCode: { $regex: pattern, $options: 'i' } }
-      );
-    }
-
-    //if (!!site) filtros["$and"].push({ client: site });
-    if (!!group) filtros["$and"].push({ group: group });
-    if (!!subgroup) filtros["$and"].push({ subgroup: subgroup });
-    if (!!type) filtros["$and"].push({ kindOfEquipment: type });
-    //if (!!status) filtros["$and"].push({ physicalStatus: status });
-
-    page = Number(page || 1);
-    limit = limit ? Number(limit) : 10;
-
-    if (filtros["$and"].length === 0) delete filtros["$and"];
-    if (filtros["$or"].length === 0) delete filtros["$or"];
-
-    const quant = await Product.find(filtros).estimatedDocumentCount();
-
-    const stock = await Product.aggregate([
-      {
-        $group: {
-          _id: "$group",
-          quant: {
-            $sum: 1
-          },
-          quantity: {
-            $sum: "$description"
-          },
-          qu: {
-            $sum: "$description"
-          }
-        }
-      }
-    ])
-    //console.log(stock)
-    
     const groupChart = await Product.aggregate([
       {
-        $match: filtros.length > 0 ? { $or: filtros } : {}
+        $match:{}
       },
       {
         $group: {
@@ -134,7 +45,7 @@ exports.dashboard = async (req, res) => {
             $sum: 1
           },
           quantity: {
-            $sum: "$stockQuantity"
+            $sum: "$qtyStock"
           }
         }
       },
@@ -149,18 +60,20 @@ exports.dashboard = async (req, res) => {
       }
     ])
 
+    
+
     const typeChart = await Product.aggregate([
       {
-        $match: filtros.length > 0 ? { $or: filtros } : { active: true }
+        $match:{}
       },
       {
         $group: {
-          _id: "$kindOfEquipment",
+          _id: "$type",
           quant: {
             $sum: 1
           },
           quantity: {
-            $sum: "$stockQuantity"
+            $sum: "$qtyStock"
           }
         }
       },
@@ -175,49 +88,49 @@ exports.dashboard = async (req, res) => {
       }
     ])
 
-    var products = await Product.find(filtros)
-      .sort({
-        editionDate: "desc",
-      })
-      .limit(limit).lean()
-      .skip(page > 1 ? (page - 1) * limit : 0)
-      .populate("group")
-      .populate("subgroup")
-      .populate("client")
-      .populate("local")
-      .populate("sublease")
-      .populate("physicalStatus")
-      .populate("kindOfEquipment")
-      .populate("unity")
-      .populate("frequency")
-      .populate("provider")
-      .populate("userLaunch")
-      .populate("userEdition")
-      .populate("unity")
-      .populate("frequency")
-      .populate("provider");
-    //console.log(groupChart)
-    res.render("planning/planning", {
-      products,
-      prev: Number(page) > 1,
-      next: Number(page) * limit < quant,
-      customers,
-      group,
-      groups,
-      subgroups,
-      types,
-      page,
-      search,
-      limit,
-      subgroup,
-      type,
-      stock,
+    const warehouseCard = await Product.aggregate([
+      {
+        $match:{},
+      },
+      {
+        $group: {
+          _id: "$warehouse",
+          qty: {
+            $sum: 1
+          },
+          qtyStock: {
+            $sum: "$qtyStock"
+          },
+          qtyReservation: {
+            $sum: "$qtyReservation"
+          },
+          weightKg: {
+            $sum: "$weightKg"
+          },
+          faceValue: {
+            $sum: "$faceValue"
+          }
+        }
+      },
+      {
+        $lookup:
+        {
+          from: "warehouses",
+          localField: "_id",
+          foreignField: "_id",
+          as: "warehouse"
+        }
+      },
+      { $unwind: "$warehouse" },
+    ])
+    res.render("planning/dashboard", {
       groupChart,
-      typeChart
+      typeChart,
+      warehouseCard,
     });
   } catch (err) {
     console.log(err);
-    req.flash("error_msg", "Ops, Houve um erro interno!");
+    req.flash("error_msg", "Ops, Houve um erro interno!" +err);
     res.redirect("/products");
   }
 };
@@ -225,15 +138,15 @@ exports.dashboard = async (req, res) => {
 
 exports.request = async (req, res) => {
   try {
-    const customers = await Client.find({ active: true })
+    const warehouses = await Warehouse.find({ active: true })
       .sort({ description: "asc" })
       .lean();
     /*
     if(req.user.admin)
-      customers = await Client.find({ active: true })
+      warehouses = await Warehouse.find({ active: true })
       .sort({ description: "asc" })
       .lean();
-    else customers = req.user.sites;
+    else warehouses = req.user.sites;
     */
     const groups = await Group.find({ active: true })
       .sort({ description: "asc" })
@@ -271,17 +184,17 @@ exports.request = async (req, res) => {
       const pattern = new RegExp(`.*${search}.*`);
       filtros["$or"].push(
         { description: { $regex: pattern,$options: 'i' } },
-        { stockCode: { $regex: pattern,$options: 'i' }},
-        { qrcode: { $regex: pattern ,$options: 'i'} },
+        { fullDescription: { $regex: pattern,$options: 'i' } },
+        { tag: { $regex: pattern ,$options: 'i'} },
         { user: { $regex: pattern ,$options: 'i'} }
       );
     }
 
-    if (!!site) filtros["$and"].push({ client: site });
+    if (!!site) filtros["$and"].push({ warehouse: site });
     if (!!group) filtros["$and"].push({ group: group });
     if (!!subgroup) filtros["$and"].push({ subgroup: subgroup });
-    if (!!type) filtros["$and"].push({ kindOfEquipment: type });
-    if (!!status) filtros["$and"].push({ physicalStatus: status });
+    if (!!type) filtros["$and"].push({ type: type });
+    if (!!status) filtros["$and"].push({ status: status });
 
     page = Number(page || 1);
     limit = limit ? Number(limit) : 10;
@@ -299,13 +212,14 @@ exports.request = async (req, res) => {
       .skip(page > 1 ? (page - 1) * limit : 0)
       .populate("group")
       .populate("subgroup")
-      .populate("kindOfEquipment")
+      .populate("type")
+      .populate("status")
       
     res.render("planning/products", {
       products,
       prev: Number(page) > 1,
       next: Number(page) * limit < quant,
-      customers,
+      warehouses,
       groups,
       subgroups,
       types,
@@ -386,7 +300,7 @@ exports.getRequest = async (req, res) => {
 
     const requests = await Request.aggregate([
         { $match: filtros.length > 0 ? { $or: filtros } : { active: true } },
-        { $sort: { _id: -1 } },
+        { $sort: { description: 1 } },
         { $skip: page > 1 ? (page - 1) * limit : 0 },
         { $limit: limit },      
 
