@@ -22,11 +22,13 @@
                         <div class="d-flex justify-content-center">
                             <div class="p-0 mr-auto">
                         <h4 class="card-title text-primary">{{warehouse.description}}</h4>
+                        <p class="card-text text-secondary"><small class="px-1"><b>{{warehouse.plant}}</b></small><small><b>{{warehouse.costCenter}}</b></small></p>
                         </div>
                         <img src="{{warehouse.image}}" style="width: 6rem;" alt="" class="rounded">
                         </div>
                         <hr>
-                        <h6 class="card-title text-secundary">Status Obra: {{warehouse.active}}</h6>
+                        <h6 class="card-title">Status Projeto: {{warehouse.active}}</h6>
+                        <h6 class="card-title">Cliente: {{warehouse.client}}</h6>
                         <p class="card-text"><small>Data Mobilização: {{warehouse.createdAt}}</small></p>
                         <p class="card-text"><small>Data Desmobilização: {{warehouse.active}}</small></p>
                         <hr>

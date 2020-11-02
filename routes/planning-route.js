@@ -8,13 +8,14 @@ const { eDevAdmin } = require("../helpers/eDevAdmin");
 
 //PRODUTOS - ROTA CARRINHO DE COMPRAS
 router.get("/",eAdmin, controller.dashboard);
-router.get("/products/:_id?", controller.request);
-router.post("/request", controller.postRequest);
-router.get("/request", controller.getRequest);
-router.get("/updateRequest/:id", eAdmin, controller.getUpdate);
-router.post("/updateRequest", eAdmin, multer(multerConfig).single("file"), controller.postUpdate);
+router.get("/planning/:_id?", controller.planning);
 router.post("/planning", controller.postPlanning);
-router.get("/transfer", controller.getTransfer);
+router.get("/request", controller.getRequest);
+router.get("/products/:_id?", controller.products);
+//router.get("/updateRequest/:id", eAdmin, controller.getUpdate);
+//router.post("/updateRequest", eAdmin, multer(multerConfig).single("file"), controller.postUpdate);
+//router.post("/planning", controller.postPlanning);
+//router.get("/transfer", controller.getTransfer);
 
 
 module.exports = router;

@@ -1,9 +1,9 @@
 <div class="mt-2 container-fluid">
         <div class="d-flex justify-content-center">
             <div class="p-1 mr-auto">
-                <h4>Solicitação de Material</h4>
+                <h4>Solicitação de Material</h4>    
             </div>
-            <a href="/products/add">
+            <a href="/products/create">
                 <button class="mr-2 mt-3 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom"
                     title="Não encontrou o que procura, cadastre um novo produto">
                     <small><strong>Cadastre um novo Produto <i class="fas fa-paper-plane"></i></strong></small>
@@ -194,7 +194,7 @@
 
             <tbody>
                 {{#each products}}
-                <form action="/planning/request" method="POST">
+                <form action="/planning/planning" method="POST">
                     <input type="hidden" class="mt-2 form-control" name="product" value="{{_id}}">
                     <input type="hidden" class="mt-2 form-control" name="description" value="{{description}}">
                     <input type="hidden" class="mt-2 form-control" name="tag" value="{{tag}}">
