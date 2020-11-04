@@ -118,6 +118,9 @@ window.barChart = new Chart(document.getElementById("bar-chart"), {
         display: false },
       title: {
         display: true,
+        //fontSize:15,
+        //fontColor: 'black',
+        //FontStyle:'normal',
         text: 'Tipos de equipamentos'
       }
     }

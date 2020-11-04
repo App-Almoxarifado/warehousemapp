@@ -16,15 +16,19 @@
     <div class="d-flex justify-content-center">
         <div class="row">
             {{#each warehouseCard}}
-            <div class="col-sm-4 mt-1">
+            <div class="col-md-3 mt-1">
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-center">
                             <div class="p-0 mr-auto">
-                        <h4 class="card-title text-primary">{{warehouse.description}}</h4>
-                        <p class="card-text text-secondary"><small class="px-1"><b>{{warehouse.plant}}</b></small><small><b>{{warehouse.costCenter}}</b></small></p>
-                        </div>
-                        <img src="{{warehouse.image}}" style="width: 6rem;" alt="" class="rounded">
+                                <h4 class="card-title text-primary">{{warehouse.description}}</h4>
+                                <p class="card-text text-secondary"><small
+                                        class="px-1"><b>{{warehouse.plant}}</b></small><small><b>{{warehouse.costCenter}}</b></small>
+                                </p>
+                            </div>
+                            <div class="p-0">
+                                <img src="{{warehouse.image}}" style="width: 6rem;" alt="" class="rounded">
+                            </div>
                         </div>
                         <hr>
                         <h6 class="card-title">Status Projeto: {{warehouse.active}}</h6>
@@ -45,12 +49,12 @@
                                 class="NumberInt car" type="number" value="{{qtyReservation}}">
                         </div>
                         <div class="form-group row px-3">
-                            <small class="mr-1"><b>Peso Kg (Mobilizado): </b></small><input style="width:30%" class="NumberDec car"
-                                type="number" value="{{weightKg}}">
+                            <small class="mr-1"><b>Peso Kg (Mobilizado): </b></small><input style="width:30%"
+                                class="NumberDec car" type="number" value="{{weightKg}}">
                         </div>
                         <div class="form-group row px-3">
-                            <small class="mr-1"><b>Valores Ferramental: </b></small><small>R$ </small><input style="width:30%" class="NumberDec car"
-                                type="number" value="{{faceValue}}">
+                            <small class="mr-1"><b>Valores Ferramental: </b></small><small>R$ </small><input
+                                style="width:30%" class="NumberDec car" type="number" value="{{faceValue}}">
                         </div>
 
                         <a href="#" class="btn btn-primary btn-sm">Go somewhere</a>
@@ -64,21 +68,21 @@
     </div>
 
 
-        <!--CHART JS-->
+    <!--CHART JS-->
     <div class="row">
-        <div class="col-sm-4 mt-1">
+        <div class="col-md-6 mt-1">
             <div class="card">
                 <canvas id="pie-chart" width="600" height="300"></canvas>
             </div>
         </div>
-        <div class="col-sm-4 mt-1">
+        <div class="col-md-6 mt-1">
             <div class="card">
                 <canvas id="bar-chart" width="600" height="300"></canvas>
             </div>
         </div>
     </div>
 
-    </div>
+</div>
 
 <!-- CHART JS  -->
 <script src="/js/chart.js"></script>
@@ -99,15 +103,17 @@
         label: "Quantidade (unidade)",
         data: values2,
         backgroundColor: [
-            '#000080',
+            '#A9A9A9',
+            '#FF4500',
             '#2F4F4F',
+            '#708090',
+            '#A9A9A9',
+            '#00FF00',
+            '#FFA500',
             '#808080',
-            '#cd853f',
-            '#228b22',
-            '#ff4500',
-            '#663399',
-            '#00ff00',
-            '#4169e1'
+            '#696969',
+            '#000000',
+
         ],
     });
     window.pieChart.update();
