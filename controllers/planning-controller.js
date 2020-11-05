@@ -28,12 +28,85 @@ const Request = mongoose.model("requests");
 require("../models/Planning");
 const Planning = mongoose.model("plannings");
 
+//SITES
+exports.sites = async (req, res) => {
+  try {
+    const warehouseCard = await Product.aggregate([
+      {
+        $match:{},
+      },
+      {
+        $group: {
+          _id: "$warehouse",
+          qty: {
+            $sum: 1
+          },
+          qtyStock: {
+            $sum: "$qtyStock"
+          },
+          qtyReservation: {
+            $sum: "$qtyReservation"
+          },
+          weightKg: {
+            $sum: "$weightKg"
+          },
+          faceValue: {
+            $sum: "$faceValue"
+          }
+        }
+      },
+      {
+        $lookup:
+        {
+          from: "warehouses",
+          localField: "_id",
+          foreignField: "_id",
+          as: "warehouse"
+        }
+      },
+      { $unwind: "$warehouse" },
+    ]);
 
+    res.render("planning/sites", {
+      warehouseCard,
+    });
+  } catch (err) {
+    console.log(err);
+    req.flash("error_msg", "Ops, Houve um erro interno!" +err);
+    res.redirect("/products");
+  }
+};
 
 
 //DASHBOARD
 exports.dashboard = async (req, res) => {
   try {
+    const warehouseChart = await Product.aggregate([
+      {
+        $match:{}
+      },
+      {
+        $group: {
+          _id: "$warehouse",
+          quant: {
+            $sum: 1
+          },
+          quantity: {
+            $sum: "$qtyStock"
+          }
+        }
+      },
+      {
+        $lookup:
+        {
+          from: "warehouses",
+          localField: "_id",
+          foreignField: "_id",
+          as: "warehouse"
+        }
+      }
+    ]);
+
     const groupChart = await Product.aggregate([
       {
         $match:{}
@@ -83,51 +156,15 @@ exports.dashboard = async (req, res) => {
           from: "types",
           localField: "_id",
           foreignField: "_id",
-          as: "tp"
+          as: "type"
         }
       }
     ]);
 
-    const warehouseCard = await Product.aggregate([
-      {
-        $match:{},
-      },
-      {
-        $group: {
-          _id: "$warehouse",
-          qty: {
-            $sum: 1
-          },
-          qtyStock: {
-            $sum: "$qtyStock"
-          },
-          qtyReservation: {
-            $sum: "$qtyReservation"
-          },
-          weightKg: {
-            $sum: "$weightKg"
-          },
-          faceValue: {
-            $sum: "$faceValue"
-          }
-        }
-      },
-      {
-        $lookup:
-        {
-          from: "warehouses",
-          localField: "_id",
-          foreignField: "_id",
-          as: "warehouse"
-        }
-      },
-      { $unwind: "$warehouse" },
-    ]);
-
     res.render("planning/dashboard", {
+      warehouseChart,
       groupChart,
       typeChart,
-      warehouseCard,
     });
   } catch (err) {
     console.log(err);

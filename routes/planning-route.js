@@ -8,6 +8,7 @@ const { eDevAdmin } = require("../helpers/eDevAdmin");
 
 //PRODUTOS - ROTA CARRINHO DE COMPRAS
 router.get("/", controller.dashboard);
+router.get("/sites/:_id?", controller.sites);
 router.get("/planning/:_id?", controller.planning);
 router.post("/planning", controller.postPlanning);
 router.get("/request", controller.getRequest);

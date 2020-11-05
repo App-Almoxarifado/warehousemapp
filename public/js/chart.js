@@ -74,26 +74,28 @@ function drawMultSeries() {
 }
 */
 
-    
+
 //CHART JS
 //pie chart
 window.pieChart = new Chart(document.getElementById("pie-chart"), {
   type: 'doughnut',
-
   options: {
     animation: {
-        tension: {
-            duration: 1000,
-            easing: 'linear',
-            from: 1,
-            to: 0,
-            loop: true
-        }
+      tension: {
+        duration: 2000,
+        easing: 'linear',
+        from: 1,
+        to: 0,
+        loop: true
+      }
     },
-  
+
     legend: {
-      position:'right',
-      display: true },
+      alignment:'start',
+      position: 'right',
+      display: true
+    },
+
     title: {
       display: true,
       text: 'Estoque por Grupo'
@@ -103,30 +105,63 @@ window.pieChart = new Chart(document.getElementById("pie-chart"), {
 
 // Bar chart
 window.barChart = new Chart(document.getElementById("bar-chart"), {
-    type: 'horizontalBar',
-    options: {
-      responsive: true,
-      scales: {
-          xAxes: [{
-              ticks: {
-                  beginAtZero: true,
-              }
-          }]
-      },
-      legend: {
-        position:'top',
-        display: false },
-      title: {
-        display: true,
-        //fontSize:15,
-        //fontColor: 'black',
-        //FontStyle:'normal',
-        text: 'Tipos de equipamentos'
+  type: 'horizontalBar',
+  options: {
+    animation: {
+      tension: {
+        duration: 2000,
+        easing: 'linear',
+        from: 1,
+        to: 0,
+        loop: true
       }
+    },
+    responsive: true,
+    scales: {
+      xAxes: [{
+        ticks: {
+          beginAtZero: true,
+        }
+      }]
+    },
+    legend: {
+      position: 'top',
+      display: false
+    },
+    title: {
+      display: true,
+      //fontSize:15,
+      //fontColor: 'black',
+      //FontStyle:'normal',
+      text: 'Tipos de equipamentos'
     }
+  }
 });
 
+window.lineChart = new Chart(document.getElementById("line-chart"), {
+  type: 'bar',
+  options: {
+    animation: {
+      tension: {
+        duration: 2000,
+        easing: 'linear',
+        from: 1,
+        to: 0,
+        loop: true
+      }
+    },
 
+    legend: {
+      position: 'right',
+      display: false
+    },
+
+    title: {
+      display: true,
+      text: 'Estoque por Obra'
+    }
+  }
+});
 
 
 /* window.doughnutChart = new Chart(document.getElementById("doughnut-chart"), {
