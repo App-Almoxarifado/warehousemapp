@@ -163,6 +163,21 @@ window.lineChart = new Chart(document.getElementById("line-chart"), {
   }
 });
 
+window.statusChart = new Chart(document.getElementById("status-chart"), {
+  type: 'doughnut',
+  options: {
+  
+    legend: {
+      position: 'top',
+      display: true
+    },
+
+    title: {
+      display: true,
+      text: 'Status Equipamentos'
+    }
+  }
+});
 
 /* window.doughnutChart = new Chart(document.getElementById("doughnut-chart"), {
     type: 'doughnut',

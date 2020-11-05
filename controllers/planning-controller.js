@@ -33,7 +33,7 @@ exports.sites = async (req, res) => {
   try {
     const warehouseCard = await Product.aggregate([
       {
-        $match:{},
+        $match: {},
       },
       {
         $group: {
@@ -72,7 +72,7 @@ exports.sites = async (req, res) => {
     });
   } catch (err) {
     console.log(err);
-    req.flash("error_msg", "Ops, Houve um erro interno!" +err);
+    req.flash("error_msg", "Ops, Houve um erro interno!" + err);
     res.redirect("/products");
   }
 };
@@ -82,93 +82,37 @@ exports.sites = async (req, res) => {
 exports.dashboard = async (req, res) => {
   try {
     const warehouseChart = await Product.aggregate([
-      {
-        $match:{}
-      },
-      {
-        $group: {
-          _id: "$warehouse",
-          quant: {
-            $sum: 1
-          },
-          quantity: {
-            $sum: "$qtyStock"
-          }
-        }
-      },
-      {
-        $lookup:
-        {
-          from: "warehouses",
-          localField: "_id",
-          foreignField: "_id",
-          as: "warehouse"
-        }
-      }
+      { $match: {} },
+      { $group: { _id: "$warehouse", quant: { $sum: 1 }, quantity: { $sum: "$qtyStock" } } },
+      { $lookup: { from: "warehouses", localField: "_id", foreignField: "_id", as: "warehouse" } }
     ]);
 
     const groupChart = await Product.aggregate([
-      {
-        $match:{}
-      },
-      {
-        $group: {
-          _id: "$group",
-          quant: {
-            $sum: 1
-          },
-          quantity: {
-            $sum: "$qtyStock"
-          }
-        }
-      },
-      {
-        $lookup:
-        {
-          from: "groups",
-          localField: "_id",
-          foreignField: "_id",
-          as: "group"
-        }
-      }
+      { $match: {} }, { $group: { _id: "$group", quant: { $sum: 1 }, quantity: { $sum: "$qtyStock" } } },
+      { $lookup: { from: "groups", localField: "_id", foreignField: "_id", as: "group" } }
     ]);
 
-    
-
     const typeChart = await Product.aggregate([
-      {
-        $match:{}
-      },
-      {
-        $group: {
-          _id: "$type",
-          quant: {
-            $sum: 1
-          },
-          quantity: {
-            $sum: "$qtyStock"
-          }
-        }
-      },
-      {
-        $lookup:
-        {
-          from: "types",
-          localField: "_id",
-          foreignField: "_id",
-          as: "type"
-        }
-      }
+      { $match: {} },
+      { $group: { _id: "$type", quant: { $sum: 1 }, quantity: { $sum: "$qtyStock" } } },
+      { $lookup: { from: "types", localField: "_id", foreignField: "_id", as: "type" } }
+    ]);
+
+    const statusChart = await Product.aggregate([
+      { $match: {} },
+      { $group: { _id: "$status", quant: { $sum: 1 }, quantity: { $sum: "$qtyStock" } } },
+      { $lookup: { from: "statuses", localField: "_id", foreignField: "_id", as: "status" } }
     ]);
 
     res.render("planning/dashboard", {
       warehouseChart,
       groupChart,
       typeChart,
+      statusChart,
     });
   } catch (err) {
     console.log(err);
-    req.flash("error_msg", "Ops, Houve um erro interno!" +err);
+    req.flash("error_msg", "Ops, Houve um erro interno!" + err);
     res.redirect("/products");
   }
 };
@@ -221,10 +165,10 @@ exports.planning = async (req, res) => {
     if (!!search) {
       const pattern = new RegExp(`.*${search}.*`);
       filtros["$or"].push(
-        { description: { $regex: pattern,$options: 'i' } },
-        { fullDescription: { $regex: pattern,$options: 'i' } },
-        { tag: { $regex: pattern ,$options: 'i'} },
-        { user: { $regex: pattern ,$options: 'i'} }
+        { description: { $regex: pattern, $options: 'i' } },
+        { fullDescription: { $regex: pattern, $options: 'i' } },
+        { tag: { $regex: pattern, $options: 'i' } },
+        { user: { $regex: pattern, $options: 'i' } }
       );
     }
 
@@ -252,7 +196,7 @@ exports.planning = async (req, res) => {
       .populate("subgroup")
       .populate("type")
       .populate("status")
-      
+
     res.render("planning/planning", {
       products,
       plannning,
@@ -274,7 +218,7 @@ exports.planning = async (req, res) => {
     });
   } catch (err) {
     console.log(err);
-    req.flash("error_msg", "Ops, Houve um erro interno!"+err);
+    req.flash("error_msg", "Ops, Houve um erro interno!" + err);
     res.redirect("/products");
   }
 };
@@ -296,16 +240,16 @@ exports.postPlanning = async (req, res) => {
     });
   } else {
     try {
-      const {product,description,qty,tag,image} = req.body
+      const { product, description, qty, tag, image } = req.body
       const request = await Request.create({
         product,
         description,
         qty,
-        user:req.user.name,
+        user: req.user.name,
         tag,
         image
-      });    
-    
+      });
+
       console.log(request)
       //await requests.save();
       req.flash("success_msg", "Produto solicitado, enviado para pedido!");
@@ -327,38 +271,38 @@ exports.getRequest = async (req, res) => {
     const filtros = [];
     let { search, page, limit } = req.query;
     if (!!search) {
-        const pattern = new RegExp(`.*${search}.*`);
-        filtros.push(
-            { tag: { $regex: pattern, $options: 'i' } },
-        );
+      const pattern = new RegExp(`.*${search}.*`);
+      filtros.push(
+        { tag: { $regex: pattern, $options: 'i' } },
+      );
     }
     page = Number(page || 1);
     limit = limit ? Number(limit) : 5;
     const quant = await Request.find(
-        filtros.length > 0 ? { $or: filtros } : {}
+      filtros.length > 0 ? { $or: filtros } : {}
     ).estimatedDocumentCount();
 
     const requests = await Request.aggregate([
-        { $match: filtros.length > 0 ? { $or: filtros } : { active: true } },
-        { $sort: { description: 1 } },
-        { $skip: page > 1 ? (page - 1) * limit : 0 },
-        { $limit: limit },      
+      { $match: filtros.length > 0 ? { $or: filtros } : { active: true } },
+      { $sort: { description: 1 } },
+      { $skip: page > 1 ? (page - 1) * limit : 0 },
+      { $limit: limit },
 
     ])
     res.render("planning/request", {
-        requests,
-        prev: Number(page) > 1,
-        next: Number(page) * limit < quant,
-        page,
-        limit,
-        file,
-        quant,
+      requests,
+      prev: Number(page) > 1,
+      next: Number(page) * limit < quant,
+      page,
+      limit,
+      file,
+      quant,
     });
-} catch (err) {
+  } catch (err) {
     console.log(err);
     req.flash("error_msg", "Ops, Houve um erro interno!" + err);
     res.redirect("/planning");
-}
+  }
 };
 
 exports.products = async (req, res) => {
@@ -408,10 +352,10 @@ exports.products = async (req, res) => {
     if (!!search) {
       const pattern = new RegExp(`.*${search}.*`);
       filtros["$or"].push(
-        { description: { $regex: pattern,$options: 'i' } },
-        { fullDescription: { $regex: pattern,$options: 'i' } },
-        { tag: { $regex: pattern ,$options: 'i'} },
-        { user: { $regex: pattern ,$options: 'i'} }
+        { description: { $regex: pattern, $options: 'i' } },
+        { fullDescription: { $regex: pattern, $options: 'i' } },
+        { tag: { $regex: pattern, $options: 'i' } },
+        { user: { $regex: pattern, $options: 'i' } }
       );
     }
 
@@ -439,7 +383,7 @@ exports.products = async (req, res) => {
       .populate("subgroup")
       .populate("type")
       .populate("status")
-      
+
     res.render("planning/products", {
       products,
       prev: Number(page) > 1,
@@ -460,7 +404,7 @@ exports.products = async (req, res) => {
     });
   } catch (err) {
     console.log(err);
-    req.flash("error_msg", "Ops, Houve um erro interno!"+err);
+    req.flash("error_msg", "Ops, Houve um erro interno!" + err);
     res.redirect("/products");
   }
 };
@@ -487,7 +431,7 @@ exports.post = async (req, res) => {
   } else {
     try {
       await Planning.create({
-        product:req.body.product,
+        product: req.body.product,
         //user:req.user.name,
       });
       //await plannings.save();
@@ -496,7 +440,7 @@ exports.post = async (req, res) => {
     } catch (err) {
       req.flash(
         "error_msg",
-        "Ops, Houve um erro ao salvar o Produto, tente novamente!" +err
+        "Ops, Houve um erro ao salvar o Produto, tente novamente!" + err
       );
       res.redirect("/planning");
     }
@@ -506,12 +450,12 @@ exports.post = async (req, res) => {
 //EDITANDO UM PEDIDO
 exports.getUpdate = async (req, res) => {
   try {
-      const file = req.file
-      var request = await Request.findOne({ _id: req.params.id }).lean();
-      res.render("planning/updateRequest", { request: request, file });
+    const file = req.file
+    var request = await Request.findOne({ _id: req.params.id }).lean();
+    res.render("planning/updateRequest", { request: request, file });
   } catch (_err) {
-      req.flash("error_msg", "Ops, Houve um erro interno!");
-      res.redirect("/planning");
+    req.flash("error_msg", "Ops, Houve um erro interno!");
+    res.redirect("/planning");
   }
 };
 
@@ -521,36 +465,36 @@ exports.postUpdate = async (req, res) => {
   const file = req.file
   var erros = [];
   if (
-      !req.body.note ||
-      typeof req.body.note == undefined ||
-      req.body.note == null
+    !req.body.note ||
+    typeof req.body.note == undefined ||
+    req.body.note == null
   ) {
-      erros.push({
-          texto: "Descreva alguma observação",
-      });
+    erros.push({
+      texto: "Descreva alguma observação",
+    });
   }
   if (erros.length > 0) {
-      res.render("/planning", {
-          file,
-          erros: erros,
-      });
+    res.render("/planning", {
+      file,
+      erros: erros,
+    });
   } else {
-      try {
-              request.image = req.file.location,
-              request.key = req.file.key,
-              request.note = req.body.note,
-              
-          await request.save();
-          req.flash("success_msg", "Observação criada com sucesso!!!");
-          res.redirect("/planning");
-          console.log("Produto editado com sucesso!");
-      } catch (err) {
-          req.flash(
-              "error_msg",
-              "Ops, Houve um erro ao salvar o tipo, tente novamente!"+err
-          );
-          res.redirect("/planning");
-      }
+    try {
+      request.image = req.file.location,
+        request.key = req.file.key,
+        request.note = req.body.note,
+
+        await request.save();
+      req.flash("success_msg", "Observação criada com sucesso!!!");
+      res.redirect("/planning");
+      console.log("Produto editado com sucesso!");
+    } catch (err) {
+      req.flash(
+        "error_msg",
+        "Ops, Houve um erro ao salvar o tipo, tente novamente!" + err
+      );
+      res.redirect("/planning");
+    }
   }
 };
 
@@ -561,35 +505,35 @@ exports.getTransfer = async (req, res) => {
     const filtros = [];
     let { search, page, limit } = req.query;
     if (!!search) {
-        const pattern = new RegExp(`.*${search}.*`);
-        filtros.push(
-            { _id: { $regex: pattern, $options: 'i' } },
-        );
+      const pattern = new RegExp(`.*${search}.*`);
+      filtros.push(
+        { _id: { $regex: pattern, $options: 'i' } },
+      );
     }
     page = Number(page || 1);
     limit = limit ? Number(limit) : 5;
     const quant = await Planning.find(
-        filtros.length > 0 ? { $or: filtros } : {}
+      filtros.length > 0 ? { $or: filtros } : {}
     ).estimatedDocumentCount();
 
     const plannings = await Planning.aggregate([
       { $match: filtros.length > 0 ? { $or: filtros } : { active: true } },
       { $sort: { _id: -1 } },
       { $skip: page > 1 ? (page - 1) * limit : 0 },
-      { $limit: limit },  
-  ])
+      { $limit: limit },
+    ])
     res.render("planning/transfer", {
-       plannings,
-        prev: Number(page) > 1,
-        next: Number(page) * limit < quant,
-        page,
-        limit,
-        file,
-        quant,
+      plannings,
+      prev: Number(page) > 1,
+      next: Number(page) * limit < quant,
+      page,
+      limit,
+      file,
+      quant,
     });
-} catch (err) {
+  } catch (err) {
     console.log(err);
     req.flash("error_msg", "Ops, Houve um erro interno!" + err);
     res.redirect("/planning");
-}
+  }
 };

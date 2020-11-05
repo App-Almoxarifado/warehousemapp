@@ -14,6 +14,10 @@
         {{#json warehouseChart}}
         <input type="hidden" id="warehouseChart" value="{{this}}">
         {{/json}}
+
+        {{#json statusChart}}
+        <input type="hidden" id="statusChart" value="{{this}}">
+        {{/json}}
     </div>
 
 
@@ -35,12 +39,45 @@
             </div>
         </div>
     </div>
+
+        <!--CHART JS-->
+    <div class="row justify-content-center">
+        <div class="col-md-4 mb-1 chart-container" style="position: relative; height:100%; width:100%">
+            <div class="card">
+                <canvas id="status-chart" width="100" height="70"></canvas>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- CHART JS  -->
 <script src="/js/chart.js"></script>
 <script type="text/javascript">
-
+    const data = JSON.parse(document.getElementById("typeChart").value);
+    const labels = [];
+    const values = [];
+    data.forEach(typeChart => {
+        labels.push(typeChart.type[0].description);
+        values.push(typeChart.quant);
+    });
+    window.barChart.config.data.labels = labels;
+    window.barChart.config.data.datasets.pop();
+    window.barChart.config.data.datasets.push({
+        label: "Quantidade (unidade)",
+        data: values,
+        backgroundColor: [
+            '#00008B',
+            '#0000FF',
+            '#3A5FCD',
+            '#4169e1',
+            '#1874CD',
+            '#00BFFF',
+            '#8DB6CD',
+            '#6C7B8B',
+            '#C6E2FF',
+        ],
+    });
+    window.barChart.update();
 
 
     const data2 = JSON.parse(document.getElementById("groupChart").value);
@@ -71,31 +108,7 @@
     });
     window.pieChart.update();
 
-    const data = JSON.parse(document.getElementById("typeChart").value);
-    const labels = [];
-    const values = [];
-    data.forEach(typeChart => {
-        labels.push(typeChart.type[0].description);
-        values.push(typeChart.quant);
-    });
-    window.barChart.config.data.labels = labels;
-    window.barChart.config.data.datasets.pop();
-    window.barChart.config.data.datasets.push({
-        label: "Quantidade (unidade)",
-        data: values,
-        backgroundColor: [
-            '#00008B',
-            '#0000FF',
-            '#3A5FCD',
-            '#4169e1',
-            '#1874CD',
-            '#00BFFF',
-            '#8DB6CD',
-            '#6C7B8B',
-            '#C6E2FF',
-        ],
-    });
-    window.barChart.update();
+
 
     const data3 = JSON.parse(document.getElementById("warehouseChart").value);
     const labels3 = [];
@@ -123,5 +136,25 @@
         ],
     });
     window.lineChart.update();
+
+    const data4 = JSON.parse(document.getElementById("statusChart").value);
+    const labels4 = [];
+    const values4 = [];
+    data4.forEach(statusChart => {
+        labels4.push(statusChart.status[0].description);
+        values4.push(statusChart.quant);
+    });
+    window.statusChart.config.data.labels = labels4;
+    window.statusChart.config.data.datasets.pop();
+    window.statusChart.config.data.datasets.push({
+        label: "Quantidade (unidade)",
+        data: values4,
+        backgroundColor: [
+            '#2F4F4F',
+            '#696969',
+            '#708090',
+        ],
+    });
+    window.statusChart.update();
 
 </script>
