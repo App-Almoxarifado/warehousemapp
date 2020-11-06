@@ -31,10 +31,22 @@ const Planning = mongoose.model("plannings");
 //SITES
 exports.sites = async (req, res) => {
   try {
+    const warehouse = req.params.id;
+
+    if (req.user.admin)
+      warehouses = await Warehouse.find({ active: true })
+        .sort({ description: "asc" })
+        .lean();
+    else warehouses = req.user.sites;
+
+    const warehouseMatch = {
+      $match: {
+        warehouse: warehouse ? { $eq: warehouse } : { $in: warehouses.map(w => w._id) }
+      }
+    };
+
     const warehouseCard = await Product.aggregate([
-      {
-        $match: {},
-      },
+      warehouseMatch,
       {
         $group: {
           _id: "$warehouse",
@@ -81,25 +93,40 @@ exports.sites = async (req, res) => {
 //DASHBOARD
 exports.dashboard = async (req, res) => {
   try {
+    const warehouse = req.params.id;
+
+    if (req.user.admin)
+      warehouses = await Warehouse.find({ active: true })
+        .sort({ description: "asc" })
+        .lean();
+    else warehouses = req.user.sites;
+
+    const warehouseMatch = {
+      $match: {
+        warehouse: warehouse ? { $eq: warehouse } : { $in: warehouses.map(w => w._id) }
+      }
+    };
+
     const warehouseChart = await Product.aggregate([
-      { $match: {} },
+      warehouseMatch,
       { $group: { _id: "$warehouse", quant: { $sum: 1 }, quantity: { $sum: "$qtyStock" } } },
       { $lookup: { from: "warehouses", localField: "_id", foreignField: "_id", as: "warehouse" } }
     ]);
 
     const groupChart = await Product.aggregate([
-      { $match: {} }, { $group: { _id: "$group", quant: { $sum: 1 }, quantity: { $sum: "$qtyStock" } } },
+      warehouseMatch,
+      { $group: { _id: "$group", quant: { $sum: 1 }, quantity: { $sum: "$qtyStock" } } },
       { $lookup: { from: "groups", localField: "_id", foreignField: "_id", as: "group" } }
     ]);
 
     const typeChart = await Product.aggregate([
-      { $match: {} },
+      warehouseMatch,
       { $group: { _id: "$type", quant: { $sum: 1 }, quantity: { $sum: "$qtyStock" } } },
       { $lookup: { from: "types", localField: "_id", foreignField: "_id", as: "type" } }
     ]);
 
     const statusChart = await Product.aggregate([
-      { $match: {} },
+      warehouseMatch,
       { $group: { _id: "$status", quant: { $sum: 1 }, quantity: { $sum: "$qtyStock" } } },
       { $lookup: { from: "statuses", localField: "_id", foreignField: "_id", as: "status" } }
     ]);
@@ -109,6 +136,7 @@ exports.dashboard = async (req, res) => {
       groupChart,
       typeChart,
       statusChart,
+      warehouses
     });
   } catch (err) {
     console.log(err);
@@ -451,7 +479,7 @@ exports.post = async (req, res) => {
 exports.getUpdate = async (req, res) => {
   try {
     const file = req.file
-    var request = await Request.findOne({ _id: req.params.id }).lean();
+    var request = await Request.findOne({ _id: req.params._id }).lean();
     res.render("planning/updateRequest", { request: request, file });
   } catch (_err) {
     req.flash("error_msg", "Ops, Houve um erro interno!");
@@ -461,7 +489,7 @@ exports.getUpdate = async (req, res) => {
 
 //POST FINALIZANDO PEDIDO
 exports.postUpdate = async (req, res) => {
-  var request = await Request.findOne({ _id: req.body.id });
+  var request = await Request.findOne({ _id: req.body._id });
   const file = req.file
   var erros = [];
   if (

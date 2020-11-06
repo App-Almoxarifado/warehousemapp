@@ -11,7 +11,8 @@
     <h3 class="mt-2">Crie uma nota</h3>
 
     <hr>
-
+<h5>{{request.description}}</h5>
+<hr>
     <form action="/planning/updateRequest" enctype="multipart/form-data" method="POST">
         <div class="row no-gutters position-relative">
             <div class="col-md-4 position-static">
@@ -29,7 +30,7 @@
             </div>
             <div class="col-md-8 position-static px-2">
                 <h4 class="mt-2">{{tag}}</h4>
-                <input type="hidden" class="form-control" id="id" name="id" placeholder="Id" value={{request._id}}>
+                <input type="hidden" class="form-control" id="_id" name="_id" placeholder="Id" value={{request._id}}>
                 <input type="hidden" class="form-control mt-2" name="image" id="image">
                 <div class="form-row">
                     <div class="form-group col-md-12">

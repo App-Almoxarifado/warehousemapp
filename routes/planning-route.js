@@ -13,10 +13,10 @@ router.get("/planning/:_id?", controller.planning);
 router.post("/planning", controller.postPlanning);
 router.get("/request", controller.getRequest);
 router.get("/products/:_id?", controller.products);
-//router.get("/updateRequest/:id", eAdmin, controller.getUpdate);
-//router.post("/updateRequest", eAdmin, multer(multerConfig).single("file"), controller.postUpdate);
+router.get("/updateRequest/:_id", eAdmin, controller.getUpdate);
+router.post("/updateRequest", eAdmin, multer(multerConfig).single("file"), controller.postUpdate);
+//router.get("/delete/:_id", eAdmin, controller.getDelete);
 //router.post("/planning", controller.postPlanning);
 //router.get("/transfer", controller.getTransfer);
-
 
 module.exports = router;

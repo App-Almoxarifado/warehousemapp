@@ -36,7 +36,28 @@
                         <ul class="collapse list-unstyled" id="pageSites">
                             <li>
                                 {{#each sites}}
-                                <a href="/planning/planning/{{_id}}">{{description}}</a>
+                                <a href="/planning/planning/{{_id}}" data-toggle="modal" data-target="#exampleModal">{{description}}</a>
+
+                                <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <a href="/planning/planning/{{_id}}" class="btn btn-secondary" role="button" aria-pressed="true">Link</a>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
                                 {{else}}
                                 <option value="0">Você não possui nenhuma obra para solicitar Material</option>
                                 {{/each}}

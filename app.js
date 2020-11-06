@@ -17,7 +17,6 @@ const cookieParser = require("cookie-parser");
 const path = require("path");
 const app = express();
 
-
 //ROTAS
 
 //Grupos
@@ -86,14 +85,13 @@ app.use((req, res, next) => {
   res.locals.success_msg = req.flash("success_msg");
   res.locals.error_msg = req.flash("error_msg");
   res.locals.error = req.flash("error");
-  if (req.user) {
+  if (!req.user) {
+    const path = `${req.baseUrl}${req.path}`;
+    if(/^([A-Za-z0-9]+\/)+/g.test(path) && path !== "/") return res.redirect("/usuarios/login");
+  } else {
     res.locals.user = req.user;
     res.locals.sites = req.user.sites;
-    if (req.user.eAdmin == 0) {
-      res.locals.eAdmin = null;
-    } else {
-      res.locals.eAdmin = true;
-    }
+    req.user.eAdmin = req.user.eAdmin == 1;
   }
   next();
 });

@@ -1,25 +1,43 @@
+<script>
+function select(id) {
+    window.location.assign(`/planning/${id || ""}`);
+}
+</script>
 <div class="mt-2  container-fluid">
     <div class="d-flex justify-content-center">
         <div class="p-1 mr-auto">
-            <h3>Minhas Obras</h3>
+            <h3>Dashboard</h3>
         </div>
-        {{#json typeChart}}
-        <input type="hidden" id="typeChart" value="{{this}}">
-        {{/json}}
-
-        {{#json groupChart}}
-        <input type="hidden" id="groupChart" value="{{this}}">
-        {{/json}}
-
-        {{#json warehouseChart}}
-        <input type="hidden" id="warehouseChart" value="{{this}}">
-        {{/json}}
-
-        {{#json statusChart}}
-        <input type="hidden" id="statusChart" value="{{this}}">
-        {{/json}}
+        <div class="p-1">
+            <select class="custom-select custom-select-sm" id="site" name="site" onchange="select(this.value)">
+                <option selected disabled hidden>Liste por Obra</option>
+                <option value="">Nenhum(a)</option>
+                {{#each warehouses}}
+                <option value="{{_id}}" {{#if_eq ../site _id}}selected{{/if_eq}}>
+                    {{description}}
+                </option>
+                {{else}}
+                <option value="0">Nenhuma obra registrado</option>
+                {{/each}}
+            </select>
+        </div>
     </div>
 
+    {{#json typeChart}}
+    <input type="hidden" id="typeChart" value="{{this}}">
+    {{/json}}
+
+    {{#json groupChart}}
+    <input type="hidden" id="groupChart" value="{{this}}">
+    {{/json}}
+
+    {{#json warehouseChart}}
+    <input type="hidden" id="warehouseChart" value="{{this}}">
+    {{/json}}
+
+    {{#json statusChart}}
+    <input type="hidden" id="statusChart" value="{{this}}">
+    {{/json}}
 
     <!--CHART JS-->
     <div class="row justify-content-center">
@@ -40,7 +58,7 @@
         </div>
     </div>
 
-        <!--CHART JS-->
+    <!--CHART JS-->
     <div class="row justify-content-center">
         <div class="col-md-4 mb-1 chart-container" style="position: relative; height:100%; width:100%">
             <div class="card">
