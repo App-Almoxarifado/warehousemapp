@@ -4,15 +4,14 @@
     <div class="d-flex justify-content-center">
         <div class="card text-center w-50">
             <div class="card-header bg-primary" style="color: #dadada;">
-                <h4>{{site.description}}</h4>
-                <h5>{{site.costCenter}}</h5>
+                <h4>{{warehouse.description}}</h4>
+                <h5>{{warehouse.costCenter}}</h5>
             </div>
-            <form action="/planning/planning" method="POST">
+            <form action="/planning/request/{{warehouse._id}}" method="POST">
                 <div class="card-body">
                     <div class="d-flex justify-content-center">
-
                         <div class="p-1">
-                            <select class="custom-select custom-select-sm" name="site[]" required>
+                            <select class="custom-select custom-select-sm" name="warehouse" required>
                                 <option selected disabled hidden>Selecione a obra que deseja fazer o pedido</option>
                                 {{#each warehouses}}
                                 <option value="{{_id}}">{{description}}</option>
@@ -24,20 +23,14 @@
                         <div class="p-0 mr-1">
                             <button type="submit" class="mt-1 mb-1 btn btn-success btn-sm" data-toggle="tooltip"
                                 data-placement="right" title="Inserir os produtos na solicitação atual">
-                                <i class="fas fa-cart-arrow-down"></i></button>
+                                <i class="fas fa-cart-arrow-down"></i>
+                            </button>
                         </div>
                         </div>
                         {{#each products}}
-
                             <input type="hidden" class="mt-2 form-control" name="description[]" value="{{description}}">
-
-                            <input type="hidden" class="mt-2 form-control" name="tag[]" value="{{tag}}">
-
-                            <input type="hidden" class="mt-2 form-control" name="image[]" value="{{image}}">
-
                             <input type="hidden" class="mt-2 form-control" name="qtyRequest[]" value="{{qtyRequest}}">
-
-
+                            <input type="hidden" class="mt-2 form-control" name="tag[]" value="{{tag}}">
                         {{else}}
                         <h4 class="mt-12 mb-2">
                             Nenhum Produto Registrado!

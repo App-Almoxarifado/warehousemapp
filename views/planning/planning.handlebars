@@ -165,7 +165,7 @@
                     <th class="pl07 d-print-block" scope="col">Tag</th>
                     <th class="pl08 d-print-block" scope="col">Descrição</th>
                     <th class="pl09 d-print-block" scope="col">Cap./Alcance</th>
-                    <th class="pl10 d-print-block" scope="col">Tipo/ Acionamento</th>
+                    <th class="pl10 d-print-block" scope="col">Tipo / Acionamento</th>
                     <th class="pl11 d-print-block" scope="col">Qtd alocada no Projeto</th>
                     <th class="pl12 d-print-block" scope="col">Qtd reservada p/ projeto</th>
                     <th class="pl13 d-print-block" scope="col">Qtd Total HBS</th>
@@ -181,8 +181,7 @@
                 {{#each products}}
                 <form action="/planning/planning" method="POST">
                     <input type="hidden" class="mt-2 form-control" name="description" value="{{description}}">
-                    <input type="hidden" class="mt-2 form-control" name="tag" value="{{tag}}">
-                    <input type="hidden" class="mt-2 form-control" name="image" value="{{image}}">
+                    <input type="hidden" class="mt-2 form-control" name="warehouse" value="{{../siteNow._id}}">
                     <tr>
                         <th class="pl01 d-print-block">{{_id}}</th>
                         <td class="pl02 d-print-block">

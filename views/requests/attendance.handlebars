@@ -1,0 +1,148 @@
+<div class="mt-2 container-fluid">
+    {{#each erros}}
+    <div class="alert alert-danger">{{texto}}</div>
+    {{else}}
+    {{/each}}
+
+    <div class="d-flex justify-content-center">
+        <div class="p-1 mr-auto">
+            <h3>Pedidos</h3>
+        </div>
+        <div class="p-0 mr-1 mt-1">
+            <h3>{{siteNow.description}}</h3>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <div class="p-1 mr-auto">
+            <div class="form-group row">
+                <label for="client" class="col-sm-7 col-form-label col-form-label-sm">Itens p/ página</label>
+                <div class="col-sm-5">
+                    <select class="custom-select custom-select-sm" id="limit" name="limit" onchange="setLimit()">
+                        <option value="5" {{#if_eq limit 5}}selected{{/if_eq}}>5</option>
+                        <option value="10" {{#if_eq limit 10}}selected{{/if_eq}}>10</option>
+                        <option value="25" {{#if_eq limit 25}}selected{{/if_eq}}>25</option>
+                        <option value="50" {{#if_eq limit 50}}selected{{/if_eq}}>50</option>
+                        <option value="100" {{#if_eq limit 100}}selected{{/if_eq}}>100</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="p-1 ">
+            <p><small>Visualizar Colunas</small></p>
+        </div>
+        <div class="p-1 ">
+
+            <select class="custom-select custom-select-sm" name="SelectOptions" id="SelectOptions">
+                <option selected disabled hidden>Escolher...</option>
+                <option value="tbReq01">Id</option>
+                <option value="tbReq02">imagem</option>
+                <option value="tbReq03">Descrição</option>
+                <option value="tbReq04">Observação/ Nota</option>
+                <option value="tbReq07">Qtd. Disponivel</option>
+                <option value="tbReq05">Qtd. Solicitada</option>
+                <option value="tbReq06">Ações</option>
+            </select>
+        </div>
+
+        <div class="p-1">
+            <div class="input-group input-group-sm mb-3">
+                <input type="text-sm" class="form-control" id="search" name="search" placeholder="Pesquise aqui...">
+            </div>
+        </div>
+
+        <div class="p-1">
+            <button type="button" class="btn btn-primary btn-sm" onclick="search()">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+        </div>
+
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <div class="p-1 mr-auto">
+            <h6>Temos {{quant}} itens requisitados!!</h6>
+        </div>
+
+    </div>
+    <!--TABELA DE DADOS-->
+    <div class="table-responsive mt-1 ">
+        <table id="tblExport" class="table table-hover table-sm table-bordered">
+
+            <thead>
+                <tr>
+                    <th class="tbReq01 d-print-block" scope="col">Id</th>
+                    <th class="tbReq02 d-print-block" scope="col">Imagem</th>
+                    <th class="tbReq03 d-print-block" scope="col">Pedido</th>
+                    <th class="tbReq03 d-print-block" scope="col">Data Pedido</th>
+                    <th class="tbReq03 d-print-block" scope="col">Descrição</th>
+                    <th class="tbReq03 d-print-block" scope="col">Obra</th>
+                    <th style="width:42%" class="tbReq04 d-print-block" scope="col">Observação / Nota</th>
+                    <th style="width:7%" class="tbReq05 d-print-block" scope="col">Qtd. Solicitada</th>
+                    <th style="width:7%" class="tbReq05 d-print-block" scope="col">Qtd. Reservada</th>
+                    <th style="width:7%" class="tbReq05 d-print-block" scope="col">Qtd. Atendida</th>
+                    <th class="tbReq06 d-print-block" scope="col">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each requests}}
+                <input type="hidden" class="mt-2 form-control" name="products" value="{{_id}}">
+                <tr>
+                    <th class="tbReq01 d-print-block">{{_id}}</th>
+                    <td class="tbReq02 d-print-block">
+                        <figure class="figure">
+                            <img src="{{image}}" name="image" class="figure-img img-fluid rounded"
+                                style="max-width: 4rem;"
+                                alt="Imagem de um quadrado genérico com bordas arredondadas, em uma figure.">
+                            <!--<figcaption class="figure-caption">Uma legenda para a imagem acima.</figcaption>-->
+                        </figure>
+                    </td>
+                    <td class="tbReq03 d-print-block">{{requestNumber}}</td>
+                    <td class="tbReq03 d-print-block">{{createdAt}}</td>
+                    <td class="tbReq03 d-print-block">{{description}}</td>
+                    <td class="tbReq03 d-print-block">{{warehouse.description}}</td>
+                    <td class="tbReq04 d-print-block">{{note}}</td>
+                    <td class="tbReq05 d-print-block">{{qtyRequest}}</td>
+                    <td class="tbReq05 d-print-block">{{qtyReservation}}</td>
+                    <td class="tbReq05 d-print-block">{{qtyStock}}</td>
+                    <td class="tbReq06 d-print-none">
+                        <div class="d-flex justify-content-center">
+
+                            <div class="liTypes11 p-0 mr-1">
+                                <a href="/requests/products/{{tag}}" class="mt-1 mb-1 btn btn-primary btn-sm"
+                                    data-toggle="tooltip" data-placement="bottom"
+                                    title="Cadastre um detalhe, referência do produto">
+                                    <i class="fas fa-search"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                {{else}}
+                <h4 class="mt-12 mb-2">
+                    Nenhum Item Requisitado!
+                </h4>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+    <div class="d-flex d-print-none">
+        <div class="mr-auto p-2">
+            {{#if prev}}
+            <button class="btn btn-primary btn-sm mt-2" onclick="navigate(-1)">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                Anterior
+            </button>
+            {{/if}}
+        </div>
+        <div class="p-2">
+            {{#if next}}
+            <button class="btn btn-primary btn-sm mt-2" onclick="navigate(1)">
+                Próximo
+                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+            </button>
+            {{/if}}
+        </div>
+    </div>
+</div>

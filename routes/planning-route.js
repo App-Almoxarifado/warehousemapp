@@ -12,11 +12,11 @@ router.get("/sites/:_id?", controller.sites);
 router.get("/:_id?", controller.planning);
 router.post("/planning", controller.postPlanning);
 router.get("/request/:_id?", controller.getRequest);
+router.post("/request/:id",controller.requestFromWarehouse);
 router.get("/updateRequest/:_id", eAdmin, controller.getUpdate);
 router.get("/products/:_id?", controller.products);
 router.post("/updateRequest", eAdmin, multer(multerConfig).single("file"), controller.postUpdate);
 router.get("/delete/:_id", eAdmin, controller.getDelete);
-//router.post("/planning", controller.postPlanning);
-//router.get("/transfer", controller.getTransfer);
+router.post("/transfer/:id", controller.transfer);
 
 module.exports = router;

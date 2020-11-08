@@ -254,35 +254,32 @@ exports.planning = async (req, res) => {
 };
 
 exports.postPlanning = async (req, res) => {
-  var erros = [];
-  if (
-    !req.body.qtyRequest ||
-    typeof req.body.qtyRequest == undefined ||
-    req.body.qtyRequest == null
-  ) {
-    erros.push({
-      texto: "Você precisa informar uma quantidade solicitada!",
-    });
-  }
-  if (erros.length > 0) {
+  const { description, qtyRequest, warehouse } = req.body;
+
+  if (!description || !qtyRequest) {
     res.render("planning/planning", {
-      erros: erros,
+      erros: [{
+        texto: "Você precisa informar uma quantidade solicitada!",
+      }],
     });
   } else {
     try {
-      const { description, qtyRequest, tag, image } = req.body
       const request = await Request.create({
         description,
         qtyRequest,
+        warehouse,
         user: req.user.name,
-        tag,
-        image
+        tag: req.body.description
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "") // Remove acentos
+          .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
+          .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
+          .replace(/(^-+|-+$)/, "")
       });
 
-      console.log(request)
-      //await requests.save();
+      //console.log(request)
       req.flash("success_msg", "Produto solicitado, enviado para pedido!");
-      res.redirect("/planning");
+      res.redirect(`/planning/${warehouse}`);
     } catch (err) {
       req.flash(
         "error_msg",
@@ -293,11 +290,34 @@ exports.postPlanning = async (req, res) => {
   }
 };
 
+exports.requestFromWarehouse = async (req, res) => {
+  try {
+    const warehouseOrigin = req.params.id;
+    const { description, tag, qtyRequest, warehouse } = req.body;
+    const products = await Product.find({
+      "warehouse": warehouseOrigin
+    });
+    const requests = description.map((description, i) => ({
+      description,
+      qtyRequest: qtyRequest[i],
+      tag: tag[i],
+      warehouse: warehouse,
+      user: req.user.name
+    }))
+
+    await Request.create(requests);
+    req.flash("success_msg", "Produtos solicitados com sucesso, enviado para pedido!");
+    res.redirect(`/planning/request/${warehouse}`);
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 //VIZUALIZANDO PRODUTOS CARRINHO
 exports.getRequest = async (req, res) => {
   try {
     const warehouse = req.params._id
-    const siteNow = await Warehouse.findOne({ _id: req.params._id }).lean().populate("site")
+    const siteNow = await Warehouse.findOne({ _id: warehouse }).lean().populate("site")
     const numberRequest = Date.now()
     const file = req.file
     const filtros = [];
@@ -310,18 +330,17 @@ exports.getRequest = async (req, res) => {
       );
     }
     page = Number(page || 1);
-    limit = limit ? Number(limit) : 5;
+    limit = limit ? Number(limit) : 10;
     const quant = await Request.find(
       filtros.length > 0 ? { $or: filtros } : {}
     ).estimatedDocumentCount();
 
     const requests = await Request.aggregate([
-      { $match: filtros.length > 0 ? { $or: filtros } : { active: "Em Andamento" } },
+      { $match: filtros.length > 0 ? { $or: filtros } : { status: "Em Andamento" } },
       { $unwind: "$description" },
       { $sort: { description: 1 } },
       { $skip: page > 1 ? (page - 1) * limit : 0 },
-      { $limit: limit },
-
+      { $limit: limit }
     ])
     res.render("planning/request", {
       requests,
@@ -344,8 +363,7 @@ exports.getRequest = async (req, res) => {
 
 exports.products = async (req, res) => {
   try {
-    const warehouse = req.params._id
-    const site = await Warehouse.findOne({ _id: req.params._id }).lean().populate("site")
+    const warehouse = await Warehouse.findOne({ _id: req.params._id }).lean().populate("site")
     if (req.user.admin)
       warehouses = await Warehouse.find({ active: true })
         .sort({ description: "asc" })
@@ -353,7 +371,6 @@ exports.products = async (req, res) => {
     else warehouses = req.user.sites;
     const quant = await Product.find({ warehouse: warehouse }).countDocuments()
     const products = await Product.find({ warehouse: warehouse }).lean()
-
 
     /*const products = await Product.aggregate([
       {
@@ -368,8 +385,7 @@ exports.products = async (req, res) => {
       products,
       warehouses,
       warehouse,
-      quant,
-      site
+      quant
     });
   } catch (err) {
     console.log(err);
@@ -478,41 +494,22 @@ exports.postUpdate = async (req, res) => {
 };
 
 //VIZUALIZANDO PRODUTOS CARRINHO
-exports.getTransfer = async (req, res) => {
+exports.transfer = async (req, res) => {
   try {
-    const file = req.file
-    const filtros = [];
-    let { search, page, limit } = req.query;
-    if (!!search) {
-      const pattern = new RegExp(`.*${search}.*`);
-      filtros.push(
-        { _id: { $regex: pattern, $options: 'i' } },
-      );
-    }
-    page = Number(page || 1);
-    limit = limit ? Number(limit) : 5;
-    const quant = await Planning.find(
-      filtros.length > 0 ? { $or: filtros } : {}
-    ).estimatedDocumentCount();
+    const warehouseOrigin = req.params.id;
+    const requests = await Request.updateMany({
+      warehouse: warehouseOrigin,
+      //status: "Em andamento"
+    }, {
+      requestNumber: Date.now(),
+      status: "Solicitado"
 
-    const plannings = await Planning.aggregate([
-      { $match: filtros.length > 0 ? { $or: filtros } : { active: true } },
-      { $sort: { _id: -1 } },
-      { $skip: page > 1 ? (page - 1) * limit : 0 },
-      { $limit: limit },
-    ])
-    res.render("planning/transfer", {
-      plannings,
-      prev: Number(page) > 1,
-      next: Number(page) * limit < quant,
-      page,
-      limit,
-      file,
-      quant,
-    });
-  } catch (err) {
-    console.log(err);
-    req.flash("error_msg", "Ops, Houve um erro interno!" + err);
+    })
+    //await requests.save();
+    console.log(requests)
+    req.flash("success_msg", "Produtos solicitados com sucesso, enviado para pedido!");
     res.redirect("/planning");
+  } catch (e) {
+    console.log(e);
   }
-};
+}

@@ -8,15 +8,11 @@ const { promisify } = require("util");
 const s3 = new aws.S3();
 
 const Request = new Schema({
-  product: [{
-    type: Schema.Types.ObjectId,
-    ref: "products",
-    index: true,
-  }],
   //IMAGEM
   image: {
     type: String,
     require: true,
+    default: "https://warehousemapp.s3.amazonaws.com/logo8.png"
   },
   //IMAGEM
   key: {
@@ -52,9 +48,9 @@ const Request = new Schema({
     type: String,
     index: true,
   },
-  site: {
+  warehouse: {
     type: Schema.Types.ObjectId,
-    ref: "customers",
+    ref: "warehouses",
     index: true,
   },
   user: {
@@ -62,14 +58,14 @@ const Request = new Schema({
     ref: "collaborators",
     index: true,
   },
-  numberRequest: {
+  requestNumber: {
     type: Number
   },
   createdAt: {
     type: Date,
     default: Date.now,
   },
-  active: {
+  status: {
     type: String,
     default: "Em Andamento",
   },

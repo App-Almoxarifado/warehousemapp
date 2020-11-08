@@ -15,7 +15,7 @@ routes.get("/", async (req, res) => {
     try {
         const warehouseCard = await Product.aggregate([
             { $match: {} },
-            { $group: { _id: "$warehouse", qtyRequest: { $sum: "$qtyRequest" }, } },
+            { $group: { _id: "$warehouse", qtyRequest: { $sum: "$_id" }, } },
             {
                 $lookup: {
                     from: "warehouses",
