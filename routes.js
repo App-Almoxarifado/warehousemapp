@@ -13,21 +13,11 @@ const Product = mongoose.model("products");
 //INDEX
 routes.get("/", async (req, res) => {
     try {
-        const warehouseCard = await Product.aggregate([
-            { $match: {} },
-            { $group: { _id: "$warehouse", qtyRequest: { $sum: "$_id" }, } },
-            {
-                $lookup: {
-                    from: "warehouses",
-                    localField: "_id",
-                    foreignField: "_id",
-                    as: "warehouse"
-                }
-            },
-            { $unwind: "$warehouse" },
-        ]);
+        const warehouses = await Warehouse.find({ 'description':{$nin:['Hbr Central Warehouse','Andritz Hydro Ltda']} })
+        .sort({ description: "asc" })
+        .lean();
 
-        res.render("index", { warehouseCard });
+        res.render("index", { warehouses });
     } catch (err) {
         req.flash("error_msg", "Ops, Houve um erro interno!");
         res.redirect("/");

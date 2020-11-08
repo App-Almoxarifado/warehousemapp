@@ -644,4 +644,10 @@ img {
   border-radius: 10px !important;
 }
 
-    .modal .modal-dialog { width: 100%; } 
+.modal-content {
+    background:rgb(0,0,0);
+    background: transparent\9;
+    background:rgba(0,0,0,0.6);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#66000000,endColorstr=#66000000);
+    zoom: 1;
+}  

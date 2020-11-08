@@ -30,7 +30,7 @@
                         <a href="/planning/sites">Dados de Planejamento</a>
                     </li>
                     <li>
-                        <a href="/planning" data-toggle="modal" data-target="#exampleModalCenter">Solicitação
+                        <a href="/planning" data-toggle="modal" data-target="#plannigModal">Solicitação
                             de Ativos</a>
                     </li>
                 </ul>
@@ -84,7 +84,7 @@
                 </ul>
             </li>
             <li>
-                 <a href="#pageWarehouse" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                <a href="#pageWarehouse" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                     <i class="fas fa-copy"></i>
                     Warehouse
                 </a>
@@ -168,50 +168,46 @@
     </nav>
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="plannigModal" tabindex="-1" role="dialog"
+        aria-labelledby="plannigModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
+            <div class="modal-content" style="border-color: #ffffff;">
                 <div class="modal-header">
-                    <h5>Podemos usar uma obra como referência</h5>
+                    <h5 style="color: #ffffff;">Podemos usar uma obra como referência</h5>
                     <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Fechar</button>
                 </div>
                 <div class="modal-body">
                     <div class="row justify-content-center">
-                        {{#each warehouseCard}}
+                        {{#each warehouses}}
                         <div class="col-md-3 mt-1">
-                            <div class="card bg-dark">
+                            <div class="card bg-transparent">
                                 <div class="card-body">
-                                    <div class="d-flex justify-content-center">
-                                        <div class="p-0 mr-auto">
-                                            <h6 class="card-title text-light">{{warehouse.description}}</h6>
-                                        </div>
-                                        <div class="p-0">
-                                            <a href="/planning/products/{{warehouse._id}}">
-                                                <button type="button" class="btn btn-success btn-sm" onclick="search()">
-                                                    <i class="fa fa-search" aria-hidden="true"></i>
-                                                </button>
-                                            </a>
-                                        </div>
+                                    <div class="row justify-content-center">
+                                        <a href="/planning/products/{{_id}}">
+                                            <button type="button"
+                                                class="btn btn-success btn-sm btn-block">{{description}}
+                                            </button>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         {{else}}
                         <div class="container">
-                            <h6>Você ja solicitou uma obra como refêrenicia para solicitação de material caso deseje
-                                adicionar outra obra como referência, saia desta sessão e logue novamente!!!</h6>
+                            <h6 style="color: #ffffff;">Nenhuma obra Registrada!!</h6>
                         </div>
                         {{/each}}
                     </div>
-                    <hr>
+                    <hr style="border-color: #ffffff;">
                     <div class="row justify-content-center mt-1">
-                        <h6>Ou podemos começar um novo pedido do zero, escolha a obra</h6>
+                        <h6 style="color: #ffffff;">Ou podemos começar um novo pedido do zero, escolha uma das suas
+                            obras</h6>
                     </div>
                     <div class="row justify-content-center mt-1">
                         {{#each sites}}
                         <a href="/planning/{{_id}}"><button type="button"
-                                class="btn btn-primary btn-sm">{{description}}</button></a>
+                                class="btn btn-primary btn-sm  mr-2">{{description}}</button></a>
                         {{else}}
                         <option value="0">Você não possui nenhuma obra para solicitar Material</option>
                         {{/each}}
