@@ -1,283 +1,54 @@
-<div class="mt-2 container-fluid">
-        <div class="d-flex justify-content-center">
-            <div class="p-1 mr-auto">
-                <h4>Solicitação de Material</h4>
+<div class="container text-center mt-2">
+    <h3>Solicitação de Materiais</h3>
+    <h6>Você está utilizando a seguinte obra como referência:</h6>
+    <div class="d-flex justify-content-center">
+        <div class="card text-center w-50">
+            <div class="card-header bg-primary" style="color: #dadada;">
+                <h4>{{site.description}}</h4>
+                <h5>{{site.costCenter}}</h5>
             </div>
-            <a href="/products/add">
-                <button class="mr-2 mt-3 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom"
-                    title="Não encontrou o que procura, cadastre um novo produto">
-                    <small><strong>Cadastre um novo Produto <i class="fas fa-paper-plane"></i></strong></small>
-                </button>
-            </a>
+            <form action="/planning/planning" method="POST">
+                <div class="card-body">
+                    <div class="d-flex justify-content-center">
 
-            <a href="/planning/request">
-                <button type="button" class="mr-2 mt-3 btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom"
-                    title="Vizualize os produtos requisitados, e quando quiser feche seu pedido">
-                    <small><strong>Itens Requisitados <i class="fas fa-dolly"></i></strong></small>
-                </button>
-            </a>
+                        <div class="p-1">
+                            <select class="custom-select custom-select-sm" name="site[]" required>
+                                <option selected disabled hidden>Selecione a obra que deseja fazer o pedido</option>
+                                {{#each warehouses}}
+                                <option value="{{_id}}">{{description}}</option>
+                                {{else}}
+                                <option value="0">Nenhum site registrado</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                        <div class="p-0 mr-1">
+                            <button type="submit" class="mt-1 mb-1 btn btn-success btn-sm" data-toggle="tooltip"
+                                data-placement="right" title="Inserir os produtos na solicitação atual">
+                                <i class="fas fa-cart-arrow-down"></i></button>
+                        </div>
+                        </div>
+                        {{#each products}}
 
-            <a href="/planning/transfer">
-                <button type="button" class="mr-2 mt-3 btn btn-dark btn-sm " data-toggle="tooltip" data-placement="bottom"
-                    title="Vizualize o histórico dos seus pedidos">
-                    <small><strong>Meus Pedidos <i class="fas fa-truck"></i></strong></small>
-                </button>
-            </a>
-        </div>
+                            <input type="hidden" class="mt-2 form-control" name="description[]" value="{{description}}">
 
-        <div class="d-flex justify-content-center">
-            <div class="p-1">
-                {{#each groups}}
-                <a href="/planning/products/{{_id}}">
-                    <button type="button" class="totalGroup2 btn btn-secondary btn-sm">
-                        {{description}}
-                    </button>
-                </a>
-                {{else}}
-                <h6>Nenhum Grupo Registrado</h6>
-                {{/each}}
-            </div>
-        </div>
-        <div class="d-flex justify-content-center">
-            <div class="mr-auto p-1">
-                <select class="custom-select custom-select-sm" id="site" name="site" onchange="setSite()">
-                    <option selected disabled hidden>Busque por Site</option>
-                    <option value="">Nenhum(a)</option>
-                    {{#each warehouses}}
-                    <option value="{{_id}}" {{#if_eq ../site _id}}selected{{/if_eq}}>{{description}}</option>
-                    {{else}}
-                    <option value="0">Nenhum site registrado</option>
-                    {{/each}}
-                </select>
-            </div>
-            <div class="p-1">
-                <select class="custom-select custom-select-sm" id="group" name="group" onchange="setSearchGroup()">
-                    <option selected disabled hidden>Grupos</option>
-                    <option value="">Nenhum(a)</option>
-                    {{#each groups}}
-                    <option value="{{_id}}" {{#if_eq ../group _id}}selected{{/if_eq}}>{{description}}</option>
-                    {{else}}
-                    <option value="0">Nenhum grupo registrado</option>
-                    {{/each}}
-                </select>
-            </div>
-            <div class="p-1">
-                <select class="custom-select custom-select-sm" id="subgroup" name="subgroup"
-                    onchange="setSearchSubgroup()">
-                    <option selected disabled hidden>Subgrupos</option>
-                    <option value="">Nenhum(a)</option>
-                    {{#each subgroups}}
-                    <option value="{{_id}}" {{#if_eq ../subgroup _id}}selected{{/if_eq}}>{{description}}</option>
-                    {{else}}
-                    <option value="0">Nenhum subgrupo registrado</option>
-                    {{/each}}
-                </select>
-            </div>
-            <div class="p-1">
-                <select class="custom-select custom-select-sm" id="type" name="type" onchange="setSearchType()">
-                    <option selected disabled hidden>Tipos de Equipamento</option>
-                    <option value="">Nenhum(a)</option>
-                    {{#each types}}
-                    <option value="{{_id}}" {{#if_eq ../type _id}}selected{{/if_eq}}>{{description}}</option>
-                    {{else}}
-                    <option value="0">Nenhum tipo de equipamento registrado</option>
-                    {{/each}}
-                </select>
-            </div>
-            <div class="p-1">
-                <select class="custom-select custom-select-sm" id="status" name="status" onchange="setSearchStatus()">
-                    <option selected disabled hidden>Status do Produto</option>
-                    <option value="">Nenhum(a)</option>
-                    {{#each statuses}}
-                    <option value="{{_id}}" {{#if_eq ../status _id}}selected{{/if_eq}}>{{description}}</option>
-                    {{else}}
-                    <option value="0">Nenhum status registrado</option>
-                    {{/each}}
-                </select>
-            </div>
+                            <input type="hidden" class="mt-2 form-control" name="tag[]" value="{{tag}}">
 
-            <div class="p-1">
-                <div class="input-group input-group-sm mb-3">
-                    <input type="text-sm" class="form-control" id="search" name="search" placeholder="Pesquise aqui..."
-                        value="{{search}}">
+                            <input type="hidden" class="mt-2 form-control" name="image[]" value="{{image}}">
+
+                            <input type="hidden" class="mt-2 form-control" name="qtyRequest[]" value="{{qtyRequest}}">
+
+
+                        {{else}}
+                        <h4 class="mt-12 mb-2">
+                            Nenhum Produto Registrado!
+                        </h4>
+                        {{/each}}
+                    
                 </div>
-            </div>
-
-            <div class="p-1">
-                <button type="button" class="btn btn-primary btn-sm" onclick="search()">
-                    <i class="fa fa-search" aria-hidden="true"></i>
-                </button>
-            </div>
-        </div>
-        <div class="d-flex justify-content-center">
-            <div class="p-1 mr-auto">
-                <div class="form-group row">
-                    <label for="client" class="col-sm-7 col-form-label col-form-label-sm">Itens p/ página</label>
-                    <div class="col-sm-5">
-                        <select class="custom-select custom-select-sm" id="limit" name="limit" onchange="setLimit()">
-                            <option value="5" {{#if_eq limit 5}}selected{{/if_eq}}>5</option>
-                            <option value="10" {{#if_eq limit 10}}selected{{/if_eq}}>10</option>
-                            <option value="25" {{#if_eq limit 25}}selected{{/if_eq}}>25</option>
-                            <option value="50" {{#if_eq limit 50}}selected{{/if_eq}}>50</option>
-                            <option value="100" {{#if_eq limit 100}}selected{{/if_eq}}>100</option>
-                        </select>
-                    </div>
+                <div class="card-footer bg-dark" style="color: #dadada;">
+                    <h6>{{quant}} itens mobilizados !</h6>
                 </div>
-            </div>
-            <div class="p-1 ">
-                <p><small>Visualizar Colunas</small></p>
-            </div>
-            <div class="p-1 ">
-                <select class="custom-select custom-select-sm" name="SelectOptions" id="SelectOptions">
-                    <option selected disabled hidden>Escolher...</option>
-                    <option value="pl01">Id</option>
-                    <option value="pl02">imagem</option>
-                    <option value="pl03">QrCode</option>
-                    <option value="pl04">Grupo</option>
-                    <option value="pl05">Subgrupo</option>
-                    <option value="pl06">Descrição Resumida</option>
-                    <option value="pl07">Tag</option>
-                    <option value="pl08">Descrição</option>
-                    <option value="pl09">Cap./Alcance</option>
-                    <option value="pl10">Tipo</option>
-                    <option value="pl11">Qtd alocada no Projeto</option>
-                    <option value="pl12">Qtd alocada no Reservada Atual</option>
-                    <option value="pl13">Qtd Total HBS</option>
-                    <option value="pl14">Qtd em Uso</option>
-                    <option value="pl15">Qtd com Pendência</option>
-                    <option value="pl16">Qtd disponivel</option>
-                    <option value="pl18">Ações</option>
-                </select>
-            </div>
-        </div>
-    <!--FORM PARA FINALIZAR PEDIDO-->
-    <!--<form action="/planning/planning" method="POST">
-          {{#each save}}
-          <input type="text" class="mt-2 form-control" name="product[]" value="{{description}}">
-          <input type="text" class="mt-2 form-control" name="qty" value="{{qty}}">
-          {{else}}
-          {{/each}}
-      <div class="p-0">
-
-          <button type="submit" class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom"
-            title="Finalize seu pedido clicando aqui!">
-            Finalizar Pedido <i class="fas fa-paper-plane"></i>
-          </button>
-
-      </div>-->
-    <!--TABELA DE DADOS-->
-
-    <div class="table-responsive">
-        <table id="tblExport" class="table table-hover table-sm table-bordered">
-            <thead>
-                <tr>
-                    <th class="pl01 d-print-block" scope="col">Id</th>
-                    <th class="pl02 d-print-block" scope="col">Imagem</th>
-                    <th class="pl03 d-print-block" scope="col">qrCode</th>
-                    <th class="pl04 d-print-block" scope="col">Grupo</th>
-                    <th class="pl05 d-print-block" scope="col">Subgrupo</th>
-                    <th class="pl06 d-print-block" scope="col">Descrição Resumida</th>
-                    <th class="pl07 d-print-block" scope="col">Tag</th>
-                    <th class="pl08 d-print-block" scope="col">Descrição</th>
-                    <th class="pl09 d-print-block" scope="col">Cap./Alcance</th>
-                    <th class="pl10 d-print-block" scope="col">Tipo/ Acionamento</th>
-                    <th class="pl11 d-print-block" scope="col">Qtd alocada no Projeto</th>
-                    <th class="pl12 d-print-block" scope="col">Qtd reservada p/ projeto</th>
-                    <th class="pl13 d-print-block" scope="col">Qtd Total HBS</th>
-                    <th class="pl14 d-print-block" scope="col">Qtd em Uso</th>
-                    <th class="pl15 d-print-block" scope="col">Qtd com Pendência</th>
-                    <th class="pl16 d-print-block" scope="col">Qtd disponivel</th>
-                    <th style="width:7%" class="bg-secondary">Solicitar</th>
-                    <th class="pl18 d-print-block" scope="col">Ações</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                {{#each products}}
-                <form action="/planning/request" method="POST">
-                    <input type="hidden" class="mt-2 form-control" name="product" value="{{_id}}">
-                    <input type="hidden" class="mt-2 form-control" name="description" value="{{description}}">
-                    <input type="hidden" class="mt-2 form-control" name="tag" value="{{tag}}">
-                    <input type="hidden" class="mt-2 form-control" name="image" value="{{image}}">
-                    <tr>
-                        <th class="pl01 d-print-block">{{_id}}</th>
-                        <td class="pl02 d-print-block">
-                            <figure class="figure">
-                                <img src="{{image}}" class="figure-img img-fluid rounded" style="max-width: 4rem;"
-                                    alt="Imagem de um quadrado genérico com bordas arredondadas, em uma figure.">
-                            </figure>
-                        </td>
-
-                        <td class="pl03 d-print-block">
-                            <figure class="figure">
-                                <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{_id}}"
-                                    class="figure-img img-fluid rounded" style="max-width: 4rem;"
-                                    alt="Imagem de um quadrado genérico com bordas arredondadas, em uma figure.">
-                                <!--<figcaption class="figure-caption">Uma legenda para a imagem acima.</figcaption>-->
-                            </figure>
-                        </td>
-                        <td class="pl04 d-print-block">{{group.description}}</td>
-                        <td class="pl05 d-print-block">{{subgroup.description}}</td>
-                        <td class="pl06 d-print-block">{{description}}</td>
-                        <td class="pl07 d-print-block">{{tag}}</td>
-                        <td class="pl08 d-print-block">{{name}}</td>
-                        <td class="pl09 d-print-block">{{capacityReach}}</td>
-                        <td class="pl10 d-print-block">{{type.description}}</td>
-                        <td class="pl11 d-print-block">1</td>
-                        <td class="pl12 d-print-block">1</td>
-                        <td class="pl13 d-print-block">1</td>
-                        <td class="pl14 d-print-block">1</td>
-                        <td class="pl15 d-print-block">1</td>
-                        <td class="pl16 d-print-block">1</td>
-                                                <td><input type="number" value="1" min="1" max=""
-                                class=" form-control form-control-sm" name="qty" required></td>
-        
-                        <td class="pl18 d-print-none">
-                            <div class="d-flex justify-content-center">
-                                <div class="p-0 mr-1">
-                                    <button type="submit" class="mt-1 mb-1 btn btn-success btn-sm" data-toggle="tooltip"
-                                        data-placement="right" title="Inserir produto na solicitação atual">
-                                        <i class="fas fa-cart-arrow-down"></i></button>
-                                </div>
-
-                                <div class="p-0 mr-1">
-                                    <a href="/products/take/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm"
-                                        data-toggle="tooltip" data-placement="bottom" title="Visualizar detalhes">
-                                        <i class="fas fa-file-signature"></i>
-                                    </a>
-                                </div>  
-                            </div>
-                        </td>
-
-                    </tr>
-                </form>
-                </form>
-                {{else}}
-                <h4 class="mt-12 mb-2">
-                    Nenhum Produto Registrado!
-                </h4>
-                {{/each}}
-            </tbody>
-
-        </table>
-    </div>
-
-    <div class="d-flex d-print-none">
-        <div class="mr-auto p-2">
-            {{#if prev}}
-            <button class="btn btn-primary btn-sm mt-2" onclick="navigate(-1)">
-                <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                Anterior
-            </button>
-            {{/if}}
-        </div>
-        <div class="p-2">
-            {{#if next}}
-            <button class="btn btn-primary btn-sm mt-2" onclick="navigate(1)">
-                Próximo
-                <i class="fa fa-arrow-right" aria-hidden="true"></i>
-            </button>
-            {{/if}}
         </div>
     </div>
 </div>
+</form>

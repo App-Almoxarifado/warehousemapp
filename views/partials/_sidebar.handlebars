@@ -20,49 +20,18 @@
                 </a>
                 <ul class="collapse list-unstyled" id="homeSubmenu">
                     <li>
-                        <a href="/customers/customers">Cadastro de Obras</a>
+                        <a href="/warehouses/create">Cadastro de Obras</a>
                     </li>
                     <li>
                     <li>
-                        <a href="/planning">Dashboard</a>
+                        <a href="/planning/dashboard">Dashboard</a>
                     </li>
                     <li>
                         <a href="/planning/sites">Dados de Planejamento</a>
                     </li>
                     <li>
-                        <a href="#pageSites" data-toggle="collapse" aria-expanded="false">
-                            Solicitação de Ativos
-                        </a>
-                        <ul class="collapse list-unstyled" id="pageSites">
-                            <li>
-                                {{#each sites}}
-                                <a href="/planning/planning/{{_id}}" data-toggle="modal" data-target="#exampleModal">{{description}}</a>
-
-                                <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <a href="/planning/planning/{{_id}}" class="btn btn-secondary" role="button" aria-pressed="true">Link</a>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-                                {{else}}
-                                <option value="0">Você não possui nenhuma obra para solicitar Material</option>
-                                {{/each}}
-                            </li>
-                        </ul>
+                        <a href="/planning" data-toggle="modal" data-target="#exampleModalCenter">Solicitação
+                            de Ativos</a>
                     </li>
                 </ul>
             </li>
@@ -121,9 +90,9 @@
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="requests/products">
                     <i class="fas fa-question"></i>
-                    FAQ
+                    teste
                 </a>
             </li>
             <li>
@@ -153,3 +122,56 @@
 
         </ul>
     </nav>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Podemos usar uma obra como referência</h5>
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Fechar</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row justify-content-center">
+                        {{#each warehouseCard}}
+                        <div class="col-md-3 mt-1">
+                            <div class="card bg-dark">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="p-0 mr-auto">
+                                            <h6 class="card-title text-light">{{warehouse.description}}</h6>
+                                        </div>
+                                        <div class="p-0">
+                                            <a href="/planning/products/{{warehouse._id}}">
+                                                <button type="button" class="btn btn-success btn-sm" onclick="search()">
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </button></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{else}}
+                        <div class="container">
+                            <h6>Você ja solicitou uma obra como refêrenicia para solicitação de material caso deseje
+                                adicionar outra obra como referência, saia desta sessão e logue novamente!!!</h6>
+                        </div>
+                        {{/each}}
+                    </div>
+                    <hr>
+                    <div class="row justify-content-center mt-1">
+                        <h6>Ou podemos começar um novo pedido do zero, escolha a obra</h6>
+                    </div>
+                    <div class="row justify-content-center mt-1">
+                        {{#each sites}}
+                        <a href="/planning/{{_id}}"><button type="button"
+                                class="btn btn-primary btn-sm">{{description}}</button></a>
+                        {{else}}
+                        <option value="0">Você não possui nenhuma obra para solicitar Material</option>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

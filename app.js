@@ -51,6 +51,8 @@ const typesRoute = require("./routes/type-route");
 const productRoute = require("./routes/product-route");
 //Planejamento
 const planningRoute = require("./routes/planning-route");
+//PEDIDOS
+const requestRoute = require("./routes/request-route");
 //Obras
 const warehouseRoute = require("./routes/warehouse-route");
 //PEDIDOS
@@ -97,9 +99,9 @@ app.use((req, res, next) => {
 });
 
 //BODY PARSER - EXPRESS LIDAR LIDAR COM REQUISIÇÕES URLENCODED, FACILITAR O ENVIO DE ARQUIVOS
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true, parameterLimit:50000 }));
 //BODY PARSER - EXPRESS LIDAR COM REQUISIÇÕES FORMATO JSON
-app.use(bodyParser.json({ limit: "5mb" }));
+app.use(bodyParser.json({ limit: "50mb" }));
 
 app.use(methodOverride("_method"));
 //LIB DE LOG
@@ -163,26 +165,6 @@ mongoose
 //public
 app.use(express.static(path.join(__dirname, "public")));
 
-//Rotas
-app.get("/", async (req, res) => {
-  try {
-    res.render("index", {});
-  } catch (err) {
-    req.flash("error_msg", "Ops, Houve um erro interno!");
-    res.redirect("/");
-  }
-});
-
-app.get("/404", (req, res) => {
-  res.send("Erro 404!");
-});
-
-//ROTA DE UPLOAD
-/*app.post("/upload", upload.single("file"), (_req, _res) => {
-    console.log("Upload Realizado Com Sucesso!");
-  });*/
-
-
 app.get("/qrcode", (req, res) => {
   const url = "https://warehousemapp.herokuapp.com/";
   const code = qr.image(url, { type: "svg" });
@@ -207,6 +189,7 @@ app.use("/statuses", statusRoute);
 app.use("/types", typesRoute);
 app.use("/products", productRoute);
 app.use("/planning", planningRoute);
+app.use("/requests", requestRoute);
 app.use("/warehouses", warehouseRoute);
 
 app.use((req, res) => {

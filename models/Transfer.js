@@ -14,15 +14,13 @@ const Transfer = new Schema({
     type: Schema.Types.ObjectId,
     ref: "customers",
   },
-  products: [
-    {
+  products: [{
       product: {
         type: Schema.Types.ObjectId,
         ref: "products",
       },
       quant: Number,
-    },
-  ],
+    }]
 });
 
 mongoose.model("transfers", Transfer);

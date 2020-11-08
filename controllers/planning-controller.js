@@ -147,7 +147,8 @@ exports.dashboard = async (req, res) => {
 
 exports.planning = async (req, res) => {
   try {
-    const plannning = req.params._id
+    const warehouse = req.params._id
+    const siteNow = await Warehouse.findOne({ _id: req.params._id }).lean().populate("site")
     const warehouses = await Warehouse.find({ active: true })
       .sort({ description: "asc" })
       .lean();
@@ -227,7 +228,6 @@ exports.planning = async (req, res) => {
 
     res.render("planning/planning", {
       products,
-      plannning,
       prev: Number(page) > 1,
       next: Number(page) * limit < quant,
       warehouses,
@@ -242,7 +242,9 @@ exports.planning = async (req, res) => {
       group,
       subgroup,
       type,
-      status
+      status,
+      siteNow,
+      warehouse
     });
   } catch (err) {
     console.log(err);
@@ -254,9 +256,9 @@ exports.planning = async (req, res) => {
 exports.postPlanning = async (req, res) => {
   var erros = [];
   if (
-    !req.body.qty ||
-    typeof req.body.qty == undefined ||
-    req.body.qty == null
+    !req.body.qtyRequest ||
+    typeof req.body.qtyRequest == undefined ||
+    req.body.qtyRequest == null
   ) {
     erros.push({
       texto: "Você precisa informar uma quantidade solicitada!",
@@ -268,11 +270,10 @@ exports.postPlanning = async (req, res) => {
     });
   } else {
     try {
-      const { product, description, qty, tag, image } = req.body
+      const { description, qtyRequest, tag, image } = req.body
       const request = await Request.create({
-        product,
         description,
-        qty,
+        qtyRequest,
         user: req.user.name,
         tag,
         image
@@ -281,7 +282,7 @@ exports.postPlanning = async (req, res) => {
       console.log(request)
       //await requests.save();
       req.flash("success_msg", "Produto solicitado, enviado para pedido!");
-      res.redirect("/planning/planning");
+      res.redirect("/planning");
     } catch (err) {
       req.flash(
         "error_msg",
@@ -295,6 +296,9 @@ exports.postPlanning = async (req, res) => {
 //VIZUALIZANDO PRODUTOS CARRINHO
 exports.getRequest = async (req, res) => {
   try {
+    const warehouse = req.params._id
+    const siteNow = await Warehouse.findOne({ _id: req.params._id }).lean().populate("site")
+    const numberRequest = Date.now()
     const file = req.file
     const filtros = [];
     let { search, page, limit } = req.query;
@@ -302,6 +306,7 @@ exports.getRequest = async (req, res) => {
       const pattern = new RegExp(`.*${search}.*`);
       filtros.push(
         { tag: { $regex: pattern, $options: 'i' } },
+        { description: { $regex: pattern, $options: 'i' } },
       );
     }
     page = Number(page || 1);
@@ -311,7 +316,8 @@ exports.getRequest = async (req, res) => {
     ).estimatedDocumentCount();
 
     const requests = await Request.aggregate([
-      { $match: filtros.length > 0 ? { $or: filtros } : { active: true } },
+      { $match: filtros.length > 0 ? { $or: filtros } : { active: "Em Andamento" } },
+      { $unwind: "$description" },
       { $sort: { description: 1 } },
       { $skip: page > 1 ? (page - 1) * limit : 0 },
       { $limit: limit },
@@ -325,6 +331,9 @@ exports.getRequest = async (req, res) => {
       limit,
       file,
       quant,
+      numberRequest,
+      warehouse,
+      siteNow
     });
   } catch (err) {
     console.log(err);
@@ -335,100 +344,32 @@ exports.getRequest = async (req, res) => {
 
 exports.products = async (req, res) => {
   try {
-    const warehouses = await Warehouse.find({ active: true })
-      .sort({ description: "asc" })
-      .lean();
-    /*
-    if(req.user.admin)
+    const warehouse = req.params._id
+    const site = await Warehouse.findOne({ _id: req.params._id }).lean().populate("site")
+    if (req.user.admin)
       warehouses = await Warehouse.find({ active: true })
-      .sort({ description: "asc" })
-      .lean();
+        .sort({ description: "asc" })
+        .lean();
     else warehouses = req.user.sites;
-    */
-    const groups = await Group.find({ active: true })
-      .sort({ description: "asc" })
-      .lean();
+    const quant = await Product.find({ warehouse: warehouse }).countDocuments()
+    const products = await Product.find({ warehouse: warehouse }).lean()
 
-    const subgroups = await Subgroup.find({ active: true })
-      .sort({ description: "asc" })
-      .lean();
 
-    const types = await Type.find({ active: true })
-      .sort({ description: "asc" })
-      .lean();
-
-    const statuses = await Status.find({ active: true })
-      .sort({ description: "asc" })
-      .lean();
-
-    const filtros = {
-      $or: [],
-      $and: [],
-    };
-
-    let {
-      search,
-      page,
-      site,
-      group,
-      subgroup,
-      type,
-      status,
-      limit,
-    } = req.query;
-
-    if (!!search) {
-      const pattern = new RegExp(`.*${search}.*`);
-      filtros["$or"].push(
-        { description: { $regex: pattern, $options: 'i' } },
-        { fullDescription: { $regex: pattern, $options: 'i' } },
-        { tag: { $regex: pattern, $options: 'i' } },
-        { user: { $regex: pattern, $options: 'i' } }
-      );
-    }
-
-    if (!!site) filtros["$and"].push({ warehouse: site });
-    if (!!group) filtros["$and"].push({ group: group });
-    if (!!subgroup) filtros["$and"].push({ subgroup: subgroup });
-    if (!!type) filtros["$and"].push({ type: type });
-    if (!!status) filtros["$and"].push({ status: status });
-
-    page = Number(page || 1);
-    limit = limit ? Number(limit) : 10;
-
-    if (filtros["$and"].length === 0) delete filtros["$and"];
-    if (filtros["$or"].length === 0) delete filtros["$or"];
-
-    const quant = await Product.find(filtros).estimatedDocumentCount();
-
-    var products = await Product.find(filtros)
-      .sort({
-        editionDate: "desc",
-      })
-      .limit(limit).lean()
-      .skip(page > 1 ? (page - 1) * limit : 0)
-      .populate("group")
-      .populate("subgroup")
-      .populate("type")
-      .populate("status")
+    /*const products = await Product.aggregate([
+      {
+        $group: {
+           _id: "$description",
+           count: { $sum: 1 }
+        }
+      },
+    ])*/
 
     res.render("planning/products", {
       products,
-      prev: Number(page) > 1,
-      next: Number(page) * limit < quant,
       warehouses,
-      groups,
-      subgroups,
-      types,
-      statuses,
-      page,
-      search,
-      limit,
-      site,
-      group,
-      subgroup,
-      type,
-      status
+      warehouse,
+      quant,
+      site
     });
   } catch (err) {
     console.log(err);
@@ -438,7 +379,17 @@ exports.products = async (req, res) => {
 };
 
 
-
+//DELETANDO
+exports.getDelete = async (req, res) => {
+  await Request.deleteOne({ _id: req.params._id });
+  try {
+    req.flash("success_msg", "Produto deletado com Sucesso!");
+    res.redirect("/products");
+  } catch (err) {
+    req.flash("error_msg", "Houve um erro interno!");
+    res.redirect("/products");
+  }
+};
 
 //FINALIZANDO SOLICITAÇÃO POR ID
 exports.post = async (req, res) => {
@@ -502,7 +453,7 @@ exports.postUpdate = async (req, res) => {
     });
   }
   if (erros.length > 0) {
-    res.render("/planning", {
+    res.render("/planning/updateRequest", {
       file,
       erros: erros,
     });

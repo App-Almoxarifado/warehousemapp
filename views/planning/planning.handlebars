@@ -1,7 +1,8 @@
 <div class="mt-2 container-fluid">
     <div class="d-flex justify-content-center">
         <div class="p-1 mr-auto">
-            <h4>Solicitação de Ativos</h4>
+            <h4>Solicitação de Materiais</h4>
+            <h5>{{siteNow.description}}</h5>
         </div>
         <a href="/products/create">
             <button class="mr-2 mt-3 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom"
@@ -9,7 +10,7 @@
                 <small><strong>Cadastre um novo Produto <i class="fas fa-paper-plane"></i></strong></small>
             </button>
         </a>
-        <a href="/planning/request">
+        <a href="/planning/request/{{siteNow._id}}">
             <button type="button" class="mr-2 mt-3 btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom"
                 title="Vizualize os produtos requisitados, e quando quiser feche seu pedido">
                 <small><strong>Itens Requisitados <i class="fas fa-dolly"></i></strong></small>
@@ -22,39 +23,6 @@
                 <small><strong>Meus Pedidos <i class="fas fa-truck"></i></strong></small>
             </button>
         </a>
-    </div>
-<hr>
-    <div class="d-flex">
-        <div class="p-1"> 
-        <h6>Solicite a partir do estoque de uma das obras:</h6>
-        </div>
-        </div>
-         <div class="d-flex justify-content-center">
-        <div class="p-1 text-center">      
-            {{#each warehouses}}
-            <a href="#">
-                <button type="button" class="totalGroup2 btn btn-primary btn-sm">
-                    {{description}}
-                </button>
-            </a>
-            {{else}}
-            <h6>Nenhum Grupo Registrado</h6>
-            {{/each}}
-        </div>
-    </div>
-<hr>
-    <div class="d-flex justify-content-center">
-        <div class="p-1">
-            {{#each groups}}
-            <a href="/planning/products/{{_id}}">
-                <button type="button" class="totalGroup2 btn btn-secondary btn-sm">
-                    {{description}}
-                </button>
-            </a>
-            {{else}}
-            <h6>Nenhum Grupo Registrado</h6>
-            {{/each}}
-        </div>
     </div>
     <div class="d-flex justify-content-center">
         <div class="mr-auto p-1">
@@ -212,7 +180,6 @@
             <tbody>
                 {{#each products}}
                 <form action="/planning/planning" method="POST">
-                    <input type="hidden" class="mt-2 form-control" name="product" value="{{_id}}">
                     <input type="hidden" class="mt-2 form-control" name="description" value="{{description}}">
                     <input type="hidden" class="mt-2 form-control" name="tag" value="{{tag}}">
                     <input type="hidden" class="mt-2 form-control" name="image" value="{{image}}">
@@ -247,7 +214,7 @@
                         <td class="pl15 d-print-block">1</td>
                         <td class="pl16 d-print-block">1</td>
                         <td><input type="number" value="1" min="1" max="" class=" form-control form-control-sm"
-                                name="qty" required></td>
+                                name="qtyRequest"required></td>
 
                         <td class="pl18 d-print-none">
                             <div class="d-flex justify-content-center">

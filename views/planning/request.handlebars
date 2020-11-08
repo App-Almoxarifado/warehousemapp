@@ -9,7 +9,7 @@
       <h3>Meu Pedido</h3>
     </div>
     <div class="p-0 mr-1 mt-1">
-      <h6>{{user.sites}}</h6>
+      <h3>{{siteNow.description}}</h3>
     </div>
   </div>
 
@@ -39,6 +39,7 @@
         <option value="tbReq02">imagem</option>
         <option value="tbReq03">Descrição</option>
         <option value="tbReq04">Observação/ Nota</option>
+        <option value="tbReq07">Qtd. Disponivel</option>
         <option value="tbReq05">Qtd. Solicitada</option>
         <option value="tbReq06">Ações</option>
       </select>
@@ -58,12 +59,12 @@
 
   </div>
 
-    <div class="d-flex justify-content-center">
+  <div class="d-flex justify-content-center">
     <div class="p-1 mr-auto">
       <h6>Temos {{quant}} itens requisitados até o momento!!</h6>
     </div>
     <div class="p-0 mr-1">
-      <a href="/planning/products">
+      <a href="/planning/{{siteNow._id}}">
         <button type="button" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom"
           title="Lembrou de algo, continue solicitando!">
           Continuar Solicitando
@@ -74,13 +75,13 @@
 
     <!--FORM PARA FINALIZAR PEDIDO-->
     <form action="/planning/planning" method="POST">
-     
+
       <div class="p-0">
 
-          <button type="submit" class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom"
-            title="Finalize seu pedido clicando aqui!">
-            Finalizar Pedido <i class="fas fa-paper-plane"></i>
-          </button>
+        <button type="submit" class="mr-2 btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom"
+          title="Finalize seu pedido clicando aqui!">
+          Finalizar Pedido <i class="fas fa-paper-plane"></i>
+        </button>
 
       </div>
   </div>
@@ -94,6 +95,7 @@
           <th class="tbReq02 d-print-block" scope="col">Imagem</th>
           <th class="tbReq03 d-print-block" scope="col">Descrição</th>
           <th style="width:42%" class="tbReq04 d-print-block" scope="col">Observação / Nota</th>
+          <th style="width:7%" class="tbReq07 d-print-block" scope="col">Qtd. Disponivel</th>
           <th style="width:7%" class="tbReq05 d-print-block" scope="col">Qtd. Solicitada</th>
           <th class="tbReq06 d-print-block" scope="col">Ações</th>
         </tr>
@@ -113,9 +115,9 @@
 
           <td class="tbReq03 d-print-block">{{description}}</td>
           <td class="tbReq04 d-print-block">{{note}}</td>
-          <td class="tbReq05"><input type="number" value="1" min="1" max="" class=" form-control form-control-sm"
-              name="qty" required></td>
-
+          <td class="tbReq07 d-print-block">0</td>
+          <td class="tbReq05"><input type="number" value="{{qtyRequest}}" min="1" max="" class=" form-control form-control-sm"
+              name="qtyRequest" required></td>
           <td class="tbReq06 d-print-none">
             <div class="d-flex justify-content-center">
 

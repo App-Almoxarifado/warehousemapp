@@ -28,9 +28,20 @@ const Request = new Schema({
     type: String,
     require: true,
   },
-  qty: {
+  //QTD EM ESTOQUE
+  qtyStock: {
     type: Number,
-    //required: true
+    default: 0
+  },
+  //QTD RESERVADA
+  qtyReservation: {
+    type: Number,
+    default: 0
+  },
+  //QTD REQUISITADA
+  qtyRequest: {
+    type: Number,
+    //default: 0
   },
   tag: {
     type: String,
@@ -51,13 +62,16 @@ const Request = new Schema({
     ref: "collaborators",
     index: true,
   },
+  numberRequest: {
+    type: Number
+  },
   createdAt: {
     type: Date,
     default: Date.now,
   },
   active: {
-    type: Boolean,
-    default: "true",
+    type: String,
+    default: "Em Andamento",
   },
 });
 

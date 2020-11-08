@@ -574,6 +574,13 @@ img {
     display: none;
 }
 
+//OCULTAR MOSTRAR DETALHES REQUEST
+.tbReq01
+{
+    display: none;
+}
+
+
 //OCULTAR MOSTRAR DETALHES LIST
 .liProd03,.liProd11,.liProd12,.liProd13
 {
@@ -636,3 +643,5 @@ img {
   margin: 8px;
   border-radius: 10px !important;
 }
+
+    .modal .modal-dialog { width: 100%; } 

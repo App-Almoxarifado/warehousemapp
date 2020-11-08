@@ -6,6 +6,40 @@ const multerConfig = require("./config/multer");
 //MODELS
 require("./models/Post");
 const Post = mongoose.model("posts");
+require("./models/Warehouse");
+const Warehouse = mongoose.model("warehouses");
+require("./models/Product");
+const Product = mongoose.model("products");
+//INDEX
+routes.get("/", async (req, res) => {
+    try {
+        const warehouseCard = await Product.aggregate([
+            { $match: {} },
+            { $group: { _id: "$warehouse", qtyRequest: { $sum: "$qtyRequest" }, } },
+            {
+                $lookup: {
+                    from: "warehouses",
+                    localField: "_id",
+                    foreignField: "_id",
+                    as: "warehouse"
+                }
+            },
+            { $unwind: "$warehouse" },
+        ]);
+
+        res.render("index", { warehouseCard });
+    } catch (err) {
+        req.flash("error_msg", "Ops, Houve um erro interno!");
+        res.redirect("/");
+    }
+});
+
+
+//ROTA 404
+routes.get("/404", (req, res) => {
+    res.send("Erro 404!");
+});
+
 
 //ROTA PRA MOSTRAR AS IMAGEM SALVAS
 routes.get("/uploads", async (req, res) => {
