@@ -1,23 +1,35 @@
-<style>
-  * {
-    padding: 0;
-    margin: 0;
-  }
-
-  .intro {
-    display: table;
-    width: 100%;
-    height: 100vh;
-    padding: 100px 0;
-    color: white;
-    background-image: url("https://workharderhome.files.wordpress.com/2019/08/blur-code-dark-2653362.jpg?w=1568");
-    background-position: 30% 45%;
-    background-size: cover;
-  }
-</style>
-
-<div class="intro">
-  <div class="container">
-  <h1>Time is king, the clock never stops</h1>
-</div>
+<div class="container">
+    <h1>Consultando CEP</h1>
+    <form>
+        <div class="form-group">
+            <label for="cep">CEP</label>
+            <input type="text" class="form-control" maxlength="9" id="cep">
+            <small>00000-000</small>
+        </div>
+        <div class="form-group">
+            <label for="logradouro">Logradouro</label>
+            <input type="text" class="form-control" id="logradouro">
+            <small>Rua.</small>
+        </div>
+        <div class="form-group">
+            <label for="bairro">Bairro</label>
+            <input type="text" class="form-control" id="bairro">
+            <small>Bairro</small>
+        </div>
+        <div class="form-group">
+            <label for="localidade">Localidade</label>
+            <input type="text" class="form-control" id="localidade">
+            <small>Cidade</small>
+        </div>
+        <div class="form-group">
+            <label for="complemento">Complemento</label>
+            <input type="text" class="form-control" id="complemento">
+            <small>Complemento</small>
+        </div>
+        <div class="form-group">
+            <label for="uf">UF</label>
+            <input type="text" class="form-control" id="uf">
+            <small>Estado</small>
+        </div>
+    </form>
 </div>

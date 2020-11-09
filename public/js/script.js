@@ -16,19 +16,28 @@ function format_0_dec() {
     $(this).val(curr_val.toFixed(0));
 }
 
-//MODAL
-$('#exampleModal').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget) // Button that triggered the modal
-    var recipient = button.data('whatever') // Extract info from data-* attributes
-    // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-    // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-    var modal = $(this);
-    
-    recipient.split(".")
-    .filter(function(e){ return e }) // remove valores vazios
-    .map(function(e){
-       modal
-       .find(":checkbox[value='"+e+"']")
-       .prop("checked", true);
-    });
- });
+//CONSULTA CEP CORREIOS
+const showData = (result)=>{
+    for(const campo in result){
+        if(document.querySelector("#"+campo)){
+            document.querySelector("#"+campo).value = result[campo]
+        }
+    }
+}
+cep.addEventListener("blur",(e)=>{
+    let search = cep.value.replace("-","")
+    const options = {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'default'
+    }
+
+    fetch(`https://viacep.com.br/ws/${search}/json/`, options)
+    .then(response =>{ response.json()
+        .then( data => showData(data))
+    })
+    .catch(e => console.log('Deu Erro: '+ e,message))
+})
+
+
+

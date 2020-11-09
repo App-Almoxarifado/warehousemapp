@@ -13,11 +13,11 @@ const Product = mongoose.model("products");
 //INDEX
 routes.get("/", async (req, res) => {
     try {
-        const warehouses = await Warehouse.find({ 'description':{$nin:['Hbr Central Warehouse','Andritz Hydro Ltda']} })
+        const warehouseSearch = await Warehouse.find({ 'description':{$nin:['Hbr Central Warehouse','Andritz Hydro Ltda']} })
         .sort({ description: "asc" })
         .lean();
 
-        res.render("index", { warehouses });
+        res.render("index", { warehouseSearch });
     } catch (err) {
         req.flash("error_msg", "Ops, Houve um erro interno!");
         res.redirect("/");
