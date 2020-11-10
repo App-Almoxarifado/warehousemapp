@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-ao">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Criando um mapa</title>
+    <meta name="author" description="Daniel Gustavo Yava">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+        integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+        crossorigin=""></script>
+
+</head>
+
+<body>
+    <div id="mapid"></div>
+    <script>
+        var map = L.map('mapid').setView([-10.333, -53.2], 4);
+
+        const tileURL = 'https://b.tile.openstreetmap.org/{z}/{x}/{y}.png'
+        const tileURL2 = 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png';
+        const tileURL3 = 'https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v11/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZGFuZ3V5YSIsImEiOiJjazhwMTNtMWcwenMyM2txenp6dTY0ZDhjIn0.N2s22ojbLoi7Ma78mMZ8Mw'
+        const tile = L.tileLayer(tileURL3);
+
+        // Marker
+        const marker = L.marker([-10.333, -53.2]); // kiev, ukraine
+        marker.bindPopup('Hello There!');
+        map.addLayer(marker);
+
+        // Marker
+        const marker2 = L.marker([-2.333, -53.2]); // kiev, ukraine
+        marker2.bindPopup('Hello There!');
+        map.addLayer(marker2);
+
+        // Geolocation
+        map.locate({ enableHighAccuracy: true })
+        map.on('locationfound', (e) => {
+            const coords = [e.latlng.lat, e.latlng.lng];
+            const newMarker = L.marker(coords);
+            newMarker.bindPopup('Você está aqui!').openPopup();;
+            map.addLayer(newMarker);
+            //socket.emit('userCoordinates', e.latlng);
+        });
+
+        map.addLayer(tile);
+
+    </script>
+</body>
+
+</html>

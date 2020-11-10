@@ -651,3 +651,10 @@ img {
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#66000000,endColorstr=#66000000);
     zoom: 1;
 }  
+
+#map {
+    //position: absolute;
+    height: 100%;
+    top: 0;
+    width: 100%;
+  }

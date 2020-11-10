@@ -1,35 +1,32 @@
-<div class="container">
-    <h1>Consultando CEP</h1>
-    <form>
-        <div class="form-group">
-            <label for="cep">CEP</label>
-            <input type="text" class="form-control" maxlength="9" id="cep">
-            <small>00000-000</small>
-        </div>
-        <div class="form-group">
-            <label for="logradouro">Logradouro</label>
-            <input type="text" class="form-control" id="logradouro">
-            <small>Rua.</small>
-        </div>
-        <div class="form-group">
-            <label for="bairro">Bairro</label>
-            <input type="text" class="form-control" id="bairro">
-            <small>Bairro</small>
-        </div>
-        <div class="form-group">
-            <label for="localidade">Localidade</label>
-            <input type="text" class="form-control" id="localidade">
-            <small>Cidade</small>
-        </div>
-        <div class="form-group">
-            <label for="complemento">Complemento</label>
-            <input type="text" class="form-control" id="complemento">
-            <small>Complemento</small>
-        </div>
-        <div class="form-group">
-            <label for="uf">UF</label>
-            <input type="text" class="form-control" id="uf">
-            <small>Estado</small>
-        </div>
-    </form>
-</div>
+<div id="map"></div>
+
+<script>
+  var map = L.map('map').setView([-10.333, -53.2], 8);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+  var searchControl = L.esri.Geocoding.geosearch().addTo(map);
+
+  var results = L.layerGroup().addTo(map);
+
+  searchControl.on('results', function (data) {
+    results.clearLayers();
+    for (var i = data.results.length - 1; i >= 0; i--) {
+      results.addLayer(L.marker(data.results[i].latlng));
+    }
+  });
+
+        // Geolocation
+        map.locate({ enableHighAccuracy: true })
+        map.on('locationfound', (e) => {
+            const coords = [e.latlng.lat, e.latlng.lng];
+            const newMarker = L.marker(coords);
+            newMarker.bindPopup('Você está aqui!').openPopup();;
+            map.addLayer(newMarker);
+            //socket.emit('userCoordinates', e.latlng);
+        });
+
+        map.addLayer(tile);
+</script>
