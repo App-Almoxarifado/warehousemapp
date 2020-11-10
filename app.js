@@ -173,10 +173,11 @@ app.get("/send", (req, res) => {
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 587,
-    secure: false,
     auth: {
-      user,pass
+      user: "bdappalmoxarifado@gmail.com",
+      pass: "ddapj060814",
     },
+    secure: false,
     tls: {
       rejectUnauthorized: false,
     },
