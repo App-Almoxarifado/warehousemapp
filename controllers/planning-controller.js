@@ -41,8 +41,10 @@ exports.sites = async (req, res) => {
 
     const warehouseMatch = {
       $match: {
-        warehouse: warehouse ? { $eq: warehouse } : { $in: warehouses.map(w => w._id) }
-      }
+        warehouse: warehouse
+          ? { $eq: warehouse }
+          : { $in: warehouses.map((w) => w._id) },
+      },
     };
 
     const warehouseCard = await Product.aggregate([
@@ -51,30 +53,29 @@ exports.sites = async (req, res) => {
         $group: {
           _id: "$warehouse",
           qty: {
-            $sum: 1
+            $sum: 1,
           },
           qtyStock: {
-            $sum: "$qtyStock"
+            $sum: "$qtyStock",
           },
           qtyReservation: {
-            $sum: "$qtyReservation"
+            $sum: "$qtyReservation",
           },
           weightKg: {
-            $sum: "$weightKg"
+            $sum: "$weightKg",
           },
           faceValue: {
-            $sum: "$faceValue"
-          }
-        }
+            $sum: "$faceValue",
+          },
+        },
       },
       {
-        $lookup:
-        {
+        $lookup: {
           from: "warehouses",
           localField: "_id",
           foreignField: "_id",
-          as: "warehouse"
-        }
+          as: "warehouse",
+        },
       },
       { $unwind: "$warehouse" },
     ]);
@@ -89,7 +90,6 @@ exports.sites = async (req, res) => {
   }
 };
 
-
 //DASHBOARD
 exports.dashboard = async (req, res) => {
   try {
@@ -103,32 +103,86 @@ exports.dashboard = async (req, res) => {
 
     const warehouseMatch = {
       $match: {
-        warehouse: warehouse ? { $eq: warehouse } : { $in: warehouses.map(w => w._id) }
-      }
+        warehouse: warehouse
+          ? { $eq: warehouse }
+          : { $in: warehouses.map((w) => w._id) },
+      },
     };
 
     const warehouseChart = await Product.aggregate([
       warehouseMatch,
-      { $group: { _id: "$warehouse", quant: { $sum: 1 }, quantity: { $sum: "$qtyStock" } } },
-      { $lookup: { from: "warehouses", localField: "_id", foreignField: "_id", as: "warehouse" } }
+      {
+        $group: {
+          _id: "$warehouse",
+          quant: { $sum: 1 },
+          quantity: { $sum: "$qtyStock" },
+        },
+      },
+      {
+        $lookup: {
+          from: "warehouses",
+          localField: "_id",
+          foreignField: "_id",
+          as: "warehouse",
+        },
+      },
     ]);
 
     const groupChart = await Product.aggregate([
       warehouseMatch,
-      { $group: { _id: "$group", quant: { $sum: 1 }, quantity: { $sum: "$qtyStock" } } },
-      { $lookup: { from: "groups", localField: "_id", foreignField: "_id", as: "group" } }
+      {
+        $group: {
+          _id: "$group",
+          quant: { $sum: 1 },
+          quantity: { $sum: "$qtyStock" },
+        },
+      },
+      {
+        $lookup: {
+          from: "groups",
+          localField: "_id",
+          foreignField: "_id",
+          as: "group",
+        },
+      },
     ]);
 
     const typeChart = await Product.aggregate([
       warehouseMatch,
-      { $group: { _id: "$type", quant: { $sum: 1 }, quantity: { $sum: "$qtyStock" } } },
-      { $lookup: { from: "types", localField: "_id", foreignField: "_id", as: "type" } }
+      {
+        $group: {
+          _id: "$type",
+          quant: { $sum: 1 },
+          quantity: { $sum: "$qtyStock" },
+        },
+      },
+      {
+        $lookup: {
+          from: "types",
+          localField: "_id",
+          foreignField: "_id",
+          as: "type",
+        },
+      },
     ]);
 
     const statusChart = await Product.aggregate([
       warehouseMatch,
-      { $group: { _id: "$status", quant: { $sum: 1 }, quantity: { $sum: "$qtyStock" } } },
-      { $lookup: { from: "statuses", localField: "_id", foreignField: "_id", as: "status" } }
+      {
+        $group: {
+          _id: "$status",
+          quant: { $sum: 1 },
+          quantity: { $sum: "$qtyStock" },
+        },
+      },
+      {
+        $lookup: {
+          from: "statuses",
+          localField: "_id",
+          foreignField: "_id",
+          as: "status",
+        },
+      },
     ]);
 
     res.render("planning/dashboard", {
@@ -136,7 +190,7 @@ exports.dashboard = async (req, res) => {
       groupChart,
       typeChart,
       statusChart,
-      warehouses
+      warehouses,
     });
   } catch (err) {
     console.log(err);
@@ -147,8 +201,10 @@ exports.dashboard = async (req, res) => {
 
 exports.planning = async (req, res) => {
   try {
-    const warehouse = req.params._id
-    const siteNow = await Warehouse.findOne({ _id: req.params._id }).lean().populate("site")
+    const warehouse = req.params._id;
+    const siteNow = await Warehouse.findOne({ _id: req.params._id })
+      .lean()
+      .populate("site");
     const warehouses = await Warehouse.find({ active: true })
       .sort({ description: "asc" })
       .lean();
@@ -194,10 +250,10 @@ exports.planning = async (req, res) => {
     if (!!search) {
       const pattern = new RegExp(`.*${search}.*`);
       filtros["$or"].push(
-        { description: { $regex: pattern, $options: 'i' } },
-        { fullDescription: { $regex: pattern, $options: 'i' } },
-        { tag: { $regex: pattern, $options: 'i' } },
-        { user: { $regex: pattern, $options: 'i' } }
+        { description: { $regex: pattern, $options: "i" } },
+        { fullDescription: { $regex: pattern, $options: "i" } },
+        { tag: { $regex: pattern, $options: "i" } },
+        { user: { $regex: pattern, $options: "i" } }
       );
     }
 
@@ -219,12 +275,13 @@ exports.planning = async (req, res) => {
       .sort({
         editionDate: "desc",
       })
-      .limit(limit).lean()
+      .limit(limit)
+      .lean()
       .skip(page > 1 ? (page - 1) * limit : 0)
       .populate("group")
       .populate("subgroup")
       .populate("type")
-      .populate("status")
+      .populate("status");
 
     res.render("planning/planning", {
       products,
@@ -244,7 +301,7 @@ exports.planning = async (req, res) => {
       type,
       status,
       siteNow,
-      warehouse
+      warehouse,
     });
   } catch (err) {
     console.log(err);
@@ -258,9 +315,11 @@ exports.postPlanning = async (req, res) => {
 
   if (!description || !qtyRequest) {
     res.render("planning/planning", {
-      erros: [{
-        texto: "Você precisa informar uma quantidade solicitada!",
-      }],
+      erros: [
+        {
+          texto: "Você precisa informar uma quantidade solicitada!",
+        },
+      ],
     });
   } else {
     try {
@@ -274,7 +333,7 @@ exports.postPlanning = async (req, res) => {
           .replace(/[\u0300-\u036f]/g, "") // Remove acentos
           .replace(/([^\w]+|\s+)/g, "") // Retira espaço e outros caracteres
           .replace(/\-\-+/g, "") // Retira multiplos hífens por um único hífen
-          .replace(/(^-+|-+$)/, "")
+          .replace(/(^-+|-+$)/, ""),
       });
 
       //console.log(request)
@@ -295,53 +354,64 @@ exports.requestFromWarehouse = async (req, res) => {
     const warehouseOrigin = req.params.id;
     const { description, tag, qtyRequest, warehouse } = req.body;
     const products = await Product.find({
-      "warehouse": warehouseOrigin
+      warehouse: warehouseOrigin,
     });
     const requests = description.map((description, i) => ({
       description,
       qtyRequest: qtyRequest[i],
       tag: tag[i],
       warehouse: warehouse,
-      user: req.user.name
-    }))
+      user: req.user.name,
+    }));
 
     await Request.create(requests);
-    req.flash("success_msg", "Produtos solicitados com sucesso, enviado para pedido!");
+    req.flash(
+      "success_msg",
+      "Produtos solicitados com sucesso, enviado para pedido!"
+    );
     res.redirect(`/planning/request/${warehouse}`);
   } catch (e) {
     console.log(e);
   }
-}
+};
 
 //VIZUALIZANDO PRODUTOS CARRINHO
 exports.getRequest = async (req, res) => {
   try {
-    const warehouse = req.params._id
-    const siteNow = await Warehouse.findOne({ _id: warehouse }).lean().populate("site")
-    const numberRequest = Date.now()
-    const file = req.file
+    const warehouse = req.params._id;
+    const siteNow = await Warehouse.findOne({ _id: warehouse })
+      .lean()
+      .populate("site");
+    const numberRequest = Date.now();
+    const file = req.file;
     const filtros = [];
     let { search, page, limit } = req.query;
     if (!!search) {
       const pattern = new RegExp(`.*${search}.*`);
       filtros.push(
-        { tag: { $regex: pattern, $options: 'i' } },
-        { description: { $regex: pattern, $options: 'i' } },
+        { tag: { $regex: pattern, $options: "i" } },
+        { description: { $regex: pattern, $options: "i" } }
       );
     }
     page = Number(page || 1);
     limit = limit ? Number(limit) : 10;
     const quant = await Request.find(
+      { status: { $in: ["Em Andamento"] } },
       filtros.length > 0 ? { $or: filtros } : {}
-    ).estimatedDocumentCount();
+    ).countDocuments();
 
     const requests = await Request.aggregate([
-      { $match: filtros.length > 0 ? { $or: filtros } : { status: "Em Andamento" } },
+      {
+        $match:
+          filtros.length > 0
+            ? { $or: filtros }
+            : { status: { $in: ["Em Andamento"] } },
+      },
       { $unwind: "$description" },
       { $sort: { description: 1 } },
       { $skip: page > 1 ? (page - 1) * limit : 0 },
-      { $limit: limit }
-    ])
+      { $limit: limit },
+    ]);
     res.render("planning/request", {
       requests,
       prev: Number(page) > 1,
@@ -352,7 +422,7 @@ exports.getRequest = async (req, res) => {
       quant,
       numberRequest,
       warehouse,
-      siteNow
+      siteNow,
     });
   } catch (err) {
     console.log(err);
@@ -363,29 +433,21 @@ exports.getRequest = async (req, res) => {
 
 exports.products = async (req, res) => {
   try {
-    const warehouse = await Warehouse.findOne({ _id: req.params._id }).lean().populate("site")
+    const warehouse = await Warehouse.findOne({ _id: req.params._id })
+      .lean()
+      .populate("site");
     if (req.user.admin)
       warehouses = await Warehouse.find({ active: true })
         .sort({ description: "asc" })
         .lean();
     else warehouses = req.user.sites;
-    const quant = await Product.find({ warehouse: warehouse }).countDocuments()
-    const products = await Product.find({ warehouse: warehouse }).lean()
-
-    /*const products = await Product.aggregate([
-      {
-        $group: {
-           _id: "$description",
-           count: { $sum: 1 }
-        }
-      },
-    ])*/
-
+    const quant = await Product.find({ warehouse: warehouse }).countDocuments();
+    const products = await Product.find({ warehouse: warehouse }).lean();
     res.render("planning/products", {
       products,
       warehouses,
       warehouse,
-      quant
+      quant,
     });
   } catch (err) {
     console.log(err);
@@ -393,7 +455,6 @@ exports.products = async (req, res) => {
     res.redirect("/products");
   }
 };
-
 
 //DELETANDO
 exports.getDelete = async (req, res) => {
@@ -445,7 +506,7 @@ exports.post = async (req, res) => {
 //EDITANDO UM PEDIDO
 exports.getUpdate = async (req, res) => {
   try {
-    const file = req.file
+    const file = req.file;
     var request = await Request.findOne({ _id: req.params._id }).lean();
     res.render("planning/updateRequest", { request: request, file });
   } catch (_err) {
@@ -457,7 +518,7 @@ exports.getUpdate = async (req, res) => {
 //POST FINALIZANDO PEDIDO
 exports.postUpdate = async (req, res) => {
   var request = await Request.findOne({ _id: req.body._id });
-  const file = req.file
+  const file = req.file;
   var erros = [];
   if (
     !req.body.note ||
@@ -475,10 +536,9 @@ exports.postUpdate = async (req, res) => {
     });
   } else {
     try {
-      request.image = req.file.location,
-        request.key = req.file.key,
-        request.note = req.body.note,
-
+      (request.image = req.file.location),
+        (request.key = req.file.key),
+        (request.note = req.body.note),
         await request.save();
       req.flash("success_msg", "Observação criada com sucesso!!!");
       res.redirect("/planning");
@@ -488,7 +548,7 @@ exports.postUpdate = async (req, res) => {
         "error_msg",
         "Ops, Houve um erro ao salvar o tipo, tente novamente!" + err
       );
-      res.redirect("/planning");
+      res.redirect(`/planning/${warehouse}`);
     }
   }
 };
@@ -497,19 +557,27 @@ exports.postUpdate = async (req, res) => {
 exports.transfer = async (req, res) => {
   try {
     const warehouseOrigin = req.params.id;
-    const requests = await Request.updateMany({
-      warehouse: warehouseOrigin,
-      //status: "Em andamento"
-    }, {
-      requestNumber: Date.now(),
-      status: "Solicitado"
-
-    })
+    const requests = await Request.updateMany(
+      {
+        $and: [
+          { warehouse: { $in: warehouseOrigin } },
+          { status: { $in: "Em Andamento" } },
+        ],
+      },
+      {
+        //qtyRequest: req.body.qtyRequest,
+        requestNumber: Date.now(),
+        status: "Solicitado",
+      }
+    );
     //await requests.save();
-    console.log(requests)
-    req.flash("success_msg", "Produtos solicitados com sucesso, enviado para pedido!");
-    res.redirect("/planning");
+    console.log(requests);
+    req.flash(
+      "success_msg",
+      "Produtos solicitados com sucesso, enviado para pedido!"
+    );
+    res.redirect(`/planning/${warehouseOrigin}`);
   } catch (e) {
     console.log(e);
   }
-}
+};

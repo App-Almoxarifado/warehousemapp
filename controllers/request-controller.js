@@ -46,12 +46,12 @@ exports.attendance = async (req, res) => {
     }
     page = Number(page || 1);
     limit = limit ? Number(limit) : 5;
-    const quant = await Request.find(
+    const quant = await Request.find({status:{$nin:"Em Andamento"}},
       filtros.length > 0 ? { $or: filtros } : {}
-    ).estimatedDocumentCount();
+    ).countDocuments();
 
     const requests = await Request.aggregate([
-      { $match: filtros.length > 0 ? { $or: filtros } : { status: "Em Andamento" } },
+      { $match: filtros.length > 0 ? { $or: filtros } : { status:{ $nin:["Em Andamento"]} } },
       { $unwind: "$description" },
       { $sort: { description: 1 } },
       { $skip: page > 1 ? (page - 1) * limit : 0 },
