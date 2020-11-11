@@ -40,4 +40,15 @@ cep.addEventListener("blur",(e)=>{
 })
 
 
-
+var lat = '';
+var lng = '';
+var address = document.getElementById("cep").value
+geocoder.geocode( { 'address': address}, function(results, status) {
+  if (status == google.maps.GeocoderStatus.OK) {
+     lat = results[0].geometry.location.lat();
+     lng = results[0].geometry.location.lng();
+  } else {
+     alert("Não foi possivel obter localização: " + status);
+  }
+});
+alert('Latitude: ' + lat + ' Logitude: ' + lng);

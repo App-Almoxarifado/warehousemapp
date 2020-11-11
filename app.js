@@ -15,7 +15,6 @@ const methodOverride = require("method-override");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const path = require("path");
-const nodemailer = require("nodemailer");
 const app = express();
 
 //ROTAS
@@ -166,36 +165,7 @@ mongoose
 //public
 app.use(express.static(path.join(__dirname, "public")));
 
-const user= "warehousemapp@gmail.com"
-const pass= "ddapj060814"
 
-app.get("/send", (req, res) => {
-  const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    auth: {
-      user: "bdappalmoxarifado@gmail.com",
-      pass: "ddapj060814",
-    },
-    secure: false,
-    tls: {
-      rejectUnauthorized: false,
-    },
-  });
-  transporter.sendMail({
-    text: "Texto do E-mail",
-    subject: "Assunto do e-mail",
-    from: "Victor Moraes <warehousemapp@gmail.com",
-    to: ["warehousemapp@gmail.com", "ddapj060814@gmail.com"],
-    html: `
-    <html>
-    <body>
-      <strong>Conteúdo HTML</strong></br>Do E-mail
-    </body>
-  </html> 
-    `,
-  }).then(info=>{res.send(info)}).catch(error=>{res.send(error)})
-})
 
 app.get("/qrcode", (req, res) => {
   const url = "https://warehousemapp.herokuapp.com/";

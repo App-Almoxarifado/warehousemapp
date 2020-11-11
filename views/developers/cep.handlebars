@@ -1,0 +1,32 @@
+<div id="map"></div>
+
+<script>
+  var map = L.map('map').setView([-3.1808417, -51.82511602], 8);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+  var searchControl = L.esri.Geocoding.geosearch().addTo(map);
+
+  var results = L.layerGroup().addTo(map);
+
+  searchControl.on('results', function (data) {
+    results.clearLayers();
+    for (var i = data.results.length - 1; i >= 0; i--) {
+      results.addLayer(L.marker(data.results[i].latlng));
+    }
+  });
+
+        // Geolocation
+        map.locate({ enableHighAccuracy: true })
+        map.on('locationfound', (e) => {
+            const coords = [e.latlng.lat, e.latlng.lng];
+            const newMarker = L.marker(coords);
+            newMarker.bindPopup('Você está aqui!').openPopup();;
+            map.addLayer(newMarker);
+            //socket.emit('userCoordinates', e.latlng);
+        });
+
+        map.addLayer(tile);
+</script>
