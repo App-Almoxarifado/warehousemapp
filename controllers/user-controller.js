@@ -79,9 +79,9 @@ exports.getCreate = async (req, res) => {
       res.redirect("/users/register");
     } else {
       try {
-        var novoUser = new User({
+        var newUser = new User({
           name: req.body.name,
-          image: req.body.image, //.slice(0, -1),
+          image: req.body.image,
           nome: req.body.nome,
           email: req.body.email,
           eadmin: req.body.eadmin,
@@ -92,12 +92,12 @@ exports.getCreate = async (req, res) => {
           date: req.body.date,
         });
         bcrypt.genSalt(10, (err, salt) => {
-          bcrypt.hash(novoUser.password, salt, (err, hash) => {
+          bcrypt.hash(newUser.password, salt, (err, hash) => {
             if (err) {
               req.flash("error_msg", "Houve um erro durante o salvamento do usuário"); res.redirect("/");
             } else {
-              novoUser.password = hash;
-              novoUser.save()
+              newUser.password = hash;
+              newUser.save()
               req.flash("success_msg", "Usuário cadastrado com sucesso!");
               emailService.send(req.body.email,
                 "Bem vindo ao Warehouseapp",

@@ -16,39 +16,12 @@ function format_0_dec() {
     $(this).val(curr_val.toFixed(0));
 }
 
-//CONSULTA CEP CORREIOS
-const showData = (result)=>{
-    for(const campo in result){
-        if(document.querySelector("#"+campo)){
-            document.querySelector("#"+campo).value = result[campo]
-        }
-    }
+//MOSTAR OCULTAR DIV
+function showHide(el) {
+    var display = document.getElementById(el).style.display;
+    if(display == "none")
+        document.getElementById(el).style.display = 'block';
+    else
+        document.getElementById(el).style.display = 'none';
 }
-cep.addEventListener("blur",(e)=>{
-    let search = cep.value.replace("-","")
-    const options = {
-        method: 'GET',
-        mode: 'cors',
-        cache: 'default'
-    }
 
-    fetch(`https://viacep.com.br/ws/${search}/json/`, options)
-    .then(response =>{ response.json()
-        .then( data => showData(data))
-    })
-    .catch(e => console.log('Deu Erro: '+ e,message))
-})
-
-
-var lat = '';
-var lng = '';
-var address = document.getElementById("cep").value
-geocoder.geocode( { 'address': address}, function(results, status) {
-  if (status == google.maps.GeocoderStatus.OK) {
-     lat = results[0].geometry.location.lat();
-     lng = results[0].geometry.location.lng();
-  } else {
-     alert("Não foi possivel obter localização: " + status);
-  }
-});
-alert('Latitude: ' + lat + ' Logitude: ' + lng);

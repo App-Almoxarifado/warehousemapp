@@ -1,32 +1,71 @@
-<div id="map"></div>
+<div class="container">
+    <h1>Consultando CEP</h1>
+    <form>
+        <div class="form-group">
+            <label for="cep">CEP</label>
+            <input type="text" class="form-control" maxlength="9" id="cep">
+            <small>00000-000</small>
+        </div>
+        <div class="form-group">
+            <label for="logradouro">Logradouro</label>
+            <input type="text" class="form-control" id="logradouro">
+            <small>Rua.</small>
+        </div>
+        <div class="form-group">
+            <label for="bairro">Bairro</label>
+            <input type="text" class="form-control" id="bairro">
+            <small>Bairro</small>
+        </div>
+        <div class="form-group">
+            <label for="localidade">Localidade</label>
+            <input type="text" class="form-control" id="localidade">
+            <small>Cidade</small>
+        </div>
+        <div class="form-group">
+            <label for="complemento">Complemento</label>
+            <input type="text" class="form-control" id="complemento">
+            <small>Complemento</small>
+        </div>
+        <div class="form-group">
+            <label for="uf">UF</label>
+            <input type="text" class="form-control" id="uf">
+            <small>Estado</small>
+        </div>
+                <div class="form-group">
+            <label for="uf">UF</label>
+            <input type="text" class="form-control" id="lat">
+            <small>Estado</small>
+        </div>
+                <div class="form-group">
+            <label for="uf">UF</label>
+            <input type="text" class="form-control" id="uf">
+            <small>Estado</small>
+        </div>
+    </form>
+</div>
 
 <script>
-  var map = L.map('map').setView([-21.7887, -48.1773], 13);
-
-  L.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
-  }).addTo(map);
-
-  var searchControl = L.esri.Geocoding.geosearch().addTo(map);
-
-  var results = L.layerGroup().addTo(map);
-
-  searchControl.on('results', function (data) {
-    results.clearLayers();
-    for (var i = data.results.length - 1; i >= 0; i--) {
-      results.addLayer(L.marker(data.results[i].latlng));
+  //CONSULTA CEP CORREIOS
+const showData = (result)=>{
+    for(const campo in result){
+        if(document.querySelector("#"+campo)){
+            document.querySelector("#"+campo).value = result[campo]
+        }
     }
-  });
+}
+cep.addEventListener("blur",(e)=>{
+    let search = cep.value.replace("-","")
+    const options = {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'default'
+    }
 
-        // Geolocation
-        map.locate({ enableHighAccuracy: true })
-        map.on('locationfound', (e) => {
-            const coords = [e.latlng.lat, e.latlng.lng];
-            const newMarker = L.marker(coords);
-            newMarker.bindPopup('Você está aqui!').openPopup();;
-            map.addLayer(newMarker);
-            //socket.emit('userCoordinates', e.latlng);
-        });
+    fetch(`https://viacep.com.br/ws/${search}/json/`, options)
+    .then(response =>{ response.json()
+        .then( data => showData(data))
+    })
+    .catch(e => console.log('Deu Erro: '+ e,message))
+})
 
-        map.addLayer(tile);
 </script>

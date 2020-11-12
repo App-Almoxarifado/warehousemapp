@@ -1,84 +1,109 @@
-                    {{#each erros}}
-        <div class="alert alert-danger">{{texto}}</div>
+<div class="bgRegister">
+    <div class="user container mt-2 mb-2">
+
+        {{#each erros}}
+        <div class="mt-2 alert alert-danger">{{texto}}</div>
         {{else}}
 
         {{/each}}
-<div class="bgRegister">
-    <div class="user container">
         <div class="cardLogin card">
             <div class="card-body">
-                <h4>Crie sua Conta:</h4>
-                <form method='post' enctype="multipart/form-data" action="/upload">
-                    <div class="d-flex justify-content-center">
-                        <div class="form-group col-md-12">
-                            <div class="text-center">
-                                <img src="https://warehousemapp.s3.amazonaws.com/avatar.png" style="width: 100px;" class="avatar img-circle img-thumbnail"
-                                    alt="">
+                <h3 class="mt-2">Crie Sua Conta</h3>
+                <hr>
+                <form action="" enctype="multipart/form-data" method="POST">
+                    <div class="row no-gutters position-relative">
+                        <div class="col-md-4 position-static">
+                            <div class="d-flex justify-content-center">
+                                <img src="https://warehousemapp.s3.amazonaws.com/logo8.png"
+                                    class="avatar img-fluid rounded" alt="" style="width: 10rem;">
+                            </div>
+                            <figcaption class="figure-caption text-center" style="color: white;">Clique na imagem para
+                                fazer o upload, a
+                                imagem é obrigatória!</figcaption>
+                            <div class="d-flex p-1 justify-content-center">
+
                                 <input type="file" accept="image/*" name="file" id="file"
-                                    class="custom-file-input btn-file text-center center-block file-upload">
-                                <div class="d-flex mt-2 justify-content-center">
-                                    <input type='submit' class='btn btn-primary' value='Upload'>
+                                    class="btn-file text-center center-block file-upload">
+                            </div>
+                        </div>
+                        <div class="col-md-8 position-static">
+                            <input type="hidden" class="form-control" id="id" name="id" placeholder="Id">
+                            <input type="hidden" class="form-control mt-2" name="image" id="image">
+                            <div class="form-row">
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label style="font-size: small ;" for="group">Seu Nome:</label>
+                                <select class="custom-select custom-select-sm" id="name" name="name">
+                                    <option selected disabled value="">Selecione...</option>
+                                    {{#each collaborators}}
+                                    <option {{#if_eq ../idGroup _id}}selected{{/if_eq}} value="{{_id}}">
+                                        {{description}}
+                                    </option>
+                                    {{else}}
+                                    <option value="0">Nenhum grupo registrado</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                            <div class="form-group col-md-12 text-left">
+                                <label style="font-size: small ;" for="name">Como você Prefere ser Chamado:</label>
+                                <input type="text" class="form-control form-control-sm" id="nome" name="nome"
+                                    placeholder="Digite um nome de usuário de sua preferência">
+                            </div>
+                            <div class="form-group col-md-12 text-left">
+                                <label style="font-size: small ;" for="email">Email:</label>
+                                <input type="email" class="form-control form-control-sm" id="email" name="email"
+                                    placeholder="Digite seu Email">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row no-gutters position-relative px-3">
+                        <div class="col-md-12 position-static ">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label style="font-size: small ;" for="password">Senha:</label>
+                                    <input type="password" class="form-control form-control-sm" id="password"
+                                        name="password" placeholder="Digite sua Senha">
+                                </div>
+                                <div class="form-group col-md-6 ">
+                                    <label style="font-size: small ;" for="password2">Repita sua Senha:</label>
+                                    <input type="password" class="form-control form-control-sm" id="password2"
+                                        name="password2" placeholder="Repita sua Senha">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <input type='button' class='btn btn-primary btn-sm btn-block'
+                                        onclick="showHide('sites')" value='Escolha suas Obras:' data-toggle="tooltip"
+                                        data-placement="bottom"
+                                        title="Selecione as obras que vc pretende ter acesso, após seu cadastro será avalido suas permissões">
+                                </div>
+                                <div id="sites" class=" form-group col-md-12" style="display: none;">
+                                    {{#each warehouses}}
+                                    <div class="form-group col-md-12">
+                                        <input class="mr-1 ml-1 form-check-input position-static" type="checkbox"
+                                            name="sites" value="{{_id}}" aria-label="">
+                                        {{description}}</div>
+                                    {{else}}
+                                    Nenhuma obra disponivel
+                                    {{/each}}
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <input type='submit' class='btn btn-success btn-sm btn-block' value='Salvar'>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!--CONTROLE DE USUÁRIOS LANÇAMENTO -->
+                    <input type="hidden" class="form-control mt-2" name="userCreated" id="userCreated"
+                        value="{{user.name}}">
+                    <input type="hidden" class="form-control mt-2" name="emailCreated" id="emailCreated"
+                        value="{{user.email}}">
+                    <!--CONTROLE DE USUÁRIOS -->
+                    <input type="hidden" class="form-control mt-2" name="userUpdated" id="userUpdated"
+                        value="{{user.name}}">
+                    <input type="hidden" class="form-control mt-2" name="emailUpdated" id="emailUpdated"
+                        value="{{user.email}}">
                 </form>
-                <form action="" method="POST">
-                    <div class="form-row">
-                        <div class="form-group col-md-12">
-                            <label for="client">Site:</label>
-                            <select class="custom-select" id="sites" name="sites" required>
-                                <option selected disabled value="">Selecione...</option>
-                                {{#each warehouses}}
-                                <option value="{{_id}}">{{description}}</option>
-                                {{else}}
-                                <option value="0">Nenhum site registrado</option>
-                                {{/each}}
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-12">
-                            <input type="hidden" class="form-control" id="id" name="id" placeholder="Id">
-                            <input type="hidden" class="form-control mt-2" name="image" id="image">
-                            <input type="hidden" class="nomeUser form-control mt-2" name="nome" id="nome">
-                            <label for="name">Nome:</label>
-                            <select class="nameUser custom-select" id="name" name="name">
-                                <option selected disabled value="">Selecione...</option>
-                                {{#each collaborators}}
-                                <option value="{{_id}}">{{description}}</option>
-                                {{else}}
-                                <option value="0">Nenhum Colaborador registrado</option>
-                                {{/each}}
-                            </select>
-                        </div>
-                        <div class="form-group col-md-12">
-                            <label for="email">Email:</label>
-                            <input type="email" class="form-control" id="email" name="email"
-                                placeholder="Digite o seu email" required>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-6">
-                            <label for="password">Senha:</label>
-                            <input type="password" class="form-control" id="password" name="password"
-                                placeholder="Digite a sua senha:" required>
-                        </div>
-                        <div class="form-group col-6">
-                            <label for="descricao">Repita a sua senha:</label>
-                            <input type="password" class="form-control" id="password2" name="password2"
-                                placeholder="Repita a sua senha:" required>
-                        </div>
-                    </div>
             </div>
-            <input type="hidden" class="form-control" id="date" name="date" placeholder="date"
-                value="{{#formatDate date}}{{/formatDate}}">
-            <div class="form-row">
-                <div class="form-group col-md-12 text-center">
-                    <button type="submit" class="btn btn-primary">Criar Conta <i class="fas fa-share"></i></button>
-                </div>
-            </div>
-            </form>
         </div>
     </div>
+</div>
 </div>
