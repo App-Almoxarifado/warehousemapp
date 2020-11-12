@@ -24,7 +24,7 @@ const groupRoute = require("./routes/group-route");
 //Subgrupos
 const subgroupRoute = require("./routes/subgroup-route");
 //Usuarios
-const usuarioRoute = require("./routes/usuario-route");
+const userRoute = require("./routes/user-route");
 //Painel Admin
 const developerRoute = require("./routes/developer-route");
 //Colaboradores
@@ -89,7 +89,7 @@ app.use((req, res, next) => {
   res.locals.error = req.flash("error");
   if (!req.user) {
     const path = `${req.baseUrl}${req.path}`;
-    if(/^([A-Za-z0-9]+\/)+/g.test(path) && path !== "/") return res.redirect("/usuarios/login");
+    if(/^([A-Za-z0-9]+\/)+/g.test(path) && path !== "/") return res.redirect("/users/login");
   } else {
     res.locals.user = req.user;
     res.locals.sites = req.user.sites;
@@ -177,7 +177,7 @@ app.get("/qrcode", (req, res) => {
 app.use(require("./routes"));
 app.use("/groups", groupRoute);
 app.use("/subgroups", subgroupRoute);
-app.use("/usuarios", usuarioRoute);
+app.use("/users", userRoute);
 app.use("/developers", developerRoute);
 app.use("/providers", providerRoute);
 app.use("/collaborators", collaboratorRoute);

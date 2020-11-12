@@ -7,7 +7,7 @@ module.exports = {
       "error_msg",
       "Ops, Você precisa de permissão especial para acessar está área, solicite o Administrador do App!"
     );
-    res.redirect("/usuarios/login");
+    res.redirect("/users/login");
   },
     /*eDevAdmin: function (req, res, next) {
     if (req.isAuthenticated() && req.user.eAdmin == 2) {

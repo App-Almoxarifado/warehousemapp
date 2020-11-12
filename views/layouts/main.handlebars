@@ -42,10 +42,10 @@
 <body>
   {{>_navbar}}
   <div class="container">
-    {{#if error}}
-    <div class="alert alert-danger">{{error}}</div>
-    {{else}}
-    {{/if}}
+        {{#if error}}
+        <div class="alert alert-danger">{{error}}</div>
+        {{else}}
+        {{/if}}
     {{>_msg}}
     {{#if user}}
     {{>_sidebar}}

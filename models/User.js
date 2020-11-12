@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const Usuario = new Schema({
+const User = new Schema({
   name: {
     type: Schema.Types.ObjectId,
     ref: "collaborators",
@@ -19,7 +19,7 @@ const Usuario = new Schema({
     type: String,
     require: true,
   },
-  senha: {
+  password: {
     type: String,
     require: true,
   },
@@ -44,4 +44,4 @@ const Usuario = new Schema({
     ref: "warehouses"
   }]
 });
-mongoose.model("usuarios", Usuario);
+mongoose.model("users", User);

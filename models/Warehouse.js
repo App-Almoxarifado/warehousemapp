@@ -42,6 +42,24 @@ const Warehouse = new Schema({
     //required: true,
     trim: true
   },
+  //UG RECONDICIONAMENTO DO PROJETO
+  ug: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //DIVISÃO DO PROJETO
+  division: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //STATUS DO PROJETO
+  status: {
+    type: String,
+    //required: true,
+    trim: true
+  },
   //CLIENTE DA OBRA
   client: {
     type: String,
@@ -55,37 +73,37 @@ const Warehouse = new Schema({
     trim: true
   },
   //CEP DO CLIENTE
-  cep: {
+  zipCode: {
     type: String,
     //required: true,
     trim: true
   },
   //LOGRADOURO DO CLIENTE
-  logradouro: {
+  publicPlace: {
     type: String,
     //required: true,
     trim: true
   },
   //BAIRRO DO CLIENTE
-  bairro: {
+  neighborhood: {
     type: String,
     //required: true,
     trim: true
   },
   //COMPLEMENTO DO ENDEREÇO DO CLIENTE
-  complemento: {
+  complement: {
     type: String,
     //required: true,
     trim: true
   },
   //CIDADE
-  cidade: {
+  city: {
     type: String,
     //required: true,
     trim: true
   },
   //ESTADO - UF
-  uf: {
+  state: {
     type: String,
     //required: true,
     trim: true
@@ -103,10 +121,129 @@ const Warehouse = new Schema({
     index: true
     //required: true
   },
-  //IC EMAIL
   icEmail: {
     type: String,
     lowercase: true,
+    trim: true
+  },
+  //SUPERVISOR
+  sm: {
+    type: Schema.Types.ObjectId,
+    ref: "collaborators",
+    index: true
+    //required: true
+  },
+  smEmail: {
+    type: String,
+    lowercase: true,
+    trim: true
+  },
+  //SUPERVISOR
+  cm: {
+    type: Schema.Types.ObjectId,
+    ref: "collaborators",
+    index: true
+    //required: true
+  },
+  cmEmail: {
+    type: String,
+    lowercase: true,
+    trim: true
+  },
+  //CONTROLADOR DE MATERIAIS
+  mc: {
+    type: Schema.Types.ObjectId,
+    ref: "collaborators",
+    index: true
+    //required: true
+  },
+  mcEmail: {
+    type: String,
+    lowercase: true,
+    trim: true
+  },
+  //ADM
+  adm: {
+    type: Schema.Types.ObjectId,
+    ref: "collaborators",
+    index: true
+    //required: true
+  },
+  admEmail: {
+    type: String,
+    lowercase: true,
+    trim: true
+  },
+  //PLANEJADOR
+  planner: {
+    type: Schema.Types.ObjectId,
+    ref: "collaborators",
+    index: true
+    //required: true
+  },
+  plannerEmail: {
+    type: String,
+    lowercase: true,
+    trim: true
+  },
+  //TST 
+  safety: {
+    type: Schema.Types.ObjectId,
+    ref: "collaborators",
+    index: true
+    //required: true
+  },
+  safetyEmail: {
+    type: String,
+    lowercase: true,
+    trim: true
+  },
+  //WBS EPI/EPC
+  safetyWbs: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //WBS CONSUMÍVEIS
+  consumablesWbs: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //WBS FERRAMENTAS
+  toolsWbs: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //WBS INFRA
+  infraWbs: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //WBS INFRA
+  maintenanceWbs: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //WBS INFRA
+  maintenanceWbs: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //DATA MOBILIZAÇÃO
+  mobilization: {
+    type: String,
+    //required: true,
+    trim: true
+  },
+  //DATA DESMOBILIZAÇÃO
+  demobilization: {
+    type: String,
+    //required: true,
     trim: true
   },
   //DATA DE LANÇAMENTO
