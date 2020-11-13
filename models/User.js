@@ -8,16 +8,20 @@ const { promisify } = require("util");
 const s3 = new aws.S3();
 
 const User = new Schema({
+  image: {
+    type: String,
+    //require: true,
+  },
+  key: {
+    type: String,
+    //require: true,
+  },
   name: {
     type: Schema.Types.ObjectId,
     ref: "collaborators",
     required: true,
   },
-  image: {
-    type: String,
-    require: true,
-  },
-  nome: {
+  userName: {
     type: String,
     require: true,
   },
@@ -29,9 +33,27 @@ const User = new Schema({
     type: String,
     require: true,
   },
-  date: {
+  //DATA DE LANÇAMENTO
+  createdAt: {
+    type: Date,
+    default: Date.now()
+  },
+  //DATA DE EDIÇÃO
+  updatedAt: {
+    type: Date,
+    default: Date.now()
+  },
+  //USUARIO DE EDIÇÃO
+  userUpdated: {
+    type: Schema.Types.ObjectId,
+    ref: "collaborators",
+    index: true
+    //required: true
+  },
+  //EMAIL DE EDIÇÃO
+  emailUpdated: {
     type: String,
-    default: Date.now(),
+    lowercase: true,
   },
   active: {
     type: Boolean,

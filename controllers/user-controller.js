@@ -14,10 +14,11 @@ const emailService = require("../services/email-service");
 //CADASTRANDO USUÁRIO
 exports.get = async (req, res) => {
   try {
+    const file = req.file
     var warehouses = await Warehouse.find({}).lean();
     var collaborators = await Collaborator.find({}).lean();
     var users = await User.find({}).lean().populate("sites")
-    res.render("users/register", { collaborators, warehouses, users });
+    res.render("users/register", { collaborators, warehouses, users, file });
   } catch (err) {
     req.flash("error_msg", "Ops, Houve um erro interno!");
     res.redirect("/");
@@ -28,9 +29,9 @@ exports.get = async (req, res) => {
 exports.getCreate = async (req, res) => {
   var erros = [];
   if (
-    !req.body.nome ||
-    typeof req.body.nome == undefined ||
-    req.body.nome == null
+    !req.body.userName ||
+    typeof req.body.userName == undefined ||
+    req.body.userName == null
   ) {
     erros.push({
       texto: "Nome inválido!",
@@ -54,11 +55,7 @@ exports.getCreate = async (req, res) => {
       texto: "Senha inválida!",
     });
   }
-  if (req.body.password.length < 4) {
-    erros.push({
-      texto: "Senha muito curta!",
-    });
-  }
+
   if (req.body.password != req.body.password2) {
     erros.push({
       texto: "As senhas são diferentes, tente novamente!",
@@ -70,7 +67,8 @@ exports.getCreate = async (req, res) => {
       erros: erros,
     });
   } else {
-    let user = await User.findOne({ email: req.body.email,})
+    const file = req.file
+    let user = await User.findOne({ email: req.body.email, })
     if (user) {
       req.flash(
         "error_msg",
@@ -80,16 +78,13 @@ exports.getCreate = async (req, res) => {
     } else {
       try {
         var newUser = new User({
+          image: req.file.location,
+          key: req.file.key,
           name: req.body.name,
-          image: req.body.image,
-          nome: req.body.nome,
+          userName: req.body.userName,
           email: req.body.email,
-          eadmin: req.body.eadmin,
-          sites: [
-            req.body.sites
-          ],
           password: req.body.password,
-          date: req.body.date,
+          sites:req.body.sites
         });
         bcrypt.genSalt(10, (err, salt) => {
           bcrypt.hash(newUser.password, salt, (err, hash) => {
@@ -99,9 +94,9 @@ exports.getCreate = async (req, res) => {
               newUser.password = hash;
               newUser.save()
               req.flash("success_msg", "Usuário cadastrado com sucesso!");
-              emailService.send(req.body.email,
+              emailService.send([req.body.email,"daniel.albuquerque@andritz.com"],
                 "Bem vindo ao Warehouseapp",
-                global.EMAIL_TMPL.replace("{0}", req.body.nome)
+                global.EMAIL_TMPL.replace("{0}",req.body.userName)
               );
               res.redirect("/");
             }

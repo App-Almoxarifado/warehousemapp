@@ -46,7 +46,7 @@
                             </div>
                             <div class="form-group col-md-12 text-left">
                                 <label style="font-size: small ;" for="name">Como você Prefere ser Chamado:</label>
-                                <input type="text" class="form-control form-control-sm" id="nome" name="nome"
+                                <input type="text" class="form-control form-control-sm" id="userName" name="userName"
                                     placeholder="Digite um nome de usuário de sua preferência">
                             </div>
                             <div class="form-group col-md-12 text-left">
@@ -79,7 +79,7 @@
                                     {{#each warehouses}}
                                     <div class="form-group col-md-12">
                                         <input class="mr-1 ml-1 form-check-input position-static" type="checkbox"
-                                            name="sites" value="{{_id}}" aria-label="">
+                                            name="sites[]" value="{{_id}}" aria-label="">
                                         {{description}}</div>
                                     {{else}}
                                     Nenhuma obra disponivel
@@ -91,16 +91,6 @@
                             </div>
                         </div>
                     </div>
-                    <!--CONTROLE DE USUÁRIOS LANÇAMENTO -->
-                    <input type="hidden" class="form-control mt-2" name="userCreated" id="userCreated"
-                        value="{{user.name}}">
-                    <input type="hidden" class="form-control mt-2" name="emailCreated" id="emailCreated"
-                        value="{{user.email}}">
-                    <!--CONTROLE DE USUÁRIOS -->
-                    <input type="hidden" class="form-control mt-2" name="userUpdated" id="userUpdated"
-                        value="{{user.name}}">
-                    <input type="hidden" class="form-control mt-2" name="emailUpdated" id="emailUpdated"
-                        value="{{user.email}}">
                 </form>
             </div>
         </div>
