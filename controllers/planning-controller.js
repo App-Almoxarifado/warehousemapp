@@ -554,7 +554,7 @@ exports.postUpdate = async (req, res) => {
 };
 
 //VIZUALIZANDO PRODUTOS CARRINHO
-exports.transfer = async (req, res) => {
+exports.checkOut = async (req, res) => {
   try {
     const warehouseOrigin = req.params.id;
     const requests = await Request.updateMany(
@@ -565,12 +565,12 @@ exports.transfer = async (req, res) => {
         ],
       },
       {
-        //qtyRequest: req.body.qtyRequest,
+        qtyRequest: 1050,
         requestNumber: Date.now(),
         status: "Solicitado",
       }
     );
-    //await requests.save();
+
     console.log(requests);
     req.flash(
       "success_msg",
