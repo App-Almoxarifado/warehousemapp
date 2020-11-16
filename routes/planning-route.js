@@ -17,6 +17,6 @@ router.get("/updateRequest/:_id", eAdmin, controller.getUpdate);
 router.get("/products/:_id?", controller.products);
 router.post("/updateRequest", eAdmin, multer(multerConfig).single("file"), controller.postUpdate);
 router.get("/delete/:_id", eAdmin, controller.getDelete);
-router.post("/transfer/:id", controller.transfer);
+router.post("/checkOut/:id", controller.checkOut);
 
 module.exports = router;

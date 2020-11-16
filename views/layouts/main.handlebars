@@ -28,9 +28,9 @@
 
 <body>
   {{>_navbar}}
-  <div class="container">
+  <div class="container text-center" style="position: fixed">
     {{#if error}}
-    <div class="alert alert-danger">{{error}}</div>
+    <div class="mt-1 alert alert-danger">{{error}}</div>
     {{else}}
     {{/if}}
     {{>_msg}}
