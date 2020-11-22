@@ -128,6 +128,7 @@ exports.dashboard = async (req, res) => {
       },
     ]);
 
+
     const groupChart = await Product.aggregate([
       warehouseMatch,
       {
@@ -185,7 +186,37 @@ exports.dashboard = async (req, res) => {
       },
     ]);
 
+    const warehouseCard = await Product.aggregate([
+      warehouseMatch,
+      {
+        $group: {
+          _id: "$warehouse",
+          qty: {
+            $sum: 1,
+          },
+          qtyStock: {
+            $sum: "$qtyStock",
+          },
+          qtyReservation: {
+            $sum: "$qtyReservation",
+          },
+          weightKg: { $sum: { $multiply: [ "$qtyStock", "$weightKg" ] } },
+          faceValue: {$sum: { $multiply: [ "$qtyStock", "$faceValue" ] } },
+        },
+      },
+      {
+        $lookup: {
+          from: "warehouses",
+          localField: "_id",
+          foreignField: "_id",
+          as: "warehouse",
+        },
+      },
+      { $unwind: "$warehouse" },
+    ]);
+    
     res.render("planning/dashboard", {
+      warehouseCard,
       warehouseChart,
       groupChart,
       typeChart,
