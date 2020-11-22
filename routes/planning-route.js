@@ -11,6 +11,7 @@ router.get("/dashboard/:_id?", controller.dashboard);
 router.get("/sites/:_id?", controller.sites);
 router.get("/:_id?", controller.planning);
 router.post("/planning", controller.postPlanning);
+router.get("/search/:_id?", controller.search);
 router.get("/request/:_id?", controller.getRequest);
 router.post("/request/:id",controller.requestFromWarehouse);
 router.get("/updateRequest/:_id", eAdmin, controller.getUpdate);

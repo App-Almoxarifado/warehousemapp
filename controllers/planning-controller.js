@@ -349,6 +349,150 @@ exports.postPlanning = async (req, res) => {
   }
 };
 
+exports.search = async (req, res) => {
+  try {
+    const warehouse = req.params._id;
+    const siteNow = await Warehouse.findOne({ _id: req.params._id })
+      .lean()
+      .populate("site");
+    const warehouses = await Warehouse.find({ active: true })
+      .sort({ description: "asc" })
+      .lean();
+    /*
+    if(req.user.admin)
+      warehouses = await Warehouse.find({ active: true })
+      .sort({ description: "asc" })
+      .lean();
+    else warehouses = req.user.sites;
+    */
+    const groups = await Group.find({ active: true })
+      .sort({ description: "asc" })
+      .lean();
+
+    const subgroups = await Subgroup.find({ active: true })
+      .sort({ description: "asc" })
+      .lean();
+
+    const types = await Type.find({ active: true })
+      .sort({ description: "asc" })
+      .lean();
+
+    const statuses = await Status.find({ active: true })
+      .sort({ description: "asc" })
+      .lean();
+
+    const filtros = {
+      $or: [],
+      $and: [],
+    };
+
+    let {
+      search,
+      page,
+      site,
+      group,
+      subgroup,
+      type,
+      status,
+      limit,
+    } = req.query;
+
+    if (!!search) {
+      const pattern = new RegExp(`.*${search}.*`);
+      filtros["$or"].push(
+        { description: { $regex: pattern, $options: "i" } },
+        { fullDescription: { $regex: pattern, $options: "i" } },
+        { tag: { $regex: pattern, $options: "i" } },
+        { user: { $regex: pattern, $options: "i" } }
+      );
+    }
+
+    if (!!site) filtros["$and"].push({ warehouse: site });
+    if (!!group) filtros["$and"].push({ group: group });
+    if (!!subgroup) filtros["$and"].push({ subgroup: subgroup });
+    if (!!type) filtros["$and"].push({ type: type });
+    if (!!status) filtros["$and"].push({ status: status });
+
+    page = Number(page || 1);
+    limit = limit ? Number(limit) : 10;
+
+    if (filtros["$and"].length === 0) delete filtros["$and"];
+    if (filtros["$or"].length === 0) delete filtros["$or"];
+
+    const quant = await Product.find(filtros).estimatedDocumentCount();
+
+    var products = await Product.find(filtros)
+      .sort({
+        editionDate: "desc",
+      })
+      .limit(limit)
+      .lean()
+      .skip(page > 1 ? (page - 1) * limit : 0)
+      .populate("group")
+      .populate("subgroup")
+      .populate("type")
+      .populate("status");
+
+
+      const items = await Product.aggregate([
+        {$match:filtros},
+        {$limit:20},
+        {$sort:{tag:1}},
+        { $group: { _id: {group:"$group",subgroup:"$subgroup",tag:"$tag",description:"$description"},
+             count: { $sum: "$qtyStock"}
+          }
+        },
+        {
+          $lookup:
+          {
+            from: "groups",
+            localField: "_id.group",
+            foreignField: "_id",
+            as: "group"
+          }
+        },
+        { $unwind: "$group" },
+        {
+          $lookup:
+          {
+            from: "subgroups",
+            localField: "_id.subgroup",
+            foreignField: "_id",
+            as: "subgroup"
+          }
+        },
+        { $unwind: "$subgroup" },
+      ])
+      console.log(items)
+
+    res.render("planning/search", {
+      items,
+      products,
+      prev: Number(page) > 1,
+      next: Number(page) * limit < quant,
+      warehouses,
+      groups,
+      subgroups,
+      types,
+      statuses,
+      page,
+      search,
+      limit,
+      site,
+      group,
+      subgroup,
+      type,
+      status,
+      siteNow,
+      warehouse,
+    });
+  } catch (err) {
+    console.log(err);
+    req.flash("error_msg", "Ops, Houve um erro interno!" + err);
+    res.redirect("/products");
+  }
+};
+
 exports.requestFromWarehouse = async (req, res) => {
   try {
     const warehouseOrigin = req.params.id;
