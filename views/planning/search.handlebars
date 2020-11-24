@@ -151,24 +151,6 @@
 
       </div>-->
     <!--TABELA DE DADOS-->
-    {{#each items}}
-    <div class="row">
-{{group.description}}
-</div>
-    <div class="row">
-{{subgroup.description}}
-</div>
-    <div class="row">
-{{_id.tag}}
-</div>
-    <div class="row">
-{{count}}
-</div>
-
-    {{else}}
-erro
-    {{/each}}
-
     <div class="table-responsive">
         <table id="tblExport" class="table table-hover table-sm table-bordered">
             <thead>
@@ -195,7 +177,7 @@ erro
             </thead>
 
             <tbody>
-                {{#each items}}
+                {{#each products}}
                 <form action="/planning/planning" method="POST">
                     <input type="hidden" class="mt-2 form-control" name="description" value="{{_id.description}}">
                     <input type="hidden" class="mt-2 form-control" name="warehouse" value="{{../siteNow._id}}">
@@ -223,12 +205,14 @@ erro
                         <td class="pl08 d-print-block">{{name}}</td>
                         <td class="pl09 d-print-block">{{capacityReach}}</td>
                         <td class="pl10 d-print-block">{{type.description}}</td>
-                        <td class="pl11 d-print-block">{{count}}</td>
-                        <td class="pl12 d-print-block">1</td>
-                        <td class="pl13 d-print-block">1</td>
-                        <td class="pl14 d-print-block">1</td>
-                        <td class="pl15 d-print-block">1</td>
-                        <td class="pl16 d-print-block">1</td>
+                        {{#find_with_key _id.tag ../siteProducts "_id"}}
+                            <td class="pl11 d-print-block">{{stock}}</td>
+                            <td class="pl12 d-print-block">{{request}}</td>
+                        {{/find_with_key}}
+                        <td class="pl13 d-print-block">{{qty}}</td>
+                        <td class="pl14 d-print-block">{{qtyUse}}</td>
+                        <td class="pl15 d-print-block">{{badAmount}}</td>
+                        <td class="pl16 d-print-block">{{qtyHbs}}</td>
                         <td><input type="number" value="1" min="1" max="" class=" form-control form-control-sm"
                                 name="qtyRequest"required></td>
 

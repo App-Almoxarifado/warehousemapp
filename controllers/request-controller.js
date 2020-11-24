@@ -88,6 +88,8 @@ exports.attendance = async (req, res) => {
 
 exports.products = async (req, res) => {
   try {
+    const tag = req.params.tag
+    console.log(tag)
     const file = req.file
     const filtros = [];
     let { search, page, limit } = req.query;
@@ -108,7 +110,7 @@ exports.products = async (req, res) => {
     ).estimatedDocumentCount();
 
     const products = await Product.aggregate([
-      { $match: filtros.length > 0 ? { $or: filtros } : { active: true } },
+      { $match: filtros.length > 0 ? { $or: filtros } : { 'tag':{$in:[tag]} } },
       { $sort: { description: -1 } },
       { $skip: page > 1 ? (page - 1) * limit : 0 },
       { $limit: limit },

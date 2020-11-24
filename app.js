@@ -145,6 +145,11 @@ hbs.handlebars.registerHelper("find_by_id",(list,_id,opts) => {
   return opts.fn(item)
 });
 
+hbs.handlebars.registerHelper("find_with_key",(keyValue,list,key,opts) => {
+  const item = list.find(element => element[key] == keyValue);
+  return opts.fn(item || ({ stock: 0, request: 0}))
+});
+
 
 app.set("view engine", "handlebars");
 
