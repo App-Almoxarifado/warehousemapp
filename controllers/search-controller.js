@@ -169,7 +169,6 @@ exports.search = async (req, res) => {
     limit = limit ? Number(limit) : 10;
 
     const quant = await Product.find(filtros).estimatedDocumentCount();
-
     /* var products = await Product.find(filtros)
       .sort({
         editionDate: "desc",
@@ -196,15 +195,8 @@ exports.search = async (req, res) => {
             tag: "$tag",
             group: "$group",
             subgroup: "$subgroup",
-            //warehouse:"$warehouse",
             description: "$description",
           },
-          qtySite: { $sum: "$qtyStock" },
-          qtyRequest: { $sum: "$qtyReservation" },
-          qty: { $sum: "$qtyStock" },
-          qtyUse: { $sum: "$qtyStock" },
-          badAmount: { $sum: "$qtyStock" },
-          qtyHbs: { $sum: "$qtyStock" },
         },
       },
       {
@@ -371,3 +363,7 @@ exports.products = async (req, res) => {
     res.redirect("/products");
   }
 };
+
+
+
+
