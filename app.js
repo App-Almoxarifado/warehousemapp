@@ -147,26 +147,31 @@ hbs.handlebars.registerHelper("find_by_id",(list,_id,opts) => {
   return opts.fn(item)
 });
 
+//ESTOQUE OBRA FILTRADA OU ATIVA
 hbs.handlebars.registerHelper("find_with_key",(keyValue,list,key,opts) => {
   const item = list.find(element => element[key] == keyValue);
   return opts.fn(item || ({ stock: 0, request: 0}))
 });
 
+//ESTOQUE TOTAL
 hbs.handlebars.registerHelper("find_with_total",(keyValue,list,key,opts) => {
   const item = list.find(element => element[key] == keyValue);
   return opts.fn(item || ({ stock: 0, request: 0}))
 });
 
+//ESTOQUE EM USO - MENOS ALMOX. CENTRAL
 hbs.handlebars.registerHelper("find_with_use",(keyValue,list,key,opts) => {
   const item = list.find(element => element[key] == keyValue);
   return opts.fn(item || ({ stock: 0, request: 0}))
 });
 
+//ESTOQUE PENDÊNCIAS
 hbs.handlebars.registerHelper("find_with_bad",(keyValue,list,key,opts) => {
   const item = list.find(element => element[key] == keyValue);
   return opts.fn(item || ({ stock: 0, request: 0}))
 });
 
+//ESTOQUE ALMOXARIFADO CENTRAL
 hbs.handlebars.registerHelper("find_with_hbs",(keyValue,list,key,opts) => {
   const item = list.find(element => element[key] == keyValue);
   return opts.fn(item || ({ stock: 0, request: 0}))
