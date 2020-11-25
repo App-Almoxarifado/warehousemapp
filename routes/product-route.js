@@ -9,7 +9,7 @@ const { eDevAdmin } = require("../helpers/eDevAdmin");
 
 router.get("/", eAdmin, controller.getList);
 router.get("/table", eAdmin, controller.getTable);
-router.get("/create", controller.getCreate);
+router.get("/create", eAdmin,controller.getCreate);
 router.post("/create", eAdmin, multer(multerConfig).single("file"), controller.postCreate);
 router.get("/update/:_id", eAdmin, controller.getUpdate);
 router.post("/update", eAdmin, multer(multerConfig).single("file"), controller.postUpdate);
