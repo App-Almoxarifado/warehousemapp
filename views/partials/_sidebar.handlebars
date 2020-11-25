@@ -7,7 +7,7 @@
 
             <strong class="px-2">{{first user.userName}}</strong>
         </div>
-
+        {{#if user.eDevAdmin}}
         <ul class="list-unstyled components">
             <li>
                 <a href="/">
@@ -151,26 +151,37 @@
                     Teste Cep
                 </a>
             </li>
-            {{#if user}}
-            <li>
-                <a href="/users/logout">
-                    <i class="fas fa-times"></i>
-                    Sair</a>
-            </li>
             {{else}}
-            <li>
-                <a href="/users/login">
-                    <i class="fas fa-sign-in-alt"></i>
-                    Login</a>
+            <ul class="list-unstyled components">
+                <li>
+                <li>
+                    <a href="/search">
+                        <i class="fas fa-tools"></i>
+                        Ativos
+                    </a>
+                </li>
+
+                {{/if}}
+                {{#if user}}
+                <li>
+                    <a href="/users/logout">
+                        <i class="fas fa-times"></i>
+                        Sair</a>
+                </li>
+                {{else}}
+                <li>
+                    <a href="/users/login">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Login</a>
 
 
-                <a href="/users/register">
-                    <i class="fas fa-user-plus"></i>
-                    Registro</a>
-            </li>
-            {{/if}}
+                    <a href="/users/register">
+                        <i class="fas fa-user-plus"></i>
+                        Registro</a>
+                </li>
+                {{/if}}
 
-        </ul>
+            </ul>
     </nav>
 
     <!-- Modal -->

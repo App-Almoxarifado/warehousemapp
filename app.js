@@ -58,7 +58,8 @@ const requestRoute = require("./routes/request-route");
 const warehouseRoute = require("./routes/warehouse-route");
 //PEDIDOS
 const transferRoute = require("./routes/transfer-route");
-
+//CONSULTA
+const searchRoute = require("./routes/search-route");
 
 const passport = require("passport");
 require("./config/auth")(passport);
@@ -95,6 +96,7 @@ app.use((req, res, next) => {
     res.locals.user = req.user;
     res.locals.sites = req.user.sites;
     req.user.eAdmin = req.user.eAdmin == 1;
+    req.user.eDevAdmin = req.user.eDevAdmin == 1;
   }
   next();
 });
@@ -150,6 +152,26 @@ hbs.handlebars.registerHelper("find_with_key",(keyValue,list,key,opts) => {
   return opts.fn(item || ({ stock: 0, request: 0}))
 });
 
+hbs.handlebars.registerHelper("find_with_total",(keyValue,list,key,opts) => {
+  const item = list.find(element => element[key] == keyValue);
+  return opts.fn(item || ({ stock: 0, request: 0}))
+});
+
+hbs.handlebars.registerHelper("find_with_use",(keyValue,list,key,opts) => {
+  const item = list.find(element => element[key] == keyValue);
+  return opts.fn(item || ({ stock: 0, request: 0}))
+});
+
+hbs.handlebars.registerHelper("find_with_bad",(keyValue,list,key,opts) => {
+  const item = list.find(element => element[key] == keyValue);
+  return opts.fn(item || ({ stock: 0, request: 0}))
+});
+
+hbs.handlebars.registerHelper("find_with_hbs",(keyValue,list,key,opts) => {
+  const item = list.find(element => element[key] == keyValue);
+  return opts.fn(item || ({ stock: 0, request: 0}))
+});
+
 
 app.set("view engine", "handlebars");
 
@@ -199,6 +221,7 @@ app.use("/products", productRoute);
 app.use("/planning", planningRoute);
 app.use("/requests", requestRoute);
 app.use("/warehouses", warehouseRoute);
+app.use("/search", searchRoute);
 
 app.use((req, res) => {
   res.render("404");
