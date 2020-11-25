@@ -184,7 +184,8 @@ exports.search = async (req, res) => {
 
     console.log(filtros);
     const products = await Product.aggregate([
-      { $match: filtros },
+      {$match:filtros},
+      { $match: {active: { $in: [true] } } },
       { $skip: page > 1 ? (page - 1) * limit : 0 },
       { $limit: limit },
       { $sort: { tag: 1 } },
