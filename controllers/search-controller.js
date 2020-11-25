@@ -184,8 +184,8 @@ exports.search = async (req, res) => {
 
     console.log(filtros);
     const products = await Product.aggregate([
-      {$match:filtros},
-      { $match: {active: { $in: [true] } } },
+      { $match: filtros },
+      { $match: { active: { $in: [true] } } },
       { $skip: page > 1 ? (page - 1) * limit : 0 },
       { $limit: limit },
       { $sort: { tag: 1 } },
@@ -270,7 +270,7 @@ exports.search = async (req, res) => {
       totalProducts,
       useProducts,
       badProducts,
-      hbsProducts
+      hbsProducts,
     });
   } catch (err) {
     console.log(err);
@@ -279,23 +279,22 @@ exports.search = async (req, res) => {
   }
 };
 
-
 //PRODUTOS
 exports.products = async (req, res) => {
   try {
-    const tag = req.params.tag
-    console.log(tag)
-    const file = req.file
+    const tag = req.params.tag;
+    console.log(tag);
+    const file = req.file;
     const filtros = [];
     let { search, page, limit } = req.query;
     if (!!search) {
       const pattern = new RegExp(`.*${search}.*`);
       filtros.push(
-        { tag: { $regex: pattern, $options: 'i' } },
-        { name: { $regex: pattern, $options: 'i' } },
-        { capacityReach: { $regex: pattern, $options: 'i' } },
-        { description: { $regex: pattern, $options: 'i' } },
-        { fullDescription: { $regex: pattern, $options: 'i' } }
+        { tag: { $regex: pattern, $options: "i" } },
+        { name: { $regex: pattern, $options: "i" } },
+        { capacityReach: { $regex: pattern, $options: "i" } },
+        { description: { $regex: pattern, $options: "i" } },
+        { fullDescription: { $regex: pattern, $options: "i" } }
       );
     }
     page = Number(page || 1);
@@ -305,61 +304,58 @@ exports.products = async (req, res) => {
     ).estimatedDocumentCount();
 
     const products = await Product.aggregate([
-      { $match: filtros.length > 0 ? { $or: filtros } : { 'tag':{$in:[tag]} } },
+      {
+        $match: filtros.length > 0 ? { $or: filtros } : { tag: { $in: [tag] } },
+      },
       { $sort: { description: -1 } },
       { $skip: page > 1 ? (page - 1) * limit : 0 },
       { $limit: limit },
       {
-        $lookup:
-        {
+        $lookup: {
           from: "collaborators",
           localField: "userCreated",
           foreignField: "_id",
-          as: "created"
-        }
+          as: "created",
+        },
       },
       { $unwind: "$created" },
       {
-        $lookup:
-        {
+        $lookup: {
           from: "collaborators",
           localField: "userUpdated",
           foreignField: "_id",
-          as: "updated"
-        }
+          as: "updated",
+        },
       },
       { $unwind: "$updated" },
       {
-        $lookup:
-        {
+        $lookup: {
           from: "groups",
           localField: "group",
           foreignField: "_id",
-          as: "group"
-        }
+          as: "group",
+        },
       },
       { $unwind: "$group" },
       {
-        $lookup:
-        {
+        $lookup: {
           from: "subgroups",
           localField: "subgroup",
           foreignField: "_id",
-          as: "subgroup"
-        }
+          as: "subgroup",
+        },
       },
       { $unwind: "$subgroup" },
       {
-        $lookup:
-        {
+        $lookup: {
           from: "types",
           localField: "type",
           foreignField: "_id",
-          as: "type"
-        }
+          as: "type",
+        },
       },
-      { $unwind: "$type" }
-    ])
+      { $unwind: "$type" },
+    ]);
 
     res.render("search/products", {
       products,
@@ -367,7 +363,7 @@ exports.products = async (req, res) => {
       next: Number(page) * limit < quant,
       page,
       limit,
-      file
+      file,
     });
   } catch (err) {
     console.log(err);
