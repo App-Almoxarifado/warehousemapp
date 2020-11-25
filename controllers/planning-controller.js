@@ -132,11 +132,11 @@ exports.search = async (req, res) => {
         {$sort:{tag:1}},
         {$group: { 
             _id: {
-              type:"$type",
+              //type:"$type",
               tag:"$tag",
               group:"$group",
               subgroup:"$subgroup",
-              warehouse:"$warehouse",
+              //warehouse:"$warehouse",
               description:"$description",
             },
              qtySite: { $sum: "$qtyStock"},
@@ -167,7 +167,7 @@ exports.search = async (req, res) => {
           }
         },
         { $unwind: "$subgroup" },
-        {
+        /*{
           $lookup:
           {
             from: "types",
@@ -186,7 +186,7 @@ exports.search = async (req, res) => {
             as: "warehouse"
           }
         },
-        { $unwind: "$warehouse" },
+        { $unwind: "$warehouse" },*/
       ])
       // console.log(products)
 
