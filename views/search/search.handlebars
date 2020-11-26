@@ -1,7 +1,7 @@
 <div class="mt-2 container-fluid">
     <div class="d-flex justify-content-center">
         <div class="p-1 mr-auto">
-            <h4><i class="fas fa-cogs" style="color:#0075be;"></i> Consulta de Ativos</h4>
+            <h4><i class="fas fa-tools" style="color:#0075be;"></i> Consulta de Produtos</h4>
             <h5>{{siteNow.description}}</h5>
         </div>
 
@@ -112,23 +112,19 @@
         <div class="p-1 ">
             <select class="custom-select custom-select-sm" name="SelectOptions" id="SelectOptions">
                 <option selected disabled hidden>Escolher...</option>
-                <option value="pl01">Id</option>
-                <option value="pl02">imagem</option>
-                <option value="pl03">QrCode</option>
-                <option value="pl04">Grupo</option>
-                <option value="pl05">Subgrupo</option>
-                <option value="pl06">Descrição Resumida</option>
-                <option value="pl07">Tag</option>
-                <option value="pl08">Descrição</option>
-                <option value="pl09">Cap./Alcance</option>
-                <option value="pl10">Tipo</option>
-                <option value="pl11">Qtd alocada no Projeto</option>
-                <option value="pl12">Qtd alocada no Reservada Atual</option>
-                <option value="pl13">Qtd Total HBS</option>
-                <option value="pl14">Qtd em Uso</option>
-                <option value="pl15">Qtd com Pendência</option>
-                <option value="pl16">Qtd disponivel</option>
-                <option value="pl18">Ações</option>
+                <option value="pl01">QrCode</option>
+                <option value="pl02">Grupo</option>
+                <option value="pl03">Subgrupo</option>
+                <option value="pl04">Descrição Resumida</option>
+                <option value="pl05">Tag</option>
+                <option value="pl16">Tipo</option>
+                <option value="pl07">Qtd alocada no Projeto</option>
+                <option value="pl08">Qtd alocada no Reservada Atual</option>
+                <option value="pl09">Qtd Total HBS</option>
+                <option value="pl10">Qtd em Uso</option>
+                <option value="pl11">Qtd com Pendência</option>
+                <option value="pl12">Qtd disponivel</option>
+                <option value="pl13">Detalhes</option>
             </select>
         </div>
     </div>
@@ -152,23 +148,19 @@
         <table id="tblExport" class="table table-hover table-sm table-bordered">
             <thead>
                 <tr>
-                    <th class="pl01 d-print-block" scope="col">Id</th>
-                    <th class="pl02 d-print-block" scope="col">Imagem</th>
-                    <th class="pl03 d-print-block" scope="col">qrCode</th>
-                    <th class="pl04 d-print-block" scope="col">Grupo</th>
-                    <th class="pl05 d-print-block" scope="col">Subgrupo</th>
-                    <th class="pl06 d-print-block" scope="col">Descrição Resumida</th>
-                    <th class="pl07 d-print-block" scope="col">Tag</th>
-                    <th class="pl08 d-print-block" scope="col">Descrição</th>
-                    <th class="pl09 d-print-block" scope="col">Cap./Alcance</th>
-                    <th class="pl10 d-print-block" scope="col">Tipo / Acionamento</th>
-                    <th class="pl11 d-print-block" scope="col">Qtd alocada no Projeto</th>
-                    <th class="pl12 d-print-block" scope="col">Qtd reservada p/ projeto</th>
-                    <th class="pl13 d-print-block" scope="col">Qtd Total HBS</th>
-                    <th class="pl14 d-print-block" scope="col">Qtd em Uso</th>
-                    <th class="pl15 d-print-block" scope="col">Qtd com Pendência</th>
-                    <th class="pl16 d-print-block" scope="col">Qtd disponivel</th>
-                    <th class="pl17 d-print-block" scope="col">Detalhes</th>
+                    <th class="pl01 d-print-block" scope="col">qrCode</th>
+                    <th class="pl02 d-print-block" scope="col">Grupo</th>
+                    <th class="pl03 d-print-block" scope="col">Subgrupo</th>
+                    <th class="pl04 d-print-block" scope="col">Descrição Resumida</th>
+                    <th class="pl05 d-print-block" scope="col">Tag</th>
+                    <th class="pl06 d-print-block" scope="col">Tipo / Acionamento</th>
+                    <th class="pl07 d-print-block" scope="col">Qtd alocada no Projeto</th>
+                    <th class="pl08 d-print-block" scope="col">Qtd reservada p/ projeto</th>
+                    <th class="pl09 d-print-block" scope="col">Qtd Total HBS</th>
+                    <th class="pl10 d-print-block" scope="col">Qtd em Uso</th>
+                    <th class="pl11 d-print-block" scope="col">Qtd com Pendência</th>
+                    <th class="pl12 d-print-block" scope="col">Qtd disponivel</th>
+                    <th class="pl13 d-print-block" scope="col">Detalhes</th>
                 </tr>
             </thead>
 
@@ -178,49 +170,39 @@
                     <input type="hidden" class="mt-2 form-control" name="description" value="{{_id.description}}">
                     <input type="hidden" class="mt-2 form-control" name="warehouse" value="{{../siteNow._id}}">
                     <tr>
-                        <th class="pl01 d-print-block">{{_id}}</th>
-                        <td class="pl02 d-print-block">
+                        <td class="pl01 d-print-block">
                             <figure class="figure">
-                                <img src="{{image}}" class="figure-img img-fluid rounded" style="max-width: 4rem;"
-                                    alt="Imagem de um quadrado genérico com bordas arredondadas, em uma figure.">
-                            </figure>
-                        </td>
-
-                        <td class="pl03 d-print-block">
-                            <figure class="figure">
-                                <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{_id}}"
+                                <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{_id.tag}}"
                                     class="figure-img img-fluid rounded" style="max-width: 4rem;"
                                     alt="Imagem de um quadrado genérico com bordas arredondadas, em uma figure.">
                                 <!--<figcaption class="figure-caption">Uma legenda para a imagem acima.</figcaption>-->
                             </figure>
                         </td>
-                        <td class="pl04 d-print-block">{{group.description}}</td>
-                        <td class="pl05 d-print-block">{{subgroup.description}}</td>
-                        <td class="pl06 d-print-block">{{_id.description}}</td>
-                        <td class="pl07 d-print-block">{{_id.tag}}</td>
-                        <td class="pl08 d-print-block">{{name}}</td>
-                        <td class="pl09 d-print-block">{{capacityReach}}</td>
-                        <td class="pl10 d-print-block">{{type.description}}</td>
+                        <td class="pl02 d-print-block">{{group.description}}</td>
+                        <td class="pl03 d-print-block">{{subgroup.description}}</td>
+                        <td class="pl04 d-print-block">{{_id.description}}</td>
+                        <td class="pl05 d-print-block">{{_id.tag}}</td>
+                        <td class="pl06 d-print-block">{{type.description}}</td>
                         {{#find_with_key _id.tag ../siteProducts "_id"}}
-                        <td class="pl11 d-print-block">{{stock}}</td>
-                        <td class="pl12 d-print-block">{{request}}</td>
+                        <td class="pl07 d-print-block">{{stock}}</td>
+                        <td class="pl08 d-print-block">{{request}}</td>
                         {{/find_with_key}}
                         {{#find_with_total _id.tag ../totalProducts "_id"}}
-                        <td class="pl13 d-print-block">{{stock}}</td>
+                        <td class="pl09 d-print-block">{{stock}}</td>
                         {{/find_with_total}}
                         {{#find_with_use _id.tag ../useProducts "_id"}}
-                        <td class="pl14 d-print-block">{{stock}}</td>
+                        <td class="pl10 d-print-block">{{stock}}</td>
                         {{/find_with_use}}
                         {{#find_with_use _id.tag ../badProducts "_id"}}
-                        <td class="pl15 d-print-block">{{stock}}</td>
+                        <td class="pl11 d-print-block">{{stock}}</td>
                         {{/find_with_use}}
                         {{#find_with_use _id.tag ../hbsProducts "_id"}}
-                        <td class="pl16 d-print-block">{{stock}}</td>
+                        <td class="pl12 d-print-block">{{stock}}</td>
                         {{/find_with_use}}
-                        <td class="pl18 d-print-none">
+                        <td class="pl13 d-print-none">
                             <div class="d-flex justify-content-center">
                                 <div class="p-0 mr-1">
-                                    <a href="/search/products/{{_id.tag}}" class="mt-1 mb-1 btn btn-success btn-sm"
+                                    <a href="/search/actives/{{_id.tag}}" class="mt-1 mb-1 btn btn-success btn-sm"
                                         data-toggle="tooltip" data-placement="bottom" title="Visualizar detalhes">
                                         <i class="fas fa-file-signature"></i>
                                     </a>

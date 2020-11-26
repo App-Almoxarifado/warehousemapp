@@ -597,8 +597,15 @@ img {
 }
 
 //OCULTAR MOSTRAR DETALHES LIST
-.pl01,.pl02,.pl03,.pl04,.pl05,.pl07,.pl08,.pl09
+.act01,.act02,.act03,.act04,.act05,.act06,.act08,.act09,.act10,.act11,.act12,.act13,.act14,
+.act15,.act17,.act19,.act20,.act21,.act22,.act23,.act24,.act25,.act27,
+.act28,.act33,.act34,.act35,.act36,.act37,.act38
 {
+    display: none;
+}
+
+//OCULTAR MOSTRAR DETALHES LIST
+.pl01,.pl02,.pl03,.pl05{
     display: none;
 }
 
