@@ -422,16 +422,14 @@ exports.actives = async (req, res) => {
         { tagSearch: { $regex: pattern, $options: "i" } }
       );
     }
-
-    if (!!site)
-      filtros["$and"].push({ warehouse: mongoose.Types.ObjectId(site) });
-    if (!!group)
-      filtros["$and"].push({ group: mongoose.Types.ObjectId(group) });
-    if (!!subgroup)
-      filtros["$and"].push({ subgroup: mongoose.Types.ObjectId(subgroup) });
+    if (!!tag)filtros["$or"].push({ tag: { $in: [tag] } });
+    
+    if (!!site)filtros["$and"].push({ warehouse: mongoose.Types.ObjectId(site) });
+    if (!!group)filtros["$and"].push({ group: mongoose.Types.ObjectId(group) });
+    if (!!subgroup)filtros["$and"].push({ subgroup: mongoose.Types.ObjectId(subgroup) });
     if (!!type) filtros["$and"].push({ type: mongoose.Types.ObjectId(type) });
-    if (!!status)
-      filtros["$and"].push({ status: mongoose.Types.ObjectId(status) });
+    if (!!status)filtros["$and"].push({ status: mongoose.Types.ObjectId(status) });
+    
 
     if (filtros["$and"].length === 0) delete filtros["$and"];
     if (filtros["$or"].length === 0) delete filtros["$or"];
@@ -521,7 +519,7 @@ exports.actives = async (req, res) => {
     const products = await Product.aggregate([
       { $match: filtros },
       { $match: { active: { $in: [true] } } },
-      { $match: { tag: { $in: [tag] } } },
+      //{ $match: { tag: { $in: [tag] } } },
       { $skip: page > 1 ? (page - 1) * limit : 0 },
       { $limit: limit },
       { $sort: { tag: 1 } },
