@@ -115,23 +115,19 @@
         <div class="p-1 ">
             <select class="custom-select custom-select-sm" name="SelectOptions" id="SelectOptions">
                 <option selected disabled hidden>Escolher...</option>
-                <option value="pl01">Id</option>
-                <option value="pl02">imagem</option>
-                <option value="pl03">QrCode</option>
-                <option value="pl04">Grupo</option>
-                <option value="pl05">Subgrupo</option>
-                <option value="pl06">Descrição Resumida</option>
-                <option value="pl07">Tag</option>
-                <option value="pl08">Descrição</option>
-                <option value="pl09">Cap./Alcance</option>
-                <option value="pl10">Tipo</option>
-                <option value="pl11">Qtd alocada no Projeto</option>
-                <option value="pl12">Qtd alocada no Reservada Atual</option>
-                <option value="pl13">Qtd Total HBS</option>
-                <option value="pl14">Qtd em Uso</option>
-                <option value="pl15">Qtd com Pendência</option>
-                <option value="pl16">Qtd disponivel</option>
-                <option value="pl18">Ações</option>
+                <option value="pl01">QrCode</option>
+                <option value="pl02">Grupo</option>
+                <option value="pl03">Subgrupo</option>
+                <option value="pl04">Descrição Resumida</option>
+                <option value="pl05">Tag</option>
+                <option value="pl16">Tipo</option>
+                <option value="pl07">Qtd alocada no Projeto</option>
+                <option value="pl08">Qtd alocada no Reservada Atual</option>
+                <option value="pl09">Qtd Total HBS</option>
+                <option value="pl10">Qtd em Uso</option>
+                <option value="pl11">Qtd com Pendência</option>
+                <option value="pl12">Qtd disponivel</option>
+                <option value="pl13">Detalhes</option>
             </select>
         </div>
     </div>
@@ -155,24 +151,29 @@
         <table id="tblExport" class="table table-hover table-sm table-bordered">
             <thead>
                 <tr>
-                    <th class="pl01 d-print-block" scope="col">Id</th>
-                    <th class="pl02 d-print-block" scope="col">Imagem</th>
-                    <th class="pl03 d-print-block" scope="col">qrCode</th>
-                    <th class="pl04 d-print-block" scope="col">Grupo</th>
-                    <th class="pl05 d-print-block" scope="col">Subgrupo</th>
-                    <th class="pl06 d-print-block" scope="col">Descrição Resumida</th>
-                    <th class="pl07 d-print-block" scope="col">Tag</th>
-                    <th class="pl08 d-print-block" scope="col">Descrição</th>
-                    <th class="pl09 d-print-block" scope="col">Cap./Alcance</th>
-                    <th class="pl10 d-print-block" scope="col">Tipo / Acionamento</th>
-                    <th class="pl11 d-print-block" scope="col">Qtd alocada no Projeto</th>
-                    <th class="pl12 d-print-block" scope="col">Qtd reservada p/ projeto</th>
-                    <th class="pl13 d-print-block" scope="col">Qtd Total HBS</th>
-                    <th class="pl14 d-print-block" scope="col">Qtd em Uso</th>
-                    <th class="pl15 d-print-block" scope="col">Qtd com Pendência</th>
-                    <th class="pl16 d-print-block" scope="col">Qtd disponivel</th>
+                    <th class="pl02 d-print-block" scope="col">Grupo</th>
+                    <th class="pl03 d-print-block" scope="col">Subgrupo</th>
+                    <th class="pl04 d-print-block" scope="col">Descrição Resumida</th>
+                    <th class="pl05 d-print-block" scope="col">Tag</th>
+                    <th class="pl06 d-print-block" scope="col">Tipo / Acionamento</th>
+                    <th class="pl07 d-print-block" data-toggle="tooltip" data-placement="bottom"
+                        title="Quantidade que ja está no estoque do projeto" style="background-color: #696969;" scope="col">Qtd alocada no
+                        Projeto</th>
+                    <th class="pl08 d-print-block" data-toggle="tooltip" data-placement="bottom"
+                        title="Quantidade reservada para envio ao projeto" style="background-color: #708090;" scope="col">Qtd reservada p/
+                        projeto</th>
+                    <th class="pl09 d-print-block" data-toggle="tooltip" data-placement="bottom"
+                        title="Quantidade levando em consideração todas as obras mais o almoxarifado Central" scope="col">Qtd Total HBS</th>
+                    <th class="pl10 d-print-block" data-toggle="tooltip" data-placement="bottom"
+                        title="Quantidade levando em consideração somente os itens alocados nas obras" style="background-color: #FFFF00; color:black" scope="col">Qtd em Uso
+                    </th>
+                    <th class="pl11 d-print-block" data-toggle="tooltip" data-placement="bottom"
+                        title="Quantidade levando em consideração itens sem condições de uso, ou que precisam de alguma certificação ou reparo" style="background-color: #FF0000;color:black" scope="col">Qtd com
+                        Pendência</th>
+                    <th class="pl12 d-print-block" data-toggle="tooltip" data-placement="bottom"
+                        title="Quantidade levando em consideração itens alocados no almoxarifado central" style="background-color: #228B22;" scope="col">Qtd disponivel</th>
                     <th style="width:7%" class="bg-secondary">Solicitar</th>
-                    <th class="pl18 d-print-block" scope="col">Ações</th>
+                    <th class="pl13 d-print-block" scope="col">Ações</th>
                 </tr>
             </thead>
 
@@ -198,25 +199,32 @@
                                 <!--<figcaption class="figure-caption">Uma legenda para a imagem acima.</figcaption>-->
                             </figure>
                         </td>
-                        <td class="pl04 d-print-block">{{group.description}}</td>
-                        <td class="pl05 d-print-block">{{subgroup.description}}</td>
-                        <td class="pl06 d-print-block">{{_id.description}}</td>
-                        <td class="pl07 d-print-block">{{_id.tag}}</td>
-                        <td class="pl08 d-print-block">{{name}}</td>
-                        <td class="pl09 d-print-block">{{capacityReach}}</td>
-                        <td class="pl10 d-print-block">{{type.description}}</td>
+</td>
+                        <td class="pl02 d-print-block">{{group.description}}</td>
+                        <td class="pl03 d-print-block">{{subgroup.description}}</td>
+                        <td class="pl04 d-print-block">{{_id.description}}</td>
+                        <td class="pl05 d-print-block">{{_id.tag}}</td>
+                        <td class="pl06 d-print-block">{{type.description}}</td>
                         {{#find_with_key _id.tag ../siteProducts "_id"}}
-                            <td class="pl11 d-print-block">{{stock}}</td>
-                            <td class="pl12 d-print-block">{{request}}</td>
+                        <td class="pl07 d-print-block" style="background-color: #BEBEBE;">{{stock}}</td>
+                        <td class="pl08 d-print-block" style="background-color: #D3D3D3;">{{request}}</td>
                         {{/find_with_key}}
-                        <td class="pl13 d-print-block">{{qty}}</td>
-                        <td class="pl14 d-print-block">{{qtyUse}}</td>
-                        <td class="pl15 d-print-block">{{badAmount}}</td>
-                        <td class="pl16 d-print-block">{{qtyHbs}}</td>
+                        {{#find_with_total _id.tag ../totalProducts "_id"}}
+                        <td class="pl09 d-print-block" style="background-color: #7EC0EE;">{{stock}}</td>
+                        {{/find_with_total}}
+                        {{#find_with_use _id.tag ../useProducts "_id"}}
+                        <td class="pl10 d-print-block" style="background-color: #EEDD82;">{{stock}}</td>
+                        {{/find_with_use}}
+                        {{#find_with_use _id.tag ../badProducts "_id"}}
+                        <td class="pl11 d-print-block" style="background-color: #F08080;">{{stock}}</td>
+                        {{/find_with_use}}
+                        {{#find_with_use _id.tag ../hbsProducts "_id"}}
+                        <td class="pl12 d-print-block" style="background-color: #90EE90;">{{stock}}</td>
+                        {{/find_with_use}}
                         <td><input type="number" value="1" min="1" max="" class=" form-control form-control-sm"
                                 name="qtyRequest"required></td>
 
-                        <td class="pl18 d-print-none">
+                        <td class="pl13 d-print-none">
                             <div class="d-flex justify-content-center">
                                 <div class="p-0 mr-1">
                                     <button type="submit" class="mt-1 mb-1 btn btn-success btn-sm" data-toggle="tooltip"
@@ -225,7 +233,7 @@
                                 </div>
 
                                 <div class="p-0 mr-1">
-                                    <a href="/products/take/{{_id}}" class="mt-1 mb-1 btn btn-primary btn-sm"
+                                    <a href="/search/actives/{{_id.tag}}" class="mt-1 mb-1 btn btn-primary btn-sm"
                                         data-toggle="tooltip" data-placement="bottom" title="Visualizar detalhes">
                                         <i class="fas fa-file-signature"></i>
                                     </a>
