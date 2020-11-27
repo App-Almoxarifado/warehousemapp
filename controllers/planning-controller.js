@@ -669,7 +669,7 @@ exports.postPlanning = async (req, res) => {
 
       //console.log(request)
       req.flash("success_msg", "Produto solicitado, enviado para pedido!");
-      res.redirect(`/planning/${warehouse}`);
+      res.redirect(`/planning/search/${warehouse}`);
     } catch (err) {
       req.flash(
         "error_msg",
@@ -909,7 +909,7 @@ exports.checkOut = async (req, res) => {
       "success_msg",
       "Produtos solicitados com sucesso, enviado para pedido!"
     );
-    res.redirect(`/planning/${warehouseOrigin}`);
+    res.redirect(`/planning/search/${warehouseOrigin}`);
   } catch (e) {
     console.log(e);
   }

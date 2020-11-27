@@ -199,7 +199,7 @@
 
         <div class="row no-gutters position-relative">
 
-          <div class="d-flex col-md-2 justify-content-center">
+          <div class="d-flex col-md-1 justify-content-center">
             <div class="liProd02 p-0">
               <img src="{{image}}" style="width: 8rem;" class="rounded " alt="..." />
             </div>
@@ -228,6 +228,18 @@
             <p class="liProd13 mt-0 mb-1"><small><b>Email Edição: </b>{{emailUpdated}}</small>
             </p>
           </div>
+
+          <div class="col-md-3 position-static p-0 pl-md-0 text-center">
+            <p class="liProd08 mt-0 mb-1"><small><b>Data de Lançamento: </b>{{createdAt}}</small></p>
+            <p class="liProd11 mt-0 mb-1"><small><b>Última Modificação:
+                </b>{{updatedAt}}</small></p>
+            <p class="liProd09 mt-0 mb-1"><small><b>Usuário Lançamento: </b>{{created.description}}</small></p>
+            <p class="liProd10 mt-0 mb-1"><small><b>Email Lançamento: </b>{{emailCreated}}</small></p>
+            <p class="liProd12 mt-0 mb-1"><small><b>Usuário Edição:
+                </b>{{updated.description}}</small></p>
+            <p class="liProd13 mt-0 mb-1"><small><b>Email Edição: </b>{{emailUpdated}}</small>
+            </p>
+          </div>
         </div>
       </div>
 
@@ -242,7 +254,7 @@
 
         <div class="row no-gutters position-relative">
 
-          <div class="d-flex col-md-4 justify-content-center">
+          <div class="d-flex col-md-1 justify-content-center">
             <div class="liProd02 mr-2 p-0">
               <img src="{{image}}" style="width: 6rem;" class="rounded " alt="..." />
             </div>
