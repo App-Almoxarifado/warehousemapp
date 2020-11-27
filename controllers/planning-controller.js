@@ -512,7 +512,7 @@ exports.planning = async (req, res) => {
     },
   ]);
 
-  //PRODUTOS EM USO
+  //PRODUTOS NO ALMOX CENTRAL
   const centralHbs = "5f4517adcb7b9f1394dbc002";
   const hbsProducts = await Product.aggregate([
     { $match: { warehouse: { $in: [mongoose.Types.ObjectId(centralHbs)] } } },
@@ -715,6 +715,19 @@ exports.getRequest = async (req, res) => {
     const siteNow = await Warehouse.findOne({ _id: warehouse })
       .lean()
       .populate("site");
+
+  //PRODUTOS NO ALMOX CENTRAL
+  const centralHbs = "5f4517adcb7b9f1394dbc002";
+  const hbsProducts = await Product.aggregate([
+    { $match: { warehouse: { $in: [mongoose.Types.ObjectId(centralHbs)] } } },
+    {
+      $group: {
+        _id: "$tag",
+        stock: { $sum: "$qtyStock" },
+      },
+    },
+  ]);
+
     const numberRequest = Date.now();
     const file = req.file;
     const filtros = [];
@@ -756,6 +769,7 @@ exports.getRequest = async (req, res) => {
       numberRequest,
       warehouse,
       siteNow,
+      hbsProducts
     });
   } catch (err) {
     console.log(err);
@@ -792,12 +806,14 @@ exports.products = async (req, res) => {
 //DELETANDO
 exports.getDelete = async (req, res) => {
   await Request.deleteOne({ _id: req.params._id });
+  const warehouse = req.params.warehouse
+  console.log(warehouse)
   try {
     req.flash("success_msg", "Produto deletado com Sucesso!");
-    res.redirect("/products");
+    res.redirect(`/planning/request/${warehouse}`);
   } catch (err) {
     req.flash("error_msg", "Houve um erro interno!");
-    res.redirect("/products");
+    res.redirect("/planning/request");
   }
 };
 
@@ -841,7 +857,7 @@ exports.getUpdate = async (req, res) => {
   try {
     const file = req.file;
     var request = await Request.findOne({ _id: req.params._id }).lean();
-    res.render("planning/updateRequest", { request: request, file });
+    res.render("planning/updateRequest", { request: request, file});
   } catch (_err) {
     req.flash("error_msg", "Ops, Houve um erro interno!");
     res.redirect("/planning");
@@ -874,14 +890,14 @@ exports.postUpdate = async (req, res) => {
         (request.note = req.body.note),
         await request.save();
       req.flash("success_msg", "Observação criada com sucesso!!!");
-      res.redirect("/planning");
+      res.redirect(`/planning/request/${req.body.site}`);
       console.log("Produto editado com sucesso!");
     } catch (err) {
       req.flash(
         "error_msg",
         "Ops, Houve um erro ao salvar o tipo, tente novamente!" + err
       );
-      res.redirect(`/planning/${warehouse}`);
+      res.redirect(`/planning/request/${req.body.site}`);
     }
   }
 };

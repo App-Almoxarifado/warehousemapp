@@ -25,17 +25,18 @@
                 <div class="d-flex p-1 justify-content-center">
 
                     <input type="file" accept="image/*" name="file" id="file"
-                        class="btn-file text-center center-block file-upload">
+                        class="btn-file text-center center-block file-upload" required>
                 </div>
             </div>
             <div class="col-md-8 position-static px-2">
                 <h4 class="mt-2">{{tag}}</h4>
                 <input type="hidden" class="form-control" id="_id" name="_id" placeholder="Id" value={{request._id}}>
-                <input type="hidden" class="form-control mt-2" name="image" id="image">
+                <input type="hidden" class="form-control mt-2" name="image" id="image" required>
+                <input type="hidden" class="form-control mt-2" name="site" id="site" value={{request.warehouse}}>
                 <div class="form-row">
                     <div class="form-group col-md-12">
                         <label style="font-size: small ;" for="note">Observações, referencias:</label>
-                        <input class="form-control" id="note" name="note" rows="4">
+                        <input class="form-control" id="note" name="note" rows="4" required>
                         <small id="note" class="form-text text-muted">
                             Cole um link de referência do material que deseja, ou descreva um fabricante, modelo!
                         </small>

@@ -25,3 +25,9 @@ function showHide(el) {
         document.getElementById(el).style.display = 'none';
 }
 
+$("#form").submit(function() {
+    if($("#image").val()== null || $("#image").val() ==""){
+        alert('campo vazio');      
+        return false;
+    }
+});
