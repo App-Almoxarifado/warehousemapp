@@ -116,11 +116,11 @@
 
           <td class="tbReq03 d-print-block">{{description}}</td>
           <td class="tbReq04 d-print-block">{{note}}</td>
-                                  {{#find_with_use tag ../hbsProducts "_id"}}
-                        <td class="tbReq07 d-print-block" style="background-color: #90EE90;">{{stock}}</td>
-                        {{/find_with_use}}
-          <td class="tbReq05"><input type="number" value="{{qtyRequest}}" min="1" max="" class=" form-control form-control-sm"
-              name="qtyRequest" required></td>
+          {{#find_with_use tag ../hbsProducts "_id"}}
+          <td class="tbReq07 d-print-block" style="background-color: #90EE90;">{{stock}}</td>
+          {{/find_with_use}}
+          <td class="tbReq05"><input type="number" value="{{qtyRequest}}" min="1" max=""
+              class=" form-control form-control-sm" name="qtyRequest" required></td>
           <td class="tbReq06 d-print-none">
             <div class="d-flex justify-content-center">
 
@@ -132,8 +132,8 @@
               </div>
 
               <div class="liTypes11 p-0">
-                <a href="/planning/delete/{{_id}}/{{warehouse}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm" data-toggle="tooltip"
-                  data-placement="bottom" title="Excluir produto do Pedido">
+                <a href="/planning/delete/{{_id}}/{{warehouse}}" class="mt-1 mb-1 deletar btn btn-danger btn-sm"
+                  data-toggle="tooltip" data-placement="bottom" title="Excluir produto do Pedido">
                   <i class="fas fa-trash-alt"></i>
                 </a>
               </div>

@@ -448,9 +448,6 @@ exports.planning = async (req, res) => {
     .lean()
     .populate("site");
 
-  const warehouses = await Warehouse.find({ active: true })
-    .sort({ description: "asc" })
-    .lean();
   /*
   if(req.user.admin)
     warehouses = await Warehouse.find({ active: true })
@@ -458,21 +455,6 @@ exports.planning = async (req, res) => {
     .lean();
   else warehouses = req.user.sites;
   */
-  const groups = await Group.find({ active: true })
-    .sort({ description: "asc" })
-    .lean();
-
-  const subgroups = await Subgroup.find({ active: true })
-    .sort({ description: "asc" })
-    .lean();
-
-  const types = await Type.find({ active: true })
-    .sort({ description: "asc" })
-    .lean();
-
-  const statuses = await Status.find({ active: true })
-    .sort({ description: "asc" })
-    .lean();
 
   const filtros = {
     $or: [],
@@ -662,6 +644,129 @@ exports.planning = async (req, res) => {
       
   ]);
   // console.log(products)
+   // console.log(products)
+   const warehouses = await Product.aggregate([
+    { $match: filtros },
+    //{ $match: { active: { $in: [true] } } },
+    { $sort: { _id: 1 } },
+    {
+      $group: {
+        _id: "$warehouse",
+        count: { $sum: 1 },
+        qtyStock: { $sum: "$qtyStock" }
+      },
+    },
+    {
+      $lookup: {
+        from: "warehouses",
+        localField: "_id",
+        foreignField: "_id",
+        as: "warehouse",
+      },
+    },
+    { $unwind: "$warehouse" },
+  ]);
+
+  const groups = await Product.aggregate([
+    { $match: filtros },
+    //{ $match: { active: { $in: [true] } } },
+    { $sort: { _id: 1 } },
+    {
+      $group: {
+        _id: "$group",
+        count: { $sum: 1 },
+        qtyStock: { $sum: "$qtyStock" },
+      },
+    },
+    {
+      $lookup: {
+        from: "groups",
+        localField: "_id",
+        foreignField: "_id",
+        as: "group",
+      },
+    },
+    { $unwind: "$group" },
+  ]);
+
+  const subgroups = await Product.aggregate([
+    { $match: filtros },
+    //{ $match: { active: { $in: [true] } } },
+    { $sort: { _id: 1 } },
+    {
+      $group: {
+        _id: "$subgroup",
+        count: { $sum: 1 },
+        qtyStock: { $sum: "$qtyStock" }
+      },
+    },
+    {
+      $lookup: {
+        from: "subgroups",
+        localField: "_id",
+        foreignField: "_id",
+        as: "subgroup",
+      },
+    },
+    { $unwind: "$subgroup" },
+  ]);
+
+  const types = await Product.aggregate([
+    { $match: filtros },
+    //{ $match: { active: { $in: [true] } } },
+    { $sort: { _id: 1 } },
+    {
+      $group: {
+        _id: "$type",
+        count: { $sum: 1 },
+        qtyStock: { $sum: "$qtyStock" }
+      },
+    },
+    {
+      $lookup: {
+        from: "types",
+        localField: "_id",
+        foreignField: "_id",
+        as: "type",
+      },
+    },
+    { $unwind: "$type" },
+  ]);
+
+  const statuses = await Product.aggregate([
+    { $match: filtros },
+    //{ $match: { active: { $in: [true] } } },
+    { $sort: { _id: 1 } },
+    {
+      $group: {
+        _id: "$status",
+        count: { $sum: 1 },
+        qtyStock: { $sum: "$qtyStock" }
+      },
+    },
+    {
+      $lookup: {
+        from: "statuses",
+        localField: "_id",
+        foreignField: "_id",
+        as: "status",
+      },
+    },
+    { $unwind: "$status" },
+  ]);
+
+  const qtd = await Product.aggregate([
+    { $match: filtros },
+    {
+      $group: {
+        _id: null,
+        count: { $sum: 1 },
+        qtyStock: { $sum: "$qtyStock" },
+        weightKg: { $sum: { $multiply: [ "$qtyStock", "$weightKg" ] } },
+        faceValue: {$sum: { $multiply: [ "$qtyStock", "$faceValue" ] } },
+      }
+    }
+  ]);
 
   res.render("planning/planning", {
     products,
@@ -687,6 +792,7 @@ exports.planning = async (req, res) => {
     useProducts,
     badProducts,
     hbsProducts,
+    qtd
   });
 } catch (err) {
   console.log(err);

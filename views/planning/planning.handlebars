@@ -1,11 +1,43 @@
 <div class="mt-2 container-fluid">
-    <div class="d-flex justify-content-center">
+    <div class="form-row justify-content-between">
         <div class="p-1 mr-auto">
-            <h4><i class="fas fa-cogs" style="color:#0075be;"></i> Consulta de Ativos</h4>
+            <h4><i class="fas fa-tools" style="color:#0075be;"></i> Consulta por Ativos</h4>
             <h5>{{siteNow.description}}</h5>
         </div>
 
-        <!--
+        <div class="p-1">
+            {{#each qtd}}
+            <button type="button" class="btn btn-primary btn-sm" Readonly>
+                Itens Cadastrados <span class="badge badge-pill badge-dark">{{count}}</span>
+                {{/each}}
+            </button>
+        </div>
+
+        <div class="p-1">
+            {{#each qtd}}
+            <button type="button" class="btn btn-success btn-sm">
+                Itens em Estoque <span class="badge badge-pill badge-dark">{{qtyStock}}</span>
+                {{/each}}
+            </button>
+        </div>
+
+        <div class="p-1">
+            {{#each qtd}}
+            <button type="button" class="btn btn-secondary btn-sm">
+                Peso Mobilizado <span class="badge badge-pill badge-dark">{{weightKg}}</span>
+                {{/each}}
+            </button>
+        </div>
+
+        <div class="p-1">
+            {{#each qtd}}
+            <button type="button" class="btn btn-danger btn-sm">
+                Valor <span class="badge badge-pill badge-dark">R$ {{faceValue}}</span>
+                {{/each}}
+            </button>
+        </div>
+    </div>
+    <!--
         <a href="/search/products">
             <button type="button" class="mr-2 mt-3 btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom"
                 title="Vizualize os produtos requisitados, e quando quiser feche seu pedido">
@@ -20,76 +52,76 @@
             </button>
         </a> -->
 
-    </div>
-    <div class="d-flex justify-content-center">
-        <div class="mr-auto p-1">
+    <div class="form-row justify-content-around">
+        <div class="form-group col-md-2">
+            <div class="input-group input-group-sm">
+                <input type="text-sm" class="form-control" id="search" name="search" placeholder="Pesquise aqui..."
+                    value="{{search}}" onchange="search()">
+            </div>
+        </div>
+        <div class="form-group col-md-2">
             <select class="custom-select custom-select-sm" id="site" name="site" onchange="setSite()">
-                <option selected disabled hidden>Busque por Site</option>
+                <option selected disabled hidden>Busque por Obra</option>
                 <option value="">Nenhum(a)</option>
                 {{#each warehouses}}
-                <option value="{{_id}}" {{#if_eq ../site _id}}selected{{/if_eq}}>{{description}}</option>
+                <option value="{{_id}}" {{#if_eq ../site _id}}selected{{/if_eq}}>{{warehouse.description}}</option>
+                <option id="option" value="{{_id}}">{{count}}</option>
                 {{else}}
                 <option value="0">Nenhum site registrado</option>
                 {{/each}}
             </select>
         </div>
-        <div class="p-1">
+
+        <div class="form-group col-md-2">
             <select class="custom-select custom-select-sm" id="group" name="group" onchange="setSearchGroup()">
                 <option selected disabled hidden>Grupos</option>
                 <option value="">Nenhum(a)</option>
                 {{#each groups}}
-                <option value="{{_id}}" {{#if_eq ../group _id}}selected{{/if_eq}}>{{description}}</option>
+                <option value="{{_id}}" {{#if_eq ../group _id}}selected{{/if_eq}}>{{group.description}}</option>
+                <option id="option" value="{{_id}}">{{count}}</option>
                 {{else}}
                 <option value="0">Nenhum grupo registrado</option>
                 {{/each}}
             </select>
         </div>
-        <div class="p-1">
+
+        <div class="form-group col-md-2">
             <select class="custom-select custom-select-sm" id="subgroup" name="subgroup" onchange="setSearchSubgroup()">
                 <option selected disabled hidden>Subgrupos</option>
                 <option value="">Nenhum(a)</option>
                 {{#each subgroups}}
-                <option value="{{_id}}" {{#if_eq ../subgroup _id}}selected{{/if_eq}}>{{description}}</option>
+                <option value="{{_id}}" {{#if_eq ../subgroup _id}}selected{{/if_eq}}>{{subgroup.description}}</option>
+                <option id="option" value="{{_id}}">{{count}}</option>
                 {{else}}
                 <option value="0">Nenhum subgrupo registrado</option>
                 {{/each}}
             </select>
         </div>
-        <div class="p-1">
+        <div class="form-group col-md-2">
             <select class="custom-select custom-select-sm" id="type" name="type" onchange="setSearchType()">
                 <option selected disabled hidden>Tipos de Equipamento</option>
                 <option value="">Nenhum(a)</option>
                 {{#each types}}
-                <option value="{{_id}}" {{#if_eq ../type _id}}selected{{/if_eq}}>{{description}}</option>
+                <option value="{{_id}}" {{#if_eq ../type _id}}selected{{/if_eq}}>{{type.description}}</option>
+                <option id="option" value="{{_id}}">{{count}}</option>
                 {{else}}
                 <option value="0">Nenhum tipo de equipamento registrado</option>
                 {{/each}}
             </select>
         </div>
-        <div class="p-1">
+        <div class="form-group col-md-2">
             <select class="custom-select custom-select-sm" id="status" name="status" onchange="setSearchStatus()">
                 <option selected disabled hidden>Status do Produto</option>
                 <option value="">Nenhum(a)</option>
                 {{#each statuses}}
-                <option value="{{_id}}" {{#if_eq ../status _id}}selected{{/if_eq}}>{{description}}</option>
+                <option value="{{_id}}" {{#if_eq ../status _id}}selected{{/if_eq}}>{{status.description}}</option>
+                <option id="option" value="{{_id}}">{{count}}</option>
                 {{else}}
                 <option value="0">Nenhum status registrado</option>
                 {{/each}}
             </select>
         </div>
 
-        <div class="p-1">
-            <div class="input-group input-group-sm mb-3">
-                <input type="text-sm" class="form-control" id="search" name="search" placeholder="Pesquise aqui..."
-                    value="{{search}}">
-            </div>
-        </div>
-
-        <div class="p-1">
-            <button type="button" class="btn btn-primary btn-sm" onclick="search()">
-                <i class="fa fa-search" aria-hidden="true"></i>
-            </button>
-        </div>
     </div>
     <div class="d-flex justify-content-center">
         <div class="p-1 mr-auto">
