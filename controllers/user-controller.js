@@ -10,6 +10,8 @@ require("../models/Warehouse");
 const Warehouse = mongoose.model("warehouses");
 //SERVIÇO DE EMAIL
 const emailService = require("../services/email-service");
+const emailTemplates = require("../config/email").emailTemplates;
+const fillEmailTemplate = require("../public/js/utils.js").fillEmailTemplate;
 
 //CADASTRANDO USUÁRIO
 exports.get = async (req, res) => {
@@ -78,13 +80,13 @@ exports.getCreate = async (req, res) => {
     } else {
       try {
         var newUser = new User({
-          image: req.file.location,
-          key: req.file.key,
+          image: file ? req.file.location : null,
+          key: file ? req.file.key : null,
           name: req.body.name,
           userName: req.body.userName,
           email: req.body.email,
           password: req.body.password,
-          sites:req.body.sites
+          sites: req.body.sites
         });
         bcrypt.genSalt(10, (err, salt) => {
           bcrypt.hash(newUser.password, salt, (err, hash) => {
@@ -96,7 +98,10 @@ exports.getCreate = async (req, res) => {
               req.flash("success_msg", "Usuário cadastrado com sucesso!");
               emailService.send([req.body.email,"daniel.albuquerque@andritz.com"],
                 "Bem vindo ao Warehouseapp",
-                global.EMAIL_TMPL.replace("{0}",req.body.userName)
+                fillEmailTemplate(emailTemplates.WELCOME,{
+                  name: req.body.userName,
+                  number: 12345
+                })
               );
               res.redirect("/");
             }

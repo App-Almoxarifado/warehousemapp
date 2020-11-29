@@ -18,6 +18,11 @@ const fs = require("fs");
 const path = require("path");
 const app = express();
 
+// MODELS
+
+require("./models/Warehouse");
+const Warehouse = mongoose.model("warehouses");
+
 //ROTAS
 
 //Grupos
@@ -85,10 +90,13 @@ app.use(passport.session());
 app.use(flash());
 
 //MIDDLEWARE
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
   res.locals.success_msg = req.flash("success_msg");
   res.locals.error_msg = req.flash("error_msg");
   res.locals.error = req.flash("error");
+  res.locals.warehouseSearch = await Warehouse.find({ 'description':{$nin:['Hbr Central Warehouse','Andritz Hydro Ltda']} })
+        .sort({ description: "asc" })
+        .lean();
   if (!req.user) {
     const path = `${req.baseUrl}${req.path}`;
     if(/^([A-Za-z0-9]+\/)+/g.test(path) && path !== "/") return res.redirect("/users/login");

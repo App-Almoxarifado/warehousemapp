@@ -2,7 +2,12 @@
     <!-- Sidebar  -->
     <nav id="sidebar" class="active">
         <div class="sidebar-header text-center">
+            {{#if user.image}}
             <img src="{{user.image}}" style="width: 3rem;" alt="" class="rounded-circle">
+            {{else}}
+            <img src="https://warehousemapp.s3.amazonaws.com/logo8.png" style="width: 3rem"
+                alt="User default profile picture" class="rounded-circle">
+            {{/if}}
             <h6>{{user.userName}}</h6>
 
             <strong class="px-2">{{first user.userName}}</strong>
@@ -160,13 +165,18 @@
                         Consulta Produtos
                     </a>
                 </li>
-                                <li>
+                <li>
                     <a href="/planning">
                         <i class="fas fa-cogs"></i>
                         Consulta Ativos
                     </a>
                 </li>
-
+                <li>
+                    <a href="/planning/dashboard">
+                        <i class="fas fa-chart-pie"></i>
+                        Dashboard
+                    </a>
+                </li>
                 {{/if}}
                 {{#if user}}
                 <li>

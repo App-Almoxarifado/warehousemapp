@@ -15,7 +15,14 @@
     <h6 style="color: white;">{{first user.nome}}</h6>
   </div>
   <div class="p">
-    <img src="{{user.image}}" style="width: 3rem;" alt="" class="rounded-circle">
+    {{#if user.image}}
+      <img src="{{user.image}}" style="width: 3rem;" alt="" class="rounded-circle">
+    {{else}}
+      <img src="https://warehousemapp.s3.amazonaws.com/logo8.png"
+        style="width: 3rem" 
+        alt="User default profile picture"
+        class="rounded-circle" >
+    {{/if}}
   </div>
 
 

@@ -3,7 +3,7 @@
 
 <script>
   var map = L.map('map').setView([-21.7887, -48.1773], 13);
-  L.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png', {
+  L.tileLayer('https://b.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map);
   var searchControl = L.esri.Geocoding.geosearch().addTo(map);

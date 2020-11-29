@@ -73,12 +73,6 @@ const User = new Schema({
   }]
 });
 
-User.pre("save", function () {
-  if (!this.image) {
-    this.image = `${process.env.APP_URL}/files/${this.key}`;
-  }
-});
-
 User.pre("remove", function () {
   if (process.env.STORAGE_TYPE === "s3") {
     return s3

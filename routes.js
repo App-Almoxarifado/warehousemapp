@@ -6,18 +6,12 @@ const multerConfig = require("./config/multer");
 //MODELS
 require("./models/Post");
 const Post = mongoose.model("posts");
-require("./models/Warehouse");
-const Warehouse = mongoose.model("warehouses");
 require("./models/Product");
 const Product = mongoose.model("products");
 //INDEX
 routes.get("/", async (req, res) => {
     try {
-        const warehouseSearch = await Warehouse.find({ 'description':{$nin:['Hbr Central Warehouse','Andritz Hydro Ltda']} })
-        .sort({ description: "asc" })
-        .lean();
-
-        res.render("index", { warehouseSearch });
+        res.render("index");
     } catch (err) {
         req.flash("error_msg", "Ops, Houve um erro interno!");
         res.redirect("/");

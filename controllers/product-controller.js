@@ -250,7 +250,8 @@ exports.postCreate = async (req, res) => {
     });
   }
   if (erros.length > 0) {
-    res.render("products/add", {
+    res.render("products/create", {
+
       file,
       erros: erros,
     });

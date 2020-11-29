@@ -446,7 +446,7 @@ $(function () {
   $('[data-toggle="tooltip"]').tooltip();
 });
 
-const cep = document.querySelector("#cep")
+const cep = document.querySelector("#cep");
 
 
 

@@ -33,14 +33,14 @@ exports.createTransfer = async (req, res) => {
     if (!productsId) {
     }
 
-    const products = productsId.map(async (q, index) => {
-      const product = await Product.findById(q);
+    const products = productsId.map(async (id, index) => {
+      const product = await Product.findById(id);
       const quant = Number(productsQuantity[index]);
       product.inputAmount -= quant;
       await product.save();
       return {
         product: product._id,
-        quant,
+        quant
       };
     });
 

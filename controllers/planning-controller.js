@@ -28,6 +28,72 @@ const Request = mongoose.model("requests");
 require("../models/Planning");
 const Planning = mongoose.model("plannings");
 
+//SITES
+exports.sites = async (req, res) => {
+  try {
+    const warehouse = req.params.id;
+
+    if (req.user.admin)
+      warehouses = await Warehouse.find({ active: true })
+        .sort({ description: "asc" })
+        .lean();
+    else warehouses = req.user.sites;
+
+    const warehouseMatch = {
+      $match: {
+        warehouse: warehouse
+          ? { $eq: warehouse }
+          : { $in: warehouses.map((w) => w._id) },
+      },
+    };
+
+    const warehouseCard = await Product.aggregate([
+      warehouseMatch,
+      {
+        $group: {
+          _id: "$warehouse",
+          qty: {
+            $sum: 1,
+          },
+          qtyStock: {
+            $sum: "$qtyStock",
+          },
+          qtyReservation: {
+            $sum: "$qtyReservation",
+          },
+          weightKg: { $sum: { $multiply: ["$qtyStock", "$weightKg"] } },
+          faceValue: { $sum: { $multiply: ["$qtyStock", "$faceValue"] } },
+        },
+      },
+      {
+        $lookup: {
+          from: "warehouses",
+          localField: "_id",
+          foreignField: "_id",
+          as: "warehouse",
+        },
+      },
+      { $unwind: "$warehouse" },
+      { 
+        $lookup: {
+          from: "collaborators",
+          localField: "warehouse.ic",
+          foreignField: "_id",
+          as: "ic",
+        }
+      },
+      { $unwind: "$ic"}
+    ]);
+
+    res.render("planning/sites", {
+      warehouseCard,
+    });
+  } catch (err) {
+    console.log(err);
+    req.flash("error_msg", "Ops, Houve um erro interno!" + err);
+    res.redirect("/products");
+  }
+};
 
 exports.search = async (req, res) => {
   try {
@@ -35,19 +101,19 @@ exports.search = async (req, res) => {
     const siteNow = await Warehouse.findOne({ _id: req.params._id })
       .lean()
       .populate("site");
-      const qtd = await Product.aggregate([
-        { $match: { warehouse: mongoose.Types.ObjectId(warehouse) }},
-        { $match: { active: { $in: [true] } } },
-        {
-          $group: {
-            _id: null,
-            count: { $sum: 1 },
-            qtyStock: { $sum: "$qtyStock" },
-            weightKg: { $sum: { $multiply: ["$qtyStock", "$weightKg"] } },
-            faceValue: { $sum: { $multiply: ["$qtyStock", "$faceValue"] } },
-          }
+    const qtd = await Product.aggregate([
+      { $match: { warehouse: mongoose.Types.ObjectId(warehouse) } },
+      { $match: { active: { $in: [true] } } },
+      {
+        $group: {
+          _id: null,
+          count: { $sum: 1 },
+          qtyStock: { $sum: "$qtyStock" },
+          weightKg: { $sum: { $multiply: ["$qtyStock", "$weightKg"] } },
+          faceValue: { $sum: { $multiply: ["$qtyStock", "$faceValue"] } },
         }
-      ]);
+      }
+    ]);
     /*
     if(req.user.admin)
       warehouses = await Warehouse.find({ active: true })
@@ -379,63 +445,7 @@ exports.search = async (req, res) => {
 };
 
 
-//SITES
-exports.sites = async (req, res) => {
-  try {
-    const warehouse = req.params.id;
 
-    if (req.user.admin)
-      warehouses = await Warehouse.find({ active: true })
-        .sort({ description: "asc" })
-        .lean();
-    else warehouses = req.user.sites;
-
-    const warehouseMatch = {
-      $match: {
-        warehouse: warehouse
-          ? { $eq: warehouse }
-          : { $in: warehouses.map((w) => w._id) },
-      },
-    };
-
-    const warehouseCard = await Product.aggregate([
-      warehouseMatch,
-      {
-        $group: {
-          _id: "$warehouse",
-          qty: {
-            $sum: 1,
-          },
-          qtyStock: {
-            $sum: "$qtyStock",
-          },
-          qtyReservation: {
-            $sum: "$qtyReservation",
-          },
-          weightKg: { $sum: { $multiply: ["$qtyStock", "$weightKg"] } },
-          faceValue: { $sum: { $multiply: ["$qtyStock", "$faceValue"] } },
-        },
-      },
-      {
-        $lookup: {
-          from: "warehouses",
-          localField: "_id",
-          foreignField: "_id",
-          as: "warehouse",
-        },
-      },
-      { $unwind: "$warehouse" },
-    ]);
-
-    res.render("planning/sites", {
-      warehouseCard,
-    });
-  } catch (err) {
-    console.log(err);
-    req.flash("error_msg", "Ops, Houve um erro interno!" + err);
-    res.redirect("/products");
-  }
-};
 
 //DASHBOARD
 exports.dashboard = async (req, res) => {
@@ -560,7 +570,7 @@ exports.dashboard = async (req, res) => {
     ]);
 
     page = Number(page || 1);
-    limit = limit ? Number(limit) : 10;
+    limit = limit ? Number(limit) : 5;
 
     const quant = await Product.find(filtros).estimatedDocumentCount();
     /* var products = await Product.find(filtros)
@@ -753,8 +763,8 @@ exports.dashboard = async (req, res) => {
           _id: null,
           count: { $sum: 1 },
           qtyStock: { $sum: "$qtyStock" },
-          weightKg: { $sum: { $multiply: [ "$qtyStock", "$weightKg" ] } },
-          faceValue: {$sum: { $multiply: [ "$qtyStock", "$faceValue" ] } },
+          weightKg: { $sum: { $multiply: ["$qtyStock", "$weightKg"] } },
+          faceValue: { $sum: { $multiply: ["$qtyStock", "$faceValue"] } },
         }
       }
     ]);
@@ -781,7 +791,7 @@ exports.dashboard = async (req, res) => {
 
 
     const groupChart = await Product.aggregate([
-     { $match: filtros },
+      { $match: filtros },
       {
         $group: {
           _id: "$group",
@@ -801,7 +811,7 @@ exports.dashboard = async (req, res) => {
     ]);
 
     const typeChart = await Product.aggregate([
-     { $match: filtros },
+      { $match: filtros },
       {
         $group: {
           _id: "$type",
@@ -821,7 +831,7 @@ exports.dashboard = async (req, res) => {
     ]);
 
     const statusChart = await Product.aggregate([
-     { $match: filtros },
+      { $match: filtros },
       {
         $group: {
           _id: "$status",
