@@ -185,6 +185,14 @@
                 <option value="act39">Detalhes</option>
             </select>
         </div>
+        {{#if warehouse}}
+        <div class="p-0 mr-1">
+            <a href="/planning/search/{{warehouse}}" class="mt-1 mb-1 btn btn-primary btn-sm" data-toggle="tooltip"
+                data-placement="bottom" title="Voltar a solicitação">
+                <i class="fas fa-undo-alt"></i>
+            </a>
+        </div>
+        {{/if}}
     </div>
     <!--FORM PARA FINALIZAR PEDIDO-->
     <!--<form action="/planning/planning" method="POST">
@@ -233,30 +241,36 @@
                     <th class="act25 d-print-block" scope="col">Unidade</th>
                     <th class="act26 d-print-block" scope="col">Qtd. Recebida</th>
                     <th class="act27 d-print-block" data-toggle="tooltip" data-placement="bottom"
-                        title="Quantidade que ja está no estoque do projeto" style="background-color: #696969;" scope="col">Qtd alocada no
+                        title="Quantidade que ja está no estoque do projeto" style="background-color: #696969;"
+                        scope="col">Qtd alocada no
                         Projeto</th>
                     <th class="act28 d-print-block" data-toggle="tooltip" data-placement="bottom"
-                        title="Quantidade reservada para envio ao projeto" style="background-color: #708090;" scope="col">Qtd reservada p/
+                        title="Quantidade reservada para envio ao projeto" style="background-color: #708090;"
+                        scope="col">Qtd reservada p/
                         projeto</th>
                     <th class="act29 d-print-block" data-toggle="tooltip" data-placement="bottom"
-                        title="Quantidade levando em consideração todas as obras mais o almoxarifado Central" scope="col">Qtd Total HBS</th>
+                        title="Quantidade levando em consideração todas as obras mais o almoxarifado Central"
+                        scope="col">Qtd Total HBS</th>
                     <th class="act30 d-print-block" data-toggle="tooltip" data-placement="bottom"
-                        title="Quantidade levando em consideração somente os itens alocados nas obras" style="background-color: #FFFF00; color:black" scope="col">Qtd em Uso
+                        title="Quantidade levando em consideração somente os itens alocados nas obras"
+                        style="background-color: #FFFF00; color:black" scope="col">Qtd em Uso
                     </th>
                     <th class="act31 d-print-block" data-toggle="tooltip" data-placement="bottom"
-                        title="Quantidade levando em consideração itens sem condições de uso, ou que precisam de alguma certificação ou reparo" style="background-color: #FF0000;color:black" scope="col">Qtd com
+                        title="Quantidade levando em consideração itens sem condições de uso, ou que precisam de alguma certificação ou reparo"
+                        style="background-color: #FF0000;color:black" scope="col">Qtd com
                         Pendência</th>
                     <th class="act32 d-print-block" data-toggle="tooltip" data-placement="bottom"
-                        title="Quantidade levando em consideração itens alocados no almoxarifado central" style="background-color: #228B22;" scope="col">Qtd disponivel</th>
+                        title="Quantidade levando em consideração itens alocados no almoxarifado central"
+                        style="background-color: #228B22;" scope="col">Qtd disponivel</th>
                     <th class="act33 d-print-block" scope="col">Peso Kg</th>
                     <th class="act34 d-print-block" scope="col">Valor de Face R$</th>
                     <th class="act35 d-print-block" scope="col">Dimensões LxCxA</th>
                     <th class="act36 d-print-block" scope="col">Cód. Sap</th>
                     <th class="act37 d-print-block" scope="col">Cód. Ncm</th>
                     <th class="act38 d-print-block" scope="col">Obs.:</th>
-                    
-                    
-                    
+
+
+
                     <!--<th class="act39 d-print-block" scope="col">Detalhes</th>-->
                 </tr>
             </thead>
@@ -306,7 +320,7 @@
                         <td class="act24 d-print-block">{{calibrationStatus}}</td>
                         <td class="act25 d-print-block">{{unity.description}}</td>
                         <td class="act26 d-print-block">{{qtyRequest}}</td>
-                       {{#find_with_key tag ../siteProducts "_id"}}
+                        {{#find_with_key tag ../siteProducts "_id"}}
                         <td class="act27 d-print-block" style="background-color: #BEBEBE;">{{stock}}</td>
                         <td class="act28 d-print-block" style="background-color: #D3D3D3;">{{request}}</td>
                         {{/find_with_key}}

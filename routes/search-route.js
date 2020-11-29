@@ -9,7 +9,7 @@ const { eDevAdmin } = require("../helpers/eDevAdmin");
 //PRODUTOS - ROTA CARRINHO DE COMPRAS
 
 router.get("/:_id?", controller.search);
-router.get("/actives/:tag?", controller.actives);
+router.get("/actives/:tag?/:warehouse?", controller.actives);
 router.get("/products/:tag?", controller.products);
 
 module.exports = router;

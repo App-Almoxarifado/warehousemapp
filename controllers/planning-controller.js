@@ -32,245 +32,350 @@ const Planning = mongoose.model("plannings");
 exports.search = async (req, res) => {
   try {
     const warehouse = req.params._id;
-      const siteNow = await Warehouse.findOne({ _id: req.params._id })
-        .lean()
-        .populate("site");
-  
-      const warehouses = await Warehouse.find({ active: true })
-        .sort({ description: "asc" })
-        .lean();
-      /*
-      if(req.user.admin)
-        warehouses = await Warehouse.find({ active: true })
-        .sort({ description: "asc" })
-        .lean();
-      else warehouses = req.user.sites;
-      */
-      const groups = await Group.find({ active: true })
-        .sort({ description: "asc" })
-        .lean();
-  
-      const subgroups = await Subgroup.find({ active: true })
-        .sort({ description: "asc" })
-        .lean();
-  
-      const types = await Type.find({ active: true })
-        .sort({ description: "asc" })
-        .lean();
-  
-      const statuses = await Status.find({ active: true })
-        .sort({ description: "asc" })
-        .lean();
-  
-      const filtros = {
-        $or: [],
-        $and: [],
-      };
-  
-      let {
-        search,
-        page,
-        site,
-        group,
-        subgroup,
-        type,
-        status,
-        limit,
-      } = req.query;
-  
-      if (!!search) {
-        const pattern = new RegExp(`.*${search}.*`);
-        filtros["$or"].push(
-          { description: { $regex: pattern, $options: "i" } },
-          { fullDescription: { $regex: pattern, $options: "i" } },
-          { tag: { $regex: pattern, $options: "i" } },
-          { user: { $regex: pattern, $options: "i" } }
-        );
-      }
-  
-      if (!!site)
-        filtros["$and"].push({ warehouse: mongoose.Types.ObjectId(site) });
-      if (!!group)
-        filtros["$and"].push({ group: mongoose.Types.ObjectId(group) });
-      if (!!subgroup)
-        filtros["$and"].push({ subgroup: mongoose.Types.ObjectId(subgroup) });
-      if (!!type) filtros["$and"].push({ type: mongoose.Types.ObjectId(type) });
-      if (!!status)
-        filtros["$and"].push({ status: mongoose.Types.ObjectId(status) });
-  
-      if (filtros["$and"].length === 0) delete filtros["$and"];
-      if (filtros["$or"].length === 0) delete filtros["$or"];
-  
-      //NO SITE FILTRADO
-      const siteProducts = await Product.aggregate([
-        { $match: { warehouse: mongoose.Types.ObjectId(warehouse) } },
+    const siteNow = await Warehouse.findOne({ _id: req.params._id })
+      .lean()
+      .populate("site");
+      const qtd = await Product.aggregate([
+        { $match: { warehouse: mongoose.Types.ObjectId(warehouse) }},
         {
           $group: {
-            _id: "$tag",
-            stock: { $sum: "$qtyStock" },
-            request: { $sum: "$qtyReservation" },
-          },
-        },
+            _id: null,
+            count: { $sum: 1 },
+            qtyStock: { $sum: "$qtyStock" },
+            weightKg: { $sum: { $multiply: ["$qtyStock", "$weightKg"] } },
+            faceValue: { $sum: { $multiply: ["$qtyStock", "$faceValue"] } },
+          }
+        }
       ]);
-  
-      //TOTAL NA HBS
-      const totalProducts = await Product.aggregate([
-        {
-          $group: {
-            _id: "$tag",
-            stock: { $sum: "$qtyStock" },
-          },
-        },
-      ]);
-  
-      //PRODUTOS EM USO
-      const hbs = "5f4517adcb7b9f1394dbc002";
-      const useProducts = await Product.aggregate([
-        { $match: { warehouse: { $nin: [mongoose.Types.ObjectId(hbs)] } } },
-        {
-          $group: {
-            _id: "$tag",
-            stock: { $sum: "$qtyStock" },
-          },
-        },
-      ]);
-  
-      //PRODUTOS COM PENDÊNCIA
-      const bad1 = "5f01252e038643547805dbec";
-      const bad2 = "5f01252e038643547805dbed";
-      const badProducts = await Product.aggregate([
-        {
-          $match: {
-            status: {
-              $in: [mongoose.Types.ObjectId(bad1), mongoose.Types.ObjectId(bad2)],
-            },
-          },
-        },
-        {
-          $group: {
-            _id: "$tag",
-            stock: { $sum: "$qtyStock" },
-          },
-        },
-      ]);
-  
-      //PRODUTOS EM USO
-      const centralHbs = "5f4517adcb7b9f1394dbc002";
-      const hbsProducts = await Product.aggregate([
-        { $match: { warehouse: { $in: [mongoose.Types.ObjectId(centralHbs)] } } },
-        {
-          $group: {
-            _id: "$tag",
-            stock: { $sum: "$qtyStock" },
-          },
-        },
-      ]);
-  
-      page = Number(page || 1);
-      limit = limit ? Number(limit) : 10;
-  
-      const quant = await Product.find(filtros).estimatedDocumentCount();
-      /* var products = await Product.find(filtros)
-        .sort({
-          editionDate: "desc",
-        })
-        .limit(limit)
-        .lean()
-        .skip(page > 1 ? (page - 1) * limit : 0)
-        .populate("group")
-        .populate("subgroup")
-        .populate("type")
-        .populate("status");*/
-  
-      console.log(filtros);
-      const products = await Product.aggregate([
-        { $match: filtros },
-        { $match: { active: { $in: [true] } } },
-        { $skip: page > 1 ? (page - 1) * limit : 0 },
-        { $limit: limit },
-        { $sort: { tag: 1 } },
-        {
-          $group: {
-            _id: {
-              type: "$type",
-              tag: "$tag",
-              group: "$group",
-              subgroup: "$subgroup",
-              description: "$description",
-            },
-          },
-        },
-        {
-          $lookup: {
-            from: "groups",
-            localField: "_id.group",
-            foreignField: "_id",
-            as: "group",
-          },
-        },
-        { $unwind: "$group" },
-        {
-          $lookup: {
-            from: "subgroups",
-            localField: "_id.subgroup",
-            foreignField: "_id",
-            as: "subgroup",
-          },
-        },
-        { $unwind: "$subgroup" },
-        {
-          $lookup: {
-            from: "types",
-            localField: "_id.type",
-            foreignField: "_id",
-            as: "type",
-          },
-        },
-        { $unwind: "$type" },
-        /*{
-            $lookup:
-            {
-              from: "warehouses",
-              localField: "_id.warehouse",
-              foreignField: "_id",
-              as: "warehouse"
-            }
-          },
-          { $unwind: "$warehouse" },*/
-      ]);
-      // console.log(products)
-  
-      res.render("planning/search", {
-        products,
-        prev: Number(page) > 1,
-        next: Number(page) * limit < quant,
-        warehouses,
-        groups,
-        subgroups,
-        types,
-        statuses,
-        page,
-        search,
-        limit,
-        site,
-        group,
-        subgroup,
-        type,
-        status,
-        siteNow,
-        warehouse,
-        siteProducts,
-        totalProducts,
-        useProducts,
-        badProducts,
-        hbsProducts,
-      });
-    } catch (err) {
-      console.log(err);
-      req.flash("error_msg", "Ops, Houve um erro interno!" + err);
-      res.redirect("planning/search");
+    /*
+    if(req.user.admin)
+      warehouses = await Warehouse.find({ active: true })
+      .sort({ description: "asc" })
+      .lean();
+    else warehouses = req.user.sites;
+    */
+
+    const filtros = {
+      $or: [],
+      $and: [],
+    };
+
+    let {
+      search,
+      page,
+      site,
+      group,
+      subgroup,
+      type,
+      status,
+      limit,
+    } = req.query;
+
+    if (!!search) {
+      const pattern = new RegExp(`.*${search}.*`);
+      filtros["$or"].push(
+        { description: { $regex: pattern, $options: "i" } },
+        { fullDescription: { $regex: pattern, $options: "i" } },
+        { tag: { $regex: pattern, $options: "i" } },
+        { user: { $regex: pattern, $options: "i" } }
+      );
     }
-  };
+
+
+
+    if (!!site)
+      filtros["$and"].push({ warehouse: mongoose.Types.ObjectId(site) });
+    if (!!group)
+      filtros["$and"].push({ group: mongoose.Types.ObjectId(group) });
+    if (!!subgroup)
+      filtros["$and"].push({ subgroup: mongoose.Types.ObjectId(subgroup) });
+    if (!!type) filtros["$and"].push({ type: mongoose.Types.ObjectId(type) });
+    if (!!status)
+      filtros["$and"].push({ status: mongoose.Types.ObjectId(status) });
+
+    if (filtros["$and"].length === 0) delete filtros["$and"];
+    if (filtros["$or"].length === 0) delete filtros["$or"];
+
+    //NO SITE FILTRADO
+    const siteProducts = await Product.aggregate([
+      { $match: { warehouse: mongoose.Types.ObjectId(warehouse) } },
+      {
+        $group: {
+          _id: "$tag",
+          stock: { $sum: "$qtyStock" },
+          request: { $sum: "$qtyReservation" },
+        },
+      },
+    ]);
+
+    //TOTAL NA HBS
+    const totalProducts = await Product.aggregate([
+      {
+        $group: {
+          _id: "$tag",
+          stock: { $sum: "$qtyStock" },
+        },
+      },
+    ]);
+
+    //PRODUTOS EM USO
+    const hbs = "5f4517adcb7b9f1394dbc002";
+    const useProducts = await Product.aggregate([
+      { $match: { warehouse: { $nin: [mongoose.Types.ObjectId(hbs)] } } },
+      {
+        $group: {
+          _id: "$tag",
+          stock: { $sum: "$qtyStock" },
+        },
+      },
+    ]);
+
+    //PRODUTOS COM PENDÊNCIA
+    const bad1 = "5f01252e038643547805dbec";
+    const bad2 = "5f01252e038643547805dbed";
+    const badProducts = await Product.aggregate([
+      {
+        $match: {
+          status: {
+            $in: [mongoose.Types.ObjectId(bad1), mongoose.Types.ObjectId(bad2)],
+          },
+        },
+      },
+      {
+        $group: {
+          _id: "$tag",
+          stock: { $sum: "$qtyStock" },
+        },
+      },
+    ]);
+
+    //PRODUTOS EM USO
+    const centralHbs = "5f4517adcb7b9f1394dbc002";
+    const hbsProducts = await Product.aggregate([
+      { $match: { warehouse: { $in: [mongoose.Types.ObjectId(centralHbs)] } } },
+      {
+        $group: {
+          _id: "$tag",
+          stock: { $sum: "$qtyStock" },
+        },
+      },
+    ]);
+
+    page = Number(page || 1);
+    limit = limit ? Number(limit) : 10;
+
+    const quant = await Product.find(filtros).estimatedDocumentCount();
+    /* var products = await Product.find(filtros)
+      .sort({
+        editionDate: "desc",
+      })
+      .limit(limit)
+      .lean()
+      .skip(page > 1 ? (page - 1) * limit : 0)
+      .populate("group")
+      .populate("subgroup")
+      .populate("type")
+      .populate("status");*/
+
+    console.log(filtros);
+    const products = await Product.aggregate([
+      { $match: filtros },
+      { $match: { active: { $in: [true] } } },
+      { $skip: page > 1 ? (page - 1) * limit : 0 },
+      { $limit: limit },
+      { $sort: { tag: 1 } },
+      {
+        $group: {
+          _id: {
+            type: "$type",
+            tag: "$tag",
+            group: "$group",
+            subgroup: "$subgroup",
+            description: "$description",
+          },
+        },
+      },
+      {
+        $lookup: {
+          from: "groups",
+          localField: "_id.group",
+          foreignField: "_id",
+          as: "group",
+        },
+      },
+      { $unwind: "$group" },
+      {
+        $lookup: {
+          from: "subgroups",
+          localField: "_id.subgroup",
+          foreignField: "_id",
+          as: "subgroup",
+        },
+      },
+      { $unwind: "$subgroup" },
+      {
+        $lookup: {
+          from: "types",
+          localField: "_id.type",
+          foreignField: "_id",
+          as: "type",
+        },
+      },
+      { $unwind: "$type" },
+      /*{
+          $lookup:
+          {
+            from: "warehouses",
+            localField: "_id.warehouse",
+            foreignField: "_id",
+            as: "warehouse"
+          }
+        },
+        { $unwind: "$warehouse" },*/
+    ]);
+
+    const warehouses = await Product.aggregate([
+      { $match: filtros },
+      //{ $match: { active: { $in: [true] } } },
+      { $sort: { _id: 1 } },
+      {
+        $group: {
+          _id: "$warehouse",
+          count: { $sum: 1 },
+          qtyStock: { $sum: "$qtyStock" }
+        },
+      },
+      {
+        $lookup: {
+          from: "warehouses",
+          localField: "_id",
+          foreignField: "_id",
+          as: "warehouse",
+        },
+      },
+      { $unwind: "$warehouse" },
+    ]);
+
+    const groups = await Product.aggregate([
+      { $match: filtros },
+      //{ $match: { active: { $in: [true] } } },
+      { $sort: { _id: 1 } },
+      {
+        $group: {
+          _id: "$group",
+          count: { $sum: 1 },
+          qtyStock: { $sum: "$qtyStock" },
+        },
+      },
+      {
+        $lookup: {
+          from: "groups",
+          localField: "_id",
+          foreignField: "_id",
+          as: "group",
+        },
+      },
+      { $unwind: "$group" },
+    ]);
+
+    const subgroups = await Product.aggregate([
+      { $match: filtros },
+      //{ $match: { active: { $in: [true] } } },
+      { $sort: { _id: 1 } },
+      {
+        $group: {
+          _id: "$subgroup",
+          count: { $sum: 1 },
+          qtyStock: { $sum: "$qtyStock" }
+        },
+      },
+      {
+        $lookup: {
+          from: "subgroups",
+          localField: "_id",
+          foreignField: "_id",
+          as: "subgroup",
+        },
+      },
+      { $unwind: "$subgroup" },
+    ]);
+
+    const types = await Product.aggregate([
+      { $match: filtros },
+      //{ $match: { active: { $in: [true] } } },
+      { $sort: { _id: 1 } },
+      {
+        $group: {
+          _id: "$type",
+          count: { $sum: 1 },
+          qtyStock: { $sum: "$qtyStock" }
+        },
+      },
+      {
+        $lookup: {
+          from: "types",
+          localField: "_id",
+          foreignField: "_id",
+          as: "type",
+        },
+      },
+      { $unwind: "$type" },
+    ]);
+
+    const statuses = await Product.aggregate([
+      { $match: filtros },
+      //{ $match: { active: { $in: [true] } } },
+      { $sort: { _id: 1 } },
+      {
+        $group: {
+          _id: "$status",
+          count: { $sum: 1 },
+          qtyStock: { $sum: "$qtyStock" }
+        },
+      },
+      {
+        $lookup: {
+          from: "statuses",
+          localField: "_id",
+          foreignField: "_id",
+          as: "status",
+        },
+      },
+      { $unwind: "$status" },
+    ]);
+
+    res.render("planning/search", {
+      products,
+      prev: Number(page) > 1,
+      next: Number(page) * limit < quant,
+      warehouses,
+      groups,
+      subgroups,
+      types,
+      statuses,
+      page,
+      search,
+      limit,
+      site,
+      group,
+      subgroup,
+      type,
+      status,
+      siteNow,
+      warehouse,
+      siteProducts,
+      totalProducts,
+      useProducts,
+      badProducts,
+      hbsProducts,
+      qtd
+    });
+  } catch (err) {
+    console.log(err);
+    req.flash("error_msg", "Ops, Houve um erro interno!" + err);
+    res.redirect("planning/search");
+  }
+};
 
 
 //SITES
@@ -306,8 +411,8 @@ exports.sites = async (req, res) => {
           qtyReservation: {
             $sum: "$qtyReservation",
           },
-          weightKg: { $sum: { $multiply: [ "$qtyStock", "$weightKg" ] } },
-          faceValue: {$sum: { $multiply: [ "$qtyStock", "$faceValue" ] } },
+          weightKg: { $sum: { $multiply: ["$qtyStock", "$weightKg"] } },
+          faceValue: { $sum: { $multiply: ["$qtyStock", "$faceValue"] } },
         },
       },
       {
@@ -442,175 +547,175 @@ exports.dashboard = async (req, res) => {
 };
 
 exports.planning = async (req, res) => {
-  try{
-  const warehouse = req.params._id;
-  const siteNow = await Warehouse.findOne({ _id: req.params._id })
-    .lean()
-    .populate("site");
+  try {
+    const warehouse = req.params._id;
+    const siteNow = await Warehouse.findOne({ _id: req.params._id })
+      .lean()
+      .populate("site");
 
-  /*
-  if(req.user.admin)
-    warehouses = await Warehouse.find({ active: true })
-    .sort({ description: "asc" })
-    .lean();
-  else warehouses = req.user.sites;
-  */
+    /*
+    if(req.user.admin)
+      warehouses = await Warehouse.find({ active: true })
+      .sort({ description: "asc" })
+      .lean();
+    else warehouses = req.user.sites;
+    */
 
-  const filtros = {
-    $or: [],
-    $and: [],
-  };
+    const filtros = {
+      $or: [],
+      $and: [],
+    };
 
-  let {
-    search,
-    page,
-    site,
-    group,
-    subgroup,
-    type,
-    status,
-    limit,
-  } = req.query;
+    let {
+      search,
+      page,
+      site,
+      group,
+      subgroup,
+      type,
+      status,
+      limit,
+    } = req.query;
 
-  if (!!search) {
-    const pattern = new RegExp(`.*${search}.*`);
-    filtros["$or"].push(
-      { description: { $regex: pattern, $options: "i" } },
-      { fullDescription: { $regex: pattern, $options: "i" } },
-      { tag: { $regex: pattern, $options: "i" } },
-      { tagSearch: { $regex: pattern, $options: "i" } }
-    );
-  }
+    if (!!search) {
+      const pattern = new RegExp(`.*${search}.*`);
+      filtros["$or"].push(
+        { description: { $regex: pattern, $options: "i" } },
+        { fullDescription: { $regex: pattern, $options: "i" } },
+        { tag: { $regex: pattern, $options: "i" } },
+        { tagSearch: { $regex: pattern, $options: "i" } }
+      );
+    }
 
-  if (!!site)
-    filtros["$and"].push({ warehouse: mongoose.Types.ObjectId(site) });
-  if (!!group)
-    filtros["$and"].push({ group: mongoose.Types.ObjectId(group) });
-  if (!!subgroup)
-    filtros["$and"].push({ subgroup: mongoose.Types.ObjectId(subgroup) });
-  if (!!type) filtros["$and"].push({ type: mongoose.Types.ObjectId(type) });
-  if (!!status)
-    filtros["$and"].push({ status: mongoose.Types.ObjectId(status) });
+    if (!!site)
+      filtros["$and"].push({ warehouse: mongoose.Types.ObjectId(site) });
+    if (!!group)
+      filtros["$and"].push({ group: mongoose.Types.ObjectId(group) });
+    if (!!subgroup)
+      filtros["$and"].push({ subgroup: mongoose.Types.ObjectId(subgroup) });
+    if (!!type) filtros["$and"].push({ type: mongoose.Types.ObjectId(type) });
+    if (!!status)
+      filtros["$and"].push({ status: mongoose.Types.ObjectId(status) });
 
-  if (filtros["$and"].length === 0) delete filtros["$and"];
-  if (filtros["$or"].length === 0) delete filtros["$or"];
+    if (filtros["$and"].length === 0) delete filtros["$and"];
+    if (filtros["$or"].length === 0) delete filtros["$or"];
 
-  //NO SITE FILTRADO
-  const siteProducts = await Product.aggregate([
-    { $match: { warehouse: mongoose.Types.ObjectId(site) } },
-    {
-      $group: {
-        _id: "$tag",
-        stock: { $sum: "$qtyStock" },
-        request: { $sum: "$qtyReservation" },
-      },
-    },
-  ]);
-
-  //TOTAL NA HBS
-  const totalProducts = await Product.aggregate([
-    {
-      $group: {
-        _id: "$tag",
-        stock: { $sum: "$qtyStock" },
-      },
-    },
-  ]);
-
-  //PRODUTOS EM USO
-  const hbs = "5f4517adcb7b9f1394dbc002";
-  const useProducts = await Product.aggregate([
-    { $match: { warehouse: { $nin: [mongoose.Types.ObjectId(hbs)] } } },
-    {
-      $group: {
-        _id: "$tag",
-        stock: { $sum: "$qtyStock" },
-      },
-    },
-  ]);
-
-  //PRODUTOS COM PENDÊNCIA
-  const bad1 = "5f01252e038643547805dbec";
-  const bad2 = "5f01252e038643547805dbed";
-  const badProducts = await Product.aggregate([
-    {
-      $match: {
-        status: {
-          $in: [mongoose.Types.ObjectId(bad1), mongoose.Types.ObjectId(bad2)],
+    //NO SITE FILTRADO
+    const siteProducts = await Product.aggregate([
+      { $match: { warehouse: mongoose.Types.ObjectId(site) } },
+      {
+        $group: {
+          _id: "$tag",
+          stock: { $sum: "$qtyStock" },
+          request: { $sum: "$qtyReservation" },
         },
       },
-    },
-    {
-      $group: {
-        _id: "$tag",
-        stock: { $sum: "$qtyStock" },
-      },
-    },
-  ]);
+    ]);
 
-  //PRODUTOS NO ALMOX CENTRAL
-  const centralHbs = "5f4517adcb7b9f1394dbc002";
-  const hbsProducts = await Product.aggregate([
-    { $match: { warehouse: { $in: [mongoose.Types.ObjectId(centralHbs)] } } },
-    {
-      $group: {
-        _id: "$tag",
-        stock: { $sum: "$qtyStock" },
+    //TOTAL NA HBS
+    const totalProducts = await Product.aggregate([
+      {
+        $group: {
+          _id: "$tag",
+          stock: { $sum: "$qtyStock" },
+        },
       },
-    },
-  ]);
+    ]);
 
-  page = Number(page || 1);
-  limit = limit ? Number(limit) : 10;
+    //PRODUTOS EM USO
+    const hbs = "5f4517adcb7b9f1394dbc002";
+    const useProducts = await Product.aggregate([
+      { $match: { warehouse: { $nin: [mongoose.Types.ObjectId(hbs)] } } },
+      {
+        $group: {
+          _id: "$tag",
+          stock: { $sum: "$qtyStock" },
+        },
+      },
+    ]);
 
-  const quant = await Product.find(filtros).estimatedDocumentCount();
-  /* var products = await Product.find(filtros)
-    .sort({
-      editionDate: "desc",
-    })
-    .limit(limit)
-    .lean()
-    .skip(page > 1 ? (page - 1) * limit : 0)
-    .populate("group")
-    .populate("subgroup")
-    .populate("type")
-    .populate("status");*/
+    //PRODUTOS COM PENDÊNCIA
+    const bad1 = "5f01252e038643547805dbec";
+    const bad2 = "5f01252e038643547805dbed";
+    const badProducts = await Product.aggregate([
+      {
+        $match: {
+          status: {
+            $in: [mongoose.Types.ObjectId(bad1), mongoose.Types.ObjectId(bad2)],
+          },
+        },
+      },
+      {
+        $group: {
+          _id: "$tag",
+          stock: { $sum: "$qtyStock" },
+        },
+      },
+    ]);
 
-  console.log(filtros);
-  const products = await Product.aggregate([
-    { $match: filtros },
-    { $match: { active: { $in: [true] } } },
-    { $skip: page > 1 ? (page - 1) * limit : 0 },
-    { $limit: limit },
-    { $sort: { tag: 1 } },
-    {
-      $lookup: {
-        from: "groups",
-        localField: "group",
-        foreignField: "_id",
-        as: "group",
+    //PRODUTOS NO ALMOX CENTRAL
+    const centralHbs = "5f4517adcb7b9f1394dbc002";
+    const hbsProducts = await Product.aggregate([
+      { $match: { warehouse: { $in: [mongoose.Types.ObjectId(centralHbs)] } } },
+      {
+        $group: {
+          _id: "$tag",
+          stock: { $sum: "$qtyStock" },
+        },
       },
-    },
-    { $unwind: "$group" },
-    {
-      $lookup: {
-        from: "subgroups",
-        localField: "subgroup",
-        foreignField: "_id",
-        as: "subgroup",
+    ]);
+
+    page = Number(page || 1);
+    limit = limit ? Number(limit) : 10;
+
+    const quant = await Product.find(filtros).estimatedDocumentCount();
+    /* var products = await Product.find(filtros)
+      .sort({
+        editionDate: "desc",
+      })
+      .limit(limit)
+      .lean()
+      .skip(page > 1 ? (page - 1) * limit : 0)
+      .populate("group")
+      .populate("subgroup")
+      .populate("type")
+      .populate("status");*/
+
+    console.log(filtros);
+    const products = await Product.aggregate([
+      { $match: filtros },
+      { $match: { active: { $in: [true] } } },
+      { $skip: page > 1 ? (page - 1) * limit : 0 },
+      { $limit: limit },
+      { $sort: { tag: 1 } },
+      {
+        $lookup: {
+          from: "groups",
+          localField: "group",
+          foreignField: "_id",
+          as: "group",
+        },
       },
-    },
-    { $unwind: "$subgroup" },
-    {
-      $lookup: {
-        from: "types",
-        localField: "type",
-        foreignField: "_id",
-        as: "type",
+      { $unwind: "$group" },
+      {
+        $lookup: {
+          from: "subgroups",
+          localField: "subgroup",
+          foreignField: "_id",
+          as: "subgroup",
+        },
       },
-    },
-    { $unwind: "$type" },
-    {
+      { $unwind: "$subgroup" },
+      {
+        $lookup: {
+          from: "types",
+          localField: "type",
+          foreignField: "_id",
+          as: "type",
+        },
+      },
+      { $unwind: "$type" },
+      {
         $lookup:
         {
           from: "warehouses",
@@ -641,164 +746,164 @@ exports.planning = async (req, res) => {
       },
       { $unwind: "$unity" },
 
-      
-  ]);
-  // console.log(products)
-   // console.log(products)
-   const warehouses = await Product.aggregate([
-    { $match: filtros },
-    //{ $match: { active: { $in: [true] } } },
-    { $sort: { _id: 1 } },
-    {
-      $group: {
-        _id: "$warehouse",
-        count: { $sum: 1 },
-        qtyStock: { $sum: "$qtyStock" }
-      },
-    },
-    {
-      $lookup: {
-        from: "warehouses",
-        localField: "_id",
-        foreignField: "_id",
-        as: "warehouse",
-      },
-    },
-    { $unwind: "$warehouse" },
-  ]);
 
-  const groups = await Product.aggregate([
-    { $match: filtros },
-    //{ $match: { active: { $in: [true] } } },
-    { $sort: { _id: 1 } },
-    {
-      $group: {
-        _id: "$group",
-        count: { $sum: 1 },
-        qtyStock: { $sum: "$qtyStock" },
+    ]);
+    // console.log(products)
+    // console.log(products)
+    const warehouses = await Product.aggregate([
+      { $match: filtros },
+      //{ $match: { active: { $in: [true] } } },
+      { $sort: { _id: 1 } },
+      {
+        $group: {
+          _id: "$warehouse",
+          count: { $sum: 1 },
+          qtyStock: { $sum: "$qtyStock" }
+        },
       },
-    },
-    {
-      $lookup: {
-        from: "groups",
-        localField: "_id",
-        foreignField: "_id",
-        as: "group",
+      {
+        $lookup: {
+          from: "warehouses",
+          localField: "_id",
+          foreignField: "_id",
+          as: "warehouse",
+        },
       },
-    },
-    { $unwind: "$group" },
-  ]);
+      { $unwind: "$warehouse" },
+    ]);
 
-  const subgroups = await Product.aggregate([
-    { $match: filtros },
-    //{ $match: { active: { $in: [true] } } },
-    { $sort: { _id: 1 } },
-    {
-      $group: {
-        _id: "$subgroup",
-        count: { $sum: 1 },
-        qtyStock: { $sum: "$qtyStock" }
+    const groups = await Product.aggregate([
+      { $match: filtros },
+      //{ $match: { active: { $in: [true] } } },
+      { $sort: { _id: 1 } },
+      {
+        $group: {
+          _id: "$group",
+          count: { $sum: 1 },
+          qtyStock: { $sum: "$qtyStock" },
+        },
       },
-    },
-    {
-      $lookup: {
-        from: "subgroups",
-        localField: "_id",
-        foreignField: "_id",
-        as: "subgroup",
+      {
+        $lookup: {
+          from: "groups",
+          localField: "_id",
+          foreignField: "_id",
+          as: "group",
+        },
       },
-    },
-    { $unwind: "$subgroup" },
-  ]);
+      { $unwind: "$group" },
+    ]);
 
-  const types = await Product.aggregate([
-    { $match: filtros },
-    //{ $match: { active: { $in: [true] } } },
-    { $sort: { _id: 1 } },
-    {
-      $group: {
-        _id: "$type",
-        count: { $sum: 1 },
-        qtyStock: { $sum: "$qtyStock" }
+    const subgroups = await Product.aggregate([
+      { $match: filtros },
+      //{ $match: { active: { $in: [true] } } },
+      { $sort: { _id: 1 } },
+      {
+        $group: {
+          _id: "$subgroup",
+          count: { $sum: 1 },
+          qtyStock: { $sum: "$qtyStock" }
+        },
       },
-    },
-    {
-      $lookup: {
-        from: "types",
-        localField: "_id",
-        foreignField: "_id",
-        as: "type",
+      {
+        $lookup: {
+          from: "subgroups",
+          localField: "_id",
+          foreignField: "_id",
+          as: "subgroup",
+        },
       },
-    },
-    { $unwind: "$type" },
-  ]);
+      { $unwind: "$subgroup" },
+    ]);
 
-  const statuses = await Product.aggregate([
-    { $match: filtros },
-    //{ $match: { active: { $in: [true] } } },
-    { $sort: { _id: 1 } },
-    {
-      $group: {
-        _id: "$status",
-        count: { $sum: 1 },
-        qtyStock: { $sum: "$qtyStock" }
+    const types = await Product.aggregate([
+      { $match: filtros },
+      //{ $match: { active: { $in: [true] } } },
+      { $sort: { _id: 1 } },
+      {
+        $group: {
+          _id: "$type",
+          count: { $sum: 1 },
+          qtyStock: { $sum: "$qtyStock" }
+        },
       },
-    },
-    {
-      $lookup: {
-        from: "statuses",
-        localField: "_id",
-        foreignField: "_id",
-        as: "status",
+      {
+        $lookup: {
+          from: "types",
+          localField: "_id",
+          foreignField: "_id",
+          as: "type",
+        },
       },
-    },
-    { $unwind: "$status" },
-  ]);
+      { $unwind: "$type" },
+    ]);
 
-  const qtd = await Product.aggregate([
-    { $match: filtros },
-    {
-      $group: {
-        _id: null,
-        count: { $sum: 1 },
-        qtyStock: { $sum: "$qtyStock" },
-        weightKg: { $sum: { $multiply: [ "$qtyStock", "$weightKg" ] } },
-        faceValue: {$sum: { $multiply: [ "$qtyStock", "$faceValue" ] } },
+    const statuses = await Product.aggregate([
+      { $match: filtros },
+      //{ $match: { active: { $in: [true] } } },
+      { $sort: { _id: 1 } },
+      {
+        $group: {
+          _id: "$status",
+          count: { $sum: 1 },
+          qtyStock: { $sum: "$qtyStock" }
+        },
+      },
+      {
+        $lookup: {
+          from: "statuses",
+          localField: "_id",
+          foreignField: "_id",
+          as: "status",
+        },
+      },
+      { $unwind: "$status" },
+    ]);
+
+    const qtd = await Product.aggregate([
+      { $match: filtros },
+      {
+        $group: {
+          _id: null,
+          count: { $sum: 1 },
+          qtyStock: { $sum: "$qtyStock" },
+          weightKg: { $sum: { $multiply: ["$qtyStock", "$weightKg"] } },
+          faceValue: { $sum: { $multiply: ["$qtyStock", "$faceValue"] } },
+        }
       }
-    }
-  ]);
+    ]);
 
-  res.render("planning/planning", {
-    products,
-    prev: Number(page) > 1,
-    next: Number(page) * limit < quant,
-    warehouses,
-    groups,
-    subgroups,
-    types,
-    statuses,
-    page,
-    search,
-    limit,
-    site,
-    group,
-    subgroup,
-    type,
-    status,
-    siteNow,
-    warehouse,
-    siteProducts,
-    totalProducts,
-    useProducts,
-    badProducts,
-    hbsProducts,
-    qtd
-  });
-} catch (err) {
-  console.log(err);
-  req.flash("error_msg", "Ops, Houve um erro interno!" + err);
-  res.redirect("/search");
-}
+    res.render("planning/planning", {
+      products,
+      prev: Number(page) > 1,
+      next: Number(page) * limit < quant,
+      warehouses,
+      groups,
+      subgroups,
+      types,
+      statuses,
+      page,
+      search,
+      limit,
+      site,
+      group,
+      subgroup,
+      type,
+      status,
+      siteNow,
+      warehouse,
+      siteProducts,
+      totalProducts,
+      useProducts,
+      badProducts,
+      hbsProducts,
+      qtd
+    });
+  } catch (err) {
+    console.log(err);
+    req.flash("error_msg", "Ops, Houve um erro interno!" + err);
+    res.redirect("/search");
+  }
 };
 
 exports.postPlanning = async (req, res) => {
@@ -876,17 +981,17 @@ exports.getRequest = async (req, res) => {
       .lean()
       .populate("site");
 
-  //PRODUTOS NO ALMOX CENTRAL
-  const centralHbs = "5f4517adcb7b9f1394dbc002";
-  const hbsProducts = await Product.aggregate([
-    { $match: { warehouse: { $in: [mongoose.Types.ObjectId(centralHbs)] } } },
-    {
-      $group: {
-        _id: "$tag",
-        stock: { $sum: "$qtyStock" },
+    //PRODUTOS NO ALMOX CENTRAL
+    const centralHbs = "5f4517adcb7b9f1394dbc002";
+    const hbsProducts = await Product.aggregate([
+      { $match: { warehouse: { $in: [mongoose.Types.ObjectId(centralHbs)] } } },
+      {
+        $group: {
+          _id: "$tag",
+          stock: { $sum: "$qtyStock" },
+        },
       },
-    },
-  ]);
+    ]);
 
     const numberRequest = Date.now();
     const file = req.file;
@@ -1017,7 +1122,7 @@ exports.getUpdate = async (req, res) => {
   try {
     const file = req.file;
     var request = await Request.findOne({ _id: req.params._id }).lean();
-    res.render("planning/updateRequest", { request: request, file});
+    res.render("planning/updateRequest", { request: request, file });
   } catch (_err) {
     req.flash("error_msg", "Ops, Houve um erro interno!");
     res.redirect("/planning");

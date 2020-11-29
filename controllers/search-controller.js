@@ -479,7 +479,8 @@ exports.actives = async (req, res) => {
   try {
     const tag = req.params.tag;
     console.log(tag);
-
+    const warehouse = req.params.warehouse
+    console.log(warehouse);
     /*
     if(req.user.admin)
       warehouses = await Warehouse.find({ active: true })
@@ -814,7 +815,7 @@ exports.actives = async (req, res) => {
       type,
       status,
       //siteNow,
-      //warehouse,
+      warehouse,
       siteProducts,
       totalProducts,
       useProducts,
