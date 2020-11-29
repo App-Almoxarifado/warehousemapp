@@ -37,6 +37,7 @@ exports.search = async (req, res) => {
       .populate("site");
       const qtd = await Product.aggregate([
         { $match: { warehouse: mongoose.Types.ObjectId(warehouse) }},
+        { $match: { active: { $in: [true] } } },
         {
           $group: {
             _id: null,
@@ -236,7 +237,7 @@ exports.search = async (req, res) => {
 
     const warehouses = await Product.aggregate([
       { $match: filtros },
-      //{ $match: { active: { $in: [true] } } },
+      { $match: { active: { $in: [true] } } },
       { $sort: { _id: 1 } },
       {
         $group: {
@@ -258,7 +259,7 @@ exports.search = async (req, res) => {
 
     const groups = await Product.aggregate([
       { $match: filtros },
-      //{ $match: { active: { $in: [true] } } },
+      { $match: { active: { $in: [true] } } },
       { $sort: { _id: 1 } },
       {
         $group: {
@@ -280,7 +281,7 @@ exports.search = async (req, res) => {
 
     const subgroups = await Product.aggregate([
       { $match: filtros },
-      //{ $match: { active: { $in: [true] } } },
+      { $match: { active: { $in: [true] } } },
       { $sort: { _id: 1 } },
       {
         $group: {
@@ -302,7 +303,7 @@ exports.search = async (req, res) => {
 
     const types = await Product.aggregate([
       { $match: filtros },
-      //{ $match: { active: { $in: [true] } } },
+      { $match: { active: { $in: [true] } } },
       { $sort: { _id: 1 } },
       {
         $group: {
@@ -324,7 +325,7 @@ exports.search = async (req, res) => {
 
     const statuses = await Product.aggregate([
       { $match: filtros },
-      //{ $match: { active: { $in: [true] } } },
+      { $match: { active: { $in: [true] } } },
       { $sort: { _id: 1 } },
       {
         $group: {
@@ -439,24 +440,327 @@ exports.sites = async (req, res) => {
 //DASHBOARD
 exports.dashboard = async (req, res) => {
   try {
-    const warehouse = req.params.id;
+    const warehouse = req.params._id;
+    const siteNow = await Warehouse.findOne({ _id: req.params._id })
+      .lean()
+      .populate("site");
 
-    if (req.user.admin)
-      warehouses = await Warehouse.find({ active: true })
+    /* const warehouses = await Warehouse.find({ active: true })
         .sort({ description: "asc" })
-        .lean();
+        .lean();*/
+    /*
+    if(req.user.admin)
+      warehouses = await Warehouse.find({ active: true })
+      .sort({ description: "asc" })
+      .lean();
     else warehouses = req.user.sites;
-
-    const warehouseMatch = {
-      $match: {
-        warehouse: warehouse
-          ? { $eq: warehouse }
-          : { $in: warehouses.map((w) => w._id) },
-      },
+    */
+    const filtros = {
+      $or: [],
+      $and: [],
     };
 
+    let {
+      search,
+      page,
+      site,
+      group,
+      subgroup,
+      type,
+      status,
+      limit,
+    } = req.query;
+
+    if (!!search) {
+      const pattern = new RegExp(`.*${search}.*`);
+      filtros["$or"].push(
+        { description: { $regex: pattern, $options: "i" } },
+        { fullDescription: { $regex: pattern, $options: "i" } },
+        { tag: { $regex: pattern, $options: "i" } },
+        { user: { $regex: pattern, $options: "i" } }
+      );
+    }
+
+    if (!!site)
+      filtros["$and"].push({ warehouse: mongoose.Types.ObjectId(site) });
+    if (!!group)
+      filtros["$and"].push({ group: mongoose.Types.ObjectId(group) });
+    if (!!subgroup)
+      filtros["$and"].push({ subgroup: mongoose.Types.ObjectId(subgroup) });
+    if (!!type) filtros["$and"].push({ type: mongoose.Types.ObjectId(type) });
+    if (!!status)
+      filtros["$and"].push({ status: mongoose.Types.ObjectId(status) });
+
+    if (filtros["$and"].length === 0) delete filtros["$and"];
+    if (filtros["$or"].length === 0) delete filtros["$or"];
+
+    //NO SITE FILTRADO
+    const siteProducts = await Product.aggregate([
+      { $match: { warehouse: mongoose.Types.ObjectId(site) } },
+      {
+        $group: {
+          _id: "$tag",
+          stock: { $sum: "$qtyStock" },
+          request: { $sum: "$qtyReservation" },
+        },
+      },
+    ]);
+
+    //TOTAL NA HBS
+    const totalProducts = await Product.aggregate([
+      {
+        $group: {
+          _id: "$tag",
+          stock: { $sum: "$qtyStock" },
+        },
+      },
+    ]);
+
+    //PRODUTOS EM USO
+    const hbs = "5f4517adcb7b9f1394dbc002";
+    const useProducts = await Product.aggregate([
+      { $match: { warehouse: { $nin: [mongoose.Types.ObjectId(hbs)] } } },
+      {
+        $group: {
+          _id: "$tag",
+          stock: { $sum: "$qtyStock" },
+        },
+      },
+    ]);
+
+    //PRODUTOS COM PENDÊNCIA
+    const bad1 = "5f01252e038643547805dbec";
+    const bad2 = "5f01252e038643547805dbed";
+    const badProducts = await Product.aggregate([
+      {
+        $match: {
+          status: {
+            $in: [mongoose.Types.ObjectId(bad1), mongoose.Types.ObjectId(bad2)],
+          },
+        },
+      },
+      {
+        $group: {
+          _id: "$tag",
+          stock: { $sum: "$qtyStock" },
+        },
+      },
+    ]);
+
+    //PRODUTOS EM USO
+    const centralHbs = "5f4517adcb7b9f1394dbc002";
+    const hbsProducts = await Product.aggregate([
+      { $match: { warehouse: { $in: [mongoose.Types.ObjectId(centralHbs)] } } },
+      {
+        $group: {
+          _id: "$tag",
+          stock: { $sum: "$qtyStock" },
+        },
+      },
+    ]);
+
+    page = Number(page || 1);
+    limit = limit ? Number(limit) : 10;
+
+    const quant = await Product.find(filtros).estimatedDocumentCount();
+    /* var products = await Product.find(filtros)
+      .sort({
+        editionDate: "desc",
+      })
+      .limit(limit)
+      .lean()
+      .skip(page > 1 ? (page - 1) * limit : 0)
+      .populate("group")
+      .populate("subgroup")
+      .populate("type")
+      .populate("status");*/
+
+    console.log(filtros);
+    // console.log(products)
+
+    console.log(filtros);
+    const products = await Product.aggregate([
+      { $match: filtros },
+      { $match: { active: { $in: [true] } } },
+      { $skip: page > 1 ? (page - 1) * limit : 0 },
+      { $limit: limit },
+      { $sort: { tag: 1 } },
+      {
+        $group: {
+          _id: {
+            type: "$type",
+            tag: "$tag",
+            group: "$group",
+            subgroup: "$subgroup",
+            description: "$description",
+          },
+        },
+      },
+      {
+        $lookup: {
+          from: "groups",
+          localField: "_id.group",
+          foreignField: "_id",
+          as: "group",
+        },
+      },
+      { $unwind: "$group" },
+      {
+        $lookup: {
+          from: "subgroups",
+          localField: "_id.subgroup",
+          foreignField: "_id",
+          as: "subgroup",
+        },
+      },
+      { $unwind: "$subgroup" },
+      {
+        $lookup: {
+          from: "types",
+          localField: "_id.type",
+          foreignField: "_id",
+          as: "type",
+        },
+      },
+      { $unwind: "$type" },
+      /*{
+          $lookup:
+          {
+            from: "warehouses",
+            localField: "_id.warehouse",
+            foreignField: "_id",
+            as: "warehouse"
+          }
+        },
+        { $unwind: "$warehouse" },*/
+    ]);
+    // console.log(products)
+    const warehouses = await Product.aggregate([
+      { $match: filtros },
+      { $match: { active: { $in: [true] } } },
+      { $sort: { _id: 1 } },
+      {
+        $group: {
+          _id: "$warehouse",
+          count: { $sum: 1 },
+          qtyStock: { $sum: "$qtyStock" }
+        },
+      },
+      {
+        $lookup: {
+          from: "warehouses",
+          localField: "_id",
+          foreignField: "_id",
+          as: "warehouse",
+        },
+      },
+      { $unwind: "$warehouse" },
+    ]);
+
+    const groups = await Product.aggregate([
+      { $match: filtros },
+      { $match: { active: { $in: [true] } } },
+      { $sort: { _id: 1 } },
+      {
+        $group: {
+          _id: "$group",
+          count: { $sum: 1 },
+          qtyStock: { $sum: "$qtyStock" },
+        },
+      },
+      {
+        $lookup: {
+          from: "groups",
+          localField: "_id",
+          foreignField: "_id",
+          as: "group",
+        },
+      },
+      { $unwind: "$group" },
+    ]);
+
+    const subgroups = await Product.aggregate([
+      { $match: filtros },
+      { $match: { active: { $in: [true] } } },
+      { $sort: { _id: 1 } },
+      {
+        $group: {
+          _id: "$subgroup",
+          count: { $sum: 1 },
+          qtyStock: { $sum: "$qtyStock" }
+        },
+      },
+      {
+        $lookup: {
+          from: "subgroups",
+          localField: "_id",
+          foreignField: "_id",
+          as: "subgroup",
+        },
+      },
+      { $unwind: "$subgroup" },
+    ]);
+
+    const types = await Product.aggregate([
+      { $match: filtros },
+      { $match: { active: { $in: [true] } } },
+      { $sort: { _id: 1 } },
+      {
+        $group: {
+          _id: "$type",
+          count: { $sum: 1 },
+          qtyStock: { $sum: "$qtyStock" }
+        },
+      },
+      {
+        $lookup: {
+          from: "types",
+          localField: "_id",
+          foreignField: "_id",
+          as: "type",
+        },
+      },
+      { $unwind: "$type" },
+    ]);
+
+    const statuses = await Product.aggregate([
+      { $match: filtros },
+      { $match: { active: { $in: [true] } } },
+      { $sort: { _id: 1 } },
+      {
+        $group: {
+          _id: "$status",
+          count: { $sum: 1 },
+          qtyStock: { $sum: "$qtyStock" }
+        },
+      },
+      {
+        $lookup: {
+          from: "statuses",
+          localField: "_id",
+          foreignField: "_id",
+          as: "status",
+        },
+      },
+      { $unwind: "$status" },
+    ]);
+
+    const qtd = await Product.aggregate([
+      { $match: filtros },
+      { $match: { active: { $in: [true] } } },
+      {
+        $group: {
+          _id: null,
+          count: { $sum: 1 },
+          qtyStock: { $sum: "$qtyStock" },
+          weightKg: { $sum: { $multiply: [ "$qtyStock", "$weightKg" ] } },
+          faceValue: {$sum: { $multiply: [ "$qtyStock", "$faceValue" ] } },
+        }
+      }
+    ]);
+
     const warehouseChart = await Product.aggregate([
-      warehouseMatch,
+      { $match: filtros },
       {
         $group: {
           _id: "$warehouse",
@@ -472,11 +776,12 @@ exports.dashboard = async (req, res) => {
           as: "warehouse",
         },
       },
+      { $unwind: "$warehouse" },
     ]);
 
 
     const groupChart = await Product.aggregate([
-      warehouseMatch,
+     { $match: filtros },
       {
         $group: {
           _id: "$group",
@@ -492,10 +797,11 @@ exports.dashboard = async (req, res) => {
           as: "group",
         },
       },
+      { $unwind: "$group" },
     ]);
 
     const typeChart = await Product.aggregate([
-      warehouseMatch,
+     { $match: filtros },
       {
         $group: {
           _id: "$type",
@@ -511,10 +817,11 @@ exports.dashboard = async (req, res) => {
           as: "type",
         },
       },
+      { $unwind: "$type" },
     ]);
 
     const statusChart = await Product.aggregate([
-      warehouseMatch,
+     { $match: filtros },
       {
         $group: {
           _id: "$status",
@@ -530,14 +837,38 @@ exports.dashboard = async (req, res) => {
           as: "status",
         },
       },
+      { $unwind: "$status" },
     ]);
 
     res.render("planning/dashboard", {
+      products,
+      prev: Number(page) > 1,
+      next: Number(page) * limit < quant,
+      warehouses,
+      groups,
+      subgroups,
+      types,
+      statuses,
+      page,
+      search,
+      limit,
+      site,
+      group,
+      subgroup,
+      type,
+      status,
+      siteNow,
+      warehouse,
+      siteProducts,
+      totalProducts,
+      useProducts,
+      badProducts,
+      hbsProducts,
+      qtd,
       warehouseChart,
       groupChart,
       typeChart,
       statusChart,
-      warehouses,
     });
   } catch (err) {
     console.log(err);
@@ -752,7 +1083,7 @@ exports.planning = async (req, res) => {
     // console.log(products)
     const warehouses = await Product.aggregate([
       { $match: filtros },
-      //{ $match: { active: { $in: [true] } } },
+      { $match: { active: { $in: [true] } } },
       { $sort: { _id: 1 } },
       {
         $group: {
@@ -774,7 +1105,7 @@ exports.planning = async (req, res) => {
 
     const groups = await Product.aggregate([
       { $match: filtros },
-      //{ $match: { active: { $in: [true] } } },
+      { $match: { active: { $in: [true] } } },
       { $sort: { _id: 1 } },
       {
         $group: {
@@ -796,7 +1127,7 @@ exports.planning = async (req, res) => {
 
     const subgroups = await Product.aggregate([
       { $match: filtros },
-      //{ $match: { active: { $in: [true] } } },
+      { $match: { active: { $in: [true] } } },
       { $sort: { _id: 1 } },
       {
         $group: {
@@ -818,7 +1149,7 @@ exports.planning = async (req, res) => {
 
     const types = await Product.aggregate([
       { $match: filtros },
-      //{ $match: { active: { $in: [true] } } },
+      { $match: { active: { $in: [true] } } },
       { $sort: { _id: 1 } },
       {
         $group: {
@@ -840,7 +1171,7 @@ exports.planning = async (req, res) => {
 
     const statuses = await Product.aggregate([
       { $match: filtros },
-      //{ $match: { active: { $in: [true] } } },
+      { $match: { active: { $in: [true] } } },
       { $sort: { _id: 1 } },
       {
         $group: {
@@ -862,6 +1193,7 @@ exports.planning = async (req, res) => {
 
     const qtd = await Product.aggregate([
       { $match: filtros },
+      { $match: { active: { $in: [true] } } },
       {
         $group: {
           _id: null,

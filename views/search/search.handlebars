@@ -4,40 +4,8 @@
             <h4><i class="fas fa-tools" style="color:#0075be;"></i> Consulta por Produtos</h4>
             <h5>{{siteNow.description}}</h5>
         </div>
-
-        <div class="p-1">
-            {{#each qtd}}
-            <button type="button" class="btn btn-primary btn-sm" Readonly>
-                Itens Cadastrados <span class="badge badge-pill badge-dark">{{count}}</span>
-                {{/each}}
-            </button>
         </div>
-
-        <div class="p-1">
-            {{#each qtd}}
-            <button type="button" class="btn btn-success btn-sm">
-                Itens em Estoque <span class="badge badge-pill badge-dark">{{qtyStock}}</span>
-                {{/each}}
-            </button>
-        </div>
-
-        <div class="p-1">
-            {{#each qtd}}
-            <button type="button" class="btn btn-secondary btn-sm">
-                Peso Alocado <span class="badge badge-pill badge-dark">{{weightKg}}</span>
-                {{/each}}
-            </button>
-        </div>
-
-        <div class="p-1">
-            {{#each qtd}}
-            <button type="button" class="btn btn-danger btn-sm">
-                Valor <span class="badge badge-pill badge-dark">R$ {{faceValue}}</span>
-                {{/each}}
-            </button>
-        </div>
-    </div>
-    <!--
+        <!--
         <a href="/search/products">
             <button type="button" class="mr-2 mt-3 btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom"
                 title="Vizualize os produtos requisitados, e quando quiser feche seu pedido">
@@ -52,116 +20,186 @@
             </button>
         </a> -->
 
-    <div class="form-row justify-content-around">
-        <div class="form-group col-md-2">
-            <div class="input-group input-group-sm">
-                <input type="text-sm" class="form-control" id="search" name="search" placeholder="Pesquise aqui..."
-                    value="{{search}}" onchange="search()">
+        <div class="form-row justify-content-around">
+            <div class="form-group col-md-2">
+                <div class="input-group input-group-sm">
+                    <input type="text-sm" class="form-control" id="search" name="search" placeholder="Pesquise aqui..."
+                        value="{{search}}" onchange="search()">
+                </div>
             </div>
-        </div>
-        <div class="form-group col-md-2">
-            <select class="custom-select custom-select-sm" id="site" name="site" onchange="setSite()">
-                <option selected disabled hidden>Busque por Obra</option>
-                <option value="">Nenhum(a)</option>
-                {{#each warehouses}}
-                <option value="{{_id}}" {{#if_eq ../site _id}}selected{{/if_eq}}>{{warehouse.description}}</option>
-                <option id="option" value="{{_id}}">{{count}}</option>
-                {{else}}
-                <option value="0">Nenhum site registrado</option>
-                {{/each}}
-            </select>
-        </div>
+            <div class="form-group col-md-2">
+                <select class="custom-select custom-select-sm" id="site" name="site" onchange="setSite()">
+                    <option selected disabled hidden>Busque por Obra</option>
+                    <option value="">Nenhum(a)</option>
+                    {{#each warehouses}}
+                    <option value="{{_id}}" {{#if_eq ../site _id}}selected{{/if_eq}}>{{warehouse.description}}</option>
+                    <option id="option" value="{{_id}}">{{count}}</option>
+                    {{else}}
+                    <option value="0">Nenhum site registrado</option>
+                    {{/each}}
+                </select>
+            </div>
 
-        <div class="form-group col-md-2">
-            <select class="custom-select custom-select-sm" id="group" name="group" onchange="setSearchGroup()">
-                <option selected disabled hidden>Grupos</option>
-                <option value="">Nenhum(a)</option>
-                {{#each groups}}
-                <option value="{{_id}}" {{#if_eq ../group _id}}selected{{/if_eq}}>{{group.description}}</option>
-                <option id="option" value="{{_id}}">{{count}}</option>
-                {{else}}
-                <option value="0">Nenhum grupo registrado</option>
-                {{/each}}
-            </select>
-        </div>
+            <div class="form-group col-md-2">
+                <select class="custom-select custom-select-sm" id="group" name="group" onchange="setSearchGroup()">
+                    <option selected disabled hidden>Grupos</option>
+                    <option value="">Nenhum(a)</option>
+                    {{#each groups}}
+                    <option value="{{_id}}" {{#if_eq ../group _id}}selected{{/if_eq}}>{{group.description}}</option>
+                    <option id="option" value="{{_id}}">{{count}}</option>
+                    {{else}}
+                    <option value="0">Nenhum grupo registrado</option>
+                    {{/each}}
+                </select>
+            </div>
 
-        <div class="form-group col-md-2">
-            <select class="custom-select custom-select-sm" id="subgroup" name="subgroup" onchange="setSearchSubgroup()">
-                <option selected disabled hidden>Subgrupos</option>
-                <option value="">Nenhum(a)</option>
-                {{#each subgroups}}
-                <option value="{{_id}}" {{#if_eq ../subgroup _id}}selected{{/if_eq}}>{{subgroup.description}}</option>
-                <option id="option" value="{{_id}}">{{count}}</option>
-                {{else}}
-                <option value="0">Nenhum subgrupo registrado</option>
-                {{/each}}
-            </select>
-        </div>
-        <div class="form-group col-md-2">
-            <select class="custom-select custom-select-sm" id="type" name="type" onchange="setSearchType()">
-                <option selected disabled hidden>Tipos de Equipamento</option>
-                <option value="">Nenhum(a)</option>
-                {{#each types}}
-                <option value="{{_id}}" {{#if_eq ../type _id}}selected{{/if_eq}}>{{type.description}}</option>
-                <option id="option" value="{{_id}}">{{count}}</option>
-                {{else}}
-                <option value="0">Nenhum tipo de equipamento registrado</option>
-                {{/each}}
-            </select>
-        </div>
-        <div class="form-group col-md-2">
-            <select class="custom-select custom-select-sm" id="status" name="status" onchange="setSearchStatus()">
-                <option selected disabled hidden>Status do Produto</option>
-                <option value="">Nenhum(a)</option>
-                {{#each statuses}}
-                <option value="{{_id}}" {{#if_eq ../status _id}}selected{{/if_eq}}>{{status.description}}</option>
-                <option id="option" value="{{_id}}">{{count}}</option>
-                {{else}}
-                <option value="0">Nenhum status registrado</option>
-                {{/each}}
-            </select>
-        </div>
+            <div class="form-group col-md-2">
+                <select class="custom-select custom-select-sm" id="subgroup" name="subgroup"
+                    onchange="setSearchSubgroup()">
+                    <option selected disabled hidden>Subgrupos</option>
+                    <option value="">Nenhum(a)</option>
+                    {{#each subgroups}}
+                    <option value="{{_id}}" {{#if_eq ../subgroup _id}}selected{{/if_eq}}>{{subgroup.description}}
+                    </option>
+                    <option id="option" value="{{_id}}">{{count}}</option>
+                    {{else}}
+                    <option value="0">Nenhum subgrupo registrado</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div class="form-group col-md-2">
+                <select class="custom-select custom-select-sm" id="type" name="type" onchange="setSearchType()">
+                    <option selected disabled hidden>Tipos de Equipamento</option>
+                    <option value="">Nenhum(a)</option>
+                    {{#each types}}
+                    <option value="{{_id}}" {{#if_eq ../type _id}}selected{{/if_eq}}>{{type.description}}</option>
+                    <option id="option" value="{{_id}}">{{count}}</option>
+                    {{else}}
+                    <option value="0">Nenhum tipo de equipamento registrado</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div class="form-group col-md-2">
+                <select class="custom-select custom-select-sm" id="status" name="status" onchange="setSearchStatus()">
+                    <option selected disabled hidden>Status do Produto</option>
+                    <option value="">Nenhum(a)</option>
+                    {{#each statuses}}
+                    <option value="{{_id}}" {{#if_eq ../status _id}}selected{{/if_eq}}>{{status.description}}</option>
+                    <option id="option" value="{{_id}}">{{count}}</option>
+                    {{else}}
+                    <option value="0">Nenhum status registrado</option>
+                    {{/each}}
+                </select>
+            </div>
 
-    </div>
-    <div class="d-flex justify-content-center">
-        <div class="p-1 mr-auto">
-            <div class="form-group row">
-                <label for="client" class="col-sm-7 col-form-label col-form-label-sm">Itens p/ página</label>
-                <div class="col-sm-5">
-                    <select class="custom-select custom-select-sm" id="limit" name="limit" onchange="setLimit()">
-                        <option value="5" {{#if_eq limit 5}}selected{{/if_eq}}>5</option>
-                        <option value="10" {{#if_eq limit 10}}selected{{/if_eq}}>10</option>
-                        <option value="25" {{#if_eq limit 25}}selected{{/if_eq}}>25</option>
-                        <option value="50" {{#if_eq limit 50}}selected{{/if_eq}}>50</option>
-                        <option value="100" {{#if_eq limit 100}}selected{{/if_eq}}>100</option>
-                    </select>
+        </div>
+        <div class="form-row justify-content-center mb-2">
+            <div class="card-deck">
+                <div class="card text-white bg-primary" style="max-width:100%;">
+                    <div class="card-header">
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-12 mt-0 text-center">
+                                {{#each qtd}}
+                                <h1 class="display-5"><i class="fas fa-tools"></i> {{count}}</h1>
+                                {{/each}}
+                            </div>
+                            <div class="form-row justify-content-center">
+                                <h6>Itens Cadastrados</h6>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card text-white bg-success" style="max-width:100%;">
+                    <div class="card-header">
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-12 mt-0 text-center">
+                                {{#each qtd}}
+                                <h1 class="display-5"><i class="fas fa-warehouse"></i> {{qtyStock}}</h1>
+                                {{/each}}
+                            </div>
+                            <div class="form-row justify-content-center">
+                                <h6>Itens em Estoque</h6>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card text-white bg-secondary" style="max-width: 100%;">
+                    <div class="card-header">
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-12 mt-0 text-center">
+                                {{#each qtd}}
+                                <h1 class="display-5"><i class="fas fa-weight-hanging"></i> {{weightKg}}</h1>
+                                {{/each}}
+                            </div>
+                            <div class="form-row justify-content-center">
+                                <h6>Peso Alocado Kg</h6>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card text-white bg-danger" style="max-width: 100%;">
+                    <div class="card-header">
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-12 mt-0 text-center">
+                                {{#each qtd}}
+                                <h1 class="display-5">R$ {{faceValue}}</h1>
+                                {{/each}}
+                            </div>
+                            <div class="form-row justify-content-center">
+                                <h6>Valores</h6>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="p-1 ">
-            <p><small>Visualizar Colunas</small></p>
+
+        <div class="d-flex justify-content-center">
+            <div class="p-1 mr-auto">
+                <div class="form-group row">
+                    <label for="client" class="col-sm-7 col-form-label col-form-label-sm">Itens p/ página</label>
+                    <div class="col-sm-5">
+                        <select class="custom-select custom-select-sm" id="limit" name="limit" onchange="setLimit()">
+                            <option value="5" {{#if_eq limit 5}}selected{{/if_eq}}>5</option>
+                            <option value="10" {{#if_eq limit 10}}selected{{/if_eq}}>10</option>
+                            <option value="25" {{#if_eq limit 25}}selected{{/if_eq}}>25</option>
+                            <option value="50" {{#if_eq limit 50}}selected{{/if_eq}}>50</option>
+                            <option value="100" {{#if_eq limit 100}}selected{{/if_eq}}>100</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="p-1 ">
+                <p><small>Visualizar Colunas</small></p>
+            </div>
+            <div class="p-1 ">
+                <select class="custom-select custom-select-sm" name="SelectOptions" id="SelectOptions">
+                    <option selected disabled hidden>Escolher...</option>
+                    <option value="pl01">QrCode</option>
+                    <option value="pl02">Grupo</option>
+                    <option value="pl03">Subgrupo</option>
+                    <option value="pl04">Descrição Resumida</option>
+                    <option value="pl05">Tag</option>
+                    <option value="pl16">Tipo</option>
+                    <option value="pl07">Qtd alocada no Projeto</option>
+                    <option value="pl08">Qtd alocada no Reservada Atual</option>
+                    <option value="pl09">Qtd Total HBS</option>
+                    <option value="pl10">Qtd em Uso</option>
+                    <option value="pl11">Qtd com Pendência</option>
+                    <option value="pl12">Qtd disponivel</option>
+                    <option value="pl13">Detalhes</option>
+                </select>
+            </div>
         </div>
-        <div class="p-1 ">
-            <select class="custom-select custom-select-sm" name="SelectOptions" id="SelectOptions">
-                <option selected disabled hidden>Escolher...</option>
-                <option value="pl01">QrCode</option>
-                <option value="pl02">Grupo</option>
-                <option value="pl03">Subgrupo</option>
-                <option value="pl04">Descrição Resumida</option>
-                <option value="pl05">Tag</option>
-                <option value="pl16">Tipo</option>
-                <option value="pl07">Qtd alocada no Projeto</option>
-                <option value="pl08">Qtd alocada no Reservada Atual</option>
-                <option value="pl09">Qtd Total HBS</option>
-                <option value="pl10">Qtd em Uso</option>
-                <option value="pl11">Qtd com Pendência</option>
-                <option value="pl12">Qtd disponivel</option>
-                <option value="pl13">Detalhes</option>
-            </select>
-        </div>
-    </div>
-    <!--FORM PARA FINALIZAR PEDIDO-->
-    <!--<form action="/planning/planning" method="POST">
+        <!--FORM PARA FINALIZAR PEDIDO-->
+        <!--<form action="/planning/planning" method="POST">
           {{#each save}}
           <input type="text" class="mt-2 form-control" name="product[]" value="{{description}}">
           <input type="text" class="mt-2 form-control" name="qty" value="{{qty}}">
@@ -175,120 +213,121 @@
           </button>
 
       </div>-->
-    <!--TABELA DE DADOS-->
-    <div class="table-responsive">
-        <table id="tblExport" class="table table-hover table-sm table-bordered">
-            <thead>
-                <tr>
-                    <th class="pl02 d-print-block" scope="col">Grupo</th>
-                    <th class="pl03 d-print-block" scope="col">Subgrupo</th>
-                    <th class="pl04 d-print-block" scope="col">Descrição Resumida</th>
-                    <th class="pl05 d-print-block" scope="col">Tag</th>
-                    <th class="pl06 d-print-block" scope="col">Tipo / Acionamento</th>
-                    <th class="pl07 d-print-block" data-toggle="tooltip" data-placement="bottom"
-                        title="Quantidade que ja está no estoque do projeto" style="background-color: #696969;"
-                        scope="col">
-                        Qtd alocada no
-                        Projeto</th>
-                    <th class="pl08 d-print-block" data-toggle="tooltip" data-placement="bottom"
-                        title="Quantidade reservada para envio ao projeto" style="background-color: #708090;"
-                        scope="col">
-                        Qtd reservada p/
-                        projeto</th>
-                    <th class="pl09 d-print-block" data-toggle="tooltip" data-placement="bottom"
-                        title="Quantidade levando em consideração todas as obras mais o almoxarifado Central"
-                        scope="col">
-                        Qtd Total HBS</th>
-                    <th class="pl10 d-print-block" data-toggle="tooltip" data-placement="bottom"
-                        title="Quantidade levando em consideração somente os itens alocados nas obras"
-                        style="background-color: #FFFF00; color:black" scope="col">Qtd em Uso
-                    </th>
-                    <th class="pl11 d-print-block" data-toggle="tooltip" data-placement="bottom"
-                        title="Quantidade levando em consideração itens sem condições de uso, ou que precisam de alguma certificação ou reparo"
-                        style="background-color: #FF0000;color:black" scope="col">Qtd com
-                        Pendência</th>
-                    <th class="pl12 d-print-block" data-toggle="tooltip" data-placement="bottom"
-                        title="Quantidade levando em consideração itens alocados no almoxarifado central"
-                        style="background-color: #228B22;" scope="col">Qtd disponivel</th>
-                    <th class="pl13 d-print-block" scope="col">Detalhes</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                {{#each products}}
-                <form action="/planning/planning" method="POST">
-                    <input type="hidden" class="mt-2 form-control" name="description" value="{{_id.description}}">
-                    <input type="hidden" class="mt-2 form-control" name="warehouse" value="{{../siteNow._id}}">
+        <!--TABELA DE DADOS-->
+        <div class="table-responsive">
+            <table id="tblExport" class="table table-hover table-sm table-bordered">
+                <thead>
                     <tr>
-                        <td class="pl01 d-print-block">
-                            <figure class="figure">
-                                <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{_id.tag}}"
-                                    class="figure-img img-fluid rounded" style="max-width: 4rem;"
-                                    alt="Imagem de um quadrado genérico com bordas arredondadas, em uma figure.">
-                                <!--<figcaption class="figure-caption">Uma legenda para a imagem acima.</figcaption>-->
-                            </figure>
-                        </td>
-                        <td class="pl02 d-print-block">{{group.description}}</td>
-                        <td class="pl03 d-print-block">{{subgroup.description}}</td>
-                        <td class="pl04 d-print-block">{{_id.description}}</td>
-                        <td class="pl05 d-print-block">{{_id.tag}}</td>
-                        <td class="pl06 d-print-block">{{type.description}}</td>
-                        {{#find_with_key _id.tag ../siteProducts "_id"}}
-                        <td class="pl07 d-print-block" style="background-color: #BEBEBE;">{{stock}}</td>
-                        <td class="pl08 d-print-block" style="background-color: #D3D3D3;">{{request}}</td>
-                        {{/find_with_key}}
-                        {{#find_with_total _id.tag ../totalProducts "_id"}}
-                        <td class="pl09 d-print-block" style="background-color: #7EC0EE;">{{stock}}</td>
-                        {{/find_with_total}}
-                        {{#find_with_use _id.tag ../useProducts "_id"}}
-                        <td class="pl10 d-print-block" style="background-color: #EEDD82;">{{stock}}</td>
-                        {{/find_with_use}}
-                        {{#find_with_use _id.tag ../badProducts "_id"}}
-                        <td class="pl11 d-print-block" style="background-color: #F08080;">{{stock}}</td>
-                        {{/find_with_use}}
-                        {{#find_with_use _id.tag ../hbsProducts "_id"}}
-                        <td class="pl12 d-print-block" style="background-color: #90EE90;">{{stock}}</td>
-                        {{/find_with_use}}
-                        <td class="pl13 d-print-none">
-                            <div class="d-flex justify-content-center">
-                                <div class="p-0 mr-1">
-                                    <a href="/search/actives/{{_id.tag}}" class="btn btn-primary btn-rounded btn-sm m-0"
-                                        data-toggle="tooltip" data-placement="left" title="Visualizar detalhes">
-                                        <i class="fas fa-file-signature"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </td>
-
+                        <th class="pl02 d-print-block" scope="col">Grupo</th>
+                        <th class="pl03 d-print-block" scope="col">Subgrupo</th>
+                        <th class="pl04 d-print-block" scope="col">Descrição Resumida</th>
+                        <th class="pl05 d-print-block" scope="col">Tag</th>
+                        <th class="pl06 d-print-block" scope="col">Tipo / Acionamento</th>
+                        <th class="pl07 d-print-block" data-toggle="tooltip" data-placement="bottom"
+                            title="Quantidade que ja está no estoque do projeto" style="background-color: #696969;"
+                            scope="col">
+                            Qtd alocada no
+                            Projeto</th>
+                        <th class="pl08 d-print-block" data-toggle="tooltip" data-placement="bottom"
+                            title="Quantidade reservada para envio ao projeto" style="background-color: #708090;"
+                            scope="col">
+                            Qtd reservada p/
+                            projeto</th>
+                        <th class="pl09 d-print-block" data-toggle="tooltip" data-placement="bottom"
+                            title="Quantidade levando em consideração todas as obras mais o almoxarifado Central"
+                            scope="col">
+                            Qtd Total HBS</th>
+                        <th class="pl10 d-print-block" data-toggle="tooltip" data-placement="bottom"
+                            title="Quantidade levando em consideração somente os itens alocados nas obras"
+                            style="background-color: #FFFF00; color:black" scope="col">Qtd em Uso
+                        </th>
+                        <th class="pl11 d-print-block" data-toggle="tooltip" data-placement="bottom"
+                            title="Quantidade levando em consideração itens sem condições de uso, ou que precisam de alguma certificação ou reparo"
+                            style="background-color: #FF0000;color:black" scope="col">Qtd com
+                            Pendência</th>
+                        <th class="pl12 d-print-block" data-toggle="tooltip" data-placement="bottom"
+                            title="Quantidade levando em consideração itens alocados no almoxarifado central"
+                            style="background-color: #228B22;" scope="col">Qtd disponivel</th>
+                        <th class="pl13 d-print-block" scope="col">Detalhes</th>
                     </tr>
-                </form>
-                </form>
-                {{else}}
-                <h4 class="mt-12 mb-2">
-                    Nenhum Produto Registrado!
-                </h4>
-                {{/each}}
-            </tbody>
+                </thead>
 
-        </table>
-    </div>
+                <tbody>
+                    {{#each products}}
+                    <form action="/planning/planning" method="POST">
+                        <input type="hidden" class="mt-2 form-control" name="description" value="{{_id.description}}">
+                        <input type="hidden" class="mt-2 form-control" name="warehouse" value="{{../siteNow._id}}">
+                        <tr>
+                            <td class="pl01 d-print-block">
+                                <figure class="figure">
+                                    <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl={{_id.tag}}"
+                                        class="figure-img img-fluid rounded" style="max-width: 4rem;"
+                                        alt="Imagem de um quadrado genérico com bordas arredondadas, em uma figure.">
+                                    <!--<figcaption class="figure-caption">Uma legenda para a imagem acima.</figcaption>-->
+                                </figure>
+                            </td>
+                            <td class="pl02 d-print-block">{{group.description}}</td>
+                            <td class="pl03 d-print-block">{{subgroup.description}}</td>
+                            <td class="pl04 d-print-block">{{_id.description}}</td>
+                            <td class="pl05 d-print-block">{{_id.tag}}</td>
+                            <td class="pl06 d-print-block">{{type.description}}</td>
+                            {{#find_with_key _id.tag ../siteProducts "_id"}}
+                            <td class="pl07 d-print-block" style="background-color: #BEBEBE;">{{stock}}</td>
+                            <td class="pl08 d-print-block" style="background-color: #D3D3D3;">{{request}}</td>
+                            {{/find_with_key}}
+                            {{#find_with_total _id.tag ../totalProducts "_id"}}
+                            <td class="pl09 d-print-block" style="background-color: #7EC0EE;">{{stock}}</td>
+                            {{/find_with_total}}
+                            {{#find_with_use _id.tag ../useProducts "_id"}}
+                            <td class="pl10 d-print-block" style="background-color: #EEDD82;">{{stock}}</td>
+                            {{/find_with_use}}
+                            {{#find_with_use _id.tag ../badProducts "_id"}}
+                            <td class="pl11 d-print-block" style="background-color: #F08080;">{{stock}}</td>
+                            {{/find_with_use}}
+                            {{#find_with_use _id.tag ../hbsProducts "_id"}}
+                            <td class="pl12 d-print-block" style="background-color: #90EE90;">{{stock}}</td>
+                            {{/find_with_use}}
+                            <td class="pl13 d-print-none">
+                                <div class="d-flex justify-content-center">
+                                    <div class="p-0 mr-1">
+                                        <a href="/search/actives/{{_id.tag}}"
+                                            class="btn btn-primary btn-rounded btn-sm m-0" data-toggle="tooltip"
+                                            data-placement="left" title="Visualizar detalhes">
+                                            <i class="fas fa-file-signature"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
 
-    <div class="d-flex d-print-none">
-        <div class="mr-auto p-2">
-            {{#if prev}}
-            <button class="btn btn-primary btn-sm mt-2" onclick="navigate(-1)">
-                <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                Anterior
-            </button>
-            {{/if}}
+                        </tr>
+                    </form>
+                    </form>
+                    {{else}}
+                    <h4 class="mt-12 mb-2">
+                        Nenhum Produto Registrado!
+                    </h4>
+                    {{/each}}
+                </tbody>
+
+            </table>
         </div>
-        <div class="p-2">
-            {{#if next}}
-            <button class="btn btn-primary btn-sm mt-2" onclick="navigate(1)">
-                Próximo
-                <i class="fa fa-arrow-right" aria-hidden="true"></i>
-            </button>
-            {{/if}}
+
+        <div class="d-flex d-print-none">
+            <div class="mr-auto p-2">
+                {{#if prev}}
+                <button class="btn btn-primary btn-sm mt-2" onclick="navigate(-1)">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    Anterior
+                </button>
+                {{/if}}
+            </div>
+            <div class="p-2">
+                {{#if next}}
+                <button class="btn btn-primary btn-sm mt-2" onclick="navigate(1)">
+                    Próximo
+                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                </button>
+                {{/if}}
+            </div>
         </div>
     </div>
-</div>

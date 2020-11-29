@@ -166,9 +166,7 @@ exports.search = async (req, res) => {
       .populate("status");*/
 
     console.log(filtros);
-    // console.log(products)
 
-    console.log(filtros);
     const products = await Product.aggregate([
       { $match: filtros },
       { $match: { active: { $in: [true] } } },
@@ -225,9 +223,11 @@ exports.search = async (req, res) => {
         { $unwind: "$warehouse" },*/
     ]);
     // console.log(products)
+
+
     const warehouses = await Product.aggregate([
       { $match: filtros },
-      //{ $match: { active: { $in: [true] } } },
+      { $match: { active: { $in: [true] } } },
       { $sort: { _id: 1 } },
       {
         $group: {
@@ -249,7 +249,7 @@ exports.search = async (req, res) => {
 
     const groups = await Product.aggregate([
       { $match: filtros },
-      //{ $match: { active: { $in: [true] } } },
+      { $match: { active: { $in: [true] } } },
       { $sort: { _id: 1 } },
       {
         $group: {
@@ -271,7 +271,7 @@ exports.search = async (req, res) => {
 
     const subgroups = await Product.aggregate([
       { $match: filtros },
-      //{ $match: { active: { $in: [true] } } },
+      { $match: { active: { $in: [true] } } },
       { $sort: { _id: 1 } },
       {
         $group: {
@@ -293,7 +293,7 @@ exports.search = async (req, res) => {
 
     const types = await Product.aggregate([
       { $match: filtros },
-      //{ $match: { active: { $in: [true] } } },
+      { $match: { active: { $in: [true] } } },
       { $sort: { _id: 1 } },
       {
         $group: {
@@ -315,7 +315,7 @@ exports.search = async (req, res) => {
 
     const statuses = await Product.aggregate([
       { $match: filtros },
-      //{ $match: { active: { $in: [true] } } },
+      { $match: { active: { $in: [true] } } },
       { $sort: { _id: 1 } },
       {
         $group: {
@@ -335,8 +335,9 @@ exports.search = async (req, res) => {
       { $unwind: "$status" },
     ]);
 
-    const qtd = await Product.aggregate([
+    const qtd = await Product.aggregate([     
       { $match: filtros },
+      { $match: { active: { $in: [true] } } },
       {
         $group: {
           _id: null,
@@ -677,7 +678,7 @@ exports.actives = async (req, res) => {
     // console.log(products)
     const warehouses = await Product.aggregate([
       { $match: filtros },
-      //{ $match: { active: { $in: [true] } } },
+      { $match: { active: { $in: [true] } } },
       { $sort: { _id: 1 } },
       {
         $group: {
@@ -699,7 +700,7 @@ exports.actives = async (req, res) => {
 
     const groups = await Product.aggregate([
       { $match: filtros },
-      //{ $match: { active: { $in: [true] } } },
+      { $match: { active: { $in: [true] } } },
       { $sort: { _id: 1 } },
       {
         $group: {
@@ -721,7 +722,7 @@ exports.actives = async (req, res) => {
 
     const subgroups = await Product.aggregate([
       { $match: filtros },
-      //{ $match: { active: { $in: [true] } } },
+      { $match: { active: { $in: [true] } } },
       { $sort: { _id: 1 } },
       {
         $group: {
@@ -743,7 +744,7 @@ exports.actives = async (req, res) => {
 
     const types = await Product.aggregate([
       { $match: filtros },
-      //{ $match: { active: { $in: [true] } } },
+      { $match: { active: { $in: [true] } } },
       { $sort: { _id: 1 } },
       {
         $group: {
@@ -765,7 +766,7 @@ exports.actives = async (req, res) => {
 
     const statuses = await Product.aggregate([
       { $match: filtros },
-      //{ $match: { active: { $in: [true] } } },
+      { $match: { active: { $in: [true] } } },
       { $sort: { _id: 1 } },
       {
         $group: {
@@ -787,6 +788,7 @@ exports.actives = async (req, res) => {
 
     const qtd = await Product.aggregate([
       { $match: filtros },
+      { $match: { active: { $in: [true] } } },
       {
         $group: {
           _id: null,
