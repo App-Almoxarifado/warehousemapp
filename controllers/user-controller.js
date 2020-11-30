@@ -99,8 +99,8 @@ exports.getCreate = async (req, res) => {
               emailService.send([req.body.email,"daniel.albuquerque@andritz.com"],
                 "Bem vindo ao Warehouseapp",
                 fillEmailTemplate(emailTemplates.WELCOME,{
-                  name: req.body.userName,
-                  number: 12345
+                  userName: req.body.userName,
+                  //number: 12345
                 })
               );
               res.redirect("/");
