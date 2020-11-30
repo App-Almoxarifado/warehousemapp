@@ -4,8 +4,6 @@
             <h4><i class="fas fa-tools" style="color:#0075be;"></i> Consulta por Produtos</h4>
             <h5>{{siteNow.description}}</h5>
         </div>
-
-
     </div>
     <!--
         <a href="/search/products">
@@ -30,7 +28,7 @@
             </div>
         </div>
         <div class="form-group col-md-2">
-            <select class="custom-select custom-select-sm" id="site" name="site" onchange="setSite()">
+            <select class="tipo_pessoa custom-select custom-select-sm" id="site" name="site" onload="exibir_ocultar()" onchange="setSite(),exibir_ocultar()">
                 <option selected disabled hidden>Busque por Obra</option>
                 <option value="">Nenhum(a)</option>
                 {{#each warehouses}}
@@ -198,6 +196,12 @@
                 <option value="pl13">Detalhes</option>
             </select>
         </div>
+        <div id="exportExcel" class="p-0 mr-1" style="display: none;">
+            <button id="btnExport" class="mt-1 mb-1 btn btn-success btn-sm" data-toggle="tooltip" data-placement="left"
+                title="Exportar tabela para excel">
+                <i class="fas fa-file-excel"></i>
+            </button>
+        </div>
     </div>
     <!--FORM PARA FINALIZAR PEDIDO-->
     <!--<form action="/planning/planning" method="POST">
@@ -216,37 +220,38 @@
       </div>-->
     <!--TABELA DE DADOS-->
     <div class="table-responsive">
-        <table id="tblExport" class="table table-hover table-sm table-bordered">
+        <table class="table table-hover table-sm table-bordered">
             <thead>
                 <tr>
+                    <th class="pl01 d-print-block" scope="col">QrCode</th>
                     <th class="pl02 d-print-block" scope="col">Grupo</th>
                     <th class="pl03 d-print-block" scope="col">Subgrupo</th>
                     <th class="pl04 d-print-block" scope="col">Descrição Resumida</th>
                     <th class="pl05 d-print-block" scope="col">Tag</th>
                     <th class="pl06 d-print-block" scope="col">Tipo / Acionamento</th>
-                    <th class="pl07 d-print-block" data-toggle="tooltip" data-placement="bottom"
+                    <th class="pl07 d-print-block" data-toggle="tooltip" data-placement="left"
                         title="Quantidade que ja está no estoque do projeto" style="background-color: #696969;"
                         scope="col">
                         Qtd alocada no
                         Projeto</th>
-                    <th class="pl08 d-print-block" data-toggle="tooltip" data-placement="bottom"
+                    <th class="pl08 d-print-block" data-toggle="tooltip" data-placement="left"
                         title="Quantidade reservada para envio ao projeto" style="background-color: #708090;"
                         scope="col">
                         Qtd reservada p/
                         projeto</th>
-                    <th class="pl09 d-print-block" data-toggle="tooltip" data-placement="bottom"
+                    <th class="pl09 d-print-block" data-toggle="tooltip" data-placement="left"
                         title="Quantidade levando em consideração todas as obras mais o almoxarifado Central"
                         scope="col">
                         Qtd Total HBS</th>
-                    <th class="pl10 d-print-block" data-toggle="tooltip" data-placement="bottom"
+                    <th class="pl10 d-print-block" data-toggle="tooltip" data-placement="left"
                         title="Quantidade levando em consideração somente os itens alocados nas obras"
                         style="background-color: #FFFF00; color:black" scope="col">Qtd em Uso
                     </th>
-                    <th class="pl11 d-print-block" data-toggle="tooltip" data-placement="bottom"
+                    <th class="pl11 d-print-block" data-toggle="tooltip" data-placement="left"
                         title="Quantidade levando em consideração itens sem condições de uso, ou que precisam de alguma certificação ou reparo"
                         style="background-color: #FF0000;color:black" scope="col">Qtd com
                         Pendência</th>
-                    <th class="pl12 d-print-block" data-toggle="tooltip" data-placement="bottom"
+                    <th class="pl12 d-print-block" data-toggle="tooltip" data-placement="left"
                         title="Quantidade levando em consideração itens alocados no almoxarifado central"
                         style="background-color: #228B22;" scope="col">Qtd disponivel</th>
                     <th class="pl13 d-print-block" scope="col">Detalhes</th>
@@ -329,5 +334,81 @@
             </button>
             {{/if}}
         </div>
+    </div>
+
+    <!--TABELA DE DADOS-->
+    <div class="table-responsive">
+        <table id="tblExport" class="table table-hover table-sm table-bordered" style="display: none;">
+            <thead>
+                <tr>
+                    <th class="pl02 d-print-block" scope="col">Grupo</th>
+                    <th class="pl03 d-print-block" scope="col">Subgrupo</th>
+                    <th class="pl04 d-print-block" scope="col">Descrição Resumida</th>
+                    <th class="pl06 d-print-block" scope="col">Tipo / Acionamento</th>
+                    <th class="pl07 d-print-block" data-toggle="tooltip" data-placement="left"
+                        title="Quantidade que ja está no estoque do projeto" style="background-color: #696969;"
+                        scope="col">
+                        Qtd alocada no
+                        Projeto</th>
+                    <th class="pl08 d-print-block" data-toggle="tooltip" data-placement="left"
+                        title="Quantidade reservada para envio ao projeto" style="background-color: #708090;"
+                        scope="col">
+                        Qtd reservada p/
+                        projeto</th>
+                    <th class="pl09 d-print-block" data-toggle="tooltip" data-placement="left"
+                        title="Quantidade levando em consideração todas as obras mais o almoxarifado Central"
+                        scope="col">
+                        Qtd Total HBS</th>
+                    <th class="pl10 d-print-block" data-toggle="tooltip" data-placement="left"
+                        title="Quantidade levando em consideração somente os itens alocados nas obras"
+                        style="background-color: #FFFF00; color:black" scope="col">Qtd em Uso
+                    </th>
+                    <th class="pl11 d-print-block" data-toggle="tooltip" data-placement="left"
+                        title="Quantidade levando em consideração itens sem condições de uso, ou que precisam de alguma certificação ou reparo"
+                        style="background-color: #FF0000;color:black" scope="col">Qtd com
+                        Pendência</th>
+                    <th class="pl12 d-print-block" data-toggle="tooltip" data-placement="left"
+                        title="Quantidade levando em consideração itens alocados no almoxarifado central"
+                        style="background-color: #228B22;" scope="col">Qtd disponivel</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {{#each tableExport}}
+                <form action="/planning/planning" method="POST">
+                    <input type="hidden" class="mt-2 form-control" name="description" value="{{_id.description}}">
+                    <input type="hidden" class="mt-2 form-control" name="warehouse" value="{{../siteNow._id}}">
+                    <tr>
+                        <td class="pl02 d-print-block">{{group.description}}</td>
+                        <td class="pl03 d-print-block">{{subgroup.description}}</td>
+                        <td class="pl04 d-print-block">{{_id.description}}</td>
+                        <td class="pl06 d-print-block">{{type.description}}</td>
+                        {{#find_with_key _id.tag ../siteProducts "_id"}}
+                        <td class="pl07 d-print-block" style="background-color: #BEBEBE;">{{stock}}</td>
+                        <td class="pl08 d-print-block" style="background-color: #D3D3D3;">{{request}}</td>
+                        {{/find_with_key}}
+                        {{#find_with_total _id.tag ../totalProducts "_id"}}
+                        <td class="pl09 d-print-block" style="background-color: #7EC0EE;">{{stock}}</td>
+                        {{/find_with_total}}
+                        {{#find_with_use _id.tag ../useProducts "_id"}}
+                        <td class="pl10 d-print-block" style="background-color: #EEDD82;">{{stock}}</td>
+                        {{/find_with_use}}
+                        {{#find_with_use _id.tag ../badProducts "_id"}}
+                        <td class="pl11 d-print-block" style="background-color: #F08080;">{{stock}}</td>
+                        {{/find_with_use}}
+                        {{#find_with_use _id.tag ../hbsProducts "_id"}}
+                        <td class="pl12 d-print-block" style="background-color: #90EE90;">{{stock}}</td>
+                        {{/find_with_use}}
+                    </tr>
+                </form>
+                </form>
+                {{else}}
+                <h4 class="mt-12 mb-2">
+                    Nenhum Produto Registrado!
+                </h4>
+                {{/each}}
+            </tbody>
+
+        </table>
     </div>
 </div>

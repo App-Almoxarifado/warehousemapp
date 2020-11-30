@@ -348,6 +348,51 @@ exports.search = async (req, res) => {
         }
       }
     ]);
+
+    const tableExport = await Product.aggregate([
+      { $match: filtros },
+      { $match: { active: { $in: [true] } } },
+      { $sort: { tag: 1 } },
+      {
+        $group: {
+          _id: {
+            type: "$type",
+            tag: "$tag",
+            group: "$group",
+            subgroup: "$subgroup",
+            description: "$description",
+          },
+        },
+      },
+      {
+        $lookup: {
+          from: "groups",
+          localField: "_id.group",
+          foreignField: "_id",
+          as: "group",
+        },
+      },
+      { $unwind: "$group" },
+      {
+        $lookup: {
+          from: "subgroups",
+          localField: "_id.subgroup",
+          foreignField: "_id",
+          as: "subgroup",
+        },
+      },
+      { $unwind: "$subgroup" },
+      {
+        $lookup: {
+          from: "types",
+          localField: "_id.type",
+          foreignField: "_id",
+          as: "type",
+        },
+      },
+      { $unwind: "$type" },
+    ]);
+
     res.render("search/search", {
       products,
       prev: Number(page) > 1,
@@ -372,7 +417,8 @@ exports.search = async (req, res) => {
       useProducts,
       badProducts,
       hbsProducts,
-      qtd
+      qtd,
+      tableExport
     });
   } catch (err) {
     console.log(err);
