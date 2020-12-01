@@ -50,14 +50,14 @@ $(document).ready(function () {
   });
 });
 
-//MOSTRAR BOTÃO EXPORTAR EXCEL
-//window.onload = exibir_ocultar()
-function exibir_ocultar() {
-    var tipo_pessoa = document.getElementsByClassName("tipo_pessoa").value;
 
-    if(tipo_pessoa == '5f4517adcb7b9f1394dbc011') {
+function exibir_ocultar() {
+    var tipo_pessoa = document.getElementsByName("site").value;
+
+    if(tipo_pessoa != 'Busque por Obra') {
         document.getElementById("exportExcel").style.display = "block";
     } else {
         document.getElementById("exportExcel").style.display = "none";
     }
 };
+
