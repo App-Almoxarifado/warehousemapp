@@ -5,11 +5,12 @@ const multer = require("multer");
 const multerConfig = require("../config/multer");
 const { eAdmin } = require("../helpers/eAdmin");
 const { eDevAdmin } = require("../helpers/eDevAdmin");
+const { isAuthenticated } = require("../helpers/isAuthenticated");
 
 //PRODUTOS - ROTA CARRINHO DE COMPRAS
 router.get("/dashboard/:_id?", controller.dashboard);
 router.get("/sites/:_id?", controller.sites);
-router.get("/:_id?", controller.planning);
+router.get("/:_id?", isAuthenticated,controller.planning);
 router.post("/planning", controller.postPlanning);
 router.get("/search/:_id?", controller.search);
 router.get("/request/:_id?", controller.getRequest);
