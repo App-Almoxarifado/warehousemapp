@@ -1521,7 +1521,7 @@ exports.checkOut = async (req, res) => {
         ],
       },
       {
-        qtyRequest: 1050,
+        //qtyRequest: 1050,
         requestNumber: Date.now(),
         status: "Solicitado",
       }
