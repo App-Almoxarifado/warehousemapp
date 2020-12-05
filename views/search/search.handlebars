@@ -196,14 +196,14 @@
                 <option value="pl13">Detalhes</option>
             </select>
         </div>
-
+{{#if (or search site group subgroup type status)}}
         <div id="exportExcel" class="p-0 mr-1" style="display: block;">
             <button id="btnExport" class="mt-1 mb-1 btn btn-success btn-sm" data-toggle="tooltip" data-placement="left"
                 title="Exportar tabela para excel">
                 <i class="fas fa-file-excel"></i>
             </button>
         </div>
-
+{{/if}}
 
     </div>
     <!--FORM PARA FINALIZAR PEDIDO-->
@@ -338,7 +338,7 @@
             {{/if}}
         </div>
     </div>
-
+{{#if (or search site group subgroup type status)}}
     <!--TABELA DE DADOS-->
     <div class="table-responsive">
         <table id="tblExport" class="table table-hover table-sm table-bordered" border="1" bordercolor="0075be"
@@ -424,4 +424,5 @@
 
         </table>
     </div>
+    {{/if}}
 </div>
