@@ -51,13 +51,5 @@ $(document).ready(function () {
 });
 
 
-function exibir_ocultar() {
-    var tipo_pessoa = document.getElementsByName("site").value;
 
-    if(tipo_pessoa != 'Busque por Obra') {
-        document.getElementById("exportExcel").style.display = "block";
-    } else {
-        document.getElementById("exportExcel").style.display = "none";
-    }
-};
 
