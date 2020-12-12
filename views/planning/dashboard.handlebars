@@ -9,13 +9,15 @@
             <h4><i class="fas fa-chart-pie" style="color:#0075be;"></i> Dashboard</h4>
             <h5>{{siteNow.description}}</h5>
         </div>
+</div>
+        <div class="form-row justify-content-between">
         <div class="p-1 ">
             <p><small>Personalizar Vizualização:</small></p>
         </div>
-        <div class="p-1 ">
+        <div class="p-1 mr-auto">
             <select class="custom-select custom-select-sm" name="SelectOptions" id="SelectOptions">
                 <option selected disabled hidden>Escolher...</option>
-                <option value="tableDs">Tabela de Dados</option>
+                <!--<option value="tableDs">Tabela de Dados</option>-->
                 <option value="contDs">Contadores</option>
                 <option value="searchDs">Campos de Pesquisa</option>
                 <option value="chartDs">Gráficos</option>
@@ -96,13 +98,13 @@
     </div>
 
     <div class="contDs form-row justify-content-center mb-2">
-        <div class="card-deck w-100">
-            <div class="card text-white bg-primary">
-                <div class="card-body">
+        <div class="card-deck">
+            <div class="card text-white bg-primary" style="max-width:100%;">
+                <div class="card-header">
                     <div class="form-row justify-content-center">
                         <div class="col-md-12 mt-0 text-center">
                             {{#each qtd}}
-                            <h4 class="display-5"><i class="fas fa-tools"></i> {{count}}</h4>
+                            <h4 class="display-5"><i class="fas fa-tools"></i> {{toFixed count 0}}</h4>
                             {{/each}}
                         </div>
                         <div class="form-row justify-content-center">
@@ -113,12 +115,12 @@
                 </div>
             </div>
 
-            <div class="card text-white bg-success">
-                <div class="card-body">
+            <div class="card text-white bg-success" style="max-width:100%;">
+                <div class="card-header">
                     <div class="form-row justify-content-center">
                         <div class="col-md-12 mt-0 text-center">
                             {{#each qtd}}
-                            <h4 class="display-5"><i class="fas fa-warehouse"></i> {{qtyStock}}</h4>
+                            <h4 class="display-5"><i class="fas fa-warehouse"></i> {{toFixed qtyStock 0}}</h4>
                             {{/each}}
                         </div>
                         <div class="form-row justify-content-center">
@@ -130,11 +132,11 @@
             </div>
 
             <div class="card text-white bg-secondary" style="max-width: 100%;">
-                <div class="card-body">
+                <div class="card-header">
                     <div class="form-row justify-content-center">
                         <div class="col-md-12 mt-0 text-center">
                             {{#each qtd}}
-                            <h4 class="display-5"><i class="fas fa-weight-hanging"></i> {{weightKg}}</h4>
+                            <h4 class="display-5"><i class="fas fa-weight-hanging"></i> {{toFixed weightKg 2}}</h4>
                             {{/each}}
                         </div>
                         <div class="form-row justify-content-center">
@@ -146,11 +148,11 @@
             </div>
 
             <div class="card text-white bg-danger" style="max-width: 100%;">
-                <div class="card-body">
+                <div class="card-header">
                     <div class="form-row justify-content-center">
                         <div class="col-md-12 mt-0 text-center">
                             {{#each qtd}}
-                            <h4 class="display-5">R$ {{faceValue}}</h4>
+                            <h4 class="display-5">R$ {{toFixed faceValue 2}}</h4>
                             {{/each}}
                         </div>
                         <div class="form-row justify-content-center">

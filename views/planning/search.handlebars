@@ -35,7 +35,7 @@
        <div class="p-1">
             {{#each qtd}}
             <button type="button" class="btn btn-secondary btn-sm" Readonly>
-                Itens Cadastrados <span class="badge badge-pill badge-dark">{{count}}</span>
+                Itens Cadastrados <span class="badge badge-pill badge-dark">{{toFixed count 0}}</span>
                 {{/each}}
             </button>
         </div>
@@ -43,7 +43,7 @@
         <div class="p-1">
             {{#each qtd}}
             <button type="button" class="btn btn-secondary btn-sm">
-                Itens em Estoque <span class="badge badge-pill badge-dark">{{qtyStock}}</span>
+                Itens em Estoque <span class="badge badge-pill badge-dark">{{toFixed qtyStock 0}}</span>
                 {{/each}}
             </button>
         </div>
@@ -51,7 +51,7 @@
         <div class="p-1">
             {{#each qtd}}
             <button type="button" class="btn btn-secondary btn-sm">
-                Peso Alocado <span class="badge badge-pill badge-dark">{{weightKg}}</span>
+                Peso Alocado <span class="badge badge-pill badge-dark">{{toFixed weightKg 2}}</span>
                 {{/each}}
             </button>
         </div>
@@ -59,7 +59,7 @@
         <div class="p-1">
             {{#each qtd}}
             <button type="button" class="btn btn-secondary btn-sm">
-                Valor <span class="badge badge-pill badge-dark">R$ {{faceValue}}</span>
+                Valor <span class="badge badge-pill badge-dark">R$ {{toFixed faceValue 2}}</span>
                 {{/each}}
             </button>
         </div>
