@@ -99,7 +99,7 @@
                     <div class="form-row justify-content-center">
                         <div class="col-md-12 mt-0 text-center">
                             {{#each qtd}}
-                            <h4 class="display-5"><i class="fas fa-tools"></i> {{count}}</h4>
+                            <h4 class="display-5"><i class="fas fa-tools"></i> {{toFixed count 0}}</h4>
                             {{/each}}
                         </div>
                         <div class="form-row justify-content-center">
@@ -115,7 +115,7 @@
                     <div class="form-row justify-content-center">
                         <div class="col-md-12 mt-0 text-center">
                             {{#each qtd}}
-                            <h4 class="display-5"><i class="fas fa-warehouse"></i> {{qtyStock}}</h4>
+                            <h4 class="display-5"><i class="fas fa-warehouse"></i> {{toFixed qtyStock 0}}</h4>
                             {{/each}}
                         </div>
                         <div class="form-row justify-content-center">
@@ -131,7 +131,7 @@
                     <div class="form-row justify-content-center">
                         <div class="col-md-12 mt-0 text-center">
                             {{#each qtd}}
-                            <h4 class="display-5"><i class="fas fa-weight-hanging"></i> {{weightKg}}</h4>
+                            <h4 class="display-5"><i class="fas fa-weight-hanging"></i> {{toFixed weightKg 2}}</h4>
                             {{/each}}
                         </div>
                         <div class="form-row justify-content-center">
@@ -147,7 +147,7 @@
                     <div class="form-row justify-content-center">
                         <div class="col-md-12 mt-0 text-center">
                             {{#each qtd}}
-                            <h4 class="display-5">R$ {{faceValue}}</h4>
+                            <h4 class="display-5">R$ {{toFixed faceValue 2}}</h4>
                             {{/each}}
                         </div>
                         <div class="form-row justify-content-center">

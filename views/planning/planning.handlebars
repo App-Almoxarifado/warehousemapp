@@ -91,74 +91,73 @@
         </div>
 
     </div>
-
-            <div class="form-row justify-content-center mb-2">
-            <div class="card-deck">
-                <div class="card text-white bg-primary" style="max-width:100%;">
-                    <div class="card-header">
-                        <div class="form-row justify-content-center">
-                            <div class="col-md-12 mt-0 text-center">
-                                {{#each qtd}}
-                                <h4 class="display-5"><i class="fas fa-tools"></i> {{count}}</h4>
-                                {{/each}}
-                            </div>
-                            <div class="form-row justify-content-center">
-                                <h6>Itens Cadastrados</h6>
-                            </div>
-
+    <div class="form-row justify-content-center mb-2">
+        <div class="card-deck">
+            <div class="card text-white bg-primary" style="max-width:100%;">
+                <div class="card-header">
+                    <div class="form-row justify-content-center">
+                        <div class="col-md-12 mt-0 text-center">
+                            {{#each qtd}}
+                            <h4 class="display-5"><i class="fas fa-tools"></i> {{toFixed count 0}}</h4>
+                            {{/each}}
                         </div>
+                        <div class="form-row justify-content-center">
+                            <h6>Itens Cadastrados</h6>
+                        </div>
+
                     </div>
                 </div>
+            </div>
 
-                <div class="card text-white bg-success" style="max-width:100%;">
-                    <div class="card-header">
-                        <div class="form-row justify-content-center">
-                            <div class="col-md-12 mt-0 text-center">
-                                {{#each qtd}}
-                                <h4 class="display-5"><i class="fas fa-warehouse"></i> {{qtyStock}}</h4>
-                                {{/each}}
-                            </div>
-                            <div class="form-row justify-content-center">
-                                <h6>Itens em Estoque</h6>
-                            </div>
-
+            <div class="card text-white bg-success" style="max-width:100%;">
+                <div class="card-header">
+                    <div class="form-row justify-content-center">
+                        <div class="col-md-12 mt-0 text-center">
+                            {{#each qtd}}
+                            <h4 class="display-5"><i class="fas fa-warehouse"></i> {{toFixed qtyStock 0}}</h4>
+                            {{/each}}
                         </div>
+                        <div class="form-row justify-content-center">
+                            <h6>Itens em Estoque</h6>
+                        </div>
+
                     </div>
                 </div>
+            </div>
 
-                <div class="card text-white bg-secondary" style="max-width: 100%;">
-                    <div class="card-header">
-                        <div class="form-row justify-content-center">
-                            <div class="col-md-12 mt-0 text-center">
-                                {{#each qtd}}
-                                <h4 class="display-5"><i class="fas fa-weight-hanging"></i> {{weightKg}}</h4>
-                                {{/each}}
-                            </div>
-                            <div class="form-row justify-content-center">
-                                <h6>Peso Alocado Kg</h6>
-                            </div>
-
+            <div class="card text-white bg-secondary" style="max-width: 100%;">
+                <div class="card-header">
+                    <div class="form-row justify-content-center">
+                        <div class="col-md-12 mt-0 text-center">
+                            {{#each qtd}}
+                            <h4 class="display-5"><i class="fas fa-weight-hanging"></i> {{toFixed weightKg 2}}</h4>
+                            {{/each}}
                         </div>
+                        <div class="form-row justify-content-center">
+                            <h6>Peso Alocado Kg</h6>
+                        </div>
+
                     </div>
                 </div>
+            </div>
 
-                <div class="card text-white bg-danger" style="max-width: 100%;">
-                    <div class="card-header">
-                        <div class="form-row justify-content-center">
-                            <div class="col-md-12 mt-0 text-center">
-                                {{#each qtd}}
-                                <h4 class="display-5">R$ {{faceValue}}</h4>
-                                {{/each}}
-                            </div>
-                            <div class="form-row justify-content-center">
-                                <h6>Valores</h6>
-                            </div>
-
+            <div class="card text-white bg-danger" style="max-width: 100%;">
+                <div class="card-header">
+                    <div class="form-row justify-content-center">
+                        <div class="col-md-12 mt-0 text-center">
+                            {{#each qtd}}
+                            <h4 class="display-5">R$ {{toFixed faceValue 2}}</h4>
+                            {{/each}}
                         </div>
+                        <div class="form-row justify-content-center">
+                            <h6>Valores</h6>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     <div class="d-flex justify-content-center">
         <div class="p-1 mr-auto">
             <div class="form-group row">
@@ -269,21 +268,27 @@
                     <th class="act25 d-print-block" scope="col">Unidade</th>
                     <th class="act26 d-print-block" scope="col">Qtd. Recebida</th>
                     <th class="act27 d-print-block" data-toggle="tooltip" data-placement="left"
-                        title="Quantidade que ja está no estoque do projeto" style="background-color: #696969;" scope="col">Qtd alocada no
+                        title="Quantidade que ja está no estoque do projeto" style="background-color: #696969;"
+                        scope="col">Qtd alocada no
                         Projeto</th>
                     <th class="act28 d-print-block" data-toggle="tooltip" data-placement="left"
-                        title="Quantidade reservada para envio ao projeto" style="background-color: #708090;" scope="col">Qtd reservada p/
+                        title="Quantidade reservada para envio ao projeto" style="background-color: #708090;"
+                        scope="col">Qtd reservada p/
                         projeto</th>
                     <th class="act29 d-print-block" data-toggle="tooltip" data-placement="left"
-                        title="Quantidade levando em consideração todas as obras mais o almoxarifado Central" scope="col">Qtd Total HBS</th>
+                        title="Quantidade levando em consideração todas as obras mais o almoxarifado Central"
+                        scope="col">Qtd Total HBS</th>
                     <th class="act30 d-print-block" data-toggle="tooltip" data-placement="left"
-                        title="Quantidade levando em consideração somente os itens alocados nas obras" style="background-color: #FFFF00; color:black" scope="col">Qtd em Uso
+                        title="Quantidade levando em consideração somente os itens alocados nas obras"
+                        style="background-color: #FFFF00; color:black" scope="col">Qtd em Uso
                     </th>
                     <th class="act31 d-print-block" data-toggle="tooltip" data-placement="left"
-                        title="Quantidade levando em consideração itens sem condições de uso, ou que precisam de alguma certificação ou reparo" style="background-color: #FF0000;color:black" scope="col">Qtd com
+                        title="Quantidade levando em consideração itens sem condições de uso, ou que precisam de alguma certificação ou reparo"
+                        style="background-color: #FF0000;color:black" scope="col">Qtd com
                         Pendência</th>
                     <th class="act32 d-print-block" data-toggle="tooltip" data-placement="left"
-                        title="Quantidade levando em consideração itens alocados no almoxarifado central" style="background-color: #228B22;" scope="col">Qtd disponivel</th>
+                        title="Quantidade levando em consideração itens alocados no almoxarifado central"
+                        style="background-color: #228B22;" scope="col">Qtd disponivel</th>
                     <th class="act33 d-print-block" scope="col">Peso Kg</th>
                     <th class="act34 d-print-block" scope="col">Valor de Face R$</th>
                     <th class="act35 d-print-block" scope="col">Dimensões LxCxA</th>
@@ -339,7 +344,7 @@
                         <td class="act24 d-print-block">{{calibrationStatus}}</td>
                         <td class="act25 d-print-block">{{unity.description}}</td>
                         <td class="act26 d-print-block">{{qtyRequest}}</td>
-                       {{#find_with_key tag ../siteProducts "_id"}}
+                        {{#find_with_key tag ../siteProducts "_id"}}
                         <td class="act27 d-print-block" style="background-color: #BEBEBE;">{{stock}}</td>
                         <td class="act28 d-print-block" style="background-color: #D3D3D3;">{{request}}</td>
                         {{/find_with_key}}
