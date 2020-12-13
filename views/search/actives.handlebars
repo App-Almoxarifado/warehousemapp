@@ -298,7 +298,7 @@
                         title="Quantidade levando em consideração itens alocados no almoxarifado central"
                         style="background-color: #228B22;" scope="col">Qtd disponivel</th>
                     <th class="act33 d-print-block" scope="col">Peso Kg</th>
-                    <th class="act34 d-print-block" scope="col">Valor de Face R$</th>
+                    <th class="act34 d-print-block" scope="col">Valor de Face</th>
                     <th class="act35 d-print-block" scope="col">Dimensões LxCxA</th>
                     <th class="act36 d-print-block" scope="col">Cód. Sap</th>
                     <th class="act37 d-print-block" scope="col">Cód. Ncm</th>
@@ -372,7 +372,7 @@
                         <td class="act32 d-print-block" style="background-color: #90EE90;">{{stock}}</td>
                         {{/find_with_use}}
                         <td class="act33 d-print-block">{{weightKg}}</td>
-                        <td class="act34 d-print-block">{{faceValue}}</td>
+                        <td class="act34 d-print-block">R$ {{toFixed faceValue 2}}</td>
                         <td class="act35 d-print-block">{{dimensionsWxLxH}}</td>
                         <td class="act36 d-print-block">{{sapCode}}</td>
                         <td class="act37 d-print-block">{{ncmCode}}</td>

@@ -196,14 +196,14 @@
                 <option value="pl13">Detalhes</option>
             </select>
         </div>
-{{#if (or search site group subgroup type status)}}
+{{#or search site group subgroup type status}}
         <div id="exportExcel" class="p-0 mr-1" style="display: block;">
             <button id="btnExport" class="mt-1 mb-1 btn btn-success btn-sm" data-toggle="tooltip" data-placement="left"
                 title="Exportar tabela para excel">
                 <i class="fas fa-file-excel"></i>
             </button>
         </div>
-{{/if}}
+{{/or}}
 
     </div>
     <!--FORM PARA FINALIZAR PEDIDO-->
